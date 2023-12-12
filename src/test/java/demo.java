@@ -1,8 +1,9 @@
-import org.openqa.selenium.Alert;
+import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,30 +11,21 @@ import org.testng.annotations.Test;
 
 import java.util.HashMap;
 
+//import static Support.Initialization.Init.driver;
+
 public class demo {
+
 	@Test
 	public void t() throws InterruptedException {
-		// Set đường dẫn của ChromeDriver (cần tải và cài đặt trước)
-
-		// Khởi tạo trình duyệt Chrome với DesiredCapabilities
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		HashMap<String, Object> browserstackOptions = new HashMap<>();
-		browserstackOptions.put("unhandledPromptBehavior", "accept");
-		capabilities.setCapability("bstack:options", browserstackOptions);
-
+		WebDriver driver = new ChromeDriver();
 		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.merge(capabilities);
+		chromeOptions.addArguments("--remote-allow-origin=*");
+		HasAuthentication authentication = (HasAuthentication) driver;
+		authentication.register(() -> new UsernameAndPassword("kamora", "iamafriend"));
 
-		// Mở trang web
-		WebDriver driver = new ChromeDriver(chromeOptions);
 		driver.get("https://ibhelper.dev/signin");
 
-		// Xác thực cơ bản bằng cách xử lý alert
-		Thread.sleep(10000);
-		Alert alert1 = driver.switchTo().alert();
-		alert1.sendKeys("kamora" + "\t" + "iamafriend");
-		alert1.accept();
 
-		driver.quit();
+//		driver.quit();
 	}
 }

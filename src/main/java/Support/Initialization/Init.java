@@ -1,6 +1,8 @@
 package Support.Initialization;
 
 import Support.ScreenSetup.screenPosition;
+import org.openqa.selenium.HasAuthentication;
+import org.openqa.selenium.UsernameAndPassword;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,16 +13,30 @@ import java.util.concurrent.TimeUnit;
 
 public class Init {
 	public static WebDriver driver = null;
-
+	public  void Authenticate() {
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.addArguments("--remote-allow-origin=*");
+		HasAuthentication authentication = (HasAuthentication) driver;
+		authentication.register(() -> new UsernameAndPassword("kamora", "iamafriend"));
+	}
 	@BeforeTest
-	public void Setup() {
+	public void Setup() throws InterruptedException {
 
 		driver = new ChromeDriver();
-        screenPosition.MidRight();
+
+//		Thread.sleep(2000);
+		driver.manage().wait(3000);
+		screenPosition.LeftTop();
+//        screenPosition.MidRight();
 //		screenPosition.MidRightMac();
 //        screenPosition.FullScreen2();
 		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+//		ChromeOptions chromeOptions = new ChromeOptions();
+//		chromeOptions.addArguments("--remote-allow-origin=*");
+//		HasAuthentication authentication = (HasAuthentication) driver;
+//		authentication.register(() -> new UsernameAndPassword("kamora", "iamafriend"));
 	}
 
 	@AfterTest
