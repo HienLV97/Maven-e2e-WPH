@@ -16,8 +16,8 @@ public class Init {
 	public void Setup() {
 
 		driver = new ChromeDriver();
-//        screenPosition.MidRight();
-		screenPosition.MidRightMac();
+        screenPosition.MidRight();
+//		screenPosition.MidRightMac();
 //        screenPosition.FullScreen2();
 		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);

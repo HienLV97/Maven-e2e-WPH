@@ -4,7 +4,7 @@ public class Routers {
 	//    public static final String BaseURL = "https://writersperhour.dev";
 //    public static  String BaseURL = "https://writersperhour.com";
 	public static  String BaseURLAuthor = "https://kamora:iamafriend@writersperhour.dev";
-	public static final String BaseURL = "https://ibhelper.dev";
+	public static final String BaseURL = "https://kamora:iamafriend@ibhelper.dev";
 
 	//        public static final String BaseURL = "https://ibhelper.com";
 	public static final String GUI = BaseURL + "/gui";

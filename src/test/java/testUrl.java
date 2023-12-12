@@ -19,11 +19,6 @@ public class testUrl extends Init {
 	public void Start() throws InterruptedException {
 		Constants Constants = new Constants();
 		driver.navigate().to(Routers.SIGN_IN);
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		HashMap<String, Object> browserstackOptions = new HashMap<>();
-		browserstackOptions.put("unhandledPromptBehavior", "accept");
-		capabilities.setCapability("bstack:options", browserstackOptions);
-
 //		driver.merge(capabilities);
 
 

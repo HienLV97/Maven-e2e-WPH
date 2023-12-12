@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -27,14 +29,11 @@ public class demo {
 		driver.get("https://ibhelper.dev/signin");
 
 		// Xác thực cơ bản bằng cách xử lý alert
-		Thread.sleep(5000);
+		Thread.sleep(10000);
 		Alert alert1 = driver.switchTo().alert();
 		alert1.sendKeys("kamora" + "\t" + "iamafriend");
 		alert1.accept();
 
-		// Bây giờ bạn đã được đăng nhập và có thể thực hiện các thao tác tiếp theo trên trang web
-
-		// Đóng trình duyệt sau khi hoàn thành
 		driver.quit();
 	}
 }
