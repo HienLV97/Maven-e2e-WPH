@@ -20,23 +20,15 @@ public class Init {
 		authentication.register(() -> new UsernameAndPassword("kamora", "iamafriend"));
 	}
 	@BeforeTest
-	public void Setup() throws InterruptedException {
+	public void Setup() {
 
 		driver = new ChromeDriver();
-
-//		Thread.sleep(2000);
-		driver.manage().wait(3000);
-		screenPosition.LeftTop();
 //        screenPosition.MidRight();
-//		screenPosition.MidRightMac();
+		screenPosition.MidRightMac();
+//		Authenticate();
 //        screenPosition.FullScreen2();
 		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-
-//		ChromeOptions chromeOptions = new ChromeOptions();
-//		chromeOptions.addArguments("--remote-allow-origin=*");
-//		HasAuthentication authentication = (HasAuthentication) driver;
-//		authentication.register(() -> new UsernameAndPassword("kamora", "iamafriend"));
 	}
 
 	@AfterTest

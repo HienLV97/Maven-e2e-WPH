@@ -12,15 +12,15 @@ public class Constants {
 //        this.driver = driver;
 //    }
 
-	public String emailAccount = "kamoratest1@g.c";
-	public String passAccount = "iamafriend";
+	public static String emailAccount = "kamoratest1@g.c";
+	public static String passAccount = "iamafriend";
 	public String YetiCMS = "https://yeti-cms.dev/api";
 	public String YetiCMSToken = "2b0c615afb1b72cf093a5fa6d48c7ef1";
-	public WebElement getPlaceholder(String value) {
+	public static WebElement getPlaceholder(String value) {
 		return driver.findElement(By.xpath("//input[contains(@placeholder, '" + value + "')]"));
 	}
 
-	public WebElement getBtn(String value) {
+	public static WebElement getBtn(String value) {
 		return driver.findElement(By.xpath("//*/button[contains(text(), '" + value + "')]"));
 //                                                          button[contains(text(),'Login')]
 	}
