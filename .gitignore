@@ -11,6 +11,22 @@ target/
 *.iws
 *.iml
 *.ipr
+bin/
+out/
+.idea/
+.allure/
+allure-results/
+ExportData/
+ExtentReports/
+logs/
+test-output/
+reports/
+*.png
+*.jpg
+*.mp4
+*.avi
+*.zip
+
 
 ### Eclipse ###
 .apt_generated
