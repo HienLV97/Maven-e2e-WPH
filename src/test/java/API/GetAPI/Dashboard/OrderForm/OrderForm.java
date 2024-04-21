@@ -19,32 +19,35 @@ import java.util.List;
 
 
 public class OrderForm {
-	public static void main(String[] args) {
-		String apiUrl = Constants.CoreAPI;
-		String token = Constants.CoreAPIToken;
-		String getAcademicLevel = "AcademicLevel";
-		String getUrgency = "Urgency";
-		getAPI(apiUrl, token, getAcademicLevel);
 
-		String filePathAcademicLevel = filePath(getAcademicLevel);
+	public static String apiUrl = Constants.CoreAPI;
+	public static String token = Constants.CoreAPIToken;
+	public static String academicLevel = "AcademicLevel";
+	public static String urgency = "Urgency";
+
+	public static void test() {
+
+		getAPI(academicLevel);
+
+		String filePathAcademicLevel = filePath(academicLevel);
 		String value1 = handleData(filePathAcademicLevel).get(1);
 
 		System.out.println(value1);
 
-		getAPI(apiUrl, token, getUrgency);
-		String value2 = handleData(filePath(getUrgency)).get(1);
+		getAPI(urgency);
+		String value2 = handleData(filePath(urgency)).get(1);
 		System.out.println(value2);
 
 
 	}
 
-	public static void getAPI(String apiUrl, String bearerToken, String namespace) {
+	public static void getAPI(String namespace) {
 		try {
 			// Create the connection object and set the required HTTP method and headers
-			URL url = new URL(apiUrl);
+			URL url = new URL(Constants.CoreAPI);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Authorization", "Bearer " + bearerToken);
+			connection.setRequestProperty("Authorization", "Bearer " + Constants.CoreAPIToken);
 			connection.setRequestProperty("Postman-Token", "<calculated when request is sent>");
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			connection.setRequestProperty("Content-Length", "<calculated when request is sent>");
@@ -69,7 +72,6 @@ public class OrderForm {
 			connection.setRequestProperty("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36");
 			connection.setRequestProperty("x-requested-with", "XMLHttpRequest");
 			connection.setDoOutput(true);
-			System.out.println("a");
 
 			Map<String, String> formData = new HashMap<>();
 			formData.put("method", "all");
@@ -103,7 +105,7 @@ public class OrderForm {
 						response.append(line);
 					}
 				}
-				System.out.println("Response: " + response.toString());
+//				System.out.println("Response: " + response.toString());
 			} else {
 				// If connection is not OK, read the error stream
 				try (BufferedReader reader = new BufferedReader(
@@ -139,9 +141,9 @@ public class OrderForm {
 		}
 	}
 
-	public static List<String> handleData(String filePath) {
+	public static List<String> handleData(String namefile) {
 		List<String> titles = null;
-
+		String filePath = "src/test/java/API/Data/Dashboard/" + namefile + ".json";
 		try {
 			// Đọc tệp JSON
 			JSONParser parser = new JSONParser();
@@ -161,20 +163,15 @@ public class OrderForm {
 				titles.add("\"" + title + "\"");
 			}
 
-			// Ghi dữ liệu đã cập nhật trở lại tệp JSON
-//			String filePath1 = "src/test/java/API/Data/Dashboard/handle.json";
-//			FileWriter writer = new FileWriter(filePath1);
-//			writer.write(titles.toString());
-//			writer.close();
-
 			System.out.println("Successfully updated JSON file.");
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		return titles;
-//		return null;
 	}
-	public static String filePath(String type){
+
+	public static String filePath(String type) {
 		return "src/test/java/API/Data/Dashboard/" + type + ".json";
 	}
+
 }
