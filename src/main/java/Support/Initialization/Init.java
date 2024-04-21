@@ -2,13 +2,21 @@ package Support.Initialization;
 
 import Support.ScreenSetup.screenPosition;
 import org.openqa.selenium.HasAuthentication;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.UsernameAndPassword;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class Init {
@@ -21,10 +29,13 @@ public class Init {
 	}
 	@BeforeTest
 	public void Setup() {
-
+		WebDriverWait wait;
+		System.setProperty("webdriver.http.factory","jdk-http-client");
 		driver = new ChromeDriver();
-//        screenPosition.MidRight();
-		screenPosition.MidRightMac();
+//		 wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        screenPosition.MidRight();
+//		screenPosition.MidRightMac();
 //		Authenticate();
 //        screenPosition.FullScreen2();
 		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
@@ -38,13 +49,40 @@ public class Init {
 		} catch (InterruptedException e){
 			throw new RuntimeException(e);
 		}
-//        driver.quit();
+//       driver.quit();
 	}
 	public void sleep( double second){
 		try{
 			Thread.sleep((long) (1000*second));
 		} catch (InterruptedException e){
 			throw new RuntimeException(e);
+		}
+	}
+	public void waitForPageLoaded() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		//Wait for Javascript to load
+		ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return js.executeScript("return document.readyState").toString().equals("complete");
+			}
+		};
+
+		//Check JS is Ready
+		boolean jsReady = js.executeScript("return document.readyState").toString().equals("complete");
+
+		//Wait Javascript until it is Ready!
+		if (!jsReady) {
+			System.out.println("Javascript is NOT Ready.");
+			//Wait for Javascript to load
+			try {
+				wait.until(jsLoad);
+			} catch (Throwable error) {
+				error.printStackTrace();
+				Assert.fail("FAILED. Timeout waiting for page load.");
+			}
 		}
 	}
 }

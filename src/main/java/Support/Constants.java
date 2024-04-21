@@ -7,10 +7,12 @@ import static Support.Initialization.Init.driver;
 
 public class Constants {
 
-	public static String emailAccount = "kamoratest1@g.c";
+	public static String emailAccount = "client-12344-fake@kamora.vn";
 	public static String passAccount = "iamafriend";
-	public String YetiCMS = "https://yeti-cms.dev/api";
-	public String YetiCMSToken = "2b0c615afb1b72cf093a5fa6d48c7ef1";
+	public static String YetiCMS = "https://yeti-cms.dev/api";
+	public static String YetiCMSToken = "2b0c615afb1b72cf093a5fa6d48c7ef1";
+	public static String CoreAPI = "http://199.231.164.147:4422";
+	public static String CoreAPIToken = "ee1bc0f04cae5c786e87db53fdf80432";
 
 	public static WebElement getPlaceholder(String value) {
 		return driver.findElement(By.xpath("//input[contains(@placeholder, '" + value + "')]"));
