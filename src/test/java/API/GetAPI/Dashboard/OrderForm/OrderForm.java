@@ -23,8 +23,8 @@ public class OrderForm {
 	public static String apiUrl = Constants.CoreAPI;
 	public static String token = Constants.CoreAPIToken;
 	public static String academicLevel = "AcademicLevel";
-	public static String urgency = "Urgency";
-
+	public static String urgencyLevel = "Urgency";
+	public static String writerLevel = "WriterCategory";
 	public static void test() {
 
 		getAPI(academicLevel);
@@ -34,8 +34,8 @@ public class OrderForm {
 
 		System.out.println(value1);
 
-		getAPI(urgency);
-		String value2 = handleData(filePath(urgency)).get(1);
+		getAPI(urgencyLevel);
+		String value2 = handleData(filePath(urgencyLevel)).get(1);
 		System.out.println(value2);
 
 

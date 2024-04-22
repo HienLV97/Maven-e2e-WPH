@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class OrderFormTest extends Init {
 
-	@Test(description = "bug cre")
+	@Test(description = "test")
 	public void checkout() {
 		Authenticate();
 		OrderFormPage orderForm = new OrderFormPage(driver);
@@ -19,7 +19,7 @@ public class OrderFormTest extends Init {
 
 		signInPage.Login(Constants.emailAccount, Constants.passAccount);
 		sleep(4);
-		// Order form step1
+		//step1
 		driver.get(Routers.ORDER);
 		waitForPageLoaded();
 		orderForm.SetDocumentDRL("Admission Essay");
@@ -31,16 +31,33 @@ public class OrderFormTest extends Init {
 		orderForm.AcalevelOptBTN(2);
 		orderForm.clickNextButton();
 
-		//Order form step 2
+		//step 2
 
 		orderForm.setTitleTXT("test");
 		orderForm.setInstructionTXT("test");
 		orderForm.clickNextButton();
 
-		//Order form step3
+		//step3
 
 		orderForm.clickWriterCB();
-		orderForm.verifyCB();
+		orderForm.verifyWriterCB();
+		orderForm.clickDeadLine(1);
+		orderForm.clickPageInc();
+		orderForm.clickDoubleBTN();
+		orderForm.clickSlideInc();
+		orderForm.clickNextButton();
+		sleep(5);
+
+		//step4
+		orderForm.clickWriterLevelBTN(1);
+		orderForm.verifyAbstractCB();
+		orderForm.verifyPrevWriterCB();
+		orderForm.clickNextButton();
+
+		//step5
+		orderForm.clickCheckOutBTN();
+		waitForPageLoaded();
+		sleep(25);
 	}
 
 
