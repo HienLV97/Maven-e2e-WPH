@@ -1,37 +1,31 @@
 package Support.Initialization;
 
-import Support.ScreenSetup.screenPosition;
-import org.openqa.selenium.HasAuthentication;
+import Support.Routers;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.UsernameAndPassword;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-
 public class Init {
 	public static WebDriver driver = null;
 	public  void Authenticate() {
 		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.addArguments("--remote-allow-origin=*");
-		HasAuthentication authentication = (HasAuthentication) driver;
-		authentication.register(() -> new UsernameAndPassword("kamora", "iamafriend"));
+		driver.get(Routers.BaseURL2);
+
 	}
 	@BeforeTest
 	public void Setup() {
 		WebDriverWait wait;
 		System.setProperty("webdriver.http.factory","jdk-http-client");
+
 		driver = new ChromeDriver();
+
 //		 wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
 //        screenPosition.MidRight();
@@ -42,14 +36,14 @@ public class Init {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	@AfterTest
+//	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e){
 			throw new RuntimeException(e);
 		}
-//       driver.quit();
+       driver.quit();
 	}
 	public void sleep( double second){
 		try{
