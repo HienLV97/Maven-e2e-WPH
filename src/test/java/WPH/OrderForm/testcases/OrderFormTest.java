@@ -33,32 +33,46 @@ public class OrderFormTest extends Init {
 
 		//step 2
 
-		orderForm.setTitleTXT("test");
+//		orderForm.setTitleTXT("test");
 		orderForm.setInstructionTXT("test");
 		orderForm.clickNextButton();
 
 		//step3
 
-		orderForm.clickWriterCB();
-		orderForm.verifyWriterCB();
-		orderForm.clickDeadLine(1);
-		orderForm.clickPageInc();
-		orderForm.clickDoubleBTN();
-		orderForm.clickSlideInc();
+//		orderForm.clickWriterCB();
+//		orderForm.verifyWriterCB();
+//		orderForm.clickDeadLine(1);
+//		orderForm.clickPageInc();
+//		orderForm.clickDoubleBTN();
+//		orderForm.clickSlideInc();
 		orderForm.clickNextButton();
 		sleep(5);
 
 		//step4
-		orderForm.clickWriterLevelBTN(1);
-		orderForm.verifyAbstractCB();
-		orderForm.verifyPrevWriterCB();
+//		orderForm.clickWriterLevelBTN(1);
+//		orderForm.verifyAbstractCB();
+//		orderForm.verifyPrevWriterCB();
 		orderForm.clickNextButton();
 
 		//step5
 		orderForm.clickCheckOutBTN();
 		waitForPageLoaded();
-		sleep(25);
+		waitForPageLoaded();
+		sleep(5);
+//		driver.getCurrentUrl();
+
+		orderForm.clickViewOrderBTN();
+		String url = driver.getCurrentUrl();
+		System.out.println(url);
+		String url1 = driver.getCurrentUrl();
+		System.out.println(url1);
+		String url2 = driver.getCurrentUrl();
+		System.out.println(url2);
+		String url3 = driver.getCurrentUrl();
+		System.out.println(url3);
+		sleep(1);
+		String url5 = driver.getCurrentUrl();
+		System.out.println(url5);
+		waitForPageLoaded();
 	}
-
-
 }

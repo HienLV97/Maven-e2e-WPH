@@ -34,7 +34,7 @@ public class Init {
 		driver = new ChromeDriver();
 //		 wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        screenPosition.MidRight();
+//        screenPosition.MidRight();
 //		screenPosition.MidRightMac();
 //		Authenticate();
 //        screenPosition.FullScreen2();

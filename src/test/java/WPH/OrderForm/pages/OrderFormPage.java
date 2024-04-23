@@ -63,7 +63,7 @@ public class OrderFormPage {
 	private By CreditBTN = By.xpath("//p[normalize-space()='Credit Card']");
 	private By PayPalBTN = By.xpath("//p[normalize-space()='PayPal']");
 	private By CheckOutBTN = By.xpath("//button[normalize-space()='Secure Checkout']");
-
+	private By ViewOrderBTN = By.xpath("(//button[normalize-space()='View Details'])[1]");
 	public void waitForPageLoaded() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -240,5 +240,8 @@ public class OrderFormPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CheckOutBTN));
 		driver.findElement(CheckOutBTN).click();
 	}
-
+	public void clickViewOrderBTN(){
+		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
+		driver.findElement(ViewOrderBTN).click();
+	}
 }

@@ -1,5 +1,6 @@
 import API.GetAPI.Dashboard.OrderForm.OrderForm;
 import Support.Initialization.Init;
+import Support.Routers;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,11 @@ public class demo extends Init {
 	@Test
 	public void t()  {
 //		String filePathAcademicLevel = OrderForm.filePath(OrderForm.academicLevel);
-		List<String> academicLevel = OrderForm.handleData(OrderForm.academicLevel);
-		System.out.println(academicLevel);
+//		List<String> academicLevel = OrderForm.handleData(OrderForm.academicLevel);
+//		System.out.println(academicLevel);
+		Authenticate();
+		driver.get(Routers.SIGN_IN);
+		String url = driver.getCurrentUrl();
+		System.out.println(url);
 	}
 }
