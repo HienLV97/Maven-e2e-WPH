@@ -5,6 +5,7 @@ import Support.Initialization.Init;
 import Support.Routers;
 import WPH.OrderForm.pages.OrderFormPage;
 import WPH.SignIn.pages.SignInPage;
+import WPH.payment.CreditCard.pages.CreditCardPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
@@ -17,6 +18,7 @@ public class OrderFormTest extends Init {
 	public void checkout() {
 		Authenticate();
 		OrderFormPage orderForm = new OrderFormPage(driver);
+		CreditCardPage creditCardPage = new CreditCardPage(driver);
 		SignInPage signInPage = new SignInPage(driver);
 
 		signInPage.Login(Constants.emailAccount, Constants.passAccount);
@@ -57,22 +59,21 @@ public class OrderFormTest extends Init {
 		orderForm.clickNextButton();
 
 		//step5
+		orderForm.clickCreditBTN();
 		orderForm.clickCheckOutBTN();
 		waitForPageLoaded();
+
+		creditCardPage.getCheckout();
+
 		sleep(5);
+		waitForPageLoaded();
+		orderForm.getID();
 		orderForm.clickViewOrderBTN();
 
-//		String url = driver.getCurrentUrl();
-//		System.out.println(url);
-//		driver.get(url);
+
+
 		sleep(10);
 		waitForPageLoaded();
-//		orderForm.clickViewOrderBTN();
-//		closeBrowser();
 	}
 
-//	@AfterTest
-//	public void closeBrowser() {
-//		closeBrowser();
-//	}
 }

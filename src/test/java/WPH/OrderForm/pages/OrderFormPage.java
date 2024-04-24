@@ -13,6 +13,8 @@ import org.testng.Assert;
 
 import java.util.List;
 import java.time.Duration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OrderFormPage {
 	private WebDriver driver;
@@ -64,6 +66,10 @@ public class OrderFormPage {
 	private By PayPalBTN = By.xpath("//p[normalize-space()='PayPal']");
 	private By CheckOutBTN = By.xpath("//button[normalize-space()='Secure Checkout']");
 	private By ViewOrderBTN = By.xpath("(//button[normalize-space()='View Details'])[1]");
+
+	//Stripe menthod
+
+
 	public void waitForPageLoaded() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -243,5 +249,14 @@ public class OrderFormPage {
 	public void clickViewOrderBTN(){
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
 		driver.findElement(ViewOrderBTN).click();
+	}
+	public void getID() {
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
+		Assert.assertTrue(element.isDisplayed(), "Phần tử View Order Button không hiển thị");
+		String currentUrl  = driver.getCurrentUrl();
+		String[] parts = currentUrl.split("/");
+		String orderId = parts[4];
+		System.out.println(currentUrl);
+		System.out.println("Order ID: " + orderId);
 	}
 }
