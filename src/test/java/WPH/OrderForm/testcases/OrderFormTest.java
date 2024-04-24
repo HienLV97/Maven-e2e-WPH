@@ -62,12 +62,13 @@ public class OrderFormTest extends Init {
 		sleep(5);
 		orderForm.clickViewOrderBTN();
 
-		String url = driver.getCurrentUrl();
-		System.out.println(url);
-		driver.get(url);
+//		String url = driver.getCurrentUrl();
+//		System.out.println(url);
+//		driver.get(url);
+		sleep(10);
 		waitForPageLoaded();
-		orderForm.clickViewOrderBTN();
-		closeBrowser();
+//		orderForm.clickViewOrderBTN();
+//		closeBrowser();
 	}
 
 //	@AfterTest
