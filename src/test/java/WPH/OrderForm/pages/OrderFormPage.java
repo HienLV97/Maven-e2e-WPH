@@ -13,8 +13,6 @@ import org.testng.Assert;
 
 import java.util.List;
 import java.time.Duration;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class OrderFormPage {
 	private WebDriver driver;
@@ -250,13 +248,12 @@ public class OrderFormPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
 		driver.findElement(ViewOrderBTN).click();
 	}
-	public void getID() {
-		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
-		Assert.assertTrue(element.isDisplayed(), "Phần tử View Order Button không hiển thị");
+	public String getID() {
 		String currentUrl  = driver.getCurrentUrl();
 		String[] parts = currentUrl.split("/");
 		String orderId = parts[4];
 		System.out.println(currentUrl);
 		System.out.println("Order ID: " + orderId);
+		return orderId;
 	}
 }

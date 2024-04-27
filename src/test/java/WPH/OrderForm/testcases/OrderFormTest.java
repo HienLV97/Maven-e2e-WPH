@@ -3,6 +3,7 @@ package WPH.OrderForm.testcases;
 import Support.Constants;
 import Support.Initialization.Init;
 import Support.Routers;
+import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.OrderForm.pages.OrderFormPage;
 import WPH.SignIn.pages.SignInPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
@@ -10,19 +11,24 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.io.IOException;
+
 //import static Support.Initialization.Init.driver;
 
 public class OrderFormTest extends Init {
 
-	@Test(description = "test")
+	@Test(description = "Checkout successfully")
 	public void checkout() {
 		Authenticate();
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
 		SignInPage signInPage = new SignInPage(driver);
+		DetailsPage detailsPage = new DetailsPage(driver);
 
 		signInPage.Login(Constants.emailAccount, Constants.passAccount);
 		sleep(4);
+
 		//step1
 		driver.get(Routers.ORDER);
 		waitForPageLoaded();
@@ -37,7 +43,7 @@ public class OrderFormTest extends Init {
 
 		//step 2
 
-//		orderForm.setTitleTXT("test");
+		orderForm.setTitleTXT("test");
 		orderForm.setInstructionTXT("test");
 		orderForm.clickNextButton();
 
@@ -66,14 +72,20 @@ public class OrderFormTest extends Init {
 		creditCardPage.getCheckout();
 
 		sleep(5);
+		waitForNavigatePage();
 		waitForPageLoaded();
-		orderForm.getID();
+		String orderID = orderForm.getID();
 		orderForm.clickViewOrderBTN();
-
-
 
 		sleep(10);
 		waitForPageLoaded();
+		detailsPage.verifyh1(orderID,"writing");
 	}
 
+	@Test
+	public void test() throws IOException, AWTException {
+		Authenticate();
+		screenShot("TestScreen3");
+		closeBrowser();
+	}
 }

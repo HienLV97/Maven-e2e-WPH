@@ -6,27 +6,26 @@ import org.openqa.selenium.Point;
 import static Support.Initialization.Init.driver;
 
 public class screenPosition {
-	public static void LeftTop() {
+	public static void Screen2() {
 		int screenNumber = -1;
-
 		int screenWidth = 1440;
-		int screenHeight = 768;
+		int screenHeight = 2560;
 
 		// Xác định vị trí và kích thước của cửa sổ trình duyệt trên màn hình mong muốn
 		int windowX = screenNumber * screenWidth;
-		int windowY = -600; // Vị trí theo chiều cao không thay đổi
+		int windowY = -338; // Vị trí theo chiều cao không thay đổi
 		Dimension windowSize = new Dimension(screenWidth, screenHeight);
 
 		// Di chuyển cửa sổ và thiết lập kích thước
 		driver.manage().window().setPosition(new Point(windowX, windowY));
 		driver.manage().window().setSize(windowSize);
 	}
-	public static void FullScreen2() {
+	public static void Screen3() {
+//		int screenNumber = ;
 		int screenWidth = 1920;
 		int screenHeight = 1080;
-		int windowX = 2555;
-//        int windowY = 330; // Vị trí theo chiều cao không thay đổi
-		int windowY = 0; // Vị trí theo chiều cao không thay đổi
+		int windowX = 0;
+		int windowY = 1440; // Vị trí theo chiều cao không thay đổi
 		Dimension windowSize = new Dimension(screenWidth, screenHeight);
 		driver.manage().window().setPosition(new Point(windowX, windowY));
 		driver.manage().window().setSize(windowSize);
@@ -48,5 +47,8 @@ public class screenPosition {
 		Dimension windowSize = new Dimension(screenWidth, screenHeight);
 		driver.manage().window().setPosition(new Point(windowX, windowY));
 		driver.manage().window().setSize(windowSize);
+	}
+	public static void FullScreen1(){
+		driver.manage().window().maximize();
 	}
 }
