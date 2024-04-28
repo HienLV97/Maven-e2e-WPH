@@ -1,7 +1,6 @@
 package Support.Initialization;
 
 import Support.Routers;
-import Support.ScreenSetup.screenPosition;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,8 +26,8 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Init {
-	public static WebDriver driver;
-	public static WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	public WebDriver driver;
+	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	public String ScreenName = "3";
 
 	public void Authenticate() {

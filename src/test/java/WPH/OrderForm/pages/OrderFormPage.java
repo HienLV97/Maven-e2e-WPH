@@ -2,6 +2,7 @@ package WPH.OrderForm.pages;
 
 
 import API.GetAPI.Dashboard.OrderForm.OrderForm;
+import Support.Initialization.Init;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,10 +15,12 @@ import org.testng.Assert;
 import java.util.List;
 import java.time.Duration;
 
-public class OrderFormPage {
+public class OrderFormPage extends Init {
 	private WebDriver driver;
 	private WebDriverWait wait;
-	JavascriptExecutor js;
+
+//	JavascriptExecutor js;
+	JavascriptExecutor js = (JavascriptExecutor) driver;
 
 	private By NextBTN = By.xpath("//*[contains(text(),'Next')]");
 	//step1
@@ -103,8 +106,13 @@ public class OrderFormPage {
 	}
 
 	public void clickNextButton() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		wait.until(ExpectedConditions.visibilityOfElementLocated(NextBTN));
-		driver.findElement(NextBTN).click();
+		WebElement element = driver.findElement(NextBTN);
+		js.executeScript("arguments[0].scrollIntoView(true);", element);
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		sleep(2);
+		element.click();
 	}
 
 	public void clickDocumentDRL() {
@@ -145,21 +153,24 @@ public class OrderFormPage {
 		driver.findElement(InstructionTXT).sendKeys(value);
 	}
 
-	public void clickSourceIncBTN() {
+	public void clickSourceIncBTN(int value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceIncBTN));
+		for (int i = 0; i < value; i++){
 		driver.findElement(SourceIncBTN).click();
+		}
 	}
 
-	public void clickSourceDecBTN() {
+	public void clickSourceDecBTN(int value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceDecBTN));
-		driver.findElement(SourceDecBTN).click();
+		for (int i = 0; i < value; i++){
+			driver.findElement(SourceDecBTN).click();
+		}
 	}
 
 	public void clickWriterCB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(WriterCB));
 		driver.findElement(WriterCB).click();
 	}
-
 	public void verifyWriterCB() {
 		// Kiểm tra ::after có giá trị hay không
 		js = (JavascriptExecutor) driver;
@@ -256,4 +267,5 @@ public class OrderFormPage {
 		System.out.println("Order ID: " + orderId);
 		return orderId;
 	}
+
 }

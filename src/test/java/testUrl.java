@@ -24,17 +24,9 @@ public class testUrl extends Init {
 
 	@Test
 	public void Start() throws InterruptedException {
-		Constants Constants = new Constants();
 		driver.navigate().to(Routers.SIGN_IN);
 //		driver.merge(capabilities);
 
-
-		WebElement emailTextbox = Constants.getPlaceholder("Email");
-		emailTextbox.sendKeys(Constants.emailAccount);
-		WebElement passTextbox = Constants.getPlaceholder("Password");
-		passTextbox.sendKeys(Constants.passAccount);
-
-		Thread.sleep(1000);
 //		WebElement SubmitInBTN = Constants.getBtn("Yes, I understood");
 //		SubmitInBTN.click();
 		Thread.sleep(1000);

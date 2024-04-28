@@ -1,12 +1,23 @@
 package Support;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static Support.Initialization.Init.driver;
+import java.time.Duration;
+
+//import static Support.Initialization.Init;
 
 public class Constants {
-
+	private WebDriver driver;
+	private WebDriverWait wait;
+	public Constants(WebDriver driver) {
+		this.driver = driver;
+		//driver = _driver;
+		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+//		new WebUI(driver); //Bắt buộc
+	}
 	public static String emailAccount = "client-12344-fake@kamora.vn";
 	public static String passAccount = "iamafriend";
 	public static String YetiCMS = "https://yeti-cms.dev/api";
@@ -17,16 +28,16 @@ public class Constants {
 	public static String cardExpiry = "1266";
 	public static String cardCVC = "333";
 	public static String fakeName = "John Test";
-	public static WebElement getPlaceholder(String value) {
-		return driver.findElement(By.xpath("//input[contains(@placeholder, '" + value + "')]"));
-	}
-
-	public static WebElement getBtn(String value) {
-		return driver.findElement(By.xpath("//*/button[contains(text(), '" + value + "')]"));
-	}
-
-	public WebElement getText(String value) {
-		return driver.findElement(By.xpath("//*[contains(text(), '" + value + "')]"));
-	}
+//	public static WebElement getPlaceholder(String value) {
+//		return driver.findElement(By.xpath("//input[contains(@placeholder, '" + value + "')]"));
+//	}
+//
+//	public static WebElement getBtn(String value) {
+//		return driver.findElement(By.xpath("//*/button[contains(text(), '" + value + "')]"));
+//	}
+//
+//	public WebElement getText(String value) {
+//		return driver.findElement(By.xpath("//*[contains(text(), '" + value + "')]"));
+//	}
 
 }

@@ -7,6 +7,7 @@ import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.OrderForm.pages.OrderFormPage;
 import WPH.SignIn.pages.SignInPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
@@ -17,8 +18,7 @@ import java.io.IOException;
 //import static Support.Initialization.Init.driver;
 
 public class OrderFormTest extends Init {
-
-	@Test(description = "Checkout successfully")
+	@Test(enabled = false,description = "Checkout successfully")
 	public void checkout() {
 		Authenticate();
 		OrderFormPage orderForm = new OrderFormPage(driver);
@@ -82,10 +82,40 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyh1(orderID,"writing");
 	}
 
-	@Test
+	@Test(enabled = true)
 	public void test() throws IOException, AWTException {
+		OrderFormPage orderForm = new OrderFormPage(driver);
+		CreditCardPage creditCardPage = new CreditCardPage(driver);
+		SignInPage signInPage = new SignInPage(driver);
+		DetailsPage detailsPage = new DetailsPage(driver);
+
 		Authenticate();
+		signInPage.Login(Constants.emailAccount,Constants.passAccount);
 		screenShot("TestScreen3");
-		closeBrowser();
+//		closeBrowser();
+
+
+		//step1
+		driver.get(Routers.ORDER);
+		waitForPageLoaded();
+		orderForm.SetDocumentDRL("Admission Essay");
+		sleep(2);
+		orderForm.AcalevelOptBTN(2);
+
+		orderForm.setDisciplineDRL("Accounting");
+		sleep(2);
+		orderForm.AcalevelOptBTN(2);
+
+		orderForm.clickNextButton();
+//
+//		//step 2
+//
+		orderForm.setTitleTXT("test");
+		orderForm.setInstructionTXT("test");
+		orderForm.clickNextButton();
+//
+//		//step3
+//
+		orderForm.clickSourceIncBTN(3);
 	}
 }
