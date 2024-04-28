@@ -2,6 +2,7 @@ package WPH.OrderForm.pages;
 
 
 import API.GetAPI.Dashboard.OrderForm.OrderForm;
+import Keywords.WebUI;
 import Support.Initialization.Init;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -19,7 +20,14 @@ public class OrderFormPage extends Init {
 	private WebDriver driver;
 	private WebDriverWait wait;
 
-//	JavascriptExecutor js;
+	public OrderFormPage(WebDriver driver) {
+		this.driver = driver;
+		//driver = _driver;
+		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		new WebUI(driver); //Bắt buộc
+	}
+
+	//	JavascriptExecutor js;
 	JavascriptExecutor js = (JavascriptExecutor) driver;
 
 	private By NextBTN = By.xpath("//*[contains(text(),'Next')]");
@@ -99,22 +107,19 @@ public class OrderFormPage extends Init {
 		}
 	}
 
-	public OrderFormPage(WebDriver driver) {
-		this.driver = driver;
-		//driver = _driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-	}
-
 	public void clickNextButton() {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		wait.until(ExpectedConditions.visibilityOfElementLocated(NextBTN));
+
 		WebElement element = driver.findElement(NextBTN);
 		js.executeScript("arguments[0].scrollIntoView(true);", element);
+		WebUI.scrollToElement(NextBTN);
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 		sleep(2);
 		element.click();
 	}
 
+	//step1
 	public void clickDocumentDRL() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DocumentDRL));
 		driver.findElement(DocumentDRL).click();
@@ -143,6 +148,7 @@ public class OrderFormPage extends Init {
 		driver.findElement(DisciplineDRL).sendKeys(value);
 	}
 
+	//step2
 	public void setTitleTXT(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(TitleTXT));
 		driver.findElement(TitleTXT).sendKeys(value);
@@ -153,16 +159,16 @@ public class OrderFormPage extends Init {
 		driver.findElement(InstructionTXT).sendKeys(value);
 	}
 
+	//step3
 	public void clickSourceIncBTN(int value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceIncBTN));
-		for (int i = 0; i < value; i++){
-		driver.findElement(SourceIncBTN).click();
+		for (int i = 0; i < value; i++) {
+			driver.findElement(SourceIncBTN).click();
 		}
 	}
-
 	public void clickSourceDecBTN(int value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceDecBTN));
-		for (int i = 0; i < value; i++){
+		for (int i = 0; i < value; i++) {
 			driver.findElement(SourceDecBTN).click();
 		}
 	}
@@ -171,6 +177,7 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(WriterCB));
 		driver.findElement(WriterCB).click();
 	}
+
 	public void verifyWriterCB() {
 		// Kiểm tra ::after có giá trị hay không
 		js = (JavascriptExecutor) driver;
@@ -186,45 +193,54 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		driver.findElement(option).click();
 	}
-	public void clickPageInc(){
+
+	public void clickPageInc() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PageIncBTN));
 		driver.findElement(PageIncBTN).click();
 	}
-	public void clickPageDec(){
+
+	public void clickPageDec() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PageDecBTN));
 		driver.findElement(PageDecBTN).click();
 	}
-	public void clickSlideInc(){
+
+	public void clickSlideInc() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SlideIncBTN));
 		driver.findElement(SlideIncBTN).click();
 	}
-	public void clickSlideDec(){
+
+	public void clickSlideDec() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SlideDecBTN));
 		driver.findElement(SlideDecBTN).click();
 	}
-	public void clickSingleBTN(){
-		wait.until(ExpectedConditions.visibilityOfElementLocated(SingleBTN));
-		driver.findElement(SingleBTN).click();
-	}
-	public void clickDoubleBTN(){
-		wait.until(ExpectedConditions.visibilityOfElementLocated(DoubleBTN));
-		driver.findElement(DoubleBTN).click();
-	}
-	public void clickWriterLevelBTN(int value){
-		By option = By.xpath("*//p[contains(text(),'" + writerLevel.get(value).replace("\"", "") + "')]");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
-		driver.findElement(option).click();
-	}
-	public void clickAbstractCB(){
+
+	public void clickSingleBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SingleBTN));
 		driver.findElement(SingleBTN).click();
 	}
 
-	public void clickAbstractBTN(){
+	public void clickDoubleBTN() {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(DoubleBTN));
+		driver.findElement(DoubleBTN).click();
+	}
+
+	public void clickWriterLevelBTN(int value) {
+		By option = By.xpath("*//p[contains(text(),'" + writerLevel.get(value).replace("\"", "") + "')]");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
+		driver.findElement(option).click();
+	}
+
+	public void clickAbstractCB() {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(SingleBTN));
+		driver.findElement(SingleBTN).click();
+	}
+
+	public void clickAbstractBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(AbstractCB));
 		driver.findElement(AbstractCB).click();
 	}
-	public void verifyAbstractCB(){
+
+	public void verifyAbstractCB() {
 		clickAbstractBTN();
 		js = (JavascriptExecutor) driver;
 		WebElement label = driver.findElement(By.cssSelector("input[id='valueCheckbox-abstract-page']:checked + label"));
@@ -234,11 +250,12 @@ public class OrderFormPage extends Init {
 
 	}
 
-	public void clickPrevWriterBTN(){
+	public void clickPrevWriterBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PrevWriterCB));
 		driver.findElement(PrevWriterCB).click();
 	}
-	public void verifyPrevWriterCB(){
+
+	public void verifyPrevWriterCB() {
 		clickPrevWriterBTN();
 		js = (JavascriptExecutor) driver;
 		WebElement label = driver.findElement(By.cssSelector("input[id='valueCheckbox-prev-writer']:checked + label"));
@@ -247,27 +264,32 @@ public class OrderFormPage extends Init {
 		Assert.assertFalse(content.isEmpty(), "Pseudo-element ::after không có nội dung");
 
 	}
-	public void clickCreditBTN(){
+
+	public void clickCreditBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CreditBTN));
 		driver.findElement(CreditBTN).click();
 	}
-	public void clickCheckOutBTN(){
+
+	public void clickCheckOutBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CheckOutBTN));
 		driver.findElement(CheckOutBTN).click();
 	}
-	public void clickViewOrderBTN(){
+
+	public void clickViewOrderBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
 		driver.findElement(ViewOrderBTN).click();
 	}
+
 	public String getID() {
-		String currentUrl  = driver.getCurrentUrl();
+		String currentUrl = driver.getCurrentUrl();
 		String[] parts = currentUrl.split("/");
 		String orderId = parts[4];
 		System.out.println(currentUrl);
 		System.out.println("Order ID: " + orderId);
 		return orderId;
 	}
-	public void inputStep1(){
+
+	public void inputStep1() {
 		SetDocumentDRL("Admission Essay");
 		sleep(2);
 		AcalevelOptBTN(2);
@@ -275,8 +297,13 @@ public class OrderFormPage extends Init {
 		sleep(2);
 		AcalevelOptBTN(2);
 	}
-	public void inputStep2(){
+
+	public void inputStep2() {
 		setTitleTXT("test");
 		setInstructionTXT("test");
+	}
+
+	public void inputStep3() {
+
 	}
 }
