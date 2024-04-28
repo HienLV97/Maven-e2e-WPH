@@ -72,7 +72,7 @@ public class OrderFormTest extends Init {
 		creditCardPage.getCheckout();
 
 		sleep(5);
-		waitForNavigatePage();
+		waitForNavigatePage(null);
 		waitForPageLoaded();
 		String orderID = orderForm.getID();
 		orderForm.clickViewOrderBTN();
@@ -92,26 +92,15 @@ public class OrderFormTest extends Init {
 		Authenticate();
 		signInPage.Login(Constants.emailAccount,Constants.passAccount);
 		screenShot("TestScreen3");
-//		closeBrowser();
 
-
-		//step1
 		driver.get(Routers.ORDER);
-		waitForPageLoaded();
-		orderForm.SetDocumentDRL("Admission Essay");
-		sleep(2);
-		orderForm.AcalevelOptBTN(2);
-
-		orderForm.setDisciplineDRL("Accounting");
-		sleep(2);
-		orderForm.AcalevelOptBTN(2);
-
+		waitForNavigatePage(Routers.ORDER);
+		//step1
+		orderForm.inputStep1();
 		orderForm.clickNextButton();
 //
 //		//step 2
-//
-		orderForm.setTitleTXT("test");
-		orderForm.setInstructionTXT("test");
+		orderForm.inputStep2();
 		orderForm.clickNextButton();
 //
 //		//step3

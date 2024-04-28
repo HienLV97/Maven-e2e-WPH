@@ -267,5 +267,16 @@ public class OrderFormPage extends Init {
 		System.out.println("Order ID: " + orderId);
 		return orderId;
 	}
-
+	public void inputStep1(){
+		SetDocumentDRL("Admission Essay");
+		sleep(2);
+		AcalevelOptBTN(2);
+		setDisciplineDRL("Accounting");
+		sleep(2);
+		AcalevelOptBTN(2);
+	}
+	public void inputStep2(){
+		setTitleTXT("test");
+		setInstructionTXT("test");
+	}
 }

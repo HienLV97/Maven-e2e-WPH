@@ -101,10 +101,16 @@ public class Init {
 		}
 	}
 
-	public void waitForNavigatePage() {
+	public void waitForNavigatePage(String value) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
-		wait.until(ExpectedConditions.urlContains(Routers.BaseURL)); // Thay bằng URL mong muốn
-
+		if (value != null){
+			wait.until(ExpectedConditions.or(
+				ExpectedConditions.urlContains(Routers.BaseURL2),
+					ExpectedConditions.urlContains(Routers.BaseURL)
+			));
+		}else{
+			wait.until(ExpectedConditions.urlContains(value));
+		}
 		System.out.println("Trang đã chuyển thành công!");
 	}
 
