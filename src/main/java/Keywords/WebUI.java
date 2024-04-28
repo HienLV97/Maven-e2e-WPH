@@ -428,4 +428,10 @@ public class WebUI {
 		Assert.assertTrue(check, message);
 	}
 
+	public static void clickMultiElement(By by,int value){
+		waitForElementClickable(by);
+		for (int i = 0; i < value; i++){
+			clickElement(by);
+		}
+	}
 }

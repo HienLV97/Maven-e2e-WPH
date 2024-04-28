@@ -1,5 +1,6 @@
 package WPH.OrderForm.testcases;
 
+import Keywords.WebUI;
 import Support.Constants;
 import Support.Initialization.Init;
 import Support.Routers;
@@ -83,7 +84,7 @@ public class OrderFormTest extends Init {
 	}
 
 	@Test(enabled = true)
-	public void test() throws IOException, AWTException {
+	public void checkoutSuccess() throws IOException, AWTException {
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
 		SignInPage signInPage = new SignInPage(driver);
@@ -98,13 +99,24 @@ public class OrderFormTest extends Init {
 		//step1
 		orderForm.inputStep1();
 		orderForm.clickNextButton();
-//
-//		//step 2
+
+		//step 2
 		orderForm.inputStep2();
 		orderForm.clickNextButton();
-//
-//		//step3
-//
-		orderForm.clickSourceIncBTN(3);
+
+		//step3
+		WebUI.clickMultiElement(orderForm.SourceIncBTN,3);
+		orderForm.clickDeadLine(1);
+		WebUI.clickMultiElement(orderForm.PageIncBTN,3);
+		orderForm.clickSingleBTN();
+		WebUI.clickMultiElement(orderForm.SlideIncBTN,2);
+		orderForm.clickNextButton();
+
+		//step4
+		orderForm.clickWriterLevelBTN(2);
+		orderForm.clickAbstractBTN();
+		sleep(1);
+		orderForm.setPrevWriterDRL();
+
 	}
 }

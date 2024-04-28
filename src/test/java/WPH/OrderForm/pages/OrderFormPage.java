@@ -40,23 +40,23 @@ public class OrderFormPage extends Init {
 	private By TitleTXT = By.xpath("//input[@placeholder='Write your paper title']");
 	private By InstructionTXT = By.tagName("textarea");
 	//step3
-	private By SourceIncBTN = By.xpath("(//button[@id='increase-page'])[1]");
+	public By SourceIncBTN = By.xpath("(//button[@id='increase-page'])[1]");
 	private By SourceDecBTN = By.xpath("(//button[@id='decrease-page'])[1]");
 	private By SourceNumber = By.xpath("(//div[@class='c-input-number1__input c-input-number1 noselect custom-input'])[1]");
 
 	private By WriterCB = By.xpath("//label[@for=\"Writer's choice\"]");
 	private String DeadLine = "(//button[contains(@class,'button-tag')])";
 
-	private By PageIncBTN = By.xpath("(//button[@id='increase-page'])[2]");
-	private By PageDecBTN = By.xpath("(//button[@id='decrease-page'])[2]");
-	private By PageNumber = By.xpath("(//div[@class='c-input-number1__input c-input-number1 noselect custom-input'])[2]");
+	public By PageIncBTN = By.xpath("(//button[@id='increase-page'])[2]");
+	public By PageDecBTN = By.xpath("(//button[@id='decrease-page'])[2]");
+	public By PageNumber = By.xpath("(//div[@class='c-input-number1__input c-input-number1 noselect custom-input'])[2]");
 
-	private By SingleBTN = By.xpath("//button[contains(text(),'Single')]");
-	private By DoubleBTN = By.xpath("//button[contains(text(),'Double')]");
+	public By SingleBTN = By.xpath("//button[contains(text(),'Single')]");
+	public By DoubleBTN = By.xpath("//button[contains(text(),'Double')]");
 
-	private By SlideIncBTN = By.xpath("(//button[@id='increase-page'])[3]");
-	private By SlideDecBTN = By.xpath("(//button[@id='decrease-page'])[3]");
-	private By SlideNumber = By.xpath("(//div[@class='c-input-number1__input c-input-number1 noselect custom-input'])[3]");
+	public By SlideIncBTN = By.xpath("(//button[@id='increase-page'])[3]");
+	public By SlideDecBTN = By.xpath("(//button[@id='decrease-page'])[3]");
+	public By SlideNumber = By.xpath("(//div[@class='c-input-number1__input c-input-number1 noselect custom-input'])[3]");
 
 	private String WriterLevel = "//p[contains(text(),'ENL (+35%)')]";
 
@@ -68,7 +68,8 @@ public class OrderFormPage extends Init {
 
 	private By AbstractCB = By.xpath("//label[@for='valueCheckbox-abstract-page']");
 	private By PrevWriterCB = By.xpath("//label[@for='valueCheckbox-prev-writer']");
-
+	public By PreWriterTB = By.xpath("//input[@id='input-previous-writer']");
+	private By firstValue = By.xpath("(//span[contains(@class,'item-span')])[1]");
 	//step5
 
 	private By CreditBTN = By.xpath("//p[normalize-space()='Credit Card']");
@@ -79,44 +80,13 @@ public class OrderFormPage extends Init {
 	//Stripe menthod
 
 
-	public void waitForPageLoaded() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
-		//Wait for Javascript to load
-		ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
-			@Override
-			public Boolean apply(WebDriver driver) {
-				return js.executeScript("return document.readyState").toString().equals("complete");
-			}
-		};
-
-		//Check JS is Ready
-		boolean jsReady = js.executeScript("return document.readyState").toString().equals("complete");
-
-		//Wait Javascript until it is Ready!
-		if (!jsReady) {
-			System.out.println("Javascript is NOT Ready.");
-			//Wait for Javascript to load
-			try {
-				wait.until(jsLoad);
-			} catch (Throwable error) {
-				error.printStackTrace();
-				Assert.fail("FAILED. Timeout waiting for page load.");
-			}
-		}
-	}
 
 	public void clickNextButton() {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		wait.until(ExpectedConditions.visibilityOfElementLocated(NextBTN));
-
-		WebElement element = driver.findElement(NextBTN);
-		js.executeScript("arguments[0].scrollIntoView(true);", element);
 		WebUI.scrollToElement(NextBTN);
-		wait.until(ExpectedConditions.elementToBeClickable(element));
 		sleep(2);
-		element.click();
+		WebUI.clickElement(NextBTN);
 	}
 
 	//step1
@@ -254,7 +224,14 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PrevWriterCB));
 		driver.findElement(PrevWriterCB).click();
 	}
-
+	public void setPrevWriterDRL(){
+		clickPrevWriterBTN();
+		WebUI.waitForElementClickable(PreWriterTB);
+		WebUI.clickElement(PreWriterTB);
+		sleep(3);
+		WebUI.waitForElementClickable(firstValue);
+		WebUI.clickElement(firstValue);
+	}
 	public void verifyPrevWriterCB() {
 		clickPrevWriterBTN();
 		js = (JavascriptExecutor) driver;
