@@ -4,3 +4,4 @@
   - TB = Textbox
   - DRL = Dropdown list
   - CB = check box
+  - BTN = button

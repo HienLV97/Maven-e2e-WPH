@@ -1,14 +1,13 @@
 package WPH.OrderForm.pages;
 
 
-import API.GetAPI.Dashboard.OrderForm.OrderForm;
+import API.GetAPI.CoreAPI.OrderForm.OrderForm;
 import Keywords.WebUI;
 import Support.Initialization.Init;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -76,9 +75,9 @@ public class OrderFormPage extends Init {
 	private By PayPalBTN = By.xpath("//p[normalize-space()='PayPal']");
 	private By CheckOutBTN = By.xpath("//button[normalize-space()='Secure Checkout']");
 	private By ViewOrderBTN = By.xpath("(//button[normalize-space()='View Details'])[1]");
-
+	private By DiscountTB = By.xpath("(//input[@placeholder='Enter your discount code'])[2]");
+	public By ApllyBTN = By.xpath("(//button[contains(text(),'Apply')])[2]");
 	//Stripe menthod
-
 
 
 	public void clickNextButton() {
@@ -231,6 +230,10 @@ public class OrderFormPage extends Init {
 		sleep(3);
 		WebUI.waitForElementClickable(firstValue);
 		WebUI.clickElement(firstValue);
+	}
+	public void setDiscountTB(){
+		WebUI.waitForElementVisible(DiscountTB);
+		WebUI.setText(DiscountTB,"paper15");
 	}
 	public void verifyPrevWriterCB() {
 		clickPrevWriterBTN();

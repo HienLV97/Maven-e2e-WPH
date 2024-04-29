@@ -117,6 +117,35 @@ public class OrderFormTest extends Init {
 		orderForm.clickAbstractBTN();
 		sleep(1);
 		orderForm.setPrevWriterDRL();
+		orderForm.clickNextButton();
 
+		//step5
+		orderForm.clickCreditBTN();
+		orderForm.setDiscountTB();
+		WebUI.clickElement(orderForm.ApllyBTN);
+		sleep(2);
+		screenShot("ApllyTBN");
+		sleep(2);
+		waitForPageLoaded();
+
+		orderForm.clickCheckOutBTN();
+		creditCardPage.getCheckout();
+
+		sleep(5);
+		waitForNavigatePage("NaN");
+		waitForPageLoaded();
+		String orderID = orderForm.getID();
+		orderForm.clickViewOrderBTN();
+
+		// orderDetail
+		sleep(2);
+		waitForPageLoaded();
+		detailsPage.verifyh1(orderID,"writing");
+		detailsPage.verifyWPrice(detailsPage.writerPrice,"$152.92");
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice,"$21.85");
+		detailsPage.verifyWPrice(detailsPage.absPrice,"$22.00");
+		detailsPage.verifyWPrice(detailsPage.DicountPrice,"$65.54");
+		detailsPage.verifyWPrice(detailsPage.PaidPrice,"$568.11");
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice,"$65.54");
 	}
 }

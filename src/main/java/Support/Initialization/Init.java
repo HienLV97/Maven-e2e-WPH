@@ -103,7 +103,7 @@ public class Init {
 
 	public void waitForNavigatePage(String value) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
-		if (value != null){
+		if (Objects.equals(value, "NaN")){
 			wait.until(ExpectedConditions.or(
 				ExpectedConditions.urlContains(Routers.BaseURL2),
 					ExpectedConditions.urlContains(Routers.BaseURL)
