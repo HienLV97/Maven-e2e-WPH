@@ -8,55 +8,47 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Price {
-	public static double GetPrice(String urgent, String level) {
+public class Categories {
+	public static void main(String[] args) {
+		String value = GetCategoryData("2","percent");
+		System.out.println("value: "+ value);
+	}
+	public static String GetCategoryData(String id, String Output) {
 		String apiUrl = Constants.DashboardQL;
 		String token = Auth.getToken();
 		String query = "{" +
-				"prices(pid: 1) {" +
-				"urgency { " +
+				"categories {" +
+				"id " +
 				"title " +
-				"}" +
-				"level { " +
-				"title " +
-				"} " +
-				"price " +
+				"description " +
+				"percent " +
+				"is_default " +
 				"}" +
 				"}";
 		String response = fetchGraphQL(apiUrl, token, query);
 		JSONObject jsonObject = new JSONObject(response);
-		String filePath = "src/test/java/API/Data/Dashboard/Prices.json";
-		try {
-			// Tạo một đối tượng FileWriter để ghi dữ liệu vào tệp tin
-			FileWriter writer = new FileWriter(filePath);
+		String filePath = "src/test/java/API/Data/Dashboard/Category.json";
+		JSONArray categoryArray = jsonObject.getJSONObject("data").getJSONArray("categories");
+//		double price = 0;
 
-			// Ghi dữ liệu vào tệp tin
-			writer.write(jsonObject.toString());
+		String data = null;
+		for (int i = 0; i < categoryArray.length(); i++) {
+			JSONObject priceObject = categoryArray.getJSONObject(i);
+//			JSONObject urgencyObject = priceObject.getJSONObject("id");
 
-			// Đóng tệp tin sau khi ghi xong
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		JSONArray pricesArray = jsonObject.getJSONObject("data").getJSONArray("prices");
-		double price = 0;
-		for (int i = 0; i < pricesArray.length(); i++) {
-			JSONObject priceObject = pricesArray.getJSONObject(i);
-			JSONObject urgencyObject = priceObject.getJSONObject("urgency");
-			JSONObject levelObject = priceObject.getJSONObject("level");
-
-			String urgencyTitle = urgencyObject.getString("title");
-			String levelTitle = levelObject.getString("title");
-
+			String categoryID = priceObject.getString("id");
 			// Kiểm tra nếu cả hai tiêu đề đều khớp
-			if (urgent.equals(urgencyTitle) && level.equals(levelTitle)) {
+//			System.out.println("id :"+id);
+//			System.out.println("categoryID: " +categoryID);
+			if (id.equals(categoryID)) {
+
 				// Nếu khớp, lấy giá cả và in ra
-				price = priceObject.getDouble("price");
+				data = priceObject.get(Output).toString();
 				break; // Dừng vòng lặp sau khi tìm thấy kết quả đầu tiên phù hợp
 
 			}
 		}
-		return price;
+		return data;
 	}
 
 	public static String fetchGraphQL(String apiUrl, String bearerToken, String graphqlQuery) {

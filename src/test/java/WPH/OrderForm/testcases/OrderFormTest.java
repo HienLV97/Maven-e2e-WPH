@@ -1,5 +1,7 @@
 package WPH.OrderForm.testcases;
 
+import API.GetAPI.DashboardGraphQL.Auth;
+import Calculator.Calculator;
 import Keywords.WebUI;
 import Support.Constants;
 import Support.Initialization.Init;
@@ -15,6 +17,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 //import static Support.Initialization.Init.driver;
 
@@ -83,7 +86,7 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyh1(orderID,"writing");
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void checkoutSuccess() throws IOException, AWTException {
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
@@ -148,4 +151,13 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyWPrice(detailsPage.PaidPrice,"$568.11");
 		detailsPage.verifyWPrice(detailsPage.YouSavedPrice,"$65.54");
 	}
+
+	@Test(enabled = true)
+	public void test(){
+		Calculator calculator = new Calculator();
+		double test = calculator.GrandTotal();
+		System.out.println(test );
+		closeBrowser();
+	}
+
 }

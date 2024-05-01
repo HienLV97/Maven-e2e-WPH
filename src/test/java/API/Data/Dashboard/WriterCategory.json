@@ -1,1 +1,38 @@
-{"error":false,"content":{"type":"@collection","data":[{"type":"@writer_category","data":{"id":1,"title":"BEST AVAILABLE","description":"Standard price","percent":0,"is_default":1}},{"type":"@writer_category","data":{"id":2,"title":"ADVANCED (+25%)","description":"High-rank professional writer, proficient in the requested field of study","percent":25,"is_default":0}},{"type":"@writer_category","data":{"id":3,"title":"ENL (+35%)","description":"English as a native language writer (US, UK, CA, AU writers)","percent":35,"is_default":0}}]}}
+{
+  "error": false,
+  "content": {
+    "type": "@collection",
+    "data": [
+      {
+        "type": "@writer_category",
+        "data": {
+          "id": 1,
+          "title": "BEST AVAILABLE",
+          "description": "Standard price",
+          "percent": 0,
+          "is_default": 1
+        }
+      },
+      {
+        "type": "@writer_category",
+        "data": {
+          "id": 2,
+          "title": "ADVANCED (+25%)",
+          "description": "High-rank professional writer, proficient in the requested field of study",
+          "percent": 25,
+          "is_default": 0
+        }
+      },
+      {
+        "type": "@writer_category",
+        "data": {
+          "id": 3,
+          "title": "ENL (+35%)",
+          "description": "English as a native language writer (US, UK, CA, AU writers)",
+          "percent": 35,
+          "is_default": 0
+        }
+      }
+    ]
+  }
+}
