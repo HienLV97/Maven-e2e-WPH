@@ -1,6 +1,5 @@
 package WPH.OrderForm.testcases;
 
-import API.GetAPI.DashboardGraphQL.Auth;
 import Calculator.Calculator;
 import Keywords.WebUI;
 import Support.Constants;
@@ -10,14 +9,10 @@ import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.OrderForm.pages.OrderFormPage;
 import WPH.SignIn.pages.SignInPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
-import org.checkerframework.checker.units.qual.C;
-import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 //import static Support.Initialization.Init.driver;
 
@@ -146,7 +141,7 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyh1(orderID,"writing");
 		detailsPage.verifyWPrice(detailsPage.writerPrice,"$152.92");
 		detailsPage.verifyWPrice(detailsPage.preWriterPrice,"$21.85");
-		detailsPage.verifyWPrice(detailsPage.absPrice,"$22.00");
+		detailsPage.verifyWPrice(detailsPage.abstractPrice,"$22.00");
 		detailsPage.verifyWPrice(detailsPage.DicountPrice,"$65.54");
 		detailsPage.verifyWPrice(detailsPage.PaidPrice,"$568.11");
 		detailsPage.verifyWPrice(detailsPage.YouSavedPrice,"$65.54");
@@ -154,8 +149,16 @@ public class OrderFormTest extends Init {
 
 	@Test(enabled = true)
 	public void test(){
-		Calculator calculator = new Calculator();
-		double test = calculator.GrandTotal();
+//		Calculator calculator = new Calculator();
+		double pagePrice = Calculator.PagePrice("editing","24 hours","High School",6,0,"Single");
+		double discount =  Calculator.Discount(15,pagePrice);
+		double writerCate = Calculator.WriterLevelPrice("2",pagePrice);
+		double absWriter = Calculator.abstractPrice(true);
+		double preWriter = Calculator.preWriter(true,pagePrice);
+		double extra = Calculator.ExtrasTotal(writerCate,absWriter,preWriter);
+
+
+		double test = Calculator.GrandTotal(pagePrice,discount,extra);
 		System.out.println(test );
 		closeBrowser();
 	}

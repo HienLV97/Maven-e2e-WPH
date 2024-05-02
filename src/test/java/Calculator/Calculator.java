@@ -42,31 +42,46 @@ public class Calculator {
 	}
 
 	public static double Discount(int code, double pagePrice) {
-		System.out.println("code: "+code);
-		System.out.println("pagePrice: "+pagePrice);
 		BigDecimal bd = new BigDecimal(code * pagePrice / 100);
-		System.out.println("BD: "+bd);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
-		System.out.println("Discount: "+roundedValue.doubleValue());
 		return roundedValue.doubleValue();
 	}
 
 	public static double WriterLevelPrice(String value,double pagePrice) {
 		int percent = Integer.parseInt(Categories.GetCategoryData(value, "percent"));
-//		double writerPrice =
 		BigDecimal bd = new BigDecimal(percent * pagePrice / 100);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
-		System.out.println("writer: "+roundedValue.doubleValue());
 		return roundedValue.doubleValue();
 	}
-	public static double GrandTotal(){
-		double valuePagePrice = PagePrice("editing","24 hours","High School",6,4,"Single");
-		double valueDiscout =  Discount(15,valuePagePrice);
-		double valueWriterLevelPrice = WriterLevelPrice("2",valuePagePrice);
+	public static double abstractPrice(Boolean value){
+		if (value){
+			return 22.00;
+		}else {
+			return 0.00;
+		}
+	}
+	public static double preWriter(boolean value,double pagePrice){
+		if (value){
+			BigDecimal bd = new BigDecimal(5* pagePrice / 100);
+			BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
+			return roundedValue.doubleValue();
+		}else {
+			return 0.00;
+		}
+	}
+	public static double ExtrasTotal(double writerCate, double absP,double preWriter){
+		double extraTotal = (writerCate+absP+preWriter);
+		return extraTotal;
+	}
 
+//	public static double Balance(int value){
+//
+//	};
 
-		BigDecimal bd = new BigDecimal(valuePagePrice-valueDiscout+valueWriterLevelPrice);
+	public static double GrandTotal(double pagePrice, double discount, double extras){
+		BigDecimal bd = new BigDecimal(pagePrice-discount+extras);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
 		return roundedValue.doubleValue();
 	}
+
 }

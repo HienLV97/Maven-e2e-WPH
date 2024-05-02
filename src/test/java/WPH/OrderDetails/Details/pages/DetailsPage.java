@@ -3,7 +3,6 @@ package WPH.OrderDetails.Details.pages;
 import Keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -21,7 +20,7 @@ public class DetailsPage {
 	public By h1Element= By.xpath("//h1[@class='m-0']");
 	public By writerPrice = By.xpath("//dt[normalize-space()='Writer Category']//following-sibling::dd");
 	public By preWriterPrice = By.xpath("//dt[normalize-space()='Previous Writer']//following-sibling::dd");
-	public By absPrice = By.xpath("//dt[normalize-space()='One-page Abstract']//following-sibling::dd");
+	public By abstractPrice = By.xpath("//dt[normalize-space()='One-page Abstract']//following-sibling::dd");
 	public By DicountPrice = By.xpath("//dt[normalize-space()='Discount']//following-sibling::dd");
 	public By PaidPrice = By.xpath("//dt[normalize-space()='YOU PAID']//following-sibling::dd");
 	public By YouSavedPrice = By.xpath("//span[@id='pre-save2']");
