@@ -155,10 +155,13 @@ public class OrderFormTest extends Init {
 		double writerCate = Calculator.WriterLevelPrice("2",pagePrice);
 		double absWriter = Calculator.abstractPrice(true);
 		double preWriter = Calculator.preWriter(true,pagePrice);
+		String email = "t1@g.c";
+		String pass = "123123";
+		double balance = Calculator.Balance(email,pass);
 		double extra = Calculator.ExtrasTotal(writerCate,absWriter,preWriter);
 
 
-		double test = Calculator.GrandTotal(pagePrice,discount,extra);
+		double test = Calculator.GrandTotal(pagePrice,discount,extra,balance);
 		System.out.println(test );
 		closeBrowser();
 	}

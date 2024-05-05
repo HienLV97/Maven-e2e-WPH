@@ -1,6 +1,7 @@
 package Calculator;
 
 
+import API.GetAPI.CoreAPI.SignIn.Auth;
 import API.GetAPI.DashboardGraphQL.Categories;
 import API.GetAPI.DashboardGraphQL.Price;
 
@@ -74,14 +75,20 @@ public class Calculator {
 		return extraTotal;
 	}
 
-//	public static double Balance(int value){
-//
-//	};
+	public static double Balance(String email,String pass){
+		double value = Double.parseDouble(Auth.getDataUser(email,pass,"balance"));
+		return value;
+	};
 
-	public static double GrandTotal(double pagePrice, double discount, double extras){
-		BigDecimal bd = new BigDecimal(pagePrice-discount+extras);
+	public static double GrandTotal(double pagePrice, double discount, double extras,double balance){
+		BigDecimal bd = new BigDecimal(pagePrice-discount+extras-balance);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
-		return roundedValue.doubleValue();
+		double youPay =  roundedValue.doubleValue();
+		if (youPay <= 0){
+			return 0.00;
+		}else {
+			return youPay;
+		}
 	}
 
 }

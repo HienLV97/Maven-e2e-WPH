@@ -20,12 +20,13 @@ import java.io.InputStreamReader;
 public class Auth {
 	static String filePath = "src/test/java/API/Data/Dashboard/Auth.json";
 
-	public static String getDataUser(String email, String pass,String value){
+	public static String getDataUser(String email, String pass, String value) {
 		getAuth(email, pass);
+		System.out.println("balance: "+handleData(value));
 		return handleData(value);
 	}
 
-	public static void getAuth(String email, String password) {
+	private static void getAuth(String email, String password) {
 		try {
 			// Create the connection object and set the required HTTP method and headers
 			URL url = new URL(Constants.CoreAPI);
@@ -72,7 +73,6 @@ public class Auth {
 						response.append(line);
 					}
 				}
-				System.out.println("Response: " + response);
 			} else {
 				try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()))) {
 					String line;
@@ -103,7 +103,7 @@ public class Auth {
 		}
 	}
 
-	public static String handleData(String value) {
+	private static String handleData(String value) {
 		JSONObject dataObject = null;
 		try {
 			// Đọc tệp JSON
@@ -113,9 +113,7 @@ public class Auth {
 			// Trích xuất mảng "data" từ đối tượng "content"
 			JSONObject content = (JSONObject) jsonData.get("content");
 			dataObject = (JSONObject) content.get("data");
-			String data = (String) dataObject.get(value);
-			System.out.println(dataObject);
-			System.out.println("data: " + data);
+//			String data = (String) dataObject.get(value);
 
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
