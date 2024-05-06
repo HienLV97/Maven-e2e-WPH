@@ -17,11 +17,13 @@ public class Constants {
 //		new WebUI(driver); //Bắt buộc
 	}
 	public static String emailAccount = "client-12344-fake@kamora.vn";
+	public static String emailBalance= "t1@g.c";
 	public static String passAccount = "iamafriend";
 	public static String YetiCMS = "https://yeti-cms.dev/api";
 	public static String YetiCMSToken = "2b0c615afb1b72cf093a5fa6d48c7ef1";
 
 	public static String DashboardQL = "https://acadashboard.dev/graphql/";
+	public static String ProxyDevURL = "https://writersperhour.dev/api";
 //	public static String DashboardToken =
 
 	public static String email = "support@kamora.vn";

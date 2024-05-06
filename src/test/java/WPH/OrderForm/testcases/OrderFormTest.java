@@ -17,7 +17,7 @@ import java.io.IOException;
 //import static Support.Initialization.Init.driver;
 
 public class OrderFormTest extends Init {
-	@Test(enabled = false,description = "Checkout successfully")
+	@Test(enabled = false, description = "Checkout successfully")
 	public void checkout() {
 		Authenticate();
 		OrderFormPage orderForm = new OrderFormPage(driver);
@@ -78,7 +78,7 @@ public class OrderFormTest extends Init {
 
 		sleep(10);
 		waitForPageLoaded();
-		detailsPage.verifyh1(orderID,"writing");
+		detailsPage.verifyh1(orderID, "writing");
 	}
 
 	@Test(enabled = false)
@@ -89,7 +89,7 @@ public class OrderFormTest extends Init {
 		DetailsPage detailsPage = new DetailsPage(driver);
 
 		Authenticate();
-		signInPage.Login(Constants.emailAccount,Constants.passAccount);
+		signInPage.Login(Constants.emailAccount, Constants.passAccount);
 		screenShot("TestScreen3");
 
 		driver.get(Routers.ORDER);
@@ -103,11 +103,11 @@ public class OrderFormTest extends Init {
 		orderForm.clickNextButton();
 
 		//step3
-		WebUI.clickMultiElement(orderForm.SourceIncBTN,3);
+		WebUI.clickMultiElement(orderForm.SourceIncBTN, 3);
 		orderForm.clickDeadLine(1);
-		WebUI.clickMultiElement(orderForm.PageIncBTN,3);
+		WebUI.clickMultiElement(orderForm.PageIncBTN, 3);
 		orderForm.clickSingleBTN();
-		WebUI.clickMultiElement(orderForm.SlideIncBTN,2);
+		WebUI.clickMultiElement(orderForm.SlideIncBTN, 2);
 		orderForm.clickNextButton();
 
 		//step4
@@ -138,31 +138,31 @@ public class OrderFormTest extends Init {
 		// orderDetail
 		sleep(2);
 		waitForPageLoaded();
-		detailsPage.verifyh1(orderID,"writing");
-		detailsPage.verifyWPrice(detailsPage.writerPrice,"$152.92");
-		detailsPage.verifyWPrice(detailsPage.preWriterPrice,"$21.85");
-		detailsPage.verifyWPrice(detailsPage.abstractPrice,"$22.00");
-		detailsPage.verifyWPrice(detailsPage.DicountPrice,"$65.54");
-		detailsPage.verifyWPrice(detailsPage.PaidPrice,"$568.11");
-		detailsPage.verifyWPrice(detailsPage.YouSavedPrice,"$65.54");
+		detailsPage.verifyh1(orderID, "writing");
+		detailsPage.verifyWPrice(detailsPage.writerPrice, "$152.92");
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice, "$21.85");
+		detailsPage.verifyWPrice(detailsPage.abstractPrice, "$22.00");
+		detailsPage.verifyWPrice(detailsPage.DicountPrice, "$65.54");
+		detailsPage.verifyWPrice(detailsPage.PaidPrice, "$568.11");
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, "$65.54");
 	}
 
 	@Test(enabled = true)
-	public void test(){
+	public void test() {
 //		Calculator calculator = new Calculator();
-		double pagePrice = Calculator.PagePrice("editing","24 hours","High School",6,0,"Single");
-		double discount =  Calculator.Discount(15,pagePrice);
-		double writerCate = Calculator.WriterLevelPrice("2",pagePrice);
+		double pagePrice = Calculator.PagePrice("editing", "24 hours", "High School", 6, 0, "Single");
+		double discount = Calculator.Discount(15, pagePrice);
+		double writerCate = Calculator.WriterLevelPrice("2", pagePrice);
 		double absWriter = Calculator.abstractPrice(true);
-		double preWriter = Calculator.preWriter(true,pagePrice);
+		double preWriter = Calculator.preWriter(true, pagePrice);
 		String email = "t1@g.c";
 		String pass = "123123";
-		double balance = Calculator.Balance(email,pass);
-		double extra = Calculator.ExtrasTotal(writerCate,absWriter,preWriter);
+		double balance = Calculator.Balance(email, pass);
+		double extra = Calculator.ExtrasTotal(writerCate, absWriter, preWriter);
 
 
-		double test = Calculator.GrandTotal(pagePrice,discount,extra,balance);
-		System.out.println(test );
+		double test = Calculator.GrandTotal(pagePrice, discount, extra, balance);
+		System.out.println(test);
 		closeBrowser();
 	}
 
