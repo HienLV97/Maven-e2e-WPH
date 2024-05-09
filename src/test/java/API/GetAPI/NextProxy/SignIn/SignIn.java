@@ -1,4 +1,4 @@
-package API.GetAPI.NextProxy;
+package API.GetAPI.NextProxy.SignIn;
 
 import Support.Constants;
 import org.json.simple.JSONObject;
@@ -12,17 +12,12 @@ import java.nio.charset.StandardCharsets;
 
 public class SignIn {
 	static String filePath = "src/test/java/API/Data/Dashboard/tokenClient.json";
-	static String URLSignIn = Constants.ProxyDevURL + "/signin";
+	static String URLSignIn = Constants.proxyDevURL + "/signin";
 
-//	public static void main(String[] args) {
-//		String a = SignIn(Constants.emailBalance, Constants.passAccount);
-//		System.out.println("token : " + a);
-//	}
-//	public static String getToken(String email, String pass) {
-//		String a = SignIn(email, pass);
-////		return handleData();
-//	}
-
+		public static void main(String[] args) {
+		String token = SignIn.getToken(Constants.emailBalance, Constants.passAccount);
+		System.out.println(token);
+	}
 	public static String getToken(String email, String password) {
 		try {
 			// Create the connection object and set the required HTTP method and headers
@@ -51,8 +46,6 @@ public class SignIn {
 				byte[] input = rawText.getBytes(StandardCharsets.UTF_8);
 				os.write(input, 0, input.length);
 			}
-			System.out.println(response);
-
 			try (BufferedReader reader = new BufferedReader(
 					new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
 				String line;
@@ -62,34 +55,18 @@ public class SignIn {
 			}
 
 
+			JSONParser parser = new JSONParser();
+			System.out.println("SignIn: "+response);
 			try {
-				// Tạo một đối tượng FileWriter để ghi dữ liệu vào tệp tin
-				FileWriter writer = new FileWriter(filePath);
-
-				// Ghi dữ liệu vào tệp tin
-				writer.write(response.toString());
-
-				// Đóng tệp tin sau khi ghi xong
-				writer.close();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-			String token = null;
-			try {
-				// Đọc tệp JSON
-				JSONParser parser = new JSONParser();
-				JSONObject jsonData = (JSONObject) parser.parse(new FileReader(filePath));
-
-				token = (String) jsonData.get("token");
-			} catch (IOException | ParseException e) {
+				JSONObject jsonObject = (JSONObject) parser.parse(response.toString());
+				String token = (String) jsonObject.get("token");
+				return token;
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			return token;
-
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-
 		return email;
 	}
 

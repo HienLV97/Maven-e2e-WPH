@@ -14,7 +14,7 @@ public class Discounts {
 		System.out.println("value = "+value);
 	}
 	public static int GetDiscount(String discountCode) {
-		String apiUrl = Constants.DashboardQL;
+		String apiUrl = Constants.dashboardQL;
 		String token = Auth.getToken();
 		String query = "{" +
 				"discounts(pid: 1,first: 100, page: 1) { " +

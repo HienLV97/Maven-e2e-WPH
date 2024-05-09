@@ -1,5 +1,6 @@
-package API.GetAPI.NextProxy;
+package API.GetAPI.NextProxy.Auth;
 
+import API.GetAPI.NextProxy.SignIn.SignIn;
 import Support.Constants;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,35 +10,41 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class Auth {
 	static String filePath = "src/test/java/API/Data/Dashboard/authClient.json";
-	static String URLAuth = Constants.ProxyDevURL + "/auth";
+	static String URLAuth = Constants.proxyDevURL + "/auth";
 
 	//	public static String getToken() {
 	public static void main(String[] args) {
-
-//		String token =  SignIn.getToken(Constants.emailBalance, Constants.passAccount);
-//		System.out.println(token);
-		auth("67b552966bb227fbd3ae5ea079156570");
-		System.out.println();
-//		return handleData();
+		String token = SignIn.getToken(Constants.emailBalance, Constants.passAccount);
+//		System.out.println("a ");
+		System.out.println("token tryen` vao`: "+token);
+		auth(token);
+//		System.out.println("token1: "+token);
+//		System.out.println();
 	}
 
 	private static void auth(String token) {
 		try {
+			// Mã hóa thông tin đăng nhập
+			String basicAuth = "Basic " + Base64.getEncoder().encodeToString((Constants.basicUsername + ":" + Constants.passAccount).getBytes());
+
 			// Create the connection object and set the required HTTP method and headers
 			URL url = new URL(URLAuth);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Authorization", "Basic a2Ftb3JhOmlhbWFmcmllbmQ=");
-			connection.setRequestProperty("Cookie", "token=80e2d1f5d3815e5984ac6f8605de769b");
+			connection.setRequestProperty("Authorization", basicAuth);
+			System.out.println("Basic: "+basicAuth);
+			connection.setRequestProperty("Cookie", "token=2f6d7917007558db98ef4cf557baffea");
 			connection.setRequestProperty("Postman-Token", "<calculated when request is sent>");
 			connection.setRequestProperty("Host", "<calculated when request is sent>");
 			connection.setRequestProperty("User-Agent", "PostmanRuntime/7.37.0");
 			connection.setRequestProperty("Accept", "*/*");
 			connection.setRequestProperty("Accept-Encoding", "gzip, deflate, br");
 			connection.setRequestProperty("Connection", "keep-alive");
+			System.out.println("token2: "+token);
 			connection.setRequestProperty("token", token);
 			connection.setDoOutput(true);
 
@@ -84,4 +91,13 @@ public class Auth {
 		}
 		return token;
 	}
+	public class BasicAuth {
+		public static String encodeBasicAuth(String username, String password) {
+			String authString = username + ":" + password; // Nối tên người dùng và mật khẩu với dấu hai chấm
+			byte[] encodedBytes = Base64.getEncoder().encode(authString.getBytes()); // Mã hóa base64
+			return "Basic " + new String(encodedBytes); // Thêm "Basic " trước mã hóa base64
+		}
+	}
 }
+//	Basic a2Ftb3JhOmlhbWFmcmllbmQ=
+//			token=c4e89d3b35394ef1ac3bf38557979862

@@ -14,7 +14,7 @@ public class Categories {
 		System.out.println("value: "+ value);
 	}
 	public static String GetCategoryData(String id, String Output) {
-		String apiUrl = Constants.DashboardQL;
+		String apiUrl = Constants.dashboardQL;
 		String token = Auth.getToken();
 		String query = "{" +
 				"categories {" +

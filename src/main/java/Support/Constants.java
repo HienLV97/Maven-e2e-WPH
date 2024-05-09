@@ -17,19 +17,22 @@ public class Constants {
 //		new WebUI(driver); //Bắt buộc
 	}
 	public static String emailAccount = "client-12344-fake@kamora.vn";
-	public static String emailBalance= "t1@g.c";
+	public static String emailBalance= "test1@gmail.c";
 	public static String passAccount = "iamafriend";
-	public static String YetiCMS = "https://yeti-cms.dev/api";
-	public static String YetiCMSToken = "2b0c615afb1b72cf093a5fa6d48c7ef1";
+	public static String yetiCMS = "https://yeti-cms.dev/api";
+	public static String yetiCMSToken = "2b0c615afb1b72cf093a5fa6d48c7ef1";
 
-	public static String DashboardQL = "https://acadashboard.dev/graphql/";
-	public static String ProxyDevURL = "https://writersperhour.dev/api";
+	public static String basicUsername = "kamora";
+	public static String basicPassword = "iamafriend";
+
+	public static String dashboardQL = "https://acadashboard.dev/graphql/";
+	public static String proxyDevURL = "https://writersperhour.dev/api";
 //	public static String DashboardToken =
 
 	public static String email = "support@kamora.vn";
 
-	public static String CoreAPI = "http://199.231.164.147:4422";
-	public static String CoreAPIToken = "ee1bc0f04cae5c786e87db53fdf80432";
+	public static String coreAPI = "http://199.231.164.147:4422";
+	public static String coreAPIToken = "ee1bc0f04cae5c786e87db53fdf80432";
 	public static String cardInfo = "4242424242424242";
 	public static String cardExpiry = "1266";
 	public static String cardCVC = "333";

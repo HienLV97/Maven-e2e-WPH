@@ -12,15 +12,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class SignIn {
 	public static void main(String[] args) {
-		String apiUrl = Constants.CoreAPI;
-		String token = Constants.CoreAPIToken;
+		String apiUrl = Constants.coreAPI;
+		String token = Constants.coreAPIToken;
 
 
 		String response = getAPI(apiUrl, token);

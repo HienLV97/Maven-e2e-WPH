@@ -20,8 +20,8 @@ import java.util.List;
 
 public class OrderForm {
 
-	public static String apiUrl = Constants.CoreAPI;
-	public static String token = Constants.CoreAPIToken;
+	public static String apiUrl = Constants.coreAPI;
+	public static String token = Constants.coreAPIToken;
 	public static String academicLevel = "AcademicLevel";
 	public static String urgencyLevel = "Urgency";
 	public static String writerLevel = "WriterCategory";
@@ -44,10 +44,10 @@ public class OrderForm {
 	public static void getAPI(String namespace) {
 		try {
 			// Create the connection object and set the required HTTP method and headers
-			URL url = new URL(Constants.CoreAPI);
+			URL url = new URL(Constants.coreAPI);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Authorization", "Bearer " + Constants.CoreAPIToken);
+			connection.setRequestProperty("Authorization", "Bearer " + Constants.coreAPIToken);
 			connection.setRequestProperty("Postman-Token", "<calculated when request is sent>");
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			connection.setRequestProperty("Content-Length", "<calculated when request is sent>");

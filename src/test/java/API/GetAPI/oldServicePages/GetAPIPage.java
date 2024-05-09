@@ -19,8 +19,8 @@ import java.io.FileReader;
 
 public class GetAPIPage {
 	public static void main(String[] args) {
-		String apiUrl = Constants.YetiCMS;
-		String token = Constants.YetiCMSToken;
+		String apiUrl = Constants.yetiCMS;
+		String token = Constants.yetiCMSToken;
 		String query = "{" +
 				"articles(page: 1, first: 1000) {" +
 				"data {" +
