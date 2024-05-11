@@ -1,13 +1,17 @@
 package Calculator;
 
 
-import API.GetAPI.CoreAPI.SignIn.Auth;
 import API.GetAPI.DashboardGraphQL.Categories;
 import API.GetAPI.DashboardGraphQL.Price;
+import API.GetAPI.NextProxy.Auth.Auth;
+import API.GetAPI.NextProxy.SignIn.SignIn;
+import Support.Constants;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
+
+import static API.GetAPI.NextProxy.Auth.Auth.getauth;
 
 public class Calculator {
 	public static double PagePrice(String type, String urgent, String level, int pages, int slides, String spacing) {
@@ -76,8 +80,8 @@ public class Calculator {
 	}
 
 	public static double Balance(String email,String pass){
-		double value = Double.parseDouble(Auth.getDataUser(email,pass,"balance"));
-		return value;
+		String token = SignIn.getToken(email, pass);
+		return Double.parseDouble(Auth.getauth(token,"balance"));
 	};
 
 	public static double GrandTotal(double pagePrice, double discount, double extras,double balance){

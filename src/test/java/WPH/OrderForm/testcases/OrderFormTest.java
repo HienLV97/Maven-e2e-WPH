@@ -149,21 +149,21 @@ public class OrderFormTest extends Init {
 
 	@Test(enabled = true)
 	public void test() {
-//		Calculator calculator = new Calculator();
-		double pagePrice = Calculator.PagePrice("editing", "24 hours", "High School", 6, 0, "Single");
+		double pagePrice = Calculator.PagePrice("editing", "30 days", "High School", 1, 0, "Double");
 		double discount = Calculator.Discount(15, pagePrice);
 		double writerCate = Calculator.WriterLevelPrice("2", pagePrice);
 		double absWriter = Calculator.abstractPrice(true);
 		double preWriter = Calculator.preWriter(true, pagePrice);
 		String email = "t1@g.c";
-		String pass = "123123";
+		String pass = "iamafriend";
 		double balance = Calculator.Balance(email, pass);
 		double extra = Calculator.ExtrasTotal(writerCate, absWriter, preWriter);
-
-
 		double test = Calculator.GrandTotal(pagePrice, discount, extra, balance);
 		System.out.println(test);
 		closeBrowser();
 	}
+	@Test(enabled = true, description = "Order form display correct")
+	public void testCase1(){
 
+	}
 }

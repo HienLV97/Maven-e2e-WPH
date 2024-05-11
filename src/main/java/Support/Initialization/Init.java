@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -55,7 +56,7 @@ public class Init {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	//	@AfterTest
+	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);
@@ -103,12 +104,12 @@ public class Init {
 
 	public void waitForNavigatePage(String value) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
-		if (Objects.equals(value, "NaN")){
+		if (Objects.equals(value, "NaN")) {
 			wait.until(ExpectedConditions.or(
-				ExpectedConditions.urlContains(Routers.BaseURL2),
+					ExpectedConditions.urlContains(Routers.BaseURL2),
 					ExpectedConditions.urlContains(Routers.BaseURL)
 			));
-		}else{
+		} else {
 			wait.until(ExpectedConditions.urlContains(value));
 		}
 		System.out.println("Trang đã chuyển thành công!");
