@@ -4,10 +4,16 @@ import Support.Constants;
 import Support.Initialization.Init;
 import Support.Routers;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 public class SignInPage extends Init {
@@ -41,5 +47,20 @@ public class SignInPage extends Init {
 		setEmail(email);
 		setPassword(password);
 		clickLoginButton();
+	}
+	public void signInWithToken(String tokenName, String tokenValue) {
+//		String token = "a6b71b98c958b4505646f7ccedb25261";  // replace with your actual token
+		Cookie tokenCookie = new Cookie.Builder(tokenName, tokenValue)
+				.domain(Routers.DomainDEV)
+				.path("/")
+				.isHttpOnly(true)
+				.isSecure(true)
+				.build();
+
+		// Thêm cookie vào trình duyệt
+		driver.manage().addCookie(tokenCookie);
+
+		// Làm mới trang để cookie có hiệu lực
+		driver.navigate().refresh();
 	}
 }

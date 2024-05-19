@@ -15,7 +15,7 @@ public class Auth {
 	static String filePath = "src/test/java/API/Data/Dashboard/authClient.json";
 	static String URLAuth = Constants.proxyDevURL + "/auth";
 
-	//	public static String getToken() {
+//		public static String getToken() {
 //	public static void main(String[] args) {
 //		String token = SignIn.getToken(Constants.emailBalance, Constants.passAccount);
 ////		System.out.println("a ");
@@ -30,7 +30,6 @@ public class Auth {
 //		System.out.println("gender :" + gender);
 //		System.out.println("test :" + test);
 //	}
-
 	public static String getauth(String token, String value) {
 		try {
 			// Create the connection object and set the required HTTP method and headers

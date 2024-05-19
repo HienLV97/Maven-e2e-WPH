@@ -4,6 +4,7 @@ public class Routers {
 	static final String BasicUserName = "kamora";
 	static final String BasicPassWord = "iamafriend";
 	public static final String BaseURL = "https://writersperhour.dev";
+	public static final String DomainDEV = "writersperhour.dev";
 	public static final String BaseURL2 = "https://"+BasicUserName+":"+BasicPassWord+"@writersperhour.dev";
 	//    public static  String BaseURL = "https://writersperhour.com";
 	public static String BaseURLAuthor = "https://kamora:iamafriend@writersperhour.dev";

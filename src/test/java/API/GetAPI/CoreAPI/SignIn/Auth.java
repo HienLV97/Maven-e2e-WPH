@@ -113,7 +113,6 @@ public class Auth {
 			// Trích xuất mảng "data" từ đối tượng "content"
 			JSONObject content = (JSONObject) jsonData.get("content");
 			dataObject = (JSONObject) content.get("data");
-//			String data = (String) dataObject.get(value);
 
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();

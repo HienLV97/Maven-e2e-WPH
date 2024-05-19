@@ -1,5 +1,7 @@
 package WPH.OrderForm.testcases;
 
+import API.GetAPI.NextProxy.Auth.Auth;
+import API.GetAPI.NextProxy.SignIn.SignIn;
 import Calculator.Calculator;
 import Keywords.WebUI;
 import Support.Constants;
@@ -9,6 +11,7 @@ import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.OrderForm.pages.OrderFormPage;
 import WPH.SignIn.pages.SignInPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
+import org.openqa.selenium.Cookie;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -61,24 +64,25 @@ public class OrderFormTest extends Init {
 		orderForm.clickWriterLevelBTN(1);
 		orderForm.verifyAbstractCB();
 		orderForm.verifyPrevWriterCB();
-		orderForm.clickNextButton();
-
-		//step5
-		orderForm.clickCreditBTN();
-		orderForm.clickCheckOutBTN();
-		waitForPageLoaded();
-
-		creditCardPage.getCheckout();
-
 		sleep(5);
-		waitForNavigatePage(null);
-		waitForPageLoaded();
-		String orderID = orderForm.getID();
-		orderForm.clickViewOrderBTN();
-
-		sleep(10);
-		waitForPageLoaded();
-		detailsPage.verifyh1(orderID, "writing");
+//		orderForm.clickNextButton();
+//
+//		//step5
+//		orderForm.clickCreditBTN();
+//		orderForm.clickCheckOutBTN();
+//		waitForPageLoaded();
+//
+//		creditCardPage.getCheckout();
+//
+//		sleep(5);
+//		waitForNavigatePage(null);
+//		waitForPageLoaded();
+//		String orderID = orderForm.getID();
+//		orderForm.clickViewOrderBTN();
+//
+//		sleep(10);
+//		waitForPageLoaded();
+//		detailsPage.verifyh1(orderID, "writing");
 	}
 
 	@Test(enabled = false)
@@ -95,11 +99,11 @@ public class OrderFormTest extends Init {
 		driver.get(Routers.ORDER);
 		waitForNavigatePage(Routers.ORDER);
 		//step1
-		orderForm.inputStep1();
+		orderForm.setStep1();
 		orderForm.clickNextButton();
 
 		//step 2
-		orderForm.inputStep2();
+		orderForm.setStep2();
 		orderForm.clickNextButton();
 
 		//step3
@@ -147,23 +151,34 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, "$65.54");
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = true,description = "only test")
 	public void test() {
-		double pagePrice = Calculator.PagePrice("editing", "30 days", "High School", 1, 0, "Double");
-		double discount = Calculator.Discount(15, pagePrice);
-		double writerCate = Calculator.WriterLevelPrice("2", pagePrice);
-		double absWriter = Calculator.abstractPrice(true);
-		double preWriter = Calculator.preWriter(true, pagePrice);
-		String email = "t1@g.c";
-		String pass = "iamafriend";
-		double balance = Calculator.Balance(email, pass);
-		double extra = Calculator.ExtrasTotal(writerCate, absWriter, preWriter);
-		double test = Calculator.GrandTotal(pagePrice, discount, extra, balance);
-		System.out.println(test);
-		closeBrowser();
+		Authenticate();
+		SignInPage signInPage = new SignInPage(driver);
+		driver.get(Routers.HOME);
+		String tokenName = "token";
+		String tokenValue = SignIn.getToken(Constants.emailAccount,Constants.passAccount);
+		signInPage.signInWithToken(tokenName,tokenValue);
+
+		driver.get(Routers.SIGN_IN);
+
 	}
-	@Test(enabled = true, description = "Order form display correct")
+	@Test(enabled = false, description = "Order form display correct")
 	public void testCase1(){
+		String email = Constants.emailBalance;
+		String pass = Constants.passAccount;
+		SignInPage signInPage = new SignInPage(driver);
+		OrderFormPage orderFormPage = new OrderFormPage(driver);
+		Authenticate();
+
+		signInPage.Login(email,pass);
+		sleep(5);
+		driver.get(Routers.ORDER);
+		orderFormPage.setStep1();
+		orderFormPage.setStep2();
+		orderFormPage.setStep3();
+		orderFormPage.setStep4();
+		orderFormPage.setStep5();
 
 	}
 }

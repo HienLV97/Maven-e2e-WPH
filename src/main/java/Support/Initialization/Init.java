@@ -56,7 +56,7 @@ public class Init {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	@AfterTest
+//	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);

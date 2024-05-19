@@ -25,7 +25,6 @@ public class OrderFormPage extends Init {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		new WebUI(driver); //Bắt buộc
 	}
-
 	//	JavascriptExecutor js;
 	JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -129,17 +128,15 @@ public class OrderFormPage extends Init {
 	}
 
 	//step3
-	public void clickSourceIncBTN(int value) {
+	public void clickSourceIncBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceIncBTN));
-		for (int i = 0; i < value; i++) {
-			driver.findElement(SourceIncBTN).click();
-		}
+		driver.findElement(SourceIncBTN).click();
+
 	}
 	public void clickSourceDecBTN(int value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceDecBTN));
-		for (int i = 0; i < value; i++) {
-			driver.findElement(SourceDecBTN).click();
-		}
+		driver.findElement(SourceDecBTN).click();
+
 	}
 
 	public void clickWriterCB() {
@@ -193,6 +190,7 @@ public class OrderFormPage extends Init {
 		driver.findElement(DoubleBTN).click();
 	}
 
+	//step4
 	public void clickWriterLevelBTN(int value) {
 		By option = By.xpath("*//p[contains(text(),'" + writerLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
@@ -235,6 +233,8 @@ public class OrderFormPage extends Init {
 		WebUI.waitForElementVisible(DiscountTB);
 		WebUI.setText(DiscountTB,"paper15");
 	}
+
+	//step5
 	public void verifyPrevWriterCB() {
 		clickPrevWriterBTN();
 		js = (JavascriptExecutor) driver;
@@ -269,21 +269,41 @@ public class OrderFormPage extends Init {
 		return orderId;
 	}
 
-	public void inputStep1() {
+	public void setStep1() {
 		SetDocumentDRL("Admission Essay");
 		sleep(2);
 		AcalevelOptBTN(2);
 		setDisciplineDRL("Accounting");
 		sleep(2);
 		AcalevelOptBTN(2);
+		clickNextButton();
 	}
 
-	public void inputStep2() {
+	public void setStep2() {
 		setTitleTXT("test");
 		setInstructionTXT("test");
+		clickNextButton();
 	}
 
-	public void inputStep3() {
-
+	public void setStep3() {
+		WebUI.clickMultiElement(SourceIncBTN,2);
+		clickDeadLine(3);
+		WebUI.clickMultiElement(PageIncBTN,2);
+		clickDoubleBTN();
+		clickSlideInc();
+		clickNextButton();
 	}
+	public void setStep4(){
+		clickWriterLevelBTN(2);
+		clickAbstractBTN();
+		setPrevWriterDRL();
+		clickNextButton();
+	}
+	public void setStep5(){
+		clickCreditBTN();
+		clickCheckOutBTN();
+	}
+
+
+
 }
