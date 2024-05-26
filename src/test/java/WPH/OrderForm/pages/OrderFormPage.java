@@ -76,6 +76,10 @@ public class OrderFormPage extends Init {
 	private By ViewOrderBTN = By.xpath("(//button[normalize-space()='View Details'])[1]");
 	private By DiscountTB = By.xpath("(//input[@placeholder='Enter your discount code'])[2]");
 	public By ApllyBTN = By.xpath("(//button[contains(text(),'Apply')])[2]");
+	private By TotalPrice = By.xpath("(//p[@class='price-total'][normalize-space()='Total'])[2]//following-sibling::p");
+	private By ExtraPrice = By.xpath("(//p[@class='price-title text-graydish'][normalize-space()='Extras'])[2]//following-sibling::p");
+	private By DiscountPrice = By.xpath("(//p[@class='price-value text-reddish'])[2]");
+	private By YouPayPrice = By.xpath("(//p[@class='preview__title preview__value'])[2]");
 	//Stripe menthod
 
 
@@ -229,9 +233,13 @@ public class OrderFormPage extends Init {
 		WebUI.waitForElementClickable(firstValue);
 		WebUI.clickElement(firstValue);
 	}
-	public void setDiscountTB(){
+	public void setDiscountTB(String value){
 		WebUI.waitForElementVisible(DiscountTB);
-		WebUI.setText(DiscountTB,"paper15");
+		WebUI.setText(DiscountTB,value);
+	}
+	public void clickApply(){
+		WebUI.waitForElementVisible(ApllyBTN);
+		WebUI.clickElement(ApllyBTN);
 	}
 
 	//step5
@@ -249,15 +257,38 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CreditBTN));
 		driver.findElement(CreditBTN).click();
 	}
-
 	public void clickCheckOutBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CheckOutBTN));
 		driver.findElement(CheckOutBTN).click();
 	}
-
 	public void clickViewOrderBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
 		driver.findElement(ViewOrderBTN).click();
+	}
+	public void verifyTotal(String expectedPrice){
+		wait.until(ExpectedConditions.visibilityOfElementLocated(TotalPrice));
+//		String expectedPrice = "$144.95";
+		String totalPriceText = WebUI.getElementText(TotalPrice);
+		Assert.assertTrue(totalPriceText.contains(expectedPrice), "TotalPrice is wrong: " + expectedPrice);
+	}
+	public void verifyExtra(String expectedPrice){
+		wait.until(ExpectedConditions.visibilityOfElementLocated(ExtraPrice));
+//		String expectedPrice = "$79.98";
+		String totalPriceText = WebUI.getElementText(ExtraPrice);
+		Assert.assertTrue(totalPriceText.contains(expectedPrice), "ExtraPrice is wrong: " + expectedPrice);
+	}
+	public void verifyDiscount(String expectedPrice){
+		wait.until(ExpectedConditions.visibilityOfElementLocated(DiscountPrice));
+//		String expectedPrice = "$8.10";
+		String totalPriceText = WebUI.getElementText(DiscountPrice);
+		Assert.assertTrue(totalPriceText.contains(expectedPrice), "ExtraPrice is wrong: " + expectedPrice);
+	}
+	public void verifyYouPay(String expectedPrice){
+		wait.until(ExpectedConditions.visibilityOfElementLocated(YouPayPrice));
+//		String expectedPrice = "$203.19";
+		String totalPriceText = WebUI.getElementText(YouPayPrice);
+		System.out.println("test: "+totalPriceText);
+		Assert.assertTrue(totalPriceText.contains(expectedPrice), "YouPayPrice is wrong: " + expectedPrice);
 	}
 
 	public String getID() {
@@ -278,13 +309,11 @@ public class OrderFormPage extends Init {
 		AcalevelOptBTN(2);
 		clickNextButton();
 	}
-
 	public void setStep2() {
 		setTitleTXT("test");
 		setInstructionTXT("test");
 		clickNextButton();
 	}
-
 	public void setStep3() {
 		WebUI.clickMultiElement(SourceIncBTN,2);
 		clickDeadLine(3);

@@ -123,7 +123,7 @@ public class OrderFormTest extends Init {
 
 		//step5
 		orderForm.clickCreditBTN();
-		orderForm.setDiscountTB();
+		orderForm.setDiscountTB("paper15");
 		WebUI.clickElement(orderForm.ApllyBTN);
 		sleep(2);
 		screenShot("ApllyTBN");
@@ -151,34 +151,56 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, "$65.54");
 	}
 
-	@Test(enabled = true,description = "only test")
-	public void test() {
-		Authenticate();
+
+	@Test(enabled = true, description = "Order form price display correct")
+	public void testVerifyPrice() {
+
 		SignInPage signInPage = new SignInPage(driver);
-		driver.get(Routers.HOME);
+		OrderFormPage orderForm = new OrderFormPage(driver);
+		CreditCardPage creditCardPage = new CreditCardPage(driver);
+		DetailsPage detailsPage = new DetailsPage(driver);
+		Authenticate();
 		String tokenName = "token";
-		String tokenValue = SignIn.getToken(Constants.emailAccount,Constants.passAccount);
-		signInPage.signInWithToken(tokenName,tokenValue);
+		String tokenValue = SignIn.getToken(Constants.emailAccount, Constants.passAccount);
+		signInPage.signInWithToken(tokenName, tokenValue);
 
-		driver.get(Routers.SIGN_IN);
-
-	}
-	@Test(enabled = false, description = "Order form display correct")
-	public void testCase1(){
-		String email = Constants.emailBalance;
-		String pass = Constants.passAccount;
-		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderFormPage = new OrderFormPage(driver);
-		Authenticate();
-
-		signInPage.Login(email,pass);
 		sleep(5);
 		driver.get(Routers.ORDER);
-		orderFormPage.setStep1();
-		orderFormPage.setStep2();
-		orderFormPage.setStep3();
-		orderFormPage.setStep4();
-		orderFormPage.setStep5();
+		orderForm.setStep1();
+		orderForm.setStep2();
+		orderForm.setStep3();
+		orderForm.setStep4();
+		orderForm.setDiscountTB("paper15");
+		orderForm.clickApply();
+		sleep(3);
+		String expectedYouPay = "$203.19";
+		orderForm.verifyYouPay(expectedYouPay);
+		String expectedTotal = "$144.95";
+		orderForm.verifyTotal(expectedTotal);
+		String expectedExtra = "$79.98";
+		orderForm.verifyExtra(expectedExtra);
+		String expectedDiscount = "$21.74";
+		orderForm.verifyDiscount(expectedDiscount);
 
+		orderForm.clickCreditBTN();
+		orderForm.clickCheckOutBTN();
+		creditCardPage.getCheckout();
+
+		sleep(5);
+		waitForNavigatePage("NaN");
+		waitForPageLoaded();
+		String orderID = orderForm.getID();
+		orderForm.clickViewOrderBTN();
+
+		// orderDetail
+		sleep(2);
+		waitForPageLoaded();
+		detailsPage.verifyh1(orderID, "writing");
+		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedTotal);
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice, "$55.98");
+		detailsPage.verifyWPrice(detailsPage.abstractPrice, "$22.00");
+		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscount);
+		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscount);
 	}
 }
