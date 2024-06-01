@@ -181,6 +181,9 @@ public class OrderFormTest extends Init {
 		orderForm.verifyExtra(expectedExtra);
 		String expectedDiscount = "$21.74";
 		orderForm.verifyDiscount(expectedDiscount);
+		String expectedWriterPrice = "$50.73";
+		String expectedPreWriterPrice = "$7.25";
+		String expectedAbstractPrice = "$22.00";
 
 		orderForm.clickCreditBTN();
 		orderForm.clickCheckOutBTN();
@@ -193,12 +196,50 @@ public class OrderFormTest extends Init {
 		orderForm.clickViewOrderBTN();
 
 		// orderDetail
+
 		sleep(2);
 		waitForPageLoaded();
+		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
 		detailsPage.verifyh1(orderID, "writing");
-		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedTotal);
-		detailsPage.verifyWPrice(detailsPage.preWriterPrice, "$55.98");
-		detailsPage.verifyWPrice(detailsPage.abstractPrice, "$22.00");
+		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPrice);
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterPrice);
+		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPrice);
+		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscount);
+		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscount);
+	}
+
+	@Test(enabled = false)
+	public void test() {
+		SignInPage signInPage = new SignInPage(driver);
+		OrderFormPage orderForm = new OrderFormPage(driver);
+		CreditCardPage creditCardPage = new CreditCardPage(driver);
+		DetailsPage detailsPage = new DetailsPage(driver);
+		Authenticate();
+		String tokenName = "token";
+		String tokenValue = "bfa040d2fb19e509af29105244c5e9d9";
+		signInPage.signInWithToken(tokenName, tokenValue);
+		String orderID = "88849";
+
+		String expectedYouPay = "$203.19";
+//		orderForm.verifyYouPay(expectedYouPay);
+		String expectedTotal = "$144.95";
+//		orderForm.verifyTotal(expectedTotal);
+		String expectedExtra = "$79.98";
+//		orderForm.verifyExtra(expectedExtra);
+		String expectedDiscount = "$21.74";
+//		orderForm.verifyDiscount(expectedDiscount);
+		String expectedWriterPrice = "$50.73";
+		String expectedPreWriterPrice = "$7.25";
+		String expectedAbstractPrice = "$22.00";
+
+		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
+
+		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
+		detailsPage.verifyh1(orderID, "writing");
+		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPrice);
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterPrice);
+		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPrice);
 		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscount);
 		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
 		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscount);

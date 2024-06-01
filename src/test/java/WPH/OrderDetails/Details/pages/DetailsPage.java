@@ -17,21 +17,21 @@ public class DetailsPage {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		new WebUI(driver); //Bắt buộc
 	}
-	public By h1Element= By.xpath("//h1[@class='m-0']");
-	public By writerPrice = By.xpath("//dt[normalize-space()='Writer Category']//following-sibling::dd");
-	public By preWriterPrice = By.xpath("//dt[normalize-space()='Previous Writer']//following-sibling::dd");
-	public By abstractPrice = By.xpath("//dt[normalize-space()='One-page Abstract']//following-sibling::dd");
-	public By DicountPrice = By.xpath("//dt[normalize-space()='Discount']//following-sibling::dd");
-	public By PaidPrice = By.xpath("//dt[normalize-space()='YOU PAID']//following-sibling::dd");
-	public By YouSavedPrice = By.xpath("//span[@id='pre-save2']");
+//	public By h1Element= By.cssSelector("//span[@class='order-type']");
+	public By h1Element= By.xpath("//div[@class='order-id']");
+	public By writerPrice = By.xpath("//*[normalize-space()='Writer Category']//following-sibling::*");
+	public By preWriterPrice = By.xpath("//*[normalize-space()='Previous Writer']//following-sibling::*");
+	public By abstractPrice = By.xpath("//*[normalize-space()='One-page Abstract']//following-sibling::*");
+	public By DicountPrice = By.xpath("//*[normalize-space()='Discount']//following-sibling::*");
+	public By PaidPrice = By.xpath("//*[normalize-space()='YOU PAID']//following-sibling::*");
+//	public By YouSavedPrice = By.xpath("//span[@id='pre-save2']");
+	public By YouSavedPrice = By.xpath("//*[normalize-space()='You saved']//following-sibling::*");
 	public void verifyh1(String id, String orderType) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(h1Element));
 		driver.findElement(h1Element);
-		// Tìm phần tử thẻ h1
-//		WebElement h1Element = driver.findElement(By.xpath("//h1[@class='m-0']"));
-
-		// Lấy văn bản bên trong thẻ h1
 		String h1Text = driver.findElement(h1Element).getText();
+
+		System.out.println("h1Text: "+ h1Text);
 
 		// Kiểm tra xem văn bản có chứa "00088984" và "writing"
 		boolean containsOrderId = h1Text.contains(id);

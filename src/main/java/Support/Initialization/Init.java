@@ -75,7 +75,7 @@ public class Init {
 	}
 
 	public void waitForPageLoaded() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(5000));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 
 		//Wait for Javascript to load
