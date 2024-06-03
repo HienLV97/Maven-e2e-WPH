@@ -17,14 +17,12 @@ public class DetailsPage {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		new WebUI(driver); //Bắt buộc
 	}
-//	public By h1Element= By.cssSelector("//span[@class='order-type']");
 	public By h1Element= By.xpath("//div[@class='order-id']");
 	public By writerPrice = By.xpath("//*[normalize-space()='Writer Category']//following-sibling::*");
 	public By preWriterPrice = By.xpath("//*[normalize-space()='Previous Writer']//following-sibling::*");
 	public By abstractPrice = By.xpath("//*[normalize-space()='One-page Abstract']//following-sibling::*");
 	public By DicountPrice = By.xpath("//*[normalize-space()='Discount']//following-sibling::*");
 	public By PaidPrice = By.xpath("//*[normalize-space()='YOU PAID']//following-sibling::*");
-//	public By YouSavedPrice = By.xpath("//span[@id='pre-save2']");
 	public By YouSavedPrice = By.xpath("//*[normalize-space()='You saved']//following-sibling::*");
 	public void verifyh1(String id, String orderType) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(h1Element));

@@ -10,7 +10,7 @@ import java.net.URL;
 
 public class Categories {
 	public static void main(String[] args) {
-		String value = GetCategoryData("2","percent");
+		String value = GetCategoryData("ENL (+35%)","percent");
 		System.out.println("value: "+ value);
 	}
 	public static String GetCategoryData(String id, String Output) {
@@ -28,15 +28,26 @@ public class Categories {
 		String response = fetchGraphQL(apiUrl, token, query);
 		JSONObject jsonObject = new JSONObject(response);
 		String filePath = "src/test/java/API/Data/Dashboard/Category.json";
+		try {
+			// Tạo một đối tượng FileWriter để ghi dữ liệu vào tệp tin
+			FileWriter writer = new FileWriter(filePath);
+
+			// Ghi dữ liệu vào tệp tin
+			writer.write(jsonObject.toString());
+
+			// Đóng tệp tin sau khi ghi xong
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		JSONArray categoryArray = jsonObject.getJSONObject("data").getJSONArray("categories");
-//		double price = 0;
 
 		String data = null;
 		for (int i = 0; i < categoryArray.length(); i++) {
 			JSONObject priceObject = categoryArray.getJSONObject(i);
 //			JSONObject urgencyObject = priceObject.getJSONObject("id");
 
-			String categoryID = priceObject.getString("id");
+			String categoryID = priceObject.getString("title");
 			// Kiểm tra nếu cả hai tiêu đề đều khớp
 //			System.out.println("id :"+id);
 //			System.out.println("categoryID: " +categoryID);

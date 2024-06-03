@@ -58,9 +58,9 @@ public class OrderFormPage extends Init {
 
 	private String WriterLevel = "//p[contains(text(),'ENL (+35%)')]";
 
-	private List<String> academicLevel = OrderForm.handleData(OrderForm.academicLevel);
-	private List<String> deadLineLevel = OrderForm.handleData(OrderForm.urgencyLevel);
-	private List<String> writerLevel = OrderForm.handleData(OrderForm.writerLevel);
+	public List<String> academicLevel = OrderForm.handleData(OrderForm.academicLevel);
+	public List<String> deadLineLevel = OrderForm.handleData(OrderForm.urgencyLevel);
+	public List<String> writerLevel = OrderForm.handleData(OrderForm.writerLevel);
 
 	//step4
 
@@ -300,30 +300,39 @@ public class OrderFormPage extends Init {
 		return orderId;
 	}
 
-	public void setStep1() {
-		SetDocumentDRL("Admission Essay");
+	public void setStep1(String document, int acalevel, String discipline) {
+//		SetDocumentDRL("Admission Essay");
+		SetDocumentDRL(document);
 		sleep(2);
-		AcalevelOptBTN(2);
-		setDisciplineDRL("Accounting");
+		AcalevelOptBTN(acalevel);
+//		setDisciplineDRL("Accounting");
+		setDisciplineDRL(discipline);
 		sleep(2);
-		AcalevelOptBTN(2);
+		AcalevelOptBTN(acalevel);
 		clickNextButton();
 	}
-	public void setStep2() {
-		setTitleTXT("test");
-		setInstructionTXT("test");
+	public void setStep2(String title, String instrucion) {
+		setTitleTXT(title);
+		setInstructionTXT(instrucion);
 		clickNextButton();
 	}
-	public void setStep3() {
-		WebUI.clickMultiElement(SourceIncBTN,2);
-		clickDeadLine(3);
-		WebUI.clickMultiElement(PageIncBTN,2);
-		clickDoubleBTN();
-		clickSlideInc();
+	public void setStep3(int source, int page,int deadline,int slide,String spacing) {
+		WebUI.clickMultiElement(SourceIncBTN,source);
+		clickDeadLine(deadline);
+		WebUI.clickMultiElement(PageIncBTN,(page-2));
+		if (spacing.equals("Single")){
+			clickSingleBTN();
+		}
+		if (spacing.equals("Double")){
+			clickDoubleBTN();
+		}
+		if (slide>=2){
+			clickSlideInc();
+		}
 		clickNextButton();
 	}
-	public void setStep4(){
-		clickWriterLevelBTN(2);
+	public void setStep4(int value){
+		clickWriterLevelBTN(value);
 		clickAbstractBTN();
 		setPrevWriterDRL();
 		clickNextButton();

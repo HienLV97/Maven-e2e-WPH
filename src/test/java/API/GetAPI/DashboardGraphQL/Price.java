@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Price {
+
 	public static double GetPrice(String urgent, String level) {
 		String apiUrl = Constants.dashboardQL;
 		String token = Auth.getToken();

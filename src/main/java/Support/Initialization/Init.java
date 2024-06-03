@@ -1,6 +1,6 @@
 package Support.Initialization;
 
-import Support.Routers;
+import Support.WPH.Routers;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -31,10 +30,14 @@ public class Init {
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	public String ScreenName = "3";
 
-	public void Authenticate() {
+	public void Authenticate(String env) {
 		ChromeOptions chromeOptions = new ChromeOptions();
-		driver.get(Routers.BaseURL2);
-
+		if (env.equals("WPH")){
+			driver.get(Routers.AuthURL);
+		}
+		if (env.equals("DashBoard")){
+			driver.get(Support.DashBoard.Routers.AuthURL);
+		}
 	}
 
 	@BeforeTest
@@ -51,7 +54,7 @@ public class Init {
 		if (browserName.equals("firefox")) {
 			driver = new FirefoxDriver();
 		}
-		screenPosition(ScreenName);
+		browserPosition(ScreenName);
 		driver.manage().timeouts().pageLoadTimeout(160, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
@@ -106,7 +109,7 @@ public class Init {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
 		if (Objects.equals(value, "NaN")) {
 			wait.until(ExpectedConditions.or(
-					ExpectedConditions.urlContains(Routers.BaseURL2),
+					ExpectedConditions.urlContains(Routers.AuthURL),
 					ExpectedConditions.urlContains(Routers.BaseURL)
 			));
 		} else {
@@ -158,7 +161,7 @@ public class Init {
 
 	}
 
-	public void screenPosition(String value) {
+	public void browserPosition(String value) {
 		if (value.equals("1")) {
 			driver.manage().window().maximize();
 		}
@@ -205,5 +208,8 @@ public class Init {
 		}
 
 
+	}
+	protected static String formatPrice(double price) {
+		return String.format("%.2f", price);
 	}
 }

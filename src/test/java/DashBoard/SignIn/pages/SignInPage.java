@@ -1,7 +1,7 @@
-package WPH.SignIn.pages;
+package DashBoard.SignIn.pages;
 
 import Support.Initialization.Init;
-import Support.WPH.Routers;
+import Support.DashBoard.Routers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -13,9 +13,9 @@ import java.time.Duration;
 public class SignInPage extends Init {
 	private WebDriver driver;
 	private WebDriverWait wait;
-	private By inputEmail = By.xpath("//input[contains(@placeholder, 'Email')]");
-	private By inputPassword = By.xpath("//input[contains(@placeholder, 'Password')]");
-	private By signInBTN = By.xpath("(//button[normalize-space()='Continue with email'])[1]");
+	private By inputEmail = By.xpath("//input[@id='email']");
+	private By inputPassword =  By.xpath("//input[@id='password']");
+	private By signInBTN = By.xpath("(//button[normalize-space()='Sign in'])[1]");
 
 	public SignInPage(WebDriver driver){
 		this.driver = driver;
