@@ -25,11 +25,11 @@ public class OrderDetailPage extends Init {
 	public By spacingSec = By.xpath("//td[normalize-space()='Spacing']//following-sibling::*");
 	public By formatSec = By.xpath("//td[normalize-space()='Citation style']//following-sibling::*");
 	public By referencesSec = By.xpath("//td[normalize-space()='References']//following-sibling::*");
-	public By pagesSec = By.xpath("//td[normalize-space()='Pages']//following-sibling::*");
+	public By pagesSec = By.xpath("//td[@class='fw-bold text-nowrap'][normalize-space()='Pages']//following-sibling::*");
 	public By wordsSec = By.xpath("//td[normalize-space()='Words per page']//following-sibling::*");
 	public By urgencySec = By.xpath("//td[normalize-space()='Urgency']//following-sibling::*");
 
-	public void verifySec(By by, String value) {
+	private void verifySec(By by, String value) {
 		WebUI.waitForElementVisible(by);
 		String sectionText = WebUI.getElementText(by);
 		boolean containText = sectionText.contains(value);
@@ -53,6 +53,12 @@ public class OrderDetailPage extends Init {
 	public void verifyReferences(String value){
 		verifySec(referencesSec,value);
 	}
+	public void verifyPages(String value){
+		verifySec(pagesSec,value);
+	}
+
 	//Order cost
+	public By perPageSec = By.xpath("//td[normalize-space()='Per page']//following-sibling::*");
+	public By pagesOCSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Per page']//following-sibling::*");
 
 }

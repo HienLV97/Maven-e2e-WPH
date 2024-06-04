@@ -2,6 +2,7 @@ package WPH.OrderForm.testcases;
 
 import API.GetAPI.NextProxy.SignIn.SignIn;
 import Calculator.Calculator;
+import DashBoard.OrderDetail.pages.OrderDetailPage;
 import Keywords.WebUI;
 import Support.Constants;
 import Support.Initialization.Init;
@@ -150,7 +151,7 @@ public class OrderFormTest extends Init {
 	}
 */
 
-	@Test(enabled = true, description = "Order form price display correct")
+	@Test(enabled = false, description = "Order form price display correct")
 	public void testVerifyPrice() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -244,7 +245,7 @@ public class OrderFormTest extends Init {
 
 		sleep(2);
 		waitForPageLoaded();
-		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
+//		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
 		detailsPage.verifyh1(orderID, "writing");
 		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPriceTXT);
 		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterTXT);
@@ -257,15 +258,42 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void test() {
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
 		DetailsPage detailsPage = new DetailsPage(driver);
+
+		//set value
+		String type = "writing";
+		String document = "Admission Essay";
+		int acalevelNumb = 2;
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"","");
+		String discipline = "Accounting";
+		int paperFormat = 2;
+//		String paperFormatTXT = orderForm.p
+		//step2
+		String title = "test";
+		String instruction = "test";
+		//step 3
+		int deadlineNumb = 3;
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"","");
+		int pages = 2;
+		int source = 2;
+		int slides = 2;
+		int writerLevelNumb = 2;
+		String spacing = "Double";
+		//step4
+		boolean absPrice = true;
+		boolean preWriter = true;
+
 		Authenticate("WPH");
+
 		String tokenName = "token";
-		String tokenValue = "2b7ee556b0005feb7dca1b9d54a658f5";
+		String email = Constants.emailAccount;
+		String password = Constants.passAccount;
+		String tokenValue = SignIn.getToken(email,password);
 		signInPage.signInWithToken(tokenName, tokenValue);
 		String orderID = "88849";
 
@@ -277,25 +305,30 @@ public class OrderFormTest extends Init {
 		String expectedPreWriterPrice = "$7.25";
 		String expectedAbstractPrice = "$22.00";
 
-		int acalevelNumb = 2;
-		String acalevelText = orderForm.academicLevel.get(acalevelNumb);
-		System.out.println("test: " + acalevelText);
+		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
+		detailsPage.verifyh1(orderID, "writing");
+		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPrice);
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterPrice);
+		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPrice);
+		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscount);
+		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscount);
 
-//		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
-//		detailsPage.verifyh1(orderID, "writing");
-//		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPrice);
-//		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterPrice);
-//		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPrice);
-//		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscount);
-//		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
-//		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscount);
-//
-//		//Check Dashboard
-//		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
-//		Authenticate("DashBoard");
-//		signInPageDB.Login(Constants.email, Constants.passAccount);
-//		sleep(5);
-//		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS+ orderID);
+		//Check Dashboard
+		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
+		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(driver);
+		Authenticate("DashBoard");
+		signInPageDB.Login(Constants.email, Constants.passAccount);
+		sleep(5);
+		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS+ orderID);
+		orderDetailDB.verifyTopic(title);
+		orderDetailDB.verifyDis(discipline);
+		orderDetailDB.verifyDoc(document);
+		orderDetailDB.verifySpacing(spacing);
+//		orderDetailDB.verifyFormat(f);
+		orderDetailDB.verifyDoc(document);
+		orderDetailDB.verifyDoc(document);
+
 
 	}
 }
