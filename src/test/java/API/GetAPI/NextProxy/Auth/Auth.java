@@ -1,5 +1,6 @@
 package API.GetAPI.NextProxy.Auth;
 
+import API.GetAPI.NextProxy.SignIn.SignIn;
 import Support.Constants;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,22 +14,22 @@ import java.nio.charset.StandardCharsets;
 public class Auth {
 	static String filePath = "src/test/java/API/Data/Dashboard/authClient.json";
 	static String URLAuth = Constants.proxyDevURL + "/auth";
+/*
+	public static void main(String[] args) {
+		String token = SignIn.getToken(Constants.emailAccount, Constants.passAccount);
+		System.out.println("token tryen` vao`: " + token);
 
-//		public static String getToken() {
-//	public static void main(String[] args) {
-//		String token = SignIn.getToken(Constants.emailBalance, Constants.passAccount);
-////		System.out.println("a ");
-//		System.out.println("token tryen` vao`: " + token);
-//
-//		String balance = auth(token, "balance");
-//		String name = auth(token, "name");
-//		String gender = auth(token, "gender");
-//		String test = auth(token, "test");
-//		System.out.println("balance :" + balance);
-//		System.out.println("name :" + name);
-//		System.out.println("gender :" + gender);
-//		System.out.println("test :" + test);
-//	}
+		String balance = getauth(token, "balance");
+		String name = getauth(token, "name");
+		String gender = getauth(token, "gender");
+		String test = getauth(token, "test");
+		System.out.println("balance :" + balance);
+		System.out.println("name :" + name);
+		System.out.println("gender :" + gender);
+		System.out.println("test :" + test);
+	}
+
+ */
 	public static String getauth(String token, String value) {
 		try {
 			// Create the connection object and set the required HTTP method and headers
@@ -47,7 +48,6 @@ public class Auth {
 			connection.setDoOutput(true);
 
 			StringBuilder response = new StringBuilder();
-
 
 			try (BufferedReader reader = new BufferedReader(
 					new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
