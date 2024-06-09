@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 
 public class SignInPage extends Init {
@@ -42,7 +44,8 @@ public class SignInPage extends Init {
 		setPassword(password);
 		clickLoginButton();
 	}
-	public void signInWithToken(String tokenName, String tokenValue) {
+	public void signInWithToken(String tokenName, String tokenValue) throws NoSuchAlgorithmException, KeyManagementException {
+		skipSSL();
 //		String token = "a6b71b98c958b4505646f7ccedb25261";  // replace with your actual token
 		Cookie tokenCookie = new Cookie.Builder(tokenName, tokenValue)
 				.domain(Routers.DomainDEV)

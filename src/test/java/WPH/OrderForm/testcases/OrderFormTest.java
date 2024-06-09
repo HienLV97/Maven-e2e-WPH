@@ -15,74 +15,76 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
 //import static Support.Initialization.Init.driver;
 
 public class OrderFormTest extends Init {
-	@Test(enabled = false, description = "Checkout successfully")
-	public void checkout() {
-		Authenticate("WPH");
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
-		SignInPage signInPage = new SignInPage(driver);
-		DetailsPage detailsPage = new DetailsPage(driver);
-
-		signInPage.Login(Constants.emailAccount, Constants.passAccount);
-		sleep(4);
-
-		//step1
-		driver.get(Routers.ORDER);
-		waitForPageLoaded();
-		orderForm.SetDocumentDRL("Admission Essay");
-		sleep(2);
-		orderForm.AcalevelOptBTN(2);
-
-		orderForm.setDisciplineDRL("Accounting");
-		sleep(2);
-		orderForm.AcalevelOptBTN(2);
-		orderForm.clickNextButton();
-
-		//step 2
-
-		orderForm.setTitleTXT("test");
-		orderForm.setInstructionTXT("test");
-		orderForm.clickNextButton();
-
-		//step3
-
-		orderForm.clickWriterCB();
-		orderForm.verifyWriterCB();
-		orderForm.clickDeadLine(1);
-		orderForm.clickPageInc();
-		orderForm.clickDoubleBTN();
-		orderForm.clickSlideInc();
-		orderForm.clickNextButton();
-		sleep(5);
-
-		//step4
-		orderForm.clickWriterLevelBTN(1);
-		orderForm.verifyAbstractCB();
-		orderForm.verifyPrevWriterCB();
-		sleep(5);
+//	@Test(enabled = false, description = "Checkout successfully")
+//	public void checkout() {
+//		Authenticate("WPH");
+//		OrderFormPage orderForm = new OrderFormPage(driver);
+//		CreditCardPage creditCardPage = new CreditCardPage(driver);
+//		SignInPage signInPage = new SignInPage(driver);
+//		DetailsPage detailsPage = new DetailsPage(driver);
+//
+//		signInPage.Login(Constants.emailAccount, Constants.passAccount);
+//		sleep(4);
+//
+//		//step1
+//		driver.get(Routers.ORDER);
+//		waitForPageLoaded();
+//		orderForm.SetDocumentDRL("Admission Essay");
+//		sleep(2);
+//		orderForm.AcalevelOptBTN(2);
+//
+//		orderForm.setDisciplineDRL("Accounting");
+//		sleep(2);
+//		orderForm.AcalevelOptBTN(2);
 //		orderForm.clickNextButton();
 //
-//		//step5
-//		orderForm.clickCreditBTN();
-//		orderForm.clickCheckOutBTN();
-//		waitForPageLoaded();
+//		//step 2
 //
-//		creditCardPage.getCheckout();
+//		orderForm.setTitleTXT("test");
+//		orderForm.setInstructionTXT("test");
+//		orderForm.clickNextButton();
 //
+//		//step3
+//
+//		orderForm.clickWriterCB();
+//		orderForm.verifyWriterCB();
+//		orderForm.clickDeadLine(1);
+//		orderForm.clickPageInc();
+//		orderForm.clickDoubleBTN();
+//		orderForm.clickSlideInc();
+//		orderForm.clickNextButton();
 //		sleep(5);
-//		waitForNavigatePage(null);
-//		waitForPageLoaded();
-//		String orderID = orderForm.getID();
-//		orderForm.clickViewOrderBTN();
 //
-//		sleep(10);
-//		waitForPageLoaded();
-//		detailsPage.verifyh1(orderID, "writing");
-	}
+//		//step4
+//		orderForm.clickWriterLevelBTN(1);
+//		orderForm.verifyAbstractCB();
+//		orderForm.verifyPrevWriterCB();
+//		sleep(5);
+////		orderForm.clickNextButton();
+////
+////		//step5
+////		orderForm.clickCreditBTN();
+////		orderForm.clickCheckOutBTN();
+////		waitForPageLoaded();
+////
+////		creditCardPage.getCheckout();
+////
+////		sleep(5);
+////		waitForNavigatePage(null);
+////		waitForPageLoaded();
+////		String orderID = orderForm.getID();
+////		orderForm.clickViewOrderBTN();
+////
+////		sleep(10);
+////		waitForPageLoaded();
+////		detailsPage.verifyh1(orderID, "writing");
+//	}
 /*
 	@Test(enabled = false)
 	public void checkoutSuccess() throws IOException, AWTException {
@@ -151,115 +153,116 @@ public class OrderFormTest extends Init {
 	}
 */
 
-	@Test(enabled = false, description = "Order form price display correct")
-	public void testVerifyPrice() throws IOException, AWTException {
-
-		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
-		DetailsPage detailsPage = new DetailsPage(driver);
-		Calculator calculator = new Calculator();
-
-		Authenticate("WPH");
-		String tokenName = "token";
-		String email = Constants.emailAccount;
-		String password = Constants.passAccount;
-		String tokenValue = SignIn.getToken(email,password);
-		signInPage.signInWithToken(tokenName, tokenValue);
-		calculator.balance(tokenValue);
-
-		sleep(5);
-		driver.get(Routers.ORDER);
-
-		//set value
-		String type = "writing";
-		String document = "Admission Essay";
-		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"","");
-		String discipline = "Accounting";
-		//step2
-		String title = "test";
-		String instruction = "test";
-		//step 3
-		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"","");
-		int pages = 2;
-		int source = 2;
-		int slides = 2;
-		int writerLevelNumb = 2;
-		String spacing = "Double";
-		//step4
-		boolean absPrice = true;
-		boolean preWriter = true;
-
-
-		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"","");
-
-		orderForm.setStep1(document,acalevelNumb,discipline );
-		orderForm.setStep2(title,instruction);
-		orderForm.setStep3(source,pages,deadlineNumb,slides,spacing);
-		orderForm.setStep4(writerLevelNumb);
-		orderForm.setDiscountTB("paper15");
-		orderForm.clickApply();
-		sleep(3);
-		System.out.println(type+"   "+deadlineTXT+"   "+acalevelTXT+"   "+pages+"   "+slides+"   "+spacing);
-
-		double expectedTotalNumb = calculator.PagePrice(type,deadlineTXT,acalevelTXT,pages,slides,spacing);
-		String expectedTotalTXT = "$"+expectedTotalNumb;
-		orderForm.verifyTotal(expectedTotalTXT);
-
-		double expectedDiscountNumb = calculator.Discount(15);
-		String expectedDiscountTXT = "$"+expectedDiscountNumb;
-		orderForm.verifyDiscount(expectedDiscountTXT);
-
-		System.out.println("writerLevelTXT: "+writerLevelTXT);
-		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
-		String expectedWriterPriceTXT = "$"+expectedWriterPriceNumb;
-
-		double expectedPreWriterNumb = calculator.preWriter(preWriter);
-		String expectedPreWriterTXT = "$"+expectedPreWriterNumb;
-
-		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
-		String expectedAbstractPriceTXT = "$"+formatPrice(expectedAbstractPriceNumb);
-
-		String expectedExtraTXT = "$"+calculator.ExtrasTotal();
-//		String expectedExtra = "$79.98";
-
-		orderForm.verifyExtra(expectedExtraTXT);
-
-		String expectedYouPay = "$"+ calculator.GrandTotal();
-		orderForm.verifyYouPay(expectedYouPay);
-
-		orderForm.clickCreditBTN();
-		orderForm.clickCheckOutBTN();
-		sleep(10);
-		creditCardPage.getCheckout();
-
-		sleep(5);
-		waitForNavigatePage("NaN");
-		waitForPageLoaded();
-		String orderID = orderForm.getID();
-		orderForm.clickViewOrderBTN();
-
-		// orderDetail
-
-		sleep(2);
-		waitForPageLoaded();
-//		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
-		detailsPage.verifyh1(orderID, "writing");
-		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPriceTXT);
-		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterTXT);
-		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPriceTXT);
-		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscountTXT);
-		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
-		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscountTXT);
-		screenShot("Order detail");
-
-
-	}
+//	@Test(enabled = false, description = "Order form price display correct")
+//	public void testVerifyPrice() throws IOException, AWTException {
+//
+//		SignInPage signInPage = new SignInPage(driver);
+//		OrderFormPage orderForm = new OrderFormPage(driver);
+//		CreditCardPage creditCardPage = new CreditCardPage(driver);
+//		DetailsPage detailsPage = new DetailsPage(driver);
+//		Calculator calculator = new Calculator();
+//
+//		Authenticate("WPH");
+//		String tokenName = "token";
+//		String email = Constants.emailAccount;
+//		String password = Constants.passAccount;
+//		String tokenValue = SignIn.getToken(email,password);
+//		signInPage.signInWithToken(tokenName, tokenValue);
+//		calculator.balance(tokenValue);
+//
+//		sleep(5);
+//		driver.get(Routers.ORDER);
+//
+//		//set value
+//		String type = "writing";
+//		String document = "Admission Essay";
+//		int acalevelNumb = 2;
+//		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"","");
+//		String discipline = "Accounting";
+//		//step2
+//		String title = "test";
+//		String instruction = "test";
+//		//step 3
+//		int deadlineNumb = 3;
+//		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"","");
+//		int pages = 2;
+//		int source = 2;
+//		int slides = 2;
+//		int writerLevelNumb = 2;
+//		String spacing = "Double";
+//		//step4
+//		boolean absPrice = true;
+//		boolean preWriter = true;
+//
+//
+//		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"","");
+//
+//		orderForm.setStep1(document,acalevelNumb,discipline );
+//		orderForm.setStep2(title,instruction);
+//		orderForm.setStep3(source,pages,deadlineNumb,slides,spacing);
+//		orderForm.setStep4(writerLevelNumb);
+//		orderForm.setDiscountTB("paper15");
+//		orderForm.clickApply();
+//		sleep(3);
+//		System.out.println(type+"   "+deadlineTXT+"   "+acalevelTXT+"   "+pages+"   "+slides+"   "+spacing);
+//
+//		double expectedTotalNumb = calculator.PagePrice(type,deadlineTXT,acalevelTXT,pages,slides,spacing);
+//		String expectedTotalTXT = "$"+expectedTotalNumb;
+//		orderForm.verifyTotal(expectedTotalTXT);
+//
+//		double expectedDiscountNumb = calculator.Discount(15);
+//		String expectedDiscountTXT = "$"+expectedDiscountNumb;
+//		orderForm.verifyDiscount(expectedDiscountTXT);
+//
+//		System.out.println("writerLevelTXT: "+writerLevelTXT);
+//		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
+//		String expectedWriterPriceTXT = "$"+expectedWriterPriceNumb;
+//
+//		double expectedPreWriterNumb = calculator.preWriter(preWriter);
+//		String expectedPreWriterTXT = "$"+expectedPreWriterNumb;
+//
+//		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
+//		String expectedAbstractPriceTXT = "$"+formatPrice(expectedAbstractPriceNumb);
+//
+//		String expectedExtraTXT = "$"+calculator.ExtrasTotal();
+////		String expectedExtra = "$79.98";
+//
+//		orderForm.verifyExtra(expectedExtraTXT);
+//
+//		String expectedYouPay = "$"+ calculator.GrandTotal();
+//		orderForm.verifyYouPay(expectedYouPay);
+//
+//		orderForm.clickCreditBTN();
+//		orderForm.clickCheckOutBTN();
+//		sleep(10);
+//		creditCardPage.getCheckout();
+//
+//		sleep(5);
+//		waitForNavigatePage("NaN");
+//		waitForPageLoaded();
+//		String orderID = orderForm.getID();
+//		orderForm.clickViewOrderBTN();
+//
+//		// orderDetail
+//
+//		sleep(2);
+//		waitForPageLoaded();
+////		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
+//		detailsPage.verifyh1(orderID, "writing");
+//		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPriceTXT);
+//		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterTXT);
+//		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPriceTXT);
+//		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscountTXT);
+//		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
+//		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscountTXT);
+//		screenShot("Order detail");
+//
+//
+//	}
 
 	@Test(enabled = true)
-	public void test() {
+	public void test() throws NoSuchAlgorithmException, KeyManagementException {
+
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);

@@ -17,10 +17,15 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import javax.imageio.ImageIO;
+import javax.net.ssl.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +35,7 @@ public class Init {
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	public String ScreenName = "3";
 
-	public void Authenticate(String env) {
+	public void Authenticate(String env)  {
 		ChromeOptions chromeOptions = new ChromeOptions();
 		if (env.equals("WPH")){
 			driver.get(Routers.AuthURL);
@@ -160,7 +165,28 @@ public class Init {
 		ImageIO.write(image, "png", file);
 
 	}
+	public static void skipSSL() throws NoSuchAlgorithmException, KeyManagementException {
+		TrustManager[] trustAllCerts = new TrustManager[]{
+				new X509TrustManager() {
+					public X509Certificate[] getAcceptedIssuers() {
+						return null;
+					}
 
+					public void checkClientTrusted(X509Certificate[] certs, String authType) {
+					}
+
+					public void checkServerTrusted(X509Certificate[] certs, String authType) {
+					}
+				}
+		};
+
+		SSLContext sc = SSLContext.getInstance("SSL");
+		sc.init(null, trustAllCerts, new SecureRandom());
+		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+		HostnameVerifier allHostsValid = (hostname, session) -> true;
+		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+	}
 	public void browserPosition(String value) {
 		if (value.equals("1")) {
 			driver.manage().window().maximize();
