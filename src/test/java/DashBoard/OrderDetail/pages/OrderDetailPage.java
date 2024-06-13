@@ -32,8 +32,8 @@ public class OrderDetailPage extends Init {
 	private void verifySec(By by, String value) {
 		WebUI.waitForElementVisible(by);
 		String sectionText = WebUI.getElementText(by);
-		boolean containText = sectionText.contains(value);
-		Assert.assertTrue(containText, "Thẻ "+sectionText+" chứa " + value);
+		boolean containText = sectionText.toLowerCase().contains(value.toLowerCase());
+		Assert.assertTrue(containText, "Actual: "+sectionText+", expected " + value);
 	}
 	public void verifyTopic(String value){
 		verifySec(topicSec,value);

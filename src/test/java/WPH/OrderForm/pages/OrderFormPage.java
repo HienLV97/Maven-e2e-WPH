@@ -2,6 +2,7 @@ package WPH.OrderForm.pages;
 
 
 import API.GetAPI.CoreAPI.OrderForm.OrderForm;
+import API.GetAPI.NextProxy.Citation.Citation;
 import Keywords.WebUI;
 import Support.Initialization.Init;
 import org.openqa.selenium.By;
@@ -61,6 +62,7 @@ public class OrderFormPage extends Init {
 	public List<String> academicLevel = OrderForm.handleData(OrderForm.academicLevel);
 	public List<String> deadLineLevel = OrderForm.handleData(OrderForm.urgencyLevel);
 	public List<String> writerLevel = OrderForm.handleData(OrderForm.writerLevel);
+//	public List<String> writerLevel = OrderForm.handleData(OrderForm.writerLevel);
 
 	//step4
 
@@ -97,13 +99,13 @@ public class OrderFormPage extends Init {
 		driver.findElement(DocumentDRL).click();
 	}
 
-	public void SetDocumentDRL(String value) {
+	public void setDocumentDRL(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DocumentDRL));
 		clickDocumentDRL();
 		driver.findElement(DocumentDRL).sendKeys("Admission Essay");
 	}
 
-	public void AcalevelOptBTN(Integer value) {
+	public void acalevelOptBTN(Integer value) {
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + academicLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		driver.findElement(option).click();
@@ -118,6 +120,12 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DisciplineDRL));
 		clickDisciplineDRL();
 		driver.findElement(DisciplineDRL).sendKeys(value);
+	}
+
+	public void formatOptBTN(String value){
+		By option = By.xpath(Acalevel + "//span[contains(text(),'" + value+ "')]");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
+		driver.findElement(option).click();
 	}
 
 	//step2
@@ -302,13 +310,13 @@ public class OrderFormPage extends Init {
 
 	public void setStep1(String document, int acalevel, String discipline) {
 //		SetDocumentDRL("Admission Essay");
-		SetDocumentDRL(document);
+		setDocumentDRL(document);
 		sleep(2);
-		AcalevelOptBTN(acalevel);
+		acalevelOptBTN(acalevel);
 //		setDisciplineDRL("Accounting");
 		setDisciplineDRL(discipline);
 		sleep(2);
-		AcalevelOptBTN(acalevel);
+		acalevelOptBTN(acalevel);
 		clickNextButton();
 	}
 	public void setStep2(String title, String instrucion) {

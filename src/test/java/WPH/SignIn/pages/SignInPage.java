@@ -44,8 +44,8 @@ public class SignInPage extends Init {
 		setPassword(password);
 		clickLoginButton();
 	}
-	public void signInWithToken(String tokenName, String tokenValue) throws NoSuchAlgorithmException, KeyManagementException {
-		skipSSL();
+	public void signInWithToken(String tokenName, String tokenValue)  {
+
 //		String token = "a6b71b98c958b4505646f7ccedb25261";  // replace with your actual token
 		Cookie tokenCookie = new Cookie.Builder(tokenName, tokenValue)
 				.domain(Routers.DomainDEV)
