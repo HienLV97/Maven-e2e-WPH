@@ -21,6 +21,8 @@ ExtentReports/
 logs/
 test-output/
 reports/
+src/main/java/Support/Config.java
+Support/Config.java
 *.png
 *.jpg
 *.mp4

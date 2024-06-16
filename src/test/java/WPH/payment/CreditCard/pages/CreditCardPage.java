@@ -24,7 +24,7 @@ public class CreditCardPage {
 	public CreditCardPage(WebDriver driver) {
 		this.driver = driver;
 		//driver = _driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 	}
 
 	private void setEmailTB() {

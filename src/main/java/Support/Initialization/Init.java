@@ -1,6 +1,8 @@
 package Support.Initialization;
 
+import Support.Config;
 import Support.WPH.Routers;
+import Support.Config;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -34,7 +36,8 @@ import java.util.concurrent.TimeUnit;
 public class Init {
 	public WebDriver driver;
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-	public String ScreenName = "3";
+
+	public String ScreenName = Config.screenName;
 
 	public void Authenticate(String env)  {
 		ChromeOptions chromeOptions = new ChromeOptions();
@@ -65,7 +68,7 @@ public class Init {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	@AfterTest
+//	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);
