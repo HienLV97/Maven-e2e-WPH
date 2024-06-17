@@ -125,7 +125,8 @@ public class OrderFormPage extends Init {
 	public void formatOptBTN(String value){
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + value+ "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
-		driver.findElement(option).click();
+		WebUI.clickElement(option);
+//		driver.findElement(option).click();
 	}
 
 	//step2

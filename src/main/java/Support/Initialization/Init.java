@@ -1,6 +1,7 @@
 package Support.Initialization;
 
-import Support.Config.Config;
+import java.io.*;
+import java.util.Properties;
 import Support.WPH.Routers;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -21,8 +22,6 @@ import javax.imageio.ImageIO;
 import javax.net.ssl.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -34,8 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class Init {
 	public WebDriver driver;
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-	public String ScreenName = Config.screenName;
+	private String screenName;
 
 	public void Authenticate(String env)  {
 		ChromeOptions chromeOptions = new ChromeOptions();
@@ -61,7 +59,16 @@ public class Init {
 		if (browserName.equals("firefox")) {
 			driver = new FirefoxDriver();
 		}
-		browserPosition(ScreenName);
+		Properties properties = new Properties();
+		try {
+			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+			properties.load(configFile);
+			screenName = properties.getProperty("ScreenName");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		browserPosition(screenName);
 		driver.manage().timeouts().pageLoadTimeout(160, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
@@ -135,25 +142,25 @@ public class Init {
 		org.openqa.selenium.Dimension windowSize = driver.manage().window().getSize();
 		int screenWidth = windowSize.getWidth();
 		int screenHeight = windowSize.getHeight();
-		if (Objects.equals(ScreenName, "2")) {
+		if (Objects.equals(screenName, "2")) {
 			XScreen2 = -1440;
 			YScreen2 = -338;
 			screenWidth = 1440;
 			screenHeight = 2560;
 		}
-		if (Objects.equals(ScreenName, "3")) {
+		if (Objects.equals(screenName, "3")) {
 			XScreen2 = 0;
 			YScreen2 = 1440;
 			screenWidth = 1920;
 			screenHeight = 1080;
 		}
-		if (Objects.equals(ScreenName, "MidRight")) {
+		if (Objects.equals(screenName, "MidRight")) {
 			screenWidth = 1280;
 			screenHeight = 1440;
 			XScreen2 = 1281;
 			YScreen2 = 0;
 		}
-		if (Objects.equals(ScreenName, "MidRightMac")) {
+		if (Objects.equals(screenName, "MidRightMac")) {
 			screenWidth = 1280;
 			screenHeight = 1440;
 			XScreen2 = 1440 + 1280;

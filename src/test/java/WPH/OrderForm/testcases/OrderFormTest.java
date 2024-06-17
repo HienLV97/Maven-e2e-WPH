@@ -105,7 +105,7 @@ public class OrderFormTest extends Init {
 		String type = "writing";
 		String document = "Admission Essay";
 		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"","");
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
 		int paperFormat = 2;
 //		String paperFormatTXT = orderForm.p
@@ -114,7 +114,7 @@ public class OrderFormTest extends Init {
 		String instruction = "test";
 		//step 3
 		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"","");
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
 		int pages = 2;
 		int source = 2;
 		int slides = 2;
@@ -125,11 +125,11 @@ public class OrderFormTest extends Init {
 		boolean preWriter = true;
 
 		//step1
-		orderForm.setStep1(document,acalevelNumb,discipline );
+		orderForm.setStep1(document, acalevelNumb, discipline);
 		orderForm.clickNextButton();
 
 		//step 2
-		orderForm.setStep2(title,instruction);
+		orderForm.setStep2(title, instruction);
 		orderForm.clickNextButton();
 
 		//step3
@@ -191,7 +191,7 @@ public class OrderFormTest extends Init {
 		String tokenName = "token";
 		String email = Constants.emailAccount;
 		String password = Constants.passAccount;
-		String tokenValue = SignIn.getToken(email,password);
+		String tokenValue = SignIn.getToken(email, password);
 		signInPage.signInWithToken(tokenName, tokenValue);
 		calculator.balance(tokenValue);
 
@@ -202,7 +202,7 @@ public class OrderFormTest extends Init {
 		String type = "writing";
 		String document = "Admission Essay";
 		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"","");
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
 		String paperFormat = Citation.getCitation(1);
 
@@ -211,7 +211,7 @@ public class OrderFormTest extends Init {
 		String instruction = "test";
 		//step 3
 		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"","");
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
 		int pages = 2;
 		int source = 2;
 		int slides = 2;
@@ -222,41 +222,41 @@ public class OrderFormTest extends Init {
 		boolean preWriter = true;
 
 
-		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"","");
+		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 
-		orderForm.setStep1(document,acalevelNumb,discipline );
-		orderForm.setStep2(title,instruction);
-		orderForm.setStep3(source,pages,deadlineNumb,slides,spacing);
+		orderForm.setStep1(document, acalevelNumb, discipline);
+		orderForm.setStep2(title, instruction);
+		orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
 		orderForm.setStep4(writerLevelNumb);
 		orderForm.setDiscountTB("paper15");
 		orderForm.clickApply();
 		sleep(3);
-		System.out.println(type+"   "+deadlineTXT+"   "+acalevelTXT+"   "+pages+"   "+slides+"   "+spacing);
+		System.out.println(type + "   " + deadlineTXT + "   " + acalevelTXT + "   " + pages + "   " + slides + "   " + spacing);
 
-		double expectedTotalNumb = calculator.PagePrice(type,deadlineTXT,acalevelTXT,pages,slides,spacing);
-		String expectedTotalTXT = "$"+expectedTotalNumb;
+		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
+		String expectedTotalTXT = "$" + expectedTotalNumb;
 		orderForm.verifyTotal(expectedTotalTXT);
 
 		double expectedDiscountNumb = calculator.Discount(15);
-		String expectedDiscountTXT = "$"+expectedDiscountNumb;
+		String expectedDiscountTXT = "$" + expectedDiscountNumb;
 		orderForm.verifyDiscount(expectedDiscountTXT);
 
-		System.out.println("writerLevelTXT: "+writerLevelTXT);
+		System.out.println("writerLevelTXT: " + writerLevelTXT);
 		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
-		String expectedWriterPriceTXT = "$"+expectedWriterPriceNumb;
+		String expectedWriterPriceTXT = "$" + expectedWriterPriceNumb;
 
 		double expectedPreWriterNumb = calculator.preWriter(preWriter);
-		String expectedPreWriterTXT = "$"+expectedPreWriterNumb;
+		String expectedPreWriterTXT = "$" + expectedPreWriterNumb;
 
 		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
-		String expectedAbstractPriceTXT = "$"+formatPrice(expectedAbstractPriceNumb);
+		String expectedAbstractPriceTXT = "$" + formatPrice(expectedAbstractPriceNumb);
 
-		String expectedExtraTXT = "$"+calculator.ExtrasTotal();
+		String expectedExtraTXT = "$" + calculator.ExtrasTotal();
 //		String expectedExtra = "$79.98";
 
 		orderForm.verifyExtra(expectedExtraTXT);
 
-		String expectedYouPay = "$"+ calculator.GrandTotal();
+		String expectedYouPay = "$" + calculator.GrandTotal();
 		orderForm.verifyYouPay(expectedYouPay);
 
 		orderForm.clickCreditBTN();
@@ -287,7 +287,7 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void test() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -300,7 +300,7 @@ public class OrderFormTest extends Init {
 		String type = "writing";
 		String document = "Admission Essay";
 		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"","");
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
 		int paperFormat = 2;
 
@@ -309,7 +309,7 @@ public class OrderFormTest extends Init {
 		String instruction = "test";
 		//step 3
 		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"","");
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
 		int pages = 2;
 		int source = 2;
 		int slides = 2;
@@ -324,33 +324,33 @@ public class OrderFormTest extends Init {
 		String tokenName = "token";
 		String email = Constants.emailAccount;
 		String password = Constants.passAccount;
-		String tokenValue = SignIn.getToken(email,password);
+		String tokenValue = SignIn.getToken(email, password);
 //		System.out.println("token: "+ tokenValue);
 		signInPage.signInWithToken(tokenName, tokenValue);
 		String orderID = "88852";
 
-		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"","");
-		double expectedTotalNumb = calculator.PagePrice(type,deadlineTXT,acalevelTXT,pages,slides,spacing);
-		String expectedTotalTXT = "$"+expectedTotalNumb;
+		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
+		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
+		String expectedTotalTXT = "$" + expectedTotalNumb;
 
 		double expectedDiscountNumb = calculator.Discount(15);
-		String expectedDiscountTXT = "$"+expectedDiscountNumb;
+		String expectedDiscountTXT = "$" + expectedDiscountNumb;
 //		orderForm.verifyDiscount(expectedDiscountTXT);
 
-		System.out.println("writerLevelTXT: "+writerLevelTXT);
+		System.out.println("writerLevelTXT: " + writerLevelTXT);
 		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
-		String expectedWriterPriceTXT = "$"+expectedWriterPriceNumb;
+		String expectedWriterPriceTXT = "$" + expectedWriterPriceNumb;
 
 		double expectedPreWriterNumb = calculator.preWriter(preWriter);
-		String expectedPreWriterTXT = "$"+expectedPreWriterNumb;
+		String expectedPreWriterTXT = "$" + expectedPreWriterNumb;
 
 		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
-		String expectedAbstractPriceTXT = "$"+formatPrice(expectedAbstractPriceNumb);
+		String expectedAbstractPriceTXT = "$" + formatPrice(expectedAbstractPriceNumb);
 
-		String expectedExtraTXT = "$"+calculator.ExtrasTotal();
+		String expectedExtraTXT = "$" + calculator.ExtrasTotal();
 //		orderForm.verifyExtra(expectedExtraTXT);
 
-		String expectedYouPay = "$"+ calculator.GrandTotal();
+		String expectedYouPay = "$" + calculator.GrandTotal();
 //		orderForm.verifyYouPay(expectedYouPay);
 
 
@@ -369,7 +369,7 @@ public class OrderFormTest extends Init {
 		Authenticate("DashBoard");
 		signInPageDB.Login(Constants.email, Constants.passAccount);
 		sleep(5);
-		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS+ orderID);
+		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS + orderID);
 		orderDetailDB.verifyTopic(title);
 		orderDetailDB.verifyDis(discipline);
 		orderDetailDB.verifyDoc(document);
@@ -381,8 +381,8 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = false)
-	public void simpletest(){
+	@Test(enabled = true)
+	public void simpletest() {
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
@@ -393,7 +393,7 @@ public class OrderFormTest extends Init {
 		String type = "writing";
 		String document = "Admission Essay";
 		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"","");
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
 		String paperFormat = Citation.getCitation(5);
 		System.out.println(paperFormat);
@@ -402,7 +402,7 @@ public class OrderFormTest extends Init {
 		String instruction = "test";
 		//step 3
 		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"","");
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
 		int pages = 2;
 		int source = 2;
 		int slides = 2;
@@ -417,7 +417,7 @@ public class OrderFormTest extends Init {
 		String tokenName = "token";
 		String email = Constants.emailAccount;
 		String password = Constants.passAccount;
-		String tokenValue = SignIn.getToken(email,password);
+		String tokenValue = SignIn.getToken(email, password);
 //		System.out.println("token: "+ tokenValue);
 		signInPage.signInWithToken(tokenName, tokenValue);
 		String orderID = "88844";
