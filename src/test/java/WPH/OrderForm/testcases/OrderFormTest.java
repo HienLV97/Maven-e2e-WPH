@@ -204,7 +204,7 @@ public class OrderFormTest extends Init {
 		int acalevelNumb = 2;
 		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
-		String paperFormat = Citation.getCitation(1);
+		String paperFormat = Citation.getCitation(0);
 
 		//step2
 		String title = "test";
@@ -287,7 +287,7 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void test() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -302,7 +302,7 @@ public class OrderFormTest extends Init {
 		int acalevelNumb = 2;
 		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
-		int paperFormat = 2;
+		String paperFormat = Citation.getCitation(0);
 
 		//step2
 		String title = "test";
@@ -327,7 +327,7 @@ public class OrderFormTest extends Init {
 		String tokenValue = SignIn.getToken(email, password);
 //		System.out.println("token: "+ tokenValue);
 		signInPage.signInWithToken(tokenName, tokenValue);
-		String orderID = "88852";
+		String orderID = "88868";
 
 		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
@@ -374,14 +374,16 @@ public class OrderFormTest extends Init {
 		orderDetailDB.verifyDis(discipline);
 		orderDetailDB.verifyDoc(document);
 		orderDetailDB.verifySpacing(spacing);
-//		orderDetailDB.verifyFormat(f);
-		orderDetailDB.verifyDoc(document);
-		orderDetailDB.verifyDoc(document);
+		orderDetailDB.verifyFormat(paperFormat);
+		orderDetailDB.verifyReferences(String.valueOf(source));
+		orderDetailDB.verifyPages(String.valueOf(pages));
+		orderDetailDB.verifyWPP(spacing);
+
 
 
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void simpletest() {
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);

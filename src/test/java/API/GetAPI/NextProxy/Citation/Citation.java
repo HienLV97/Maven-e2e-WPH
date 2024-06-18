@@ -27,8 +27,6 @@ public class Citation {
 //	}
 	public static String getCitation(int value) {
 		try {
-			// Bỏ qua xác thực chứng chỉ SSL
-			Init.skipSSL();
 			// Tạo đối tượng kết nối và thiết lập phương thức HTTP và headers yêu cầu
 			URL url = new URL(URLCitation);
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();

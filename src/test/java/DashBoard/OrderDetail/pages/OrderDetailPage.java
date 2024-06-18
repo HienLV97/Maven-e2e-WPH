@@ -31,9 +31,10 @@ public class OrderDetailPage extends Init {
 
 	private void verifySec(By by, String value) {
 		WebUI.waitForElementVisible(by);
-		String sectionText = WebUI.getElementText(by);
-		boolean containText = sectionText.toLowerCase().contains(value.toLowerCase());
-		Assert.assertTrue(containText, "Actual: "+sectionText+", expected " + value);
+		String sectionText = WebUI.getElementText(by).toLowerCase();
+		boolean containText = sectionText.contains(value.toLowerCase());
+		WebUI.verifyContains(sectionText,value.toLowerCase());
+//		Assert.assertTrue(containText, "Actual: "+sectionText+", expected " + value);
 	}
 	public void verifyTopic(String value){
 		verifySec(topicSec,value);
@@ -55,6 +56,17 @@ public class OrderDetailPage extends Init {
 	}
 	public void verifyPages(String value){
 		verifySec(pagesSec,value);
+	}
+	public void verifyWPP (String value){
+		String WPP;
+		if (value.contains("Double")){
+			WPP = "275";
+		}else if (value.contains("Single")) {
+			WPP = "550";
+		}else {
+			return;
+		}
+		verifySec(wordsSec,WPP);
 	}
 
 	//Order cost
