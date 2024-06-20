@@ -370,6 +370,7 @@ public class OrderFormTest extends Init {
 		signInPageDB.Login(Constants.email, Constants.passAccount);
 		sleep(5);
 		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS + orderID);
+		//DETAIL
 		orderDetailDB.verifyTopic(title);
 		orderDetailDB.verifyDis(discipline);
 		orderDetailDB.verifyDoc(document);
@@ -378,7 +379,8 @@ public class OrderFormTest extends Init {
 		orderDetailDB.verifyReferences(String.valueOf(source));
 		orderDetailDB.verifyPages(String.valueOf(pages));
 		orderDetailDB.verifyWPP(spacing);
-
+		orderDetailDB.verifyUrgency(deadlineTXT);
+		//ORDER COST
 
 
 	}

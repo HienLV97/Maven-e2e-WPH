@@ -31,9 +31,9 @@ public class OrderDetailPage extends Init {
 
 	private void verifySec(By by, String value) {
 		WebUI.waitForElementVisible(by);
-		String sectionText = WebUI.getElementText(by).toLowerCase();
-		boolean containText = sectionText.contains(value.toLowerCase());
-		WebUI.verifyContains(sectionText,value.toLowerCase());
+		String sectionText = WebUI.getElementText(by);
+//		boolean   = sectionText.contains(value.toLowerCase());
+		WebUI.verifyContains(sectionText,value);
 //		Assert.assertTrue(containText, "Actual: "+sectionText+", expected " + value);
 	}
 	public void verifyTopic(String value){
@@ -58,19 +58,26 @@ public class OrderDetailPage extends Init {
 		verifySec(pagesSec,value);
 	}
 	public void verifyWPP (String value){
-		String WPP;
-		if (value.contains("Double")){
+		String WPP = value.toLowerCase();
+		if (value.contains("double")){
 			WPP = "275";
-		}else if (value.contains("Single")) {
+		}
+		if (value.contains("single")) {
 			WPP = "550";
-		}else {
-			return;
 		}
 		verifySec(wordsSec,WPP);
+	}
+	public void verifyUrgency (String value){
+		verifySec(urgencySec,value);
 	}
 
 	//Order cost
 	public By perPageSec = By.xpath("//td[normalize-space()='Per page']//following-sibling::*");
 	public By pagesOCSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Per page']//following-sibling::*");
+	public By perSildesSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Per slide']//following-sibling::*");
+	public By sildesSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Slides']//following-sibling::*");
+	public By totalSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Total']//following-sibling::*");
+	public By addSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Additional']//following-sibling::*");
+	public By paidSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Paid']//following-sibling::*");
 
 }
