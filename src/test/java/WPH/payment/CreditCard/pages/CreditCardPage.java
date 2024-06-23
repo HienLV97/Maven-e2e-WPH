@@ -29,27 +29,27 @@ public class CreditCardPage {
 
 	private void setEmailTB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(emailTB));
-		driver.findElement(emailTB).sendKeys(Constants.emailAccount);
+		driver.findElement(emailTB).sendKeys(Constants.EMAIL);
 	}
 
 	private void setCardInfoTB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(cardInfoTB));
-		driver.findElement(cardInfoTB).sendKeys(Constants.cardInfo);
+		driver.findElement(cardInfoTB).sendKeys(Constants.CARD_INFO);
 	}
 
 	private void setCardExpiryTB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(cardExpiryTB));
-		driver.findElement(cardExpiryTB).sendKeys(Constants.cardExpiry);
+		driver.findElement(cardExpiryTB).sendKeys(Constants.CARD_EXPIRY);
 	}
 
 	private void setCardCvcTB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(cardCvcTB));
-		driver.findElement(cardCvcTB).sendKeys(Constants.cardCVC);
+		driver.findElement(cardCvcTB).sendKeys(Constants.CARD_CVC);
 	}
 
 	private void setBillingNameTB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(billingNameTB));
-		driver.findElement(billingNameTB).sendKeys(Constants.fakeName);
+		driver.findElement(billingNameTB).sendKeys(Constants.FAKE_NAME);
 	}
 
 	private void clickCheckOutBTN() {

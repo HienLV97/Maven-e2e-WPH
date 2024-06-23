@@ -5,6 +5,8 @@ import Support.WPH.Routers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -15,9 +17,12 @@ import java.time.Duration;
 public class SignInPage extends Init {
 	private WebDriver driver;
 	private WebDriverWait wait;
-	private By inputEmail = By.xpath("//input[contains(@placeholder, 'Email')]");
+//	private By inputEmail = By.xpath();
 	private By inputPassword = By.xpath("//input[contains(@placeholder, 'Password')]");
 	private By signInBTN = By.xpath("(//button[normalize-space()='Continue with email'])[1]");
+
+	@FindBys(xpath ="//input[contains(@placeholder, 'Email')]")
+	WebElement inputEmail;
 
 	public SignInPage(WebDriver driver){
 		this.driver = driver;

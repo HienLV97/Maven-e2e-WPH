@@ -12,10 +12,10 @@ import java.nio.charset.StandardCharsets;
 
 public class SignIn {
 	static String filePath = "src/test/java/API/Data/Dashboard/tokenClient.json";
-	static String URLSignIn = Constants.proxyDevURL + "/signin";
+	static String URLSignIn = Constants.PROXY_DEV_URL + "/signin";
 
 		public static void main(String[] args) {
-		String token = SignIn.getToken(Constants.emailBalance, Constants.passAccount);
+		String token = SignIn.getToken(Constants.ACCOUNT_BALANCE, Constants.COMMON_PASSWORD);
 		System.out.println(token);
 	}
 	public static String getToken(String email, String password) {

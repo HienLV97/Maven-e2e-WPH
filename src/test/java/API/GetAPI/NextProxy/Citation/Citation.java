@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 //
-import Support.Initialization.Init;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,7 +16,7 @@ import javax.net.ssl.HttpsURLConnection;
 //
 public class Citation {
 	static String filePath = "src/test/java/API/Data/Dashboard/Citation.json";
-	static String URLCitation = Constants.proxyDevURL + "/styles";
+	static String URLCitation = Constants.PROXY_DEV_URL + "/styles";
 
 	//				public static String getToken() {
 //	public static void main(String[] args) {

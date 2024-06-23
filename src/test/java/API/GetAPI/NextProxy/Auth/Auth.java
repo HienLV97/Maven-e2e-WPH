@@ -1,6 +1,5 @@
 package API.GetAPI.NextProxy.Auth;
 
-import API.GetAPI.NextProxy.SignIn.SignIn;
 import Support.Constants;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Auth {
 	static String filePath = "src/test/java/API/Data/Dashboard/authClient.json";
-	static String URLAuth = Constants.proxyDevURL + "/auth";
+	static String URLAuth = Constants.PROXY_DEV_URL + "/auth";
 /*
 	public static void main(String[] args) {
 		String token = SignIn.getToken(Constants.emailAccount, Constants.passAccount);

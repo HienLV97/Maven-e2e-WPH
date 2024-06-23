@@ -1,5 +1,6 @@
 package WPH.OrderForm.testcases;
 
+import API.GetAPI.DashboardGraphQL.Price;
 import API.GetAPI.NextProxy.Citation.Citation;
 import API.GetAPI.NextProxy.SignIn.SignIn;
 import Calculator.Calculator;
@@ -16,8 +17,6 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
 //import static Support.Initialization.Init.driver;
 
@@ -95,7 +94,7 @@ public class OrderFormTest extends Init {
 		DetailsPage detailsPage = new DetailsPage(driver);
 
 		Authenticate("WPH");
-		signInPage.Login(Constants.emailAccount, Constants.passAccount);
+		signInPage.Login(Constants.EMAIL, Constants.COMMON_PASSWORD);
 		screenShot("TestScreen3");
 
 		driver.get(Routers.ORDER);
@@ -189,8 +188,8 @@ public class OrderFormTest extends Init {
 
 		Authenticate("WPH");
 		String tokenName = "token";
-		String email = Constants.emailAccount;
-		String password = Constants.passAccount;
+		String email = Constants.EMAIL;
+		String password = Constants.COMMON_PASSWORD;
 		String tokenValue = SignIn.getToken(email, password);
 		signInPage.signInWithToken(tokenName, tokenValue);
 		calculator.balance(tokenValue);
@@ -318,16 +317,17 @@ public class OrderFormTest extends Init {
 		//step4
 		boolean absPrice = true;
 		boolean preWriter = true;
+		String costPageText = "$" + Price.GetPrice(deadlineTXT, acalevelTXT);
 
 		Authenticate("WPH");
 
 		String tokenName = "token";
-		String email = Constants.emailAccount;
-		String password = Constants.passAccount;
+		String email = Constants.EMAIL;
+		String password = Constants.COMMON_PASSWORD;
 		String tokenValue = SignIn.getToken(email, password);
 //		System.out.println("token: "+ tokenValue);
 		signInPage.signInWithToken(tokenName, tokenValue);
-		String orderID = "88868";
+		String orderID = "88850";
 
 		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
@@ -367,7 +367,7 @@ public class OrderFormTest extends Init {
 		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
 		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(driver);
 		Authenticate("DashBoard");
-		signInPageDB.Login(Constants.email, Constants.passAccount);
+		signInPageDB.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		sleep(5);
 		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS + orderID);
 		//DETAIL
@@ -381,6 +381,8 @@ public class OrderFormTest extends Init {
 		orderDetailDB.verifyWPP(spacing);
 		orderDetailDB.verifyUrgency(deadlineTXT);
 		//ORDER COST
+		orderDetailDB.verifyPerPage(costPageText);
+		orderDetailDB.verifyCostPages(String.valueOf(pages));
 
 
 	}
@@ -393,14 +395,25 @@ public class OrderFormTest extends Init {
 		DetailsPage detailsPage = new DetailsPage(driver);
 		Calculator calculator = new Calculator();
 
-		//set value
-		String type = "writing";
+		Authenticate("WPH");
+		String tokenName = "token";
+		String email = Constants.EMAIL;
+		String password = Constants.COMMON_PASSWORD;
+		String tokenValue = SignIn.getToken(email, password);
+		signInPage.signInWithToken(tokenName, tokenValue);
+		calculator.balance(tokenValue);
+
+		sleep(5);
+		driver.get(Routers.ORDER);
+
+		//set value step1
+		String type = "edditing";
 		String document = "Admission Essay";
 		int acalevelNumb = 2;
 		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
-		String paperFormat = Citation.getCitation(5);
-		System.out.println(paperFormat);
+		String paperFormat = Citation.getCitation(0);
+
 		//step2
 		String title = "test";
 		String instruction = "test";
@@ -409,25 +422,60 @@ public class OrderFormTest extends Init {
 		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
 		int pages = 2;
 		int source = 2;
-		int slides = 2;
+		int slides = 0;
 		int writerLevelNumb = 2;
-		String spacing = "double";
+		String spacing = "Double";
 		//step4
 		boolean absPrice = true;
 		boolean preWriter = true;
 
-		Authenticate("WPH");
 
-		String tokenName = "token";
-		String email = Constants.emailAccount;
-		String password = Constants.passAccount;
-		String tokenValue = SignIn.getToken(email, password);
-//		System.out.println("token: "+ tokenValue);
-		signInPage.signInWithToken(tokenName, tokenValue);
-		String orderID = "88844";
+		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 
-		driver.get(Routers.ORDER);
-		orderForm.formatOptBTN(paperFormat);
+		orderForm.setStep1(document, acalevelNumb, discipline);
+		orderForm.setStep2(title, instruction);
+		orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
+		orderForm.setStep4(writerLevelNumb);
+		orderForm.setDiscountTB("paper15");
+		orderForm.clickApply();
+		sleep(3);
+		System.out.println(type + "   " + deadlineTXT + "   " + acalevelTXT + "   " + pages + "   " + slides + "   " + spacing);
+
+		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
+		String expectedTotalTXT = "$" + expectedTotalNumb;
+		orderForm.verifyTotal(expectedTotalTXT);
+
+		double expectedDiscountNumb = calculator.Discount(15);
+		String expectedDiscountTXT = "$" + expectedDiscountNumb;
+		orderForm.verifyDiscount(expectedDiscountTXT);
+
+		System.out.println("writerLevelTXT: " + writerLevelTXT);
+		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
+		String expectedWriterPriceTXT = "$" + expectedWriterPriceNumb;
+
+		double expectedPreWriterNumb = calculator.preWriter(preWriter);
+		String expectedPreWriterTXT = "$" + expectedPreWriterNumb;
+
+		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
+		String expectedAbstractPriceTXT = "$" + formatPrice(expectedAbstractPriceNumb);
+
+		String expectedExtraTXT = "$" + calculator.ExtrasTotal();
+//		String expectedExtra = "$79.98";
+
+		orderForm.verifyExtra(expectedExtraTXT);
+
+		String expectedYouPay = "$" + calculator.GrandTotal();
+		orderForm.verifyYouPay(expectedYouPay);
+
+		orderForm.clickCreditBTN();
+		orderForm.clickCheckOutBTN();
 		sleep(10);
+		creditCardPage.getCheckout();
+
+		sleep(5);
+		waitForNavigatePage("NaN");
+		waitForPageLoaded();
+		String orderID = orderForm.getID();
+		orderForm.clickViewOrderBTN();
 	}
 }

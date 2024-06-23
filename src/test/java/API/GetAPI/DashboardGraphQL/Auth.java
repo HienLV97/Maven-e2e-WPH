@@ -11,9 +11,9 @@ import java.net.URL;
 
 public class Auth {
 	public static String getToken() {
-		String apiUrl = Constants.dashboardQL;
-		String username = Constants.email;
-		String password = Constants.passAccount;
+		String apiUrl = Constants.DASHBOARD_QL;
+		String username = Constants.COMMON_EMAIL;
+		String password = Constants.COMMON_PASSWORD;
 		String mutation = """
 				mutation($email: String!, $password: String!) {
 				    login(email: $email, password: $password) {

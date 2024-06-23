@@ -29,10 +29,10 @@ public class Auth {
 	private static void getAuth(String email, String password) {
 		try {
 			// Create the connection object and set the required HTTP method and headers
-			URL url = new URL(Constants.coreAPI);
+			URL url = new URL(Constants.CORE_API);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Authorization", "Bearer " + Constants.coreAPIToken);
+			connection.setRequestProperty("Authorization", "Bearer " + Constants.CORE_API_TOKEN);
 			connection.setRequestProperty("Postman-Token", "<calculated when request is sent>");
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			connection.setRequestProperty("Content-Length", "<calculated when request is sent>");

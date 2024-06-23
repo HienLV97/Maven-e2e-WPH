@@ -18,8 +18,8 @@ import java.util.List;
 
 public class SignIn {
 	public static void main(String[] args) {
-		String apiUrl = Constants.coreAPI;
-		String token = Constants.coreAPIToken;
+		String apiUrl = Constants.CORE_API;
+		String token = Constants.CORE_API_TOKEN;
 		String response = getAPI(apiUrl, token);
 //		JSONObject jsonObject = new JSONObject(response);
 		String filePath = "src/test/java/API/Data/Dashboard/OrderForm.json";

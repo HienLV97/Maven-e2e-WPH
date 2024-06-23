@@ -26,6 +26,7 @@ public class OrderFormPage extends Init {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		new WebUI(driver); //Bắt buộc
 	}
+
 	//	JavascriptExecutor js;
 	JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -122,8 +123,8 @@ public class OrderFormPage extends Init {
 		driver.findElement(DisciplineDRL).sendKeys(value);
 	}
 
-	public void formatOptBTN(String value){
-		By option = By.xpath(Acalevel + "//span[contains(text(),'" + value+ "')]");
+	public void formatOptBTN(String value) {
+		By option = By.xpath(Acalevel + "//span[contains(text(),'" + value + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		WebUI.clickElement(option);
 //		driver.findElement(option).click();
@@ -146,6 +147,7 @@ public class OrderFormPage extends Init {
 		driver.findElement(SourceIncBTN).click();
 
 	}
+
 	public void clickSourceDecBTN(int value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceDecBTN));
 		driver.findElement(SourceDecBTN).click();
@@ -234,7 +236,8 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PrevWriterCB));
 		driver.findElement(PrevWriterCB).click();
 	}
-	public void setPrevWriterDRL(){
+
+	public void setPrevWriterDRL() {
 		clickPrevWriterBTN();
 		WebUI.waitForElementClickable(PreWriterTB);
 		WebUI.clickElement(PreWriterTB);
@@ -242,11 +245,13 @@ public class OrderFormPage extends Init {
 		WebUI.waitForElementClickable(firstValue);
 		WebUI.clickElement(firstValue);
 	}
-	public void setDiscountTB(String value){
+
+	public void setDiscountTB(String value) {
 		WebUI.waitForElementVisible(DiscountTB);
-		WebUI.setText(DiscountTB,value);
+		WebUI.setText(DiscountTB, value);
 	}
-	public void clickApply(){
+
+	public void clickApply() {
 		WebUI.waitForElementVisible(ApllyBTN);
 		WebUI.clickElement(ApllyBTN);
 	}
@@ -266,37 +271,43 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CreditBTN));
 		driver.findElement(CreditBTN).click();
 	}
+
 	public void clickCheckOutBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CheckOutBTN));
 		driver.findElement(CheckOutBTN).click();
 	}
+
 	public void clickViewOrderBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
 		driver.findElement(ViewOrderBTN).click();
 	}
-	public void verifyTotal(String expectedPrice){
+
+	public void verifyTotal(String expectedPrice) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(TotalPrice));
 //		String expectedPrice = "$144.95";
 		String totalPriceText = WebUI.getElementText(TotalPrice);
 		Assert.assertTrue(totalPriceText.contains(expectedPrice), "TotalPrice is wrong: " + expectedPrice);
 	}
-	public void verifyExtra(String expectedPrice){
+
+	public void verifyExtra(String expectedPrice) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ExtraPrice));
 //		String expectedPrice = "$79.98";
 		String totalPriceText = WebUI.getElementText(ExtraPrice);
 		Assert.assertTrue(totalPriceText.contains(expectedPrice), "ExtraPrice is wrong: " + expectedPrice);
 	}
-	public void verifyDiscount(String expectedPrice){
+
+	public void verifyDiscount(String expectedPrice) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DiscountPrice));
 //		String expectedPrice = "$8.10";
 		String totalPriceText = WebUI.getElementText(DiscountPrice);
 		Assert.assertTrue(totalPriceText.contains(expectedPrice), "ExtraPrice is wrong: " + expectedPrice);
 	}
-	public void verifyYouPay(String expectedPrice){
+
+	public void verifyYouPay(String expectedPrice) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(YouPayPrice));
 //		String expectedPrice = "$203.19";
 		String totalPriceText = WebUI.getElementText(YouPayPrice);
-		System.out.println("test: "+totalPriceText);
+		System.out.println("test: " + totalPriceText);
 		Assert.assertTrue(totalPriceText.contains(expectedPrice), "YouPayPrice is wrong: " + expectedPrice);
 	}
 
@@ -320,37 +331,40 @@ public class OrderFormPage extends Init {
 		acalevelOptBTN(acalevel);
 		clickNextButton();
 	}
+
 	public void setStep2(String title, String instrucion) {
 		setTitleTXT(title);
 		setInstructionTXT(instrucion);
 		clickNextButton();
 	}
-	public void setStep3(int source, int page,int deadline,int slide,String spacing) {
-		WebUI.clickMultiElement(SourceIncBTN,source);
+
+	public void setStep3(int source, int page, int deadline, int slide, String spacing) {
+		WebUI.clickMultiElement(SourceIncBTN, source);
 		clickDeadLine(deadline);
-		WebUI.clickMultiElement(PageIncBTN,(page-2));
-		if (spacing.equals("Single")){
+		WebUI.clickMultiElement(PageIncBTN, (page - 2));
+		if (spacing.equals("Single")) {
 			clickSingleBTN();
 		}
-		if (spacing.equals("Double")){
+		if (spacing.equals("Double")) {
 			clickDoubleBTN();
 		}
-		if (slide>=2){
+		if (slide >= 2) {
 			clickSlideInc();
 		}
 		clickNextButton();
 	}
-	public void setStep4(int value){
+
+	public void setStep4(int value) {
 		clickWriterLevelBTN(value);
 		clickAbstractBTN();
 		setPrevWriterDRL();
 		clickNextButton();
 	}
-	public void setStep5(){
+
+	public void setStep5() {
 		clickCreditBTN();
 		clickCheckOutBTN();
 	}
-
 
 
 }

@@ -11,7 +11,7 @@ import java.net.URL;
 public class Price {
 
 	public static double GetPrice(String urgent, String level) {
-		String apiUrl = Constants.dashboardQL;
+		String apiUrl = Constants.DASHBOARD_QL;
 		String token = Auth.getToken();
 		String query = "{" +
 				"prices(pid: 1) {" +
