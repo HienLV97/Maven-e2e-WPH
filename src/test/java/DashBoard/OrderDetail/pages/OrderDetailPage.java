@@ -1,38 +1,87 @@
 package DashBoard.OrderDetail.pages;
 
+import API.GetAPI.DashboardGraphQL.Discounts;
+import Calculator.Calculator;
 import Keywords.WebUI;
 import Support.Initialization.Init;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class OrderDetailPage extends Init {
-	private WebDriver driver;
-	private WebDriverWait wait;
-
+	WebDriver driver;
+	WebDriverWait wait;
+	String codeDis;
 	public OrderDetailPage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		PageFactory.initElements(driver, this);
 	}
 
-	//Detail grid
-	public By topicSec = By.xpath("//td[normalize-space()='Topic']//following-sibling::*");
-	public By disciplineSec = By.xpath("//td[normalize-space()='Discipline']//following-sibling::*");
-	public By documentSec = By.xpath("//td[normalize-space()='Document type']//following-sibling::*");
-	public By spacingSec = By.xpath("//td[normalize-space()='Spacing']//following-sibling::*");
-	public By formatSec = By.xpath("//td[normalize-space()='Citation style']//following-sibling::*");
-	public By referencesSec = By.xpath("//td[normalize-space()='References']//following-sibling::*");
-	public By pagesSec = By.xpath("//td[@class='fw-bold text-nowrap'][normalize-space()='Pages']//following-sibling::*");
-	public By wordsSec = By.xpath("//td[normalize-space()='Words per page']//following-sibling::*");
-	public By urgencySec = By.xpath("//td[normalize-space()='Urgency']//following-sibling::*");
-
-	private void verifySec(By by, String value) {
-		WebUI.waitForElementVisible(by);
-		String sectionText = WebUI.getElementText(by);
+	//DETAIL
+	@FindBy(xpath = "//td[normalize-space()='Topic']//following-sibling::*")
+	WebElement topicSec;
+	@FindBy(xpath = "//td[normalize-space()='Discipline']//following-sibling::*")
+	WebElement disciplineSec;
+	@FindBy(xpath = "//td[normalize-space()='Document type']//following-sibling::*")
+	WebElement documentSec;
+	@FindBy(xpath = "//td[normalize-space()='Spacing']//following-sibling::*")
+	WebElement spacingSec;
+	@FindBy(xpath = "//td[normalize-space()='Citation style']//following-sibling::*")
+	WebElement formatSec;
+	@FindBy(xpath = "//td[normalize-space()='References']//following-sibling::*")
+	WebElement referencesSec;
+	@FindBy(xpath = "//td[@class='fw-bold text-nowrap'][normalize-space()='Pages']//following-sibling::*")
+	WebElement pagesSec;
+	@FindBy(xpath = "//td[normalize-space()='Words per page']//following-sibling::*")
+	WebElement wordsSec;
+	@FindBy(xpath = "//td[normalize-space()='Urgency']//following-sibling::*")
+	WebElement urgencySec;
+	@FindBy(xpath = "//td[normalize-space()='Writer rate']//following-sibling::*")
+	WebElement rateSec;
+	@FindBy(xpath = "//td[normalize-space()='Total payout']//following-sibling::*")
+	WebElement feeSec;
+	//ORDER COST
+	@FindBy(xpath = "//td[normalize-space()='Per page']//following-sibling::*")
+	WebElement perPageSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Pages']//following-sibling::*")
+	WebElement costPagesSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Per slide']//following-sibling::*")
+	WebElement perSildesSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Slides']//following-sibling::*")
+	WebElement sildesSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Total']//following-sibling::*")
+	WebElement totalSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Additional']//following-sibling::*")
+	WebElement addSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Paid']//following-sibling::*")
+	WebElement paidSec;
+	//INSTRUCTIONS
+	@FindBy(xpath = "//p[@class='p-rm__txt p-rm__txt--full']")
+	WebElement insSec;
+	//DISCOUNT
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Promo code']//following-sibling::*")
+	WebElement codeSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Percent']//following-sibling::*")
+	WebElement percentSec;
+	//EXTRAS
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Writer‘s category']//following-sibling::*")
+	WebElement writerCateSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Abstract Page']//following-sibling::*")
+	WebElement absSec;
+	//DETAIL
+	private void verifySec(WebElement element, String value) {
+//		WebUI.w(element);
+		String sectionText = WebUI.getWebElementText(element);
 //		boolean   = sectionText.contains(value.toLowerCase());
-		WebUI.verifyContains(sectionText, value);
+		String message = "error";
+		WebUI.assertEquals(sectionText, value, message);
 //		Assert.assertTrue(containText, "Actual: "+sectionText+", expected " + value);
 	}
 
@@ -49,7 +98,7 @@ public class OrderDetailPage extends Init {
 	}
 
 	public void verifySpacing(String value) {
-		verifySec(spacingSec, value);
+		verifySec(spacingSec, value.toUpperCase());
 	}
 
 	public void verifyFormat(String value) {
@@ -66,10 +115,9 @@ public class OrderDetailPage extends Init {
 
 	public void verifyWPP(String value) {
 		String WPP = value.toLowerCase();
-		if (value.contains("double")) {
+		if (WPP.equals("double")) {
 			WPP = "275";
-		}
-		if (value.contains("single")) {
+		} else if (WPP.equals("single")) {
 			WPP = "550";
 		}
 		verifySec(wordsSec, WPP);
@@ -79,15 +127,7 @@ public class OrderDetailPage extends Init {
 		verifySec(urgencySec, value);
 	}
 
-	//Order cost
-	public By perPageSec = By.xpath("//td[normalize-space()='Per page']//following-sibling::*");
-	public By costPagesSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Per page']//following-sibling::*");
-	public By perSildesSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Per slide']//following-sibling::*");
-	public By sildesSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Slides']//following-sibling::*");
-	public By totalSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Total']//following-sibling::*");
-	public By addSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Additional']//following-sibling::*");
-	public By paidSec = By.xpath("//td[@class='fw-bold'][normalize-space()='Paid']//following-sibling::*");
-
+	//ORDER COST
 	public void verifyPerPage(String value) {
 		verifySec(perPageSec, value);
 	}
@@ -101,7 +141,7 @@ public class OrderDetailPage extends Init {
 	}
 
 	public void verifySilde(String value) {
-		verifySec(sildesSec, value);
+		verifySec(sildesSec, String.valueOf(value));
 	}
 
 	public void verifyTotal(String value) {
@@ -114,5 +154,34 @@ public class OrderDetailPage extends Init {
 
 	public void verifyPaid(String value) {
 		verifySec(paidSec, value);
+	}
+
+	public void verifyRate() {
+		verifySec(rateSec, Calculator.writerRate + "%");
+	}
+
+	public void verifyWriterFee() {
+		verifySec(feeSec, "$" + Calculator.writerFee());
+	}
+
+	//INSTRUCTIONS
+	public void verifyIns(String value) {
+		wait.until(ExpectedConditions.visibilityOf(insSec));
+		verifySec(insSec, value);
+	}
+	//DISCOUNT
+	public void verifyCode(String value) {
+		this.codeDis = value;
+		verifySec(codeSec,value);
+	}
+	public void verifyPercent() {
+		verifySec(percentSec,String.valueOf(Discounts.GetDiscount(this.codeDis))+"%");
+	}
+	//EXTRAS
+	public void verifywriterCate(String value){
+		verifySec(writerCateSec,value);
+	}
+	public void verifyAbsPrice(){
+		verifySec(absSec,"$"+ String.format("%.2f",Calculator.absPrice));
 	}
 }

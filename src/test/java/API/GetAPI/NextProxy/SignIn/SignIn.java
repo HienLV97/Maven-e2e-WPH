@@ -14,10 +14,11 @@ public class SignIn {
 	static String filePath = "src/test/java/API/Data/Dashboard/tokenClient.json";
 	static String URLSignIn = Constants.PROXY_DEV_URL + "/signin";
 
-		public static void main(String[] args) {
+	public static void main(String[] args) {
 		String token = SignIn.getToken(Constants.ACCOUNT_BALANCE, Constants.COMMON_PASSWORD);
 		System.out.println(token);
 	}
+
 	public static String getToken(String email, String password) {
 		try {
 			// Create the connection object and set the required HTTP method and headers
@@ -56,7 +57,7 @@ public class SignIn {
 
 
 			JSONParser parser = new JSONParser();
-			System.out.println("SignIn: "+response);
+			System.out.println("SignIn: " + response);
 			try {
 				JSONObject jsonObject = (JSONObject) parser.parse(response.toString());
 				String token = (String) jsonObject.get("token");

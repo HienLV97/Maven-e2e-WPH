@@ -120,8 +120,10 @@ public class OrderFormTest extends Init {
 		int writerLevelNumb = 2;
 		String spacing = "Double";
 		//step4
-		boolean absPrice = true;
-		boolean preWriter = true;
+		boolean isAbsPrice = true;
+		boolean isPreWriter = true;
+		//step 5
+		String disCode = "paper15";
 
 		//step1
 		orderForm.setStep1(document, acalevelNumb, discipline);
@@ -148,7 +150,7 @@ public class OrderFormTest extends Init {
 
 		//step5
 		orderForm.clickCreditBTN();
-		orderForm.setDiscountTB("paper15");
+		orderForm.setDiscountTB(disCode);
 		WebUI.clickElement(orderForm.ApllyBTN);
 		sleep(2);
 		screenShot("ApllyTBN");
@@ -184,7 +186,35 @@ public class OrderFormTest extends Init {
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
 		DetailsPage detailsPage = new DetailsPage(driver);
-		Calculator calculator = new Calculator();
+
+		//set value step1
+		String type = "writing";
+		String document = "Admission Essay";
+		int acalevelNumb = 2;
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
+		String discipline = "Accounting";
+		String paperFormat = Citation.getCitation(0);
+
+		//set value step2
+		String title = "test";
+		String instruction = "test";
+		//set value step3
+		int deadlineNumb = 3;
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
+		int pages = 2;
+		int source = 2;
+		int slides = 2;
+		int writerLevelNumb = 2;
+		String spacing = "Single";
+		//set value step4
+		boolean isAbsPrice = true;
+		boolean isPreWriter = true;
+		//set value step5
+		String disCode = "paper15";
+
+		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
+
+		Calculator calculator = new Calculator(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
 
 		Authenticate("WPH");
 		String tokenName = "token";
@@ -197,66 +227,41 @@ public class OrderFormTest extends Init {
 		sleep(5);
 		driver.get(Routers.ORDER);
 
-		//set value step1
-		String type = "writing";
-		String document = "Admission Essay";
-		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
-		String discipline = "Accounting";
-		String paperFormat = Citation.getCitation(0);
-
-		//step2
-		String title = "test";
-		String instruction = "test";
-		//step 3
-		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
-		int pages = 2;
-		int source = 2;
-		int slides = 2;
-		int writerLevelNumb = 2;
-		String spacing = "Double";
-		//step4
-		boolean absPrice = true;
-		boolean preWriter = true;
-
-
-		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 
 		orderForm.setStep1(document, acalevelNumb, discipline);
 		orderForm.setStep2(title, instruction);
 		orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
 		orderForm.setStep4(writerLevelNumb);
-		orderForm.setDiscountTB("paper15");
+		orderForm.setDiscountTB(disCode);
 		orderForm.clickApply();
 		sleep(3);
 		System.out.println(type + "   " + deadlineTXT + "   " + acalevelTXT + "   " + pages + "   " + slides + "   " + spacing);
 
-		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
-		String expectedTotalTXT = "$" + expectedTotalNumb;
-		orderForm.verifyTotal(expectedTotalTXT);
+		double pagePrice = calculator.pagePrice();
+		String pagePriceTxt = "$" + pagePrice;
+		orderForm.verifyTotal(pagePriceTxt);
 
-		double expectedDiscountNumb = calculator.Discount(15);
-		String expectedDiscountTXT = "$" + expectedDiscountNumb;
-		orderForm.verifyDiscount(expectedDiscountTXT);
+		double discount = calculator.discount(15);
+		String discountTxt = "$" + discount;
+		orderForm.verifyDiscount(discountTxt);
 
-		System.out.println("writerLevelTXT: " + writerLevelTXT);
-		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
-		String expectedWriterPriceTXT = "$" + expectedWriterPriceNumb;
+		System.out.println("writerLvlTxt : " + writerLvlTxt);
+		double writerPrice = calculator.writerLevelPrice(writerLvlTxt);
+		String writerPriceTxt = "$" + writerPrice;
 
-		double expectedPreWriterNumb = calculator.preWriter(preWriter);
-		String expectedPreWriterTXT = "$" + expectedPreWriterNumb;
+		double preWriterPrice = calculator.preWriter(isPreWriter);
+		String preWriterTxt = "$" + preWriterPrice;
 
-		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
-		String expectedAbstractPriceTXT = "$" + formatPrice(expectedAbstractPriceNumb);
+		double absPrice = calculator.abstractPrice(isAbsPrice);
+		String absPriceTxt = "$" + formatPrice(absPrice);
 
-		String expectedExtraTXT = "$" + calculator.ExtrasTotal();
+		String extrasTxt = "$" + calculator.extrasTotal();
 //		String expectedExtra = "$79.98";
 
-		orderForm.verifyExtra(expectedExtraTXT);
+		orderForm.verifyExtra(extrasTxt);
 
-		String expectedYouPay = "$" + calculator.GrandTotal();
-		orderForm.verifyYouPay(expectedYouPay);
+		String totalPayTxt = "$" + calculator.grandTotal();
+		orderForm.verifyYouPay(totalPayTxt);
 
 		orderForm.clickCreditBTN();
 		orderForm.clickCheckOutBTN();
@@ -275,12 +280,12 @@ public class OrderFormTest extends Init {
 		waitForPageLoaded();
 //		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
 		detailsPage.verifyh1(orderID, "writing");
-		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPriceTXT);
-		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterTXT);
-		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPriceTXT);
-		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscountTXT);
-		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
-		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscountTXT);
+		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice, preWriterTxt);
+		detailsPage.verifyWPrice(detailsPage.abstractPrice, absPriceTxt);
+		detailsPage.verifyWPrice(detailsPage.DicountPrice, discountTxt);
+		detailsPage.verifyWPrice(detailsPage.PaidPrice, totalPayTxt);
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, discountTxt);
 		screenShot("Order detail");
 
 
@@ -293,9 +298,7 @@ public class OrderFormTest extends Init {
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
 		DetailsPage detailsPage = new DetailsPage(driver);
-		Calculator calculator = new Calculator();
-
-		//set value
+		//set value step1
 		String type = "writing";
 		String document = "Admission Essay";
 		int acalevelNumb = 2;
@@ -313,11 +316,15 @@ public class OrderFormTest extends Init {
 		int source = 2;
 		int slides = 2;
 		int writerLevelNumb = 2;
-		String spacing = "double";
+		String spacing = "Single";
 		//step4
-		boolean absPrice = true;
-		boolean preWriter = true;
+		boolean isAbsPrice = true;
+		boolean isPreWriter = true;
+		//step5
+		String disCode = "paper15";
 		String costPageText = "$" + Price.GetPrice(deadlineTXT, acalevelTXT);
+
+		Calculator calculator = new Calculator(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
 
 		Authenticate("WPH");
 
@@ -327,41 +334,43 @@ public class OrderFormTest extends Init {
 		String tokenValue = SignIn.getToken(email, password);
 //		System.out.println("token: "+ tokenValue);
 		signInPage.signInWithToken(tokenName, tokenValue);
-		String orderID = "88850";
+		String orderID = "91280";
 
-		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
-		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
-		String expectedTotalTXT = "$" + expectedTotalNumb;
+		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
+		double pagePrice = calculator.pagePrice();
+		String pagePriceTxt = "$" + pagePrice;
 
-		double expectedDiscountNumb = calculator.Discount(15);
-		String expectedDiscountTXT = "$" + expectedDiscountNumb;
-//		orderForm.verifyDiscount(expectedDiscountTXT);
+		double discount = calculator.discount(15);
+		String discountTxt = "$" + discount;
+//		orderForm.verifyDiscount(discountTxt);
 
-		System.out.println("writerLevelTXT: " + writerLevelTXT);
-		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
-		String expectedWriterPriceTXT = "$" + expectedWriterPriceNumb;
+		System.out.println("writerLvlTxt : " + writerLvlTxt);
+		double writerPrice = calculator.writerLevelPrice(writerLvlTxt);
+		String writerPriceTxt = "$" + writerPrice;
 
-		double expectedPreWriterNumb = calculator.preWriter(preWriter);
-		String expectedPreWriterTXT = "$" + expectedPreWriterNumb;
+		double preWriterPrice = calculator.preWriter(isPreWriter);
+		String preWriterTxt = "$" + preWriterPrice;
 
-		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
-		String expectedAbstractPriceTXT = "$" + formatPrice(expectedAbstractPriceNumb);
+		double absPriceVal = calculator.abstractPrice(isAbsPrice);
+		String absPriceTxt = "$" + formatPrice(absPriceVal);
 
-		String expectedExtraTXT = "$" + calculator.ExtrasTotal();
-//		orderForm.verifyExtra(expectedExtraTXT);
+		String extrasTxt = "$" + calculator.extrasTotal();
+//		orderForm.verifyExtra(extrasTxt
+//	);
 
-		String expectedYouPay = "$" + calculator.GrandTotal();
-//		orderForm.verifyYouPay(expectedYouPay);
+		String totalPayTxt = "$" + calculator.grandTotal();
+//		orderForm.verifyYouPay(totalPayTxt
+//	);
 
 
 		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
 		detailsPage.verifyh1(orderID, "writing");
-		detailsPage.verifyWPrice(detailsPage.writerPrice, expectedWriterPriceTXT);
-		detailsPage.verifyWPrice(detailsPage.preWriterPrice, expectedPreWriterTXT);
-		detailsPage.verifyWPrice(detailsPage.abstractPrice, expectedAbstractPriceTXT);
-		detailsPage.verifyWPrice(detailsPage.DicountPrice, expectedDiscountTXT);
-		detailsPage.verifyWPrice(detailsPage.PaidPrice, expectedYouPay);
-		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, expectedDiscountTXT);
+		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
+		detailsPage.verifyWPrice(detailsPage.preWriterPrice, preWriterTxt);
+		detailsPage.verifyWPrice(detailsPage.abstractPrice, absPriceTxt);
+		detailsPage.verifyWPrice(detailsPage.DicountPrice, discountTxt);
+		detailsPage.verifyWPrice(detailsPage.PaidPrice, totalPayTxt);
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, discountTxt);
 
 		//Check Dashboard
 		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
@@ -383,99 +392,26 @@ public class OrderFormTest extends Init {
 		//ORDER COST
 		orderDetailDB.verifyPerPage(costPageText);
 		orderDetailDB.verifyCostPages(String.valueOf(pages));
-
-
+		String slideCost = "$" + (String.format("%.2f", calculator.slideCost()));
+		orderDetailDB.verifyPerSlide(slideCost);
+		orderDetailDB.verifySilde(String.valueOf(slides));
+//		orderDetailDB.verifyTotal(pagePriceTxt);
+		orderDetailDB.verifyAdd(extrasTxt);
+		orderDetailDB.verifyPaid(totalPayTxt);
+		orderDetailDB.verifyRate();
+		orderDetailDB.verifyWriterFee();
+		//INSTRUCTIONS
+		orderDetailDB.verifyIns(instruction);
+		//DISCOUNT
+		orderDetailDB.verifyCode(disCode);
+		orderDetailDB.verifyPercent();
+		//EXTRAS
+		orderDetailDB.verifywriterCate(writerLvlTxt);
+		orderDetailDB.verifyAbsPrice();
 	}
 
 	@Test(enabled = false)
 	public void simpletest() {
-		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
-		DetailsPage detailsPage = new DetailsPage(driver);
-		Calculator calculator = new Calculator();
 
-		Authenticate("WPH");
-		String tokenName = "token";
-		String email = Constants.EMAIL;
-		String password = Constants.COMMON_PASSWORD;
-		String tokenValue = SignIn.getToken(email, password);
-		signInPage.signInWithToken(tokenName, tokenValue);
-		calculator.balance(tokenValue);
-
-		sleep(5);
-		driver.get(Routers.ORDER);
-
-		//set value step1
-		String type = "edditing";
-		String document = "Admission Essay";
-		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
-		String discipline = "Accounting";
-		String paperFormat = Citation.getCitation(0);
-
-		//step2
-		String title = "test";
-		String instruction = "test";
-		//step 3
-		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
-		int pages = 2;
-		int source = 2;
-		int slides = 0;
-		int writerLevelNumb = 2;
-		String spacing = "Double";
-		//step4
-		boolean absPrice = true;
-		boolean preWriter = true;
-
-
-		String writerLevelTXT = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
-
-		orderForm.setStep1(document, acalevelNumb, discipline);
-		orderForm.setStep2(title, instruction);
-		orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
-		orderForm.setStep4(writerLevelNumb);
-		orderForm.setDiscountTB("paper15");
-		orderForm.clickApply();
-		sleep(3);
-		System.out.println(type + "   " + deadlineTXT + "   " + acalevelTXT + "   " + pages + "   " + slides + "   " + spacing);
-
-		double expectedTotalNumb = calculator.PagePrice(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
-		String expectedTotalTXT = "$" + expectedTotalNumb;
-		orderForm.verifyTotal(expectedTotalTXT);
-
-		double expectedDiscountNumb = calculator.Discount(15);
-		String expectedDiscountTXT = "$" + expectedDiscountNumb;
-		orderForm.verifyDiscount(expectedDiscountTXT);
-
-		System.out.println("writerLevelTXT: " + writerLevelTXT);
-		double expectedWriterPriceNumb = calculator.WriterLevelPrice(writerLevelTXT);
-		String expectedWriterPriceTXT = "$" + expectedWriterPriceNumb;
-
-		double expectedPreWriterNumb = calculator.preWriter(preWriter);
-		String expectedPreWriterTXT = "$" + expectedPreWriterNumb;
-
-		double expectedAbstractPriceNumb = calculator.abstractPrice(absPrice);
-		String expectedAbstractPriceTXT = "$" + formatPrice(expectedAbstractPriceNumb);
-
-		String expectedExtraTXT = "$" + calculator.ExtrasTotal();
-//		String expectedExtra = "$79.98";
-
-		orderForm.verifyExtra(expectedExtraTXT);
-
-		String expectedYouPay = "$" + calculator.GrandTotal();
-		orderForm.verifyYouPay(expectedYouPay);
-
-		orderForm.clickCreditBTN();
-		orderForm.clickCheckOutBTN();
-		sleep(10);
-		creditCardPage.getCheckout();
-
-		sleep(5);
-		waitForNavigatePage("NaN");
-		waitForPageLoaded();
-		String orderID = orderForm.getID();
-		orderForm.clickViewOrderBTN();
 	}
 }

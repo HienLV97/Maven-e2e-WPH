@@ -7,7 +7,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.Dimension;
@@ -29,6 +34,7 @@ public class WebUI {
 
 	public WebUI(WebDriver driver) {
 		this.driver = driver;
+		PageFactory.initElements(driver, this);
 	}
 
 	public static void sleep(double second) {
@@ -108,7 +114,11 @@ public class WebUI {
 		logConsole("Get text of element " + by + " is: " + text);
 		return text;
 	}
-
+	public static String getWebElementText(WebElement element) {
+		String text = element.getText();
+		logConsole("Get text of element " + element + " is: " + text);
+		return text;
+	}
 	public static String getElementAttribute(By by, String attributeName) {
 		waitForElementVisible(by);
 		String value = driver.findElement(by).getAttribute(attributeName);

@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,7 +22,7 @@ public class SignInPage extends Init {
 	private By inputPassword = By.xpath("//input[contains(@placeholder, 'Password')]");
 	private By signInBTN = By.xpath("(//button[normalize-space()='Continue with email'])[1]");
 
-	@FindBys(xpath ="//input[contains(@placeholder, 'Email')]")
+	@FindBy(xpath ="//input[contains(@placeholder, 'Email')]")
 	WebElement inputEmail;
 
 	public SignInPage(WebDriver driver){
@@ -34,8 +35,8 @@ public class SignInPage extends Init {
 	}
 
 	public void setEmail(String email) {
-		wait.until(ExpectedConditions.visibilityOfElementLocated(inputEmail));
-		driver.findElement(inputEmail).sendKeys(email);
+		wait.until(ExpectedConditions.visibilityOf(inputEmail));
+		inputEmail.sendKeys(email);
 	}
 
 	public void setPassword(String password) {
