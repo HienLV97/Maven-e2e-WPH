@@ -17,6 +17,7 @@ public class Constants {
 //		new WebUI(driver); //Bắt buộc
 	}
 	public static final String EMAIL = "client-12344-fake@kamora.vn";
+	public static final String WRITER_EMAIL = "writer-1024-fake@kamora.vn";
 	public static final String ACCOUNT_BALANCE = "test1@gmail.c";
 	public static final String COMMON_PASSWORD = "iamafriend";
 	public static final String CMS = "https://yeti-cms.dev/api";

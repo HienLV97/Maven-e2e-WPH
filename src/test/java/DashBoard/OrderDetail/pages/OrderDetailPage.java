@@ -4,7 +4,7 @@ import API.GetAPI.DashboardGraphQL.Discounts;
 import Calculator.Calculator;
 import Keywords.WebUI;
 import Support.Initialization.Init;
-import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,12 +18,21 @@ public class OrderDetailPage extends Init {
 	WebDriver driver;
 	WebDriverWait wait;
 	String codeDis;
+
 	public OrderDetailPage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		PageFactory.initElements(driver, this);
 	}
-
+	//HEADER
+	@FindBy(xpath = "//button[@title='Assign']")
+	WebElement assignBTN;
+	@FindBy(xpath = "//div[@class='form-outline']")
+	WebElement assDDL;
+	@FindBy(xpath = "//input[@placeholder='Search...']")
+	WebElement assTB;
+	@FindBy (xpath ="//button[@title='Save']")
+	WebElement saveBTN;
 	//DETAIL
 	@FindBy(xpath = "//td[normalize-space()='Topic']//following-sibling::*")
 	WebElement topicSec;
@@ -73,8 +82,34 @@ public class OrderDetailPage extends Init {
 	//EXTRAS
 	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Writer‘s category']//following-sibling::*")
 	WebElement writerCateSec;
+	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Previous Writer']//following-sibling::*")
+	WebElement preWriterSec;
 	@FindBy(xpath = "//td[@class='fw-bold'][normalize-space()='Abstract Page']//following-sibling::*")
 	WebElement absSec;
+	//ORDER EVENT
+	@FindBy(xpath = "//div[@role='button']")
+	WebElement eventBTN;
+	@FindBy(xpath = "//span[contains(text(),'Approve')]")
+	WebElement appBTN;
+	@FindBy(xpath = "//span[contains(text(),'Decline')]")
+	WebElement decBTN;
+	//HEADER
+	public void clickAssBTN(){
+		wait.until(ExpectedConditions.visibilityOf(assignBTN));
+		assignBTN.click();
+	}
+	public void setAssDDL(String value){
+		sleep(3);
+		clickAssBTN();
+		wait.until(ExpectedConditions.visibilityOf(assDDL));
+		assDDL.click();
+		wait.until(ExpectedConditions.visibilityOf(assTB));
+		assTB.sendKeys(value+ Keys.ENTER);
+	}
+	public void clickSaveBTN(){
+		WebUI.waitForWebElementVisible(saveBTN);
+		saveBTN.click();
+	}
 	//DETAIL
 	private void verifySec(WebElement element, String value) {
 //		WebUI.w(element);
@@ -169,19 +204,43 @@ public class OrderDetailPage extends Init {
 		wait.until(ExpectedConditions.visibilityOf(insSec));
 		verifySec(insSec, value);
 	}
+
 	//DISCOUNT
 	public void verifyCode(String value) {
 		this.codeDis = value;
-		verifySec(codeSec,value);
+		verifySec(codeSec, value);
 	}
+
 	public void verifyPercent() {
-		verifySec(percentSec,String.valueOf(Discounts.GetDiscount(this.codeDis))+"%");
+		verifySec(percentSec, String.valueOf(Discounts.GetDiscount(this.codeDis)) + "%");
 	}
+
 	//EXTRAS
-	public void verifywriterCate(String value){
-		verifySec(writerCateSec,value);
+	public void verifywriterCate(String value) {
+		verifySec(writerCateSec, value);
 	}
-	public void verifyAbsPrice(){
-		verifySec(absSec,"$"+ String.format("%.2f",Calculator.absPrice));
+
+	public void verifyPreWriter(String value) {
+		verifySec(preWriterSec, value + " (+" + Calculator.preWriterPercent + "%)");
+	}
+
+	public void verifyAbsPrice() {
+		verifySec(absSec, "$" + String.format("%.2f", Calculator.absPrice));
+	}
+
+	//ORDER EVENT
+	public void clickEventBTN(){
+		wait.until(ExpectedConditions.visibilityOf(eventBTN));
+		eventBTN.click();
+	}
+	public void clickAppBTN(){
+		clickEventBTN();
+		wait.until(ExpectedConditions.visibilityOf(appBTN));
+		appBTN.click();
+	}
+	public void clickDecBTN(){
+		clickEventBTN();
+		wait.until(ExpectedConditions.visibilityOf(decBTN));
+		decBTN.click();
 	}
 }

@@ -14,6 +14,7 @@ public class Calculator {
 	double writerPrice;
 	double preWriter;
 	public static double absPrice = 22.00;
+	public static int preWriterPercent = 5;
 	double discount;
 	double balance;
 	double singlePagePrice;
@@ -114,7 +115,7 @@ public class Calculator {
 
 	public double preWriter(boolean value) {
 		if (value) {
-			BigDecimal bd = new BigDecimal(5 * this.pagePrice / 100);
+			BigDecimal bd = new BigDecimal(preWriterPercent * this.pagePrice / 100);
 			BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
 			this.preWriter = roundedValue.doubleValue();
 			return roundedValue.doubleValue();

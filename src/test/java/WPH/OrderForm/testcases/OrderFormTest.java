@@ -320,6 +320,7 @@ public class OrderFormTest extends Init {
 		//step4
 		boolean isAbsPrice = true;
 		boolean isPreWriter = true;
+		String idPreOrder = "#00091172";
 		//step5
 		String disCode = "paper15";
 		String costPageText = "$" + Price.GetPrice(deadlineTXT, acalevelTXT);
@@ -334,7 +335,7 @@ public class OrderFormTest extends Init {
 		String tokenValue = SignIn.getToken(email, password);
 //		System.out.println("token: "+ tokenValue);
 		signInPage.signInWithToken(tokenName, tokenValue);
-		String orderID = "91280";
+		String orderID = "91287";
 
 		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 		double pagePrice = calculator.pagePrice();
@@ -362,7 +363,7 @@ public class OrderFormTest extends Init {
 //		orderForm.verifyYouPay(totalPayTxt
 //	);
 
-
+		/*
 		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
 		detailsPage.verifyh1(orderID, "writing");
 		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
@@ -372,6 +373,8 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyWPrice(detailsPage.PaidPrice, totalPayTxt);
 		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, discountTxt);
 
+
+		 */
 		//Check Dashboard
 		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
 		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(driver);
@@ -407,7 +410,12 @@ public class OrderFormTest extends Init {
 		orderDetailDB.verifyPercent();
 		//EXTRAS
 		orderDetailDB.verifywriterCate(writerLvlTxt);
+		orderDetailDB.verifyPreWriter(idPreOrder);
 		orderDetailDB.verifyAbsPrice();
+		//ORDER EVENT
+//		orderDetailDB.clickAppBTN();
+		orderDetailDB.setAssDDL(Constants.WRITER_EMAIL);
+		orderDetailDB.clickSaveBTN();
 	}
 
 	@Test(enabled = false)

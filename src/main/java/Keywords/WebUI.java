@@ -13,6 +13,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.Dimension;
@@ -73,7 +74,7 @@ public class WebUI {
 		}
 	}
 
-	public static boolean checkElementDisplayed(By by){
+	public static boolean checkElementDisplayed(By by) {
 		waitForElementVisible(by);
 		boolean check = getWebElement(by).isDisplayed();
 		return check;
@@ -114,11 +115,13 @@ public class WebUI {
 		logConsole("Get text of element " + by + " is: " + text);
 		return text;
 	}
+
 	public static String getWebElementText(WebElement element) {
 		String text = element.getText();
 		logConsole("Get text of element " + element + " is: " + text);
 		return text;
 	}
+
 	public static String getElementAttribute(By by, String attributeName) {
 		waitForElementVisible(by);
 		String value = driver.findElement(by).getAttribute(attributeName);
@@ -188,6 +191,15 @@ public class WebUI {
 		} catch (Throwable error) {
 			Assert.fail("Timeout waiting for the element Visible. " + by.toString());
 			logConsole("Timeout waiting for the element Visible. " + by.toString());
+		}
+	}
+	public static void waitForWebElementVisible(WebElement webElement) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT), Duration.ofMillis(500));
+			wait.until(ExpectedConditions.visibilityOf(webElement));
+		} catch (Throwable error) {
+			Assert.fail("Timeout waiting for the element Visible. " + webElement.toString());
+			logConsole("Timeout waiting for the element Visible. " + webElement.toString());
 		}
 	}
 
@@ -438,9 +450,9 @@ public class WebUI {
 		Assert.assertTrue(check, message);
 	}
 
-	public static void clickMultiElement(By by,int value){
+	public static void clickMultiElement(By by, int value) {
 		waitForElementClickable(by);
-		for (int i = 0; i < value; i++){
+		for (int i = 0; i < value; i++) {
 			clickElement(by);
 		}
 	}
