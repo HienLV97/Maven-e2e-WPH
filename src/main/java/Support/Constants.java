@@ -28,6 +28,7 @@ public class Constants {
 
 	public static final String DASHBOARD_QL = "https://acadashboard.dev/graphql/";
 	public static final String PROXY_DEV_URL = "https://writersperhour.dev/api";
+	public static final String WRITER = "https://writersagency.dev/gateway";
 //	public static final String DashboardToken =
 
 	public static final String COMMON_EMAIL = "support@kamora.vn";

@@ -335,7 +335,7 @@ public class OrderFormTest extends Init {
 		String tokenValue = SignIn.getToken(email, password);
 //		System.out.println("token: "+ tokenValue);
 		signInPage.signInWithToken(tokenName, tokenValue);
-		String orderID = "91287";
+		String orderID = "91254";
 
 		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 		double pagePrice = calculator.pagePrice();
@@ -414,8 +414,14 @@ public class OrderFormTest extends Init {
 		orderDetailDB.verifyAbsPrice();
 		//ORDER EVENT
 //		orderDetailDB.clickAppBTN();
-		orderDetailDB.setAssDDL(Constants.WRITER_EMAIL);
-		orderDetailDB.clickSaveBTN();
+//		orderDetailDB.setAssDDL(Constants.WRITER_EMAIL);
+//		orderDetailDB.clickSaveBTN();
+
+		//WRITER SITE
+		Writer.SignIn.pages.SignInPage writerSignIn = new Writer.SignIn.pages.SignInPage(driver);
+		Authenticate("Writer");
+		writerSignIn.login(Constants.WRITER_EMAIL,Constants.COMMON_PASSWORD);
+
 	}
 
 	@Test(enabled = false)

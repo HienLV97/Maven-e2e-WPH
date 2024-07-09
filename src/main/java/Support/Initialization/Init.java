@@ -2,6 +2,7 @@ package Support.Initialization;
 
 import java.io.*;
 import java.util.Properties;
+
 import Support.WPH.Routers;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -36,13 +37,16 @@ public class Init {
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	private String screenName;
 
-	public void Authenticate(String env)  {
+	public void Authenticate(String env) {
 		ChromeOptions chromeOptions = new ChromeOptions();
-		if (env.equals("WPH")){
+		if (env.equals("WPH")) {
 			driver.get(Routers.AuthURL);
 		}
-		if (env.equals("DashBoard")){
+		if (env.equals("DashBoard")) {
 			driver.get(Support.DashBoard.Routers.AuthURL);
+		}
+		if (env.equals("Writer")) {
+			driver.get(Support.Writer.Routers.AuthURL);
 		}
 	}
 
@@ -74,7 +78,7 @@ public class Init {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-//	@AfterTest
+	//	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);
@@ -175,6 +179,7 @@ public class Init {
 		ImageIO.write(image, "png", file);
 
 	}
+
 	public static void skipSSL() throws NoSuchAlgorithmException, KeyManagementException {
 		TrustManager[] trustAllCerts = new TrustManager[]{
 				new X509TrustManager() {
@@ -197,6 +202,7 @@ public class Init {
 		HostnameVerifier allHostsValid = (hostname, session) -> true;
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 	}
+
 	public void browserPosition(String value) {
 		if (value.equals("1")) {
 			driver.manage().window().maximize();
@@ -245,6 +251,7 @@ public class Init {
 
 
 	}
+
 	protected static String formatPrice(double price) {
 		return String.format("%.2f", price);
 	}
