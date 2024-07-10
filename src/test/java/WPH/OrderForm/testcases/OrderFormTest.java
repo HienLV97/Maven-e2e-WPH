@@ -291,7 +291,7 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void test() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -424,8 +424,71 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = false)
+	@Test(enabled = true, description = "Create 20 orders")
 	public void simpletest() {
+		SignInPage signInPage = new SignInPage(driver);
+		OrderFormPage orderForm = new OrderFormPage(driver);
+		CreditCardPage creditCardPage = new CreditCardPage(driver);
+		DetailsPage detailsPage = new DetailsPage(driver);
+
+		//set value step1
+		String type = "writing";
+		String document = "Admission Essay";
+		int acalevelNumb = 2;
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
+		String discipline = "Accounting";
+		String paperFormat = Citation.getCitation(0);
+
+		//set value step2
+		String title = "test";
+		String instruction = "test";
+		//set value step3
+		int deadlineNumb = 3;
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
+		int pages = 2;
+		int source = 2;
+		int slides = 2;
+		int writerLevelNumb = 2;
+		String spacing = "Single";
+		//set value step4
+		boolean isAbsPrice = true;
+		boolean isPreWriter = true;
+		//set value step5
+		String disCode = "paper15";
+
+		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
+
+		Calculator calculator = new Calculator(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
+
+		Authenticate("WPH");
+		String tokenName = "token";
+		String email = Constants.EMAIL;
+		String password = Constants.COMMON_PASSWORD;
+		String tokenValue = SignIn.getToken(email, password);
+		signInPage.signInWithToken(tokenName, tokenValue);
+		calculator.balance(tokenValue);
+
+		sleep(5);
+		for(int i = 1; i<20;i++){
+			driver.get(Routers.ORDER);
+			orderForm.setStep1(document, acalevelNumb, discipline);
+			orderForm.setStep2(title, instruction);
+			orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
+			orderForm.setStep4(writerLevelNumb);
+			orderForm.setDiscountTB(disCode);
+			orderForm.clickApply();
+			sleep(3);
+			System.out.println(type + "   " + deadlineTXT + "   " + acalevelTXT + "   " + pages + "   " + slides + "   " + spacing);
+
+			orderForm.clickCreditBTN();
+			orderForm.clickCheckOutBTN();
+
+			sleep(5);
+			waitForNavigatePage("NaN");
+			waitForPageLoaded();
+			orderForm.clickViewOrderBTN();
+
+		}
 
 	}
 }
