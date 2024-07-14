@@ -130,8 +130,8 @@ public class Calculator {
 	}
 
 	public double balance(String token) {
-		this.balance = Double.parseDouble(Auth.getauth(token, "balance"));
-		return Double.parseDouble(Auth.getauth(token, "balance"));
+		this.balance = Double.parseDouble(Auth.getAuth(token, "balance"));
+		return Double.parseDouble(Auth.getAuth(token, "balance"));
 	}
 
 	public double grandTotal() {

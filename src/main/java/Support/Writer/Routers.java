@@ -36,7 +36,7 @@ public class Routers {
 	public static final String FAQ = BaseURL + "/faq";
 	public static final String ORDER = BaseURL + "/order";
 	public static final String ORDERS = BaseURL + "/orders";
-	public static final String ORDERS_DETAILS = BaseURL + "/orders/details/";
+	public static final String ORDERS_DETAILS = BaseURL + "/details/";
 	public static final String ORDERS_UNPAID = BaseURL + "/orders/unpaid";
 	public static final String ORDERS_COMPLETED = BaseURL + "/orders/completed";
 	public static final String ORDERS_CANCELED = BaseURL + "/orders/canceled";

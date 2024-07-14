@@ -431,20 +431,20 @@ public class WebUI {
 	}
 
 	public static void assertEquals(Object actual, Object expected, String message) {
-		waitForPageLoaded();
+//		waitForPageLoaded();
 		System.out.println("Assert equals: " + actual + " and " + expected);
 		Assert.assertEquals(actual, expected, message);
 	}
 
 	public static boolean verifyContains(String actual, String expected) {
-		waitForPageLoaded();
+//		waitForPageLoaded();
 		System.out.println("Verify contains: " + actual + " and " + expected);
 		boolean check = actual.contains(expected);
 		return check;
 	}
 
 	public static void assertContains(String actual, String expected, String message) {
-		waitForPageLoaded();
+//		waitForPageLoaded();
 		System.out.println("Assert contains: " + actual + " and " + expected);
 		boolean check = actual.contains(expected);
 		Assert.assertTrue(check, message);

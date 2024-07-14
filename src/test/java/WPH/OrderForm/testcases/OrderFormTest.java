@@ -231,7 +231,7 @@ public class OrderFormTest extends Init {
 		orderForm.setStep1(document, acalevelNumb, discipline);
 		orderForm.setStep2(title, instruction);
 		orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
-		orderForm.setStep4(writerLevelNumb);
+		orderForm.setStep4(writerLevelNumb, isAbsPrice, isPreWriter);
 		orderForm.setDiscountTB(disCode);
 		orderForm.clickApply();
 		sleep(3);
@@ -413,6 +413,7 @@ public class OrderFormTest extends Init {
 		orderDetailDB.verifyPreWriter(idPreOrder);
 		orderDetailDB.verifyAbsPrice();
 		//ORDER EVENT
+
 //		orderDetailDB.clickAppBTN();
 //		orderDetailDB.setAssDDL(Constants.WRITER_EMAIL);
 //		orderDetailDB.clickSaveBTN();
@@ -420,11 +421,11 @@ public class OrderFormTest extends Init {
 		//WRITER SITE
 		Writer.SignIn.pages.SignInPage writerSignIn = new Writer.SignIn.pages.SignInPage(driver);
 		Authenticate("Writer");
-		writerSignIn.login(Constants.WRITER_EMAIL,Constants.COMMON_PASSWORD);
+		writerSignIn.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
 
 	}
 
-	@Test(enabled = true, description = "Create 20 orders")
+	@Test(enabled = false, description = "Create multi orders")
 	public void simpletest() {
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
@@ -469,12 +470,12 @@ public class OrderFormTest extends Init {
 		calculator.balance(tokenValue);
 
 		sleep(5);
-		for(int i = 1; i<20;i++){
+		for (int i = 1; i < 20; i++) {
 			driver.get(Routers.ORDER);
 			orderForm.setStep1(document, acalevelNumb, discipline);
 			orderForm.setStep2(title, instruction);
 			orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
-			orderForm.setStep4(writerLevelNumb);
+			orderForm.setStep4(writerLevelNumb, isAbsPrice, isPreWriter);
 			orderForm.setDiscountTB(disCode);
 			orderForm.clickApply();
 			sleep(3);
@@ -490,5 +491,122 @@ public class OrderFormTest extends Init {
 
 		}
 
+	}
+
+	@Test(enabled = false, description = "Create 1 order")
+	public void createOneOrder() {
+		SignInPage signInPage = new SignInPage(driver);
+		OrderFormPage orderForm = new OrderFormPage(driver);
+		CreditCardPage creditCardPage = new CreditCardPage(driver);
+		DetailsPage detailsPage = new DetailsPage(driver);
+
+		//set value step1
+		String type = "writing";
+		String document = "Admission Essay";
+		int acalevelNumb = 2;
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
+		String discipline = "Accounting";
+		String paperFormat = Citation.getCitation(0);
+
+		//set value step2
+		String title = "test";
+		String instruction = "test";
+		//set value step3
+		int deadlineNumb = 3;
+		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
+		int pages = 2;
+		int source = 2;
+		int slides = 2;
+		int writerLevelNumb = 2;
+		String spacing = "Single";
+		//set value step4
+		boolean isAbsPrice = false;
+		boolean isPreWriter = true;
+		//set value step5
+		String disCode = "paper15";
+
+		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
+
+		Calculator calculator = new Calculator(type, deadlineTXT, acalevelTXT, pages, slides, spacing);
+
+		Authenticate("WPH");
+		String tokenName = "token";
+		String email = Constants.EMAIL;
+		String password = Constants.COMMON_PASSWORD;
+		String tokenValue = SignIn.getToken(email, password);
+		signInPage.signInWithToken(tokenName, tokenValue);
+		calculator.balance(tokenValue);
+
+		driver.get(Routers.ORDER);
+		orderForm.setStep1(document, acalevelNumb, discipline);
+		orderForm.setStep2(title, instruction);
+		orderForm.setStep3(source, pages, deadlineNumb, slides, spacing);
+		orderForm.setStep4(writerLevelNumb, isAbsPrice, isPreWriter);
+		orderForm.setDiscountTB(disCode);
+		orderForm.clickApply();
+		sleep(3);
+		System.out.println(type + "   " + deadlineTXT + "   " + acalevelTXT + "   " + pages + "   " + slides + "   " + spacing);
+
+		orderForm.clickCreditBTN();
+		orderForm.clickCheckOutBTN();
+
+		sleep(5);
+		waitForNavigatePage("NaN");
+		waitForPageLoaded();
+		orderForm.clickViewOrderBTN();
+
+	}
+
+	@Test(enabled = true, description = "Writer site")
+	public void testWriterSite() {
+		Writer.SignIn.pages.SignInPage signInWriter = new Writer.SignIn.pages.SignInPage(driver);
+		OrderFormPage orderForm = new OrderFormPage(driver);
+
+		//set value step1
+		String orderType = "writing";
+		String document = "Admission Essay";
+		int acalevelNumb = 2;
+		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
+		String discipline = "Accounting";
+		String paperFormat = Citation.getCitation(0);
+
+		//set value step2
+		String title = "test";
+		String instruction = "test";
+		//set value step3
+		int deadlineNumb = 3;
+		String urgentTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
+		int pages = 2;
+		int source = 2;
+		int slides = 0;
+		int writerLevelNumb = 2;
+		String spacing = "Double";
+		//set value step4
+		boolean isAbsPrice = false;
+		boolean isPreWriter = true;
+		//set value step5
+		String disCode = "paper15";
+		Calculator calculator = new Calculator(orderType, urgentTXT, acalevelTXT, pages, slides, spacing);
+
+		Writer.OrderDetail.pages.OrderDetailPage orderDetailWriter = new Writer.OrderDetail.pages.OrderDetailPage(
+				driver, orderType, acalevelTXT, document, discipline, paperFormat,
+				title, instruction, urgentTXT,source, pages, slides, spacing);
+
+		Authenticate("Writer");
+		waitForPageLoaded();
+		signInWriter.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
+		waitForNavigatePage(Support.Writer.Routers.BaseURL);
+		String ID_ORDER = "91292";
+		String PRE_ORDER = "91172";
+		sleep(5);
+		orderDetailWriter.goToOD(ID_ORDER);
+		sleep(5);
+//		orderDetailWriter.verifyPreWriter(PRE_ORDER);
+		orderDetailWriter.verifyAbsPage(false);
+		orderDetailWriter.verifyOrderID(ID_ORDER);
+		orderDetailWriter.verifySpacing();
+		orderDetailWriter.verifyFormat();
+		orderDetailWriter.verifyWord();
+		orderDetailWriter.verifySize();
 	}
 }

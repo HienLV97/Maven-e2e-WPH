@@ -112,12 +112,9 @@ public class OrderDetailPage extends Init {
 	}
 	//DETAIL
 	private void verifySec(WebElement element, String value) {
-//		WebUI.w(element);
 		String sectionText = WebUI.getWebElementText(element);
-//		boolean   = sectionText.contains(value.toLowerCase());
 		String message = "error";
 		WebUI.assertEquals(sectionText, value, message);
-//		Assert.assertTrue(containText, "Actual: "+sectionText+", expected " + value);
 	}
 
 	public void verifyTopic(String value) {

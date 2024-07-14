@@ -96,6 +96,18 @@ public class Init {
 		}
 	}
 
+	public static String getBaseUrl(String url) {
+		try {
+			java.net.URL urlObj = new java.net.URL(url);
+			String protocol = urlObj.getProtocol();
+			String host = urlObj.getHost();
+			return protocol + "://" + host + "/";
+		} catch (java.net.MalformedURLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public void waitForPageLoaded() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(5000));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -124,13 +136,29 @@ public class Init {
 		}
 	}
 
+
 	public void waitForNavigatePage(String value) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
+		String router = getBaseUrl(driver.getCurrentUrl());
 		if (Objects.equals(value, "NaN")) {
-			wait.until(ExpectedConditions.or(
-					ExpectedConditions.urlContains(Routers.AuthURL),
-					ExpectedConditions.urlContains(Routers.BaseURL)
-			));
+			if (Objects.equals(router,Routers.BaseURL)) {
+				wait.until(ExpectedConditions.or(
+						ExpectedConditions.urlContains(Routers.AuthURL),
+						ExpectedConditions.urlContains(Routers.BaseURL)
+				));
+			}
+			else if (Objects.equals(router,Support.Writer.Routers.AuthURL)) {
+				wait.until(ExpectedConditions.or(
+						ExpectedConditions.urlContains(Support.Writer.Routers.AuthURL),
+						ExpectedConditions.urlContains(Support.Writer.Routers.BaseURL)
+				));
+			}
+			else if (Objects.equals(router,Support.DashBoard.Routers.AuthURL)) {
+				wait.until(ExpectedConditions.or(
+						ExpectedConditions.urlContains(Support.DashBoard.Routers.AuthURL),
+						ExpectedConditions.urlContains(Support.DashBoard.Routers.BaseURL)
+				));
+			}
 		} else {
 			wait.until(ExpectedConditions.urlContains(value));
 		}

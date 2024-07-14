@@ -354,10 +354,14 @@ public class OrderFormPage extends Init {
 		clickNextButton();
 	}
 
-	public void setStep4(int value) {
+	public void setStep4(int value,boolean isAbsPrice, boolean isPreWriter) {
 		clickWriterLevelBTN(value);
-		clickAbstractBTN();
-		setPrevWriterDRL();
+		if (isAbsPrice){
+			clickAbstractBTN();
+		}
+		if (isPreWriter){
+			setPrevWriterDRL();
+		}
 		clickNextButton();
 	}
 
