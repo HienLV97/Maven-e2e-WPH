@@ -90,7 +90,10 @@ public class WebUI {
 		getWebElement(by).click();
 		logConsole("Click on element " + by);
 	}
-
+	public static void clickWEBElement(WebElement webElement) {
+		webElement.click();
+		logConsole("Click on element " + webElement);
+	}
 	public static void clickElement(By by, int second) {
 		waitForElementClickable(by, second);
 		getWebElement(by).click();
@@ -242,7 +245,15 @@ public class WebUI {
 			logConsole("Timeout waiting for the element ready to click. " + by.toString());
 		}
 	}
-
+//	public static void waitForElementClickable(By by) {
+//		try {
+//			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT), Duration.ofMillis(500));
+//			wait.until(ExpectedConditions.elementToBeClickable(getWebElement(by)));
+//		} catch (Throwable error) {
+//			Assert.fail("Timeout waiting for the element ready to click. " + by.toString());
+//			logConsole("Timeout waiting for the element ready to click. " + by.toString());
+//		}
+//	}
 	public static void waitForElementClickable(By by, int timeOut) {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut), Duration.ofMillis(500));

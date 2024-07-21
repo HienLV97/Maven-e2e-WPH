@@ -2,19 +2,21 @@ package WPH.OrderForm.pages;
 
 
 import API.GetAPI.CoreAPI.OrderForm.OrderForm;
-import API.GetAPI.NextProxy.Citation.Citation;
 import Keywords.WebUI;
 import Support.Initialization.Init;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import java.util.List;
 import java.time.Duration;
+import java.util.Objects;
 
 public class OrderFormPage extends Init {
 	private WebDriver driver;
@@ -25,6 +27,7 @@ public class OrderFormPage extends Init {
 		//driver = _driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		new WebUI(driver); //Bắt buộc
+		PageFactory.initElements(driver, this);
 	}
 
 	//	JavascriptExecutor js;
@@ -35,6 +38,11 @@ public class OrderFormPage extends Init {
 	private By DocumentDRL = By.xpath("//input[@id='input-document']");
 	private By DisciplineDRL = By.xpath("//input[@id='input-discipline']");
 	private String Acalevel = "(//button[contains(@class,'button-tag')])";
+	@FindBy(xpath = "//span[normalize-space()='writing']")
+	WebElement writeBTN;
+	@FindBy(xpath = "//span[normalize-space()='editing']")
+	WebElement editBTN;
+
 
 	//step2
 	private By TitleTXT = By.xpath("//input[@placeholder='Write your paper title']");
@@ -106,7 +114,7 @@ public class OrderFormPage extends Init {
 		driver.findElement(DocumentDRL).sendKeys("Admission Essay");
 	}
 
-	public void acalevelOptBTN(Integer value) {
+	public void clickAcaLevel(Integer value) {
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + academicLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		driver.findElement(option).click();
@@ -123,11 +131,15 @@ public class OrderFormPage extends Init {
 		driver.findElement(DisciplineDRL).sendKeys(value);
 	}
 
-	public void formatOptBTN(String value) {
+	public void clickPaperFormat(String value) {
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + value + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		WebUI.clickElement(option);
 //		driver.findElement(option).click();
+	}
+
+	public void clickOrderType(WebElement webElement) {
+		WebUI.clickWEBElement(webElement);
 	}
 
 	//step2
@@ -320,15 +332,17 @@ public class OrderFormPage extends Init {
 		return orderId;
 	}
 
-	public void setStep1(String document, int acalevel, String discipline) {
-//		SetDocumentDRL("Admission Essay");
+	public void setStep1(String orderType,int acalevel, String document, String discipline,String paperFormat ) {
+		if (Objects.equals(orderType.toLowerCase(), "writing")) {
+			clickOrderType(writeBTN);
+		} else if (Objects.equals(orderType.toLowerCase(), "editing")) {
+			clickOrderType(editBTN);
+		}
+		clickAcaLevel(acalevel);
 		setDocumentDRL(document);
-		sleep(2);
-		acalevelOptBTN(acalevel);
-//		setDisciplineDRL("Accounting");
 		setDisciplineDRL(discipline);
-		sleep(2);
-		acalevelOptBTN(acalevel);
+		sleep(1);
+		clickPaperFormat(paperFormat);
 		clickNextButton();
 	}
 
@@ -354,12 +368,12 @@ public class OrderFormPage extends Init {
 		clickNextButton();
 	}
 
-	public void setStep4(int value,boolean isAbsPrice, boolean isPreWriter) {
+	public void setStep4(int value, boolean isAbsPrice, boolean isPreWriter) {
 		clickWriterLevelBTN(value);
-		if (isAbsPrice){
+		if (isAbsPrice) {
 			clickAbstractBTN();
 		}
-		if (isPreWriter){
+		if (isPreWriter) {
 			setPrevWriterDRL();
 		}
 		clickNextButton();
@@ -370,5 +384,9 @@ public class OrderFormPage extends Init {
 		clickCheckOutBTN();
 	}
 
-
+	public void createOrder(String orderType, int level, String typeDoc, String discipline,
+							String paperFormat, String title, String instruction,
+							String urgent, int sources, int pages, int slides, String spacing) {
+		setStep1(orderType, level, typeDoc, discipline, paperFormat);
+	}
 }

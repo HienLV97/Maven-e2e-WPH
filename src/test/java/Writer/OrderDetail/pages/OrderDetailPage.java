@@ -210,5 +210,9 @@ public class OrderDetailPage extends Init {
 //		verifySec(	WebUI.getWebElementText(sizeSec), pagesText + "/" + slidesText, false);
 	}
 
+	public void verifyIns() {
+		verifySec(instructionSec, String.valueOf(instruction), true);
+	}
+
 
 }
