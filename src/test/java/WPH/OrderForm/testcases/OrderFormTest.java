@@ -106,7 +106,8 @@ public class OrderFormTest extends Init {
 		int acalevelNumb = 2;
 		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
 		String discipline = "Accounting";
-		int paperFormat = 2;
+//		int paperFormat = 2;
+		String paperFormat = Citation.getCitation(0);
 //		String paperFormatTXT = orderForm.p
 		//step2
 		String title = "test";
@@ -619,7 +620,7 @@ public class OrderFormTest extends Init {
 		DetailsPage detailsPage = new DetailsPage(driver);
 
 		//set value step1
-		String orderType = "editing";
+		String orderType = "writing";
 		String document = "Admission Essay";
 		int acalevelNumb = 2;
 		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
@@ -638,10 +639,12 @@ public class OrderFormTest extends Init {
 		int writerLevelNumb = 2;
 		String spacing = "Double";
 		//set value step4
+		int writerAdd = 1;
 		boolean isAbsPrice = false;
 		boolean isPreWriter = true;
 		//set value step5
 		String disCode = "paper15";
+		int payment = 1;
 
 		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
 
@@ -656,6 +659,8 @@ public class OrderFormTest extends Init {
 		calculator.balance(tokenValue);
 
 		driver.get(Routers.ORDER);
-		orderForm.setStep1(orderType,acalevelNumb, document, discipline,paperFormat);
+		orderForm.createOrder(orderType,acalevelNumb, document, discipline,paperFormat,
+								title,instruction,deadlineNumb,source,pages,slides,spacing,
+								writerAdd,isAbsPrice,isPreWriter,disCode,payment);
 	}
 }

@@ -223,7 +223,6 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		driver.findElement(option).click();
 	}
-
 	public void clickAbstractCB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SingleBTN));
 		driver.findElement(SingleBTN).click();
@@ -283,6 +282,10 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CreditBTN));
 		driver.findElement(CreditBTN).click();
 	}
+	public void clickPayPalBTN(){
+		wait.until(ExpectedConditions.visibilityOfElementLocated(PayPalBTN));
+		driver.findElement(PayPalBTN).click();
+	}
 
 	public void clickCheckOutBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CheckOutBTN));
@@ -340,9 +343,12 @@ public class OrderFormPage extends Init {
 		}
 		clickAcaLevel(acalevel);
 		setDocumentDRL(document);
+		sleep(2);
+		clickAcaLevel(acalevel);
+//		setDisciplineDRL("Accounting");
 		setDisciplineDRL(discipline);
-		sleep(1);
-		clickPaperFormat(paperFormat);
+		sleep(2);
+		clickAcaLevel(acalevel);
 		clickNextButton();
 	}
 
@@ -368,8 +374,8 @@ public class OrderFormPage extends Init {
 		clickNextButton();
 	}
 
-	public void setStep4(int value, boolean isAbsPrice, boolean isPreWriter) {
-		clickWriterLevelBTN(value);
+	public void setStep4(int writerAdd, boolean isAbsPrice, boolean isPreWriter) {
+		clickWriterLevelBTN(writerAdd);
 		if (isAbsPrice) {
 			clickAbstractBTN();
 		}
@@ -379,14 +385,28 @@ public class OrderFormPage extends Init {
 		clickNextButton();
 	}
 
-	public void setStep5() {
-		clickCreditBTN();
-		clickCheckOutBTN();
+	public void setStep5(String disCode, int payment) {
+		if (Objects.nonNull(disCode)){
+			setDiscountTB(disCode);
+		}
+		if (payment == 1){
+			clickCreditBTN();
+			clickCheckOutBTN();
+		}else if(payment == 2){
+			clickPayPalBTN();
+			clickCheckOutBTN();
+		}
 	}
 
 	public void createOrder(String orderType, int level, String typeDoc, String discipline,
 							String paperFormat, String title, String instruction,
-							String urgent, int sources, int pages, int slides, String spacing) {
+							int deadline, int sources, int pages, int slides, String spacing,
+							int writerAdd, boolean isAbsPrice, boolean isPreWriter,
+							String disCode, int payment) {
 		setStep1(orderType, level, typeDoc, discipline, paperFormat);
+		setStep2(title,instruction);
+		setStep3(sources,pages,deadline,slides,spacing);
+		setStep4(writerAdd,isAbsPrice,isPreWriter);
+		setStep5(disCode,payment);
 	}
 }
