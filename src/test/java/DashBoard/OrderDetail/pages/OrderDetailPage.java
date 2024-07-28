@@ -221,8 +221,8 @@ public class OrderDetailPage extends Init {
 		verifySec(preWriterSec, value + " (+" + Calculator.preWriterPercent + "%)");
 	}
 
-	public void verifyAbsPrice() {
-		verifySec(absSec, "$" + String.format("%.2f", Calculator.absPrice));
+	public void verifyAbsPrice(double value) {
+		verifySec(absSec, "$" + String.format("%.2f", value));
 	}
 
 	//ORDER EVENT

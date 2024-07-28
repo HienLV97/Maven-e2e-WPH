@@ -4,6 +4,7 @@ package WPH.OrderForm.pages;
 import API.GetAPI.CoreAPI.OrderForm.OrderForm;
 import Keywords.WebUI;
 import Support.Initialization.Init;
+import WPH.payment.CreditCard.pages.CreditCardPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -21,10 +22,71 @@ import java.util.Objects;
 public class OrderFormPage extends Init {
 	private WebDriver driver;
 	private WebDriverWait wait;
+	public String orderType;
+	public String document;
+	public int acalevelNumb;
+	public String acalevelTXT;
+	public String discipline;
+	public String paperFormat;
+
+	public void Step1Data(String orderType, String document, int acalevelNumb, String discipline, String paperFormat, List<String> academicLevels) {
+		this.orderType = orderType;
+		this.document = document;
+		this.acalevelNumb = acalevelNumb;
+		this.acalevelTXT = academicLevels.get(acalevelNumb).replace("\"", "");
+		this.discipline = discipline;
+		this.paperFormat = paperFormat;
+	}
+
+	public String title;
+	public String instruction;
+
+	public void Step2Data(String title, String instruction) {
+		this.title = title;
+		this.instruction = instruction;
+	}
+
+	public int urgentNumb;
+	public String urgentTXT;
+	public int pages;
+	public int source;
+	public int slides;
+	public int writerLvlNumb;
+	public String writerLvlTxt;
+	public String spacing;
+
+	public void Step3Data(int deadlineNumb, int pages, int source, int slides, String spacing, List<String> deadLineLevels) {
+		this.urgentNumb = deadlineNumb;
+		this.urgentTXT = deadLineLevels.get(deadlineNumb).replace("\"", "");
+		this.pages = pages;
+		this.source = source;
+		this.slides = slides;
+		this.spacing = spacing;
+
+	}
+
+	public boolean isAbsPrice;
+	public boolean isPreWriter;
+
+	public void Step4Data(int writerLvlNumb, boolean isAbsPrice, boolean isPreWriter, List<String> writerLevels) {
+		this.writerLvlNumb = writerLvlNumb;
+		this.writerLvlTxt = writerLevels.get(writerLvlNumb).replace("\"", "");
+
+		this.isAbsPrice = isAbsPrice;
+		this.isPreWriter = isPreWriter;
+	}
+
+	public String disCode;
+	public int payment;
+
+	public void Step5Data(String disCode, int payment) {
+		this.disCode = disCode;
+		this.payment = payment;
+	}
+
 
 	public OrderFormPage(WebDriver driver) {
 		this.driver = driver;
-		//driver = _driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		new WebUI(driver); //Bắt buộc
 		PageFactory.initElements(driver, this);
@@ -117,6 +179,8 @@ public class OrderFormPage extends Init {
 	public void clickAcaLevel(Integer value) {
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + academicLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
+		new WebUI(driver);
+		WebUI.scrollToElement(option);
 		driver.findElement(option).click();
 	}
 
@@ -219,10 +283,12 @@ public class OrderFormPage extends Init {
 
 	//step4
 	public void clickWriterLevelBTN(int value) {
+		System.out.println("test: "+writerLevel.get(value).replace("\"", ""));
 		By option = By.xpath("*//p[contains(text(),'" + writerLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		driver.findElement(option).click();
 	}
+
 	public void clickAbstractCB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SingleBTN));
 		driver.findElement(SingleBTN).click();
@@ -282,7 +348,8 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CreditBTN));
 		driver.findElement(CreditBTN).click();
 	}
-	public void clickPayPalBTN(){
+
+	public void clickPayPalBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PayPalBTN));
 		driver.findElement(PayPalBTN).click();
 	}
@@ -290,6 +357,11 @@ public class OrderFormPage extends Init {
 	public void clickCheckOutBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CheckOutBTN));
 		driver.findElement(CheckOutBTN).click();
+	}
+
+	public void checkOutByStrip() {
+		new CreditCardPage(driver);
+//		CreditCardPage.getCheckout();
 	}
 
 	public void clickViewOrderBTN() {
@@ -335,78 +407,81 @@ public class OrderFormPage extends Init {
 		return orderId;
 	}
 
-	public void setStep1(String orderType,int acalevel, String document, String discipline,String paperFormat ) {
-		if (Objects.equals(orderType.toLowerCase(), "writing")) {
+	public void setStep1() {
+		if (Objects.equals(this.orderType.toLowerCase(), "writing")) {
 			clickOrderType(writeBTN);
-		} else if (Objects.equals(orderType.toLowerCase(), "editing")) {
+		} else if (Objects.equals(this.orderType.toLowerCase(), "editing")) {
 			clickOrderType(editBTN);
 		}
-		clickAcaLevel(acalevel);
-		setDocumentDRL(document);
+		System.out.println("Check driver: " + driver);
+		clickAcaLevel(this.acalevelNumb);
+		setDocumentDRL(this.document);
 		sleep(2);
-		clickAcaLevel(acalevel);
+		clickAcaLevel(this.acalevelNumb);
 //		setDisciplineDRL("Accounting");
-		setDisciplineDRL(discipline);
+		setDisciplineDRL(this.discipline);
 		sleep(2);
-		clickAcaLevel(acalevel);
+		clickAcaLevel(this.acalevelNumb);
+		clickPaperFormat(this.paperFormat);
 		clickNextButton();
 	}
 
-	public void setStep2(String title, String instrucion) {
-		setTitleTXT(title);
-		setInstructionTXT(instrucion);
+	public void setStep2() {
+		setTitleTXT(this.title);
+		setInstructionTXT(this.instruction);
 		clickNextButton();
 	}
 
-	public void setStep3(int source, int page, int deadline, int slide, String spacing) {
-		WebUI.clickMultiElement(SourceIncBTN, source);
-		clickDeadLine(deadline);
-		WebUI.clickMultiElement(PageIncBTN, (page - 2));
-		if (spacing.equals("Single")) {
+	public void setStep3() {
+		WebUI.clickMultiElement(SourceIncBTN, this.source);
+		clickDeadLine(this.urgentNumb);
+		WebUI.clickMultiElement(PageIncBTN, (this.pages - 2));
+		if (this.spacing.equals("Single")) {
 			clickSingleBTN();
 		}
-		if (spacing.equals("Double")) {
+		if (this.spacing.equals("Double")) {
 			clickDoubleBTN();
 		}
-		if (slide >= 2) {
+		if (this.slides >= 2) {
 			clickSlideInc();
 		}
 		clickNextButton();
 	}
 
-	public void setStep4(int writerAdd, boolean isAbsPrice, boolean isPreWriter) {
-		clickWriterLevelBTN(writerAdd);
-		if (isAbsPrice) {
+	public void setStep4() {
+		clickWriterLevelBTN(this.writerLvlNumb);
+		if (this.isAbsPrice) {
 			clickAbstractBTN();
 		}
-		if (isPreWriter) {
+		if (this.isPreWriter) {
 			setPrevWriterDRL();
 		}
 		clickNextButton();
 	}
 
-	public void setStep5(String disCode, int payment) {
-		if (Objects.nonNull(disCode)){
-			setDiscountTB(disCode);
+	public void setStep5() {
+		if (Objects.nonNull(this.disCode)) {
+			setDiscountTB(this.disCode);
+			sleep(5);
+			clickApply();
 		}
-		if (payment == 1){
+		if (this.payment == 1) {
 			clickCreditBTN();
+
 			clickCheckOutBTN();
-		}else if(payment == 2){
+		} else if (this.payment == 2) {
 			clickPayPalBTN();
 			clickCheckOutBTN();
 		}
 	}
 
-	public void createOrder(String orderType, int level, String typeDoc, String discipline,
-							String paperFormat, String title, String instruction,
-							int deadline, int sources, int pages, int slides, String spacing,
-							int writerAdd, boolean isAbsPrice, boolean isPreWriter,
-							String disCode, int payment) {
-		setStep1(orderType, level, typeDoc, discipline, paperFormat);
-		setStep2(title,instruction);
-		setStep3(sources,pages,deadline,slides,spacing);
-		setStep4(writerAdd,isAbsPrice,isPreWriter);
-		setStep5(disCode,payment);
+	public void createOrder() {
+		setStep1();
+		setStep2();
+		setStep3();
+		setStep4();
+		setStep5();
+//		new Calculator();
+//		Calculator();
 	}
 }

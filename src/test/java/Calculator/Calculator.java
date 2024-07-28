@@ -4,16 +4,20 @@ package Calculator;
 import API.GetAPI.DashboardGraphQL.Categories;
 import API.GetAPI.DashboardGraphQL.Price;
 import API.GetAPI.NextProxy.Auth.Auth;
+import Support.Initialization.Init;
+import WPH.OrderForm.pages.OrderFormPage;
+import org.openqa.selenium.WebDriver;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
+
 public class Calculator {
 	double pagePrice;
 	double writerPrice;
 	double preWriter;
-	public static double absPrice = 22.00;
+	public double absPrice;
 	public static int preWriterPercent = 5;
 	double discount;
 	double balance;
@@ -21,23 +25,28 @@ public class Calculator {
 	double slidePrice;
 	String type;
 	String urgent;
-	String level;
+	String acalevelNumb;
 	int pages;
 	int slides;
 	String spacing;
 	static double youPay;
 	public static int writerRate = 30;
 	static double writerFee;
-
-	public Calculator(String type, String urgent, String level, int pages, int slides, String spacing) {
-		this.type = type;
-		this.urgent = urgent;
-		this.level = level;
-		this.pages = pages;
-		this.slides = slides;
-		this.spacing = spacing;
+	private static WebDriver driver;
+	boolean isAbsPrice;
+	boolean isPreWriter;
+	public Calculator() {
 	}
-
+	public void setValuesFromOrderForm(OrderFormPage orderFormPage) {
+		this.type = orderFormPage.orderType;
+		this.urgent = orderFormPage.urgentTXT;
+		this.acalevelNumb = orderFormPage.acalevelTXT;
+		this.pages = orderFormPage.pages;
+		this.slides = orderFormPage.slides;
+		this.spacing = orderFormPage.spacing;
+		this.isAbsPrice = orderFormPage.isAbsPrice;
+		this.isPreWriter = orderFormPage.isPreWriter;
+	}
 	public double slidePrice() {
 		return this.slidePrice = slides * singlePagePrice / 2;
 	}
@@ -63,10 +72,13 @@ public class Calculator {
 	}
 
 	public double pagePrice() {
-		this.singlePagePrice = Price.GetPrice(urgent, level);
+		System.out.println("this.urgentTXT: "+urgent);
+		System.out.println("urgentTXT: "+urgent);
+		System.out.println("urgentTXT: "+acalevelNumb);
+		this.singlePagePrice = Price.GetPrice(urgent, acalevelNumb);
 
 		if (Objects.equals(type, "writing")) {
-			System.out.println("singlePagePrice: " + this.singlePagePrice);
+			System.out.println("singlePagePrice: " + singlePagePrice);
 		} else if (Objects.equals(type, "editing")) {
 			this.singlePagePrice /= 2;
 		}
@@ -98,34 +110,40 @@ public class Calculator {
 	public double writerLevelPrice(String value) {
 
 		int percent = Integer.parseInt(Categories.GetCategoryData(value, "percent"));
-		BigDecimal bd = new BigDecimal(percent * this.pagePrice / 100);
-		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
+		System.out.println("percent: "+percent);
+		System.out.println("pagePrice: "+pagePrice);
+		BigDecimal bd = new BigDecimal(percent * pagePrice / 100);
+		BigDecimal newBD = bd.setScale(4, RoundingMode.HALF_UP);
+		BigDecimal roundedValue = newBD.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("roundedValue: " + roundedValue);
 		this.writerPrice = roundedValue.doubleValue();
 		return roundedValue.doubleValue();
 	}
 
-	public double abstractPrice(boolean value) {
-		if (value) {
-			return absPrice;
+	public double abstractPrice() {
+		if (isAbsPrice) {
+			return this.absPrice = 22.00;
 		} else {
 			return 0.00;
 		}
 	}
 
-	public double preWriter(boolean value) {
-		if (value) {
-			BigDecimal bd = new BigDecimal(preWriterPercent * this.pagePrice / 100);
+	public double preWriter() {
+		if (isPreWriter) {
+			BigDecimal bd = new BigDecimal(preWriterPercent * pagePrice / 100);
 			BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
-			this.preWriter = roundedValue.doubleValue();
-			return roundedValue.doubleValue();
+			return	this.preWriter = roundedValue.doubleValue();
+//			return roundedValue.doubleValue();
 		} else {
 			return 0.00;
 		}
 	}
 
 	public double extrasTotal() {
-		BigDecimal extraTotal = BigDecimal.valueOf(this.writerPrice + absPrice + this.preWriter);
+		System.out.println("writerPrice: "+writerPrice);
+		System.out.println("absPrice: "+absPrice);
+		System.out.println("preWriter: "+preWriter);
+		BigDecimal extraTotal = BigDecimal.valueOf(writerPrice + absPrice + preWriter);
 		return extraTotal.setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
@@ -135,11 +153,11 @@ public class Calculator {
 	}
 
 	public double grandTotal() {
-		BigDecimal bd = new BigDecimal(this.pagePrice - this.discount + extrasTotal() - balance);
+		BigDecimal bd = new BigDecimal(pagePrice - discount + extrasTotal() - balance);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
 		double youPay = roundedValue.doubleValue();
 		if (youPay <= 0) {
-			return this.youPay = 0.00;
+			return youPay = 0.00;
 		} else {
 			return this.youPay = youPay;
 		}

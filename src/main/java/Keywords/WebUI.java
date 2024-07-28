@@ -34,9 +34,10 @@ public class WebUI {
 	private static WebDriver driver;
 
 	public WebUI(WebDriver driver) {
+		System.out.println("WEB UI driver: "+driver);
 		this.driver = driver;
-		PageFactory.initElements(driver, this);
 	}
+
 
 	public static void sleep(double second) {
 		try {
