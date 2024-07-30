@@ -15,10 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.*;
@@ -37,7 +34,7 @@ public class Init {
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	private String screenName;
 
-	public void Authenticate(String env) {
+	public void authenticate(String env) {
 		ChromeOptions chromeOptions = new ChromeOptions();
 		if (env.equals("WPH")) {
 			driver.get(Routers.AuthURL);
@@ -50,19 +47,17 @@ public class Init {
 		}
 	}
 
-	@BeforeTest
+//	@BeforeMethod(groups = {"verifyPrice"})
+	@Test(alwaysRun = true)
+	@BeforeSuite
 	@Parameters({"browser"})
 	public void Setup(@Optional("chrome") String browserName) {
-		WebDriverWait wait;
+		System.out.println("vao` day");
 		System.setProperty("webdriver.http.factory", "jdk-http-client");
-		if (browserName.equals("chrome")) {
-			driver = new ChromeDriver();
-		}
-		if (browserName.equals("edge")) {
-			driver = new EdgeDriver();
-		}
-		if (browserName.equals("firefox")) {
-			driver = new FirefoxDriver();
+		switch (browserName) {
+			case "chrome" -> driver = new ChromeDriver();
+			case "edge" -> driver = new EdgeDriver();
+			case "firefox" -> driver = new FirefoxDriver();
 		}
 		Properties properties = new Properties();
 		try {
@@ -77,6 +72,8 @@ public class Init {
 		driver.manage().timeouts().pageLoadTimeout(160, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
+
+
 
 	//	@AfterTest
 	public void closeBrowser() {

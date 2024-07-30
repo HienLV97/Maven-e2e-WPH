@@ -12,7 +12,7 @@ public class SignInTest extends Init {
 	@Test (enabled = true)
 	public void test() throws NoSuchAlgorithmException, KeyManagementException {
 		SignInPage signInPage = new SignInPage(driver);
-		Authenticate("DashBoard");
+		authenticate("DashBoard");
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		sleep(5);
 	}

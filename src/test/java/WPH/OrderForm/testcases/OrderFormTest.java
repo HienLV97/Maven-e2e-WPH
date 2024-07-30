@@ -5,7 +5,6 @@ import API.GetAPI.NextProxy.Citation.Citation;
 import API.GetAPI.NextProxy.SignIn.SignIn;
 import Calculator.Calculator;
 import DashBoard.OrderDetail.pages.OrderDetailPage;
-import Keywords.WebUI;
 import Support.Constants;
 import Support.Initialization.Init;
 import Support.WPH.Routers;
@@ -94,7 +93,7 @@ public class OrderFormTest extends Init {
 		SignInPage signInPage = new SignInPage(driver);
 		DetailsPage detailsPage = new DetailsPage(driver);
 
-		Authenticate("WPH");
+		authenticate("WPH");
 		signInPage.Login(Constants.EMAIL, Constants.COMMON_PASSWORD);
 		screenShot("TestScreen3");
 
@@ -103,7 +102,7 @@ public class OrderFormTest extends Init {
 
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
 		orderForm.Step2Data("test", "test");
-		orderForm.Step3Data(1, 3, 3, 2, "Single", orderForm.deadLineLevel);
+		orderForm.Step3Data(1, 3, 3, 2,  "Single", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, false, true, orderForm.writerLevel);
 		orderForm.Step5Data("paper15", 1);
 
@@ -127,7 +126,8 @@ public class OrderFormTest extends Init {
 	}
 
 
-	@Test(enabled = true, priority = 1, description = "Order form price display correct")
+//	@Test(enabled = true,groups = {"verifyPrice"}, priority = 1, description = "Order form price display correct")
+	@Test(groups = {"verifyPrice"})
 	public void testVerifyPrice() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -141,8 +141,9 @@ public class OrderFormTest extends Init {
 		orderForm.Step4Data(1, false, true, orderForm.writerLevel);
 		orderForm.Step5Data("paper15", 1);
 		Calculator calculator = new Calculator();
-
-		Authenticate("WPH");
+//		signInPage.Login("abc","abc");
+//		driver.get(Routers.ORDER);
+		authenticate("WPH");
 		String tokenName = "token";
 		String email = Constants.EMAIL;
 		String password = Constants.COMMON_PASSWORD;
@@ -252,7 +253,7 @@ public class OrderFormTest extends Init {
 
 		Calculator calculator = new Calculator();
 
-		Authenticate("WPH");
+		authenticate("WPH");
 
 		String tokenName = "token";
 		String email = Constants.EMAIL;
@@ -303,7 +304,7 @@ public class OrderFormTest extends Init {
 		//Check Dashboard
 		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
 		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(driver);
-		Authenticate("DashBoard");
+		authenticate("DashBoard");
 		signInPageDB.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		sleep(5);
 		sleep(60);
@@ -387,7 +388,7 @@ public class OrderFormTest extends Init {
 
 		Calculator calculator = new Calculator();
 
-		Authenticate("WPH");
+		authenticate("WPH");
 		String tokenName = "token";
 		String email = Constants.EMAIL;
 		String password = Constants.COMMON_PASSWORD;
@@ -423,9 +424,10 @@ public class OrderFormTest extends Init {
 		DetailsPage detailsPage = new DetailsPage(driver);
 
 
+
 		Calculator calculator = new Calculator();
 
-		Authenticate("WPH");
+		authenticate("WPH");
 		String tokenName = "token";
 		String email = Constants.EMAIL;
 		String password = Constants.COMMON_PASSWORD;
@@ -480,11 +482,11 @@ public class OrderFormTest extends Init {
 				driver, orderType, acalevelTXT, document, discipline, paperFormat,
 				title, instruction, urgentTXT, source, pages, slides, spacing);
 
-		Authenticate("Writer");
+		authenticate("Writer");
 		waitForPageLoaded();
 		signInWriter.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
 		waitForNavigatePage(Support.Writer.Routers.BaseURL);
-		String ID_ORDER = order_ID;
+		String ID_ORDER =order_ID;
 		String PRE_ORDER = "91172";
 		sleep(5);
 		orderDetailWriter.goToOD(ID_ORDER);
@@ -537,7 +539,7 @@ public class OrderFormTest extends Init {
 
 		Calculator calculator = new Calculator();
 
-		Authenticate("WPH");
+		authenticate("WPH");
 		String tokenName = "token";
 		String email = Constants.EMAIL;
 		String password = Constants.COMMON_PASSWORD;
