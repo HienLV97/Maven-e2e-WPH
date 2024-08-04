@@ -1,6 +1,8 @@
 package WPH.payment.CreditCard.pages;
 
 import Support.Constants;
+import WPH.OrderDetails.Details.pages.DetailsPage;
+import Writer.OrderDetail.pages.OrderDetailPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -57,13 +59,14 @@ public class CreditCardPage {
 		driver.findElement(checkOutBTN).click();
 	}
 
-	public void getCheckout() {
+	public DetailsPage getCheckout() {
 		setEmailTB();
 		setCardInfoTB();
 		setCardExpiryTB();
 		setCardCvcTB();
 		setBillingNameTB();
 		clickCheckOutBTN();
+		return new DetailsPage(driver);
 	}
 
 	public void getID() {
