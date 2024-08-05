@@ -26,6 +26,7 @@ public class Calculator {
 	private double balance;
 	private double singlePagePrice;
 	private double slidePrice;
+	private double slideCost;
 	private double writerLevelPriceRound;
 	private double extraTotal;
 	private String type;
@@ -49,7 +50,7 @@ public class Calculator {
 
 	// Getters
 	public double getGetPagePrice() {
-		slidePrice();
+		pagePrice();
 		return getPagePrice;
 	}
 
@@ -95,6 +96,9 @@ public class Calculator {
 
 	public double getSlidePrice() {
 		return slidePrice;
+	}
+	public double getSlideCost() {
+		return slideCost;
 	}
 
 	public double getWriterLevelPriceRound() {
@@ -172,7 +176,12 @@ public class Calculator {
 		this.isPreWriter = orderFormPage.isPreWriter;
 		this.disCode = orderFormPage.disCode;
 		this.writerLvl = orderFormPage.writerLvlTxt;
+		slidePrice();
+		slideCost();
 		writerLevelPrice();
+		spacingPrice();
+		pagePrice();
+		discount();
 		abstractPrice();
 		preWriter();
 		extrasTotal();
@@ -180,11 +189,11 @@ public class Calculator {
 	}
 
 	public double slidePrice() {
-		return this.slidePrice = slides * singlePagePrice / 2;
+		return slidePrice = slides * singlePagePrice / 2;
 	}
 
 	public double slideCost() {
-		return this.slidePrice = roundToTwoDecimalPlaces(singlePagePrice / 2);
+		return slideCost = roundToTwoDecimalPlaces(singlePagePrice / 2);
 	}
 
 	public static double roundToTwoDecimalPlaces(double value) {
@@ -198,15 +207,12 @@ public class Calculator {
 			return 0;
 		}
 		if (Objects.equals(spacing, "Single")) {
-			return this.singlePagePrice * 2;
+			return singlePagePrice * 2;
 		}
 		return 0; // Thêm return 0 ở đây để đảm bảo mọi trường hợp đều có giá trị trả về
 	}
 
-	double pagePrice() {
-		System.out.println("this.urgentTXT: " + urgent);
-		System.out.println("urgentTXT: " + urgent);
-		System.out.println("urgentTXT: " + acalevelNumb);
+	void pagePrice() {
 		this.singlePagePrice = Price.GetPrice(urgent, acalevelNumb);
 
 		if (Objects.equals(type, "writing")) {
@@ -216,29 +222,24 @@ public class Calculator {
 		}
 
 		double numberofPagePrice = this.singlePagePrice * pages;
-		System.out.println("numberofPagePrice: " + numberofPagePrice);
 
-		double slidePrice = slidePrice();
-		System.out.println("slidePrice: " + slidePrice);
+		double slidePrice = getSlidePrice();
 
 		double spacingPrice = spacingPrice();
-		System.out.println("spacingPrice: " + spacingPrice);
 
 		double total = numberofPagePrice + slidePrice + spacingPrice;
-		double roundedValue = roundToTwoDecimalPlaces(total);
-		System.out.println("PagePrice: " + roundedValue);
 
-		this.getPagePrice = roundedValue;
-		return roundedValue;
+		this.getPagePrice = roundToTwoDecimalPlaces(total);
+		System.out.println("getPagePrice: "+getPagePrice);
 	}
 
-	double discount() {
+	void discount() {
 		BigDecimal bd = new BigDecimal(this.discount * this.getPagePrice / 100);
 		BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal roundedValue3 = bd.setScale(2, RoundingMode.HALF_UP);
 //		extraTotal.setScale(2, RoundingMode.HALF_UP).doubleValue();
 		this.discountRound = roundedValue2.doubleValue();
-		return this.discount = roundedValue3.doubleValue();
+		this.discount = roundedValue3.doubleValue();
 	}
 
 	public double writerLevelPrice() {

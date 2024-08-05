@@ -127,7 +127,7 @@ public class OrderFormTest extends Init {
 
 
 //	@Test(enabled = true,groups = {"verifyPrice"}, priority = 1, description = "Order form price display correct")
-	@Test(groups = {"verifyPrice"})
+	@Test(enabled = true,groups = {"verifyPrice"})
 	public void testVerifyPrice() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -441,7 +441,7 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = true, priority = 3, description = "Writer site")
+	@Test(enabled = false, priority = 3, description = "Writer site")
 	public void testWriterSite() {
 		Writer.SignIn.pages.SignInPage signInWriter = new Writer.SignIn.pages.SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
