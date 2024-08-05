@@ -189,11 +189,11 @@ public class OrderDetailPage extends Init {
 	}
 
 	public void verifyRate() {
-		verifySec(rateSec, Calculator.writerRate + "%");
+		verifySec(rateSec, Calculator.getWriterRate() + "%");
 	}
 
 	public void verifyWriterFee() {
-		verifySec(feeSec, "$" + Calculator.writerFee());
+		verifySec(feeSec, "$" + Calculator.getWriterFee());
 	}
 
 	//INSTRUCTIONS
@@ -218,7 +218,7 @@ public class OrderDetailPage extends Init {
 	}
 
 	public void verifyPreWriter(String value) {
-		verifySec(preWriterSec, value + " (+" + Calculator.preWriterPercent + "%)");
+		verifySec(preWriterSec, value + " (+" + Calculator.getPreWriterPercent() + "%)");
 	}
 
 	public void verifyAbsPrice(double value) {

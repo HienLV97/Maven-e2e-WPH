@@ -52,7 +52,6 @@ public class Init {
 	@BeforeSuite
 	@Parameters({"browser"})
 	public void Setup(@Optional("chrome") String browserName) {
-		System.out.println("vao` day");
 		System.setProperty("webdriver.http.factory", "jdk-http-client");
 		switch (browserName) {
 			case "chrome" -> driver = new ChromeDriver();

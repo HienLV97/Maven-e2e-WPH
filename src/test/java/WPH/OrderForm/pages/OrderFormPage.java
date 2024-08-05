@@ -286,6 +286,7 @@ public class OrderFormPage extends Init {
 		System.out.println("test: "+writerLevel.get(value).replace("\"", ""));
 		By option = By.xpath("*//p[contains(text(),'" + writerLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
+		WebUI.scrollToElement(option);
 		driver.findElement(option).click();
 	}
 
@@ -317,8 +318,11 @@ public class OrderFormPage extends Init {
 	public void setPrevWriterDRL() {
 		clickPrevWriterBTN();
 		WebUI.waitForElementClickable(PreWriterTB);
+		WebUI.scrollToElement(PreWriterTB);
 		WebUI.clickElement(PreWriterTB);
 		sleep(3);
+		WebUI.scrollToElement(PreWriterTB);
+		WebUI.clickElement(PreWriterTB);
 		WebUI.waitForElementClickable(firstValue);
 		WebUI.clickElement(firstValue);
 	}

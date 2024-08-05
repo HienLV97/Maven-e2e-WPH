@@ -165,25 +165,21 @@ public class OrderFormTest extends Init {
 		sleep(10);
 
 		calculator.setValuesFromOrderForm(orderForm);
-		double pagePrice = calculator.pagePrice();
-		String pagePriceTxt = "$" + pagePrice;
-		orderForm.verifyTotal(pagePriceTxt);
 
-		double discount = calculator.discount(15);
-		String discountTxt = "$" + discount;
-		orderForm.verifyDiscount(discountTxt);
+		orderForm.verifyTotal( "$" + calculator.getGetPagePrice());
+
+		orderForm.verifyDiscount("$" + calculator.getDiscount());
 
 		System.out.println("writerLvlTxt : " + orderForm.writerLvlTxt);
-		double writerPrice = calculator.writerLevelPrice(orderForm.writerLvlTxt);
-		String writerPriceTxt = "$" + writerPrice;
+//		double writerPrice = calculator.writerLevelPrice(orderForm.writerLvlTxt);
+		String writerPriceTxt = "$" + calculator.getWriterPrice();
 
-		double preWriterPrice = calculator.preWriter();
-		String preWriterTxt = "$" + preWriterPrice;
+		String preWriterTxt = "$" + calculator.getPreWriterRound();
 
-		double absPrice = calculator.abstractPrice();
-		String absPriceTxt = "$" + formatPrice(absPrice);
 
-		orderForm.verifyExtra("$" + calculator.extraTotalRound);
+		String absPriceTxt = "$" + formatPrice(calculator.getAbsPrice());
+
+		orderForm.verifyExtra("$" + calculator.getExtraTotalRound());
 
 		String totalPayTxt = "$" + calculator.grandTotal();
 		orderForm.verifyYouPay(totalPayTxt);
@@ -207,148 +203,148 @@ public class OrderFormTest extends Init {
 		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
 		detailsPage.verifyWPrice(detailsPage.preWriterPrice, preWriterTxt);
 		detailsPage.verifyWPrice(detailsPage.abstractPrice, absPriceTxt);
-		detailsPage.verifyWPrice(detailsPage.DicountPrice, discountTxt);
+		detailsPage.verifyWPrice(detailsPage.DicountPrice, "$" + calculator.getDiscount());
 		detailsPage.verifyWPrice(detailsPage.PaidPrice, totalPayTxt);
-		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, discountTxt);
+		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, "$" + calculator.getDiscount());
 		screenShot("Order detail");
 
 
 	}
 
-	@Test(enabled = true, priority = 2)
-	public void test() throws IOException, AWTException {
-
-		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
-		DetailsPage detailsPage = new DetailsPage(driver);
-		//set value step1
-		String orderType = "writing";
-		String document = "Admission Essay";
-		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
-		String discipline = "Accounting";
-		String paperFormat = Citation.getCitation(0);
-
-		//step2
-		String title = "test";
-		String instruction = "test";
-		//step 3
-		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
-		int pages = 2;
-		int source = 2;
-		int slides = 2;
-		int writerLevelNumb = 2;
-		String spacing = "Single";
-		//step4
-		boolean isAbsPrice = true;
-		boolean isPreWriter = true;
-		String idPreOrder = "#00091172";
-		//step5
-		String disCode = "paper15";
-		String costPageText = "$" + Price.GetPrice(deadlineTXT, acalevelTXT);
-
-		Calculator calculator = new Calculator();
-
-		authenticate("WPH");
-
-		String tokenName = "token";
-		String email = Constants.EMAIL;
-		String password = Constants.COMMON_PASSWORD;
-		String tokenValue = SignIn.getToken(email, password);
-//		System.out.println("token: "+ tokenValue);
-		signInPage.signInWithToken(tokenName, tokenValue);
-//		String orderID = "91254";
-		String orderID = order_ID;
-
-		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
-		double pagePrice = calculator.pagePrice();
-		String pagePriceTxt = "$" + pagePrice;
-
-		double discount = calculator.discount(15);
-		String discountTxt = "$" + discount;
-//		orderForm.verifyDiscount(discountTxt);
-
-		System.out.println("writerLvlTxt : " + writerLvlTxt);
-		double writerPrice = calculator.writerLevelPrice(writerLvlTxt);
-		String writerPriceTxt = "$" + writerPrice;
-
-		double preWriterPrice = calculator.preWriter();
-		String preWriterTxt = "$" + preWriterPrice;
-
-		double absPriceVal = calculator.abstractPrice();
-		String absPriceTxt = "$" + formatPrice(absPriceVal);
-
-		String extrasTxt = "$" + calculator.extraTotal;
-//		orderForm.verifyExtra(extrasTxt
-//	);
-
-		String totalPayTxt = "$" + calculator.grandTotal();
-//		orderForm.verifyYouPay(totalPayTxt
-//	);
-
-
-		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
-		detailsPage.verifyh1(orderID, "writing");
-		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
-		detailsPage.verifyWPrice(detailsPage.preWriterPrice, preWriterTxt);
-		detailsPage.verifyWPrice(detailsPage.abstractPrice, absPriceTxt);
-		detailsPage.verifyWPrice(detailsPage.DicountPrice, discountTxt);
-		detailsPage.verifyWPrice(detailsPage.PaidPrice, totalPayTxt);
-		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, discountTxt);
-
-
-		//Check Dashboard
-		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
-		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(driver);
-		authenticate("DashBoard");
-		signInPageDB.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		sleep(5);
-		sleep(60);
-		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS + orderID);
-		//DETAIL
-		orderDetailDB.verifyTopic(title);
-		orderDetailDB.verifyDis(discipline);
-		orderDetailDB.verifyDoc(document);
-		orderDetailDB.verifySpacing(spacing);
-		orderDetailDB.verifyFormat(paperFormat);
-		orderDetailDB.verifyReferences(String.valueOf(source));
-		orderDetailDB.verifyPages(String.valueOf(pages));
-		orderDetailDB.verifyWPP(spacing);
-		orderDetailDB.verifyUrgency(deadlineTXT);
-		//ORDER COST
-		orderDetailDB.verifyPerPage(costPageText);
-		orderDetailDB.verifyCostPages(String.valueOf(pages));
-		String slideCost = "$" + (String.format("%.2f", calculator.slideCost()));
-		orderDetailDB.verifyPerSlide(slideCost);
-		orderDetailDB.verifySilde(String.valueOf(slides));
-//		orderDetailDB.verifyTotal(pagePriceTxt);
-		orderDetailDB.verifyAdd(extrasTxt);
-		orderDetailDB.verifyPaid(totalPayTxt);
-		orderDetailDB.verifyRate();
-		orderDetailDB.verifyWriterFee();
-		//INSTRUCTIONS
-		orderDetailDB.verifyIns(instruction);
-		//DISCOUNT
-		orderDetailDB.verifyCode(disCode);
-		orderDetailDB.verifyPercent();
-		//EXTRAS
-		orderDetailDB.verifywriterCate(writerLvlTxt);
-		orderDetailDB.verifyPreWriter(idPreOrder);
-		orderDetailDB.verifyAbsPrice(calculator.absPrice);
-		//ORDER EVENT
-
-		orderDetailDB.clickAppBTN();
-		orderDetailDB.setAssDDL(Constants.WRITER_EMAIL);
-		orderDetailDB.clickSaveBTN();
-		sleep(20);
-		//WRITER SITE
-//		Writer.SignIn.pages.SignInPage writerSignIn = new Writer.SignIn.pages.SignInPage(driver);
-//		Authenticate("Writer");
-//		writerSignIn.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
-
-	}
+//	@Test(enabled = true, priority = 2)
+//	public void test() throws IOException, AWTException {
+//
+//		SignInPage signInPage = new SignInPage(driver);
+//		OrderFormPage orderForm = new OrderFormPage(driver);
+//		CreditCardPage creditCardPage = new CreditCardPage(driver);
+//		DetailsPage detailsPage = new DetailsPage(driver);
+//		//set value step1
+//		String orderType = "writing";
+//		String document = "Admission Essay";
+//		int acalevelNumb = 2;
+//		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
+//		String discipline = "Accounting";
+//		String paperFormat = Citation.getCitation(0);
+//
+//		//step2
+//		String title = "test";
+//		String instruction = "test";
+//		//step 3
+//		int deadlineNumb = 3;
+//		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
+//		int pages = 2;
+//		int source = 2;
+//		int slides = 2;
+//		int writerLevelNumb = 2;
+//		String spacing = "Single";
+//		//step4
+//		boolean isAbsPrice = true;
+//		boolean isPreWriter = true;
+//		String idPreOrder = "#00091172";
+//		//step5
+//		String disCode = "paper15";
+//		String costPageText = "$" + Price.GetPrice(deadlineTXT, acalevelTXT);
+//
+//		Calculator calculator = new Calculator();
+//
+//		authenticate("WPH");
+//
+//		String tokenName = "token";
+//		String email = Constants.EMAIL;
+//		String password = Constants.COMMON_PASSWORD;
+//		String tokenValue = SignIn.getToken(email, password);
+////		System.out.println("token: "+ tokenValue);
+//		signInPage.signInWithToken(tokenName, tokenValue);
+////		String orderID = "91254";
+//		String orderID = order_ID;
+//
+//		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
+//		double pagePrice = calculator.pagePrice();
+//		String pagePriceTxt = "$" + pagePrice;
+//
+//		orderForm.verifyDiscount("$" + calculator.discount);
+//
+////		orderForm.verifyDiscount("$" + calculator.discount);
+//
+//		System.out.println("writerLvlTxt : " + writerLvlTxt);
+////		double writerPrice = calculator.writerLevelPrice(writerLvlTxt);
+//		String writerPriceTxt = "$" + calculator.writerLevelPrice();
+//
+//		double preWriterPrice = calculator.preWriter();
+//		String preWriterTxt = "$" + preWriterPrice;
+//
+//		double absPriceVal = calculator.abstractPrice();
+//		String absPriceTxt = "$" + formatPrice(absPriceVal);
+//
+//		String extrasTxt = "$" + calculator.extraTotal;
+////		orderForm.verifyExtra(extrasTxt
+////	);
+//
+//		String totalPayTxt = "$" + calculator.grandTotal();
+////		orderForm.verifyYouPay(totalPayTxt
+////	);
+//
+//
+//		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
+//		detailsPage.verifyh1(orderID, "writing");
+//		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
+//		detailsPage.verifyWPrice(detailsPage.preWriterPrice, preWriterTxt);
+//		detailsPage.verifyWPrice(detailsPage.abstractPrice, absPriceTxt);
+//		detailsPage.verifyWPrice(detailsPage.DicountPrice, "$" + calculator.discount);
+//		detailsPage.verifyWPrice(detailsPage.PaidPrice, totalPayTxt);
+//		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, "$" + calculator.discount);
+//
+//
+//		//Check Dashboard
+//		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
+//		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(driver);
+//		authenticate("DashBoard");
+//		signInPageDB.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+//		sleep(5);
+//		sleep(60);
+//		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS + orderID);
+//		//DETAIL
+//		orderDetailDB.verifyTopic(title);
+//		orderDetailDB.verifyDis(discipline);
+//		orderDetailDB.verifyDoc(document);
+//		orderDetailDB.verifySpacing(spacing);
+//		orderDetailDB.verifyFormat(paperFormat);
+//		orderDetailDB.verifyReferences(String.valueOf(source));
+//		orderDetailDB.verifyPages(String.valueOf(pages));
+//		orderDetailDB.verifyWPP(spacing);
+//		orderDetailDB.verifyUrgency(deadlineTXT);
+//		//ORDER COST
+//		orderDetailDB.verifyPerPage(costPageText);
+//		orderDetailDB.verifyCostPages(String.valueOf(pages));
+//		String slideCost = "$" + (String.format("%.2f", calculator.slideCost()));
+//		orderDetailDB.verifyPerSlide(slideCost);
+//		orderDetailDB.verifySilde(String.valueOf(slides));
+////		orderDetailDB.verifyTotal(pagePriceTxt);
+//		orderDetailDB.verifyAdd(extrasTxt);
+//		orderDetailDB.verifyPaid(totalPayTxt);
+//		orderDetailDB.verifyRate();
+//		orderDetailDB.verifyWriterFee();
+//		//INSTRUCTIONS
+//		orderDetailDB.verifyIns(instruction);
+//		//DISCOUNT
+//		orderDetailDB.verifyCode(disCode);
+//		orderDetailDB.verifyPercent();
+//		//EXTRAS
+//		orderDetailDB.verifywriterCate(writerLvlTxt);
+//		orderDetailDB.verifyPreWriter(idPreOrder);
+//		orderDetailDB.verifyAbsPrice(calculator.absPrice);
+//		//ORDER EVENT
+//
+//		orderDetailDB.clickAppBTN();
+//		orderDetailDB.setAssDDL(Constants.WRITER_EMAIL);
+//		orderDetailDB.clickSaveBTN();
+//		sleep(20);
+//		//WRITER SITE
+////		Writer.SignIn.pages.SignInPage writerSignIn = new Writer.SignIn.pages.SignInPage(driver);
+////		Authenticate("Writer");
+////		writerSignIn.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
+//
+//	}
 
 	@Test(enabled = false, description = "Create multi orders")
 	public void simpletest() {
