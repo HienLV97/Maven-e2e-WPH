@@ -16,36 +16,36 @@ import java.text.DecimalFormat;
 
 public class Calculator {
 
-	private double getPagePrice;
-	private double writerPrice;
-	private double preWriter;
-	private double preWriterRound;
-	private double extraTotalRound;
-	private double absPrice;
-	private static int preWriterPercent = 5;
-	private double discount;
-	private double discountRound;
-	private double balance;
-	private double singlePagePrice;
-	private double slidePrice;
-	private double slideCost;
-	private String writerLevelPriceRound;
-	private double extraTotal;
-	private String type;
-	private String urgent;
-	private String acalevelNumb;
-	private int pages;
-	private int slides;
-	private String spacing;
-	private double youPay;
-	private static int writerRate = 30;
+	private static double getPagePrice;
+	private static double writerPrice;
+	private static double preWriter;
+	private static String preWriterRound;
+	private static String extraTotalRound;
+	private static double absPrice;
+	private static final int preWriterPercent = 5;
+	private static double discount;
+	private static String discountRound;
+	private static double balance;
+	private static double singlePagePrice;
+	private static double slidePrice;
+	private static double slideCost;
+	private static String writerLevelPriceRound;
+	private static double extraTotal;
+	private static String type;
+	private static String urgent;
+	private static String acalevelNumb;
+	private static int pages;
+	private static int slides;
+	private static String spacing;
+	private static double youPay;
+	private static final int writerRate = 30;
 	private static double writerFee;
 	private static WebDriver driver;
-	private boolean isAbsPrice;
-	private boolean isPreWriter;
-	private String disCode;
-	private double grandTotal;
-	private String writerLvl;
+	private static boolean isAbsPrice;
+	private static boolean isPreWriter;
+	private static String disCode;
+	private static double grandTotal;
+	private static String writerLvl;
 
 	public Calculator() {
 	}
@@ -66,17 +66,17 @@ public class Calculator {
 		return preWriter;
 	}
 
-	public double getPreWriterRound() {
+	public static String getPreWriterRound() {
 		preWriter();
 		return preWriterRound;
 	}
 
-	public double getExtraTotalRound() {
+	public String getExtraTotalRound() {
 		extrasTotal();
 		return extraTotalRound;
 	}
 
-	public double getAbsPrice() {
+	public static double getAbsPrice() {
 		abstractPrice();
 		return absPrice;
 	}
@@ -87,10 +87,11 @@ public class Calculator {
 
 	public double getDiscount() {
 		discount();
-		return discountRound;
+		return discount;
 	}
 
-	public double getDiscountRound() {
+	public static String getDiscountRound() {
+		discount();
 		return discountRound;
 	}
 
@@ -109,7 +110,7 @@ public class Calculator {
 		return slideCost;
 	}
 
-	public double getWriterLevelPriceRound() {
+	public static String getWriterLevelPriceRound() {
 		return writerLevelPriceRound;
 	}
 
@@ -165,26 +166,26 @@ public class Calculator {
 		return isPreWriter;
 	}
 
-	public String getDisCode() {
+	public static String getDisCode() {
 		return disCode;
 	}
 
-	public double getGrandTotal() {
+	public static double getGrandTotal() {
 		grandTotal();
 		return grandTotal;
 	}
 
 	public void setValuesFromOrderForm(OrderFormPage orderFormPage) {
-		this.type = orderFormPage.orderType;
-		this.urgent = orderFormPage.urgentTXT;
-		this.acalevelNumb = orderFormPage.acalevelTXT;
-		this.pages = orderFormPage.pages;
-		this.slides = orderFormPage.slides;
-		this.spacing = orderFormPage.spacing;
-		this.isAbsPrice = orderFormPage.isAbsPrice;
-		this.isPreWriter = orderFormPage.isPreWriter;
-		this.disCode = orderFormPage.disCode;
-		this.writerLvl = orderFormPage.writerLvlTxt;
+		type = orderFormPage.orderType;
+		urgent = orderFormPage.urgentTXT;
+		acalevelNumb = orderFormPage.acalevelTXT;
+		pages = orderFormPage.pages;
+		slides = orderFormPage.slides;
+		spacing = orderFormPage.spacing;
+		isAbsPrice = orderFormPage.isAbsPrice;
+		isPreWriter = orderFormPage.isPreWriter;
+		disCode = orderFormPage.disCode;
+		writerLvl = orderFormPage.writerLvlTxt;
 		slidePrice();
 		slideCost();
 		writerLevelPrice();
@@ -197,12 +198,12 @@ public class Calculator {
 		writerFee();
 	}
 
-	public double slidePrice() {
-		return slidePrice = slides * singlePagePrice / 2;
+	public void slidePrice() {
+		slidePrice = slides * singlePagePrice / 2;
 	}
 
-	public double slideCost() {
-		return slideCost = roundToTwoDecimalPlaces(singlePagePrice / 2);
+	public void slideCost() {
+		slideCost = roundToTwoDecimalPlaces(singlePagePrice / 2);
 	}
 
 	public static double roundToTwoDecimalPlaces(double value) {
@@ -222,15 +223,15 @@ public class Calculator {
 	}
 
 	void pagePrice() {
-		this.singlePagePrice = Price.GetPrice(urgent, acalevelNumb);
+		singlePagePrice = Price.GetPrice(urgent, acalevelNumb);
 
 		if (Objects.equals(type, "writing")) {
 			System.out.println("singlePagePrice: " + singlePagePrice);
 		} else if (Objects.equals(type, "editing")) {
-			this.singlePagePrice /= 2;
+			singlePagePrice /= 2;
 		}
 
-		double numberofPagePrice = this.singlePagePrice * pages;
+		double numberofPagePrice = singlePagePrice * pages;
 
 		double slidePrice = getSlidePrice();
 
@@ -238,17 +239,18 @@ public class Calculator {
 
 		double total = numberofPagePrice + slidePrice + spacingPrice;
 
-		this.getPagePrice = roundToTwoDecimalPlaces(total);
+		getPagePrice = roundToTwoDecimalPlaces(total);
 		System.out.println("getPagePrice: "+getPagePrice);
 	}
 
-	void discount() {
+	static void discount() {
 		// int percent = Integer.parseInt(GetDiscount(getDisCode(), "percent"));
 		int percent = Discounts.GetDiscount(getDisCode());
 		BigDecimal bd = new BigDecimal(percent * getPagePrice / 100);
 		BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
-		this.discountRound = roundedValue2.doubleValue();
-		this.discount = bd.doubleValue();
+		DecimalFormat df = new DecimalFormat("#.00");
+		discountRound = df.format(roundedValue2);
+		discount = bd.doubleValue();
 	}
 
 	public void writerLevelPrice() {
@@ -261,29 +263,30 @@ public class Calculator {
 		System.out.println("roundedValue: " + roundedValue);
 		System.out.println("roundedValue2: " + roundedValue2);
 		DecimalFormat df = new DecimalFormat("#.00");
-        String formattedNumber = df.format(roundedValue2);
-		this.writerLevelPriceRound = formattedNumber;
-		this.writerPrice = roundedValue.doubleValue();
+		writerLevelPriceRound = df.format(roundedValue2);
+		writerPrice = roundedValue.doubleValue();
 		System.out.println("roundedValue2.doubleValue(): " + roundedValue2.doubleValue());
 		System.out.println("bigde roundedValue2: " + roundedValue2);
 
 		// return this.writerPrice = roundedValue.doubleValue();
 	}
 
-	public void abstractPrice() {
+	public static void abstractPrice() {
 		if (isAbsPrice) {
-			this.absPrice = 22.00;
+			absPrice = 22.00;
 		}
 	}
 
-	public void preWriter() {
+	public static void preWriter() {
 		if (isPreWriter) {
 			BigDecimal bd = new BigDecimal(preWriterPercent * getPagePrice / 100);
 			BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
 			BigDecimal roundedValue3 = bd.setScale(3, RoundingMode.HALF_UP);
-			this.preWriterRound = roundedValue2.doubleValue();
-			this.preWriter = roundedValue3.doubleValue();
-//			return roundedValue.doubleValue();
+			DecimalFormat df = new DecimalFormat("#.00");
+			String formattedNumber = df.format(roundedValue2);
+			System.out.println("formattedNumber: "+formattedNumber);
+			preWriterRound = formattedNumber;
+			preWriter = roundedValue3.doubleValue();
 		}
 	}
 
@@ -295,18 +298,21 @@ public class Calculator {
 		BigDecimal bd = BigDecimal.valueOf(getWriterPrice() + getAbsPrice() + getPreWriter());
 		BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal roundedValue3 = bd.setScale(3, RoundingMode.HALF_UP);
-		this.extraTotalRound = roundedValue2.doubleValue();
+		DecimalFormat df = new DecimalFormat("#.00");
+		String formattedNumber = df.format(roundedValue2);
+		System.out.println("formattedNumber: "+formattedNumber);
+		extraTotalRound =formattedNumber;
 		System.out.println("extraTotalRound: " + extraTotalRound);
-		this.extraTotal = roundedValue3.doubleValue();
+		extraTotal = roundedValue3.doubleValue();
 	}
 
 	public void balance(String token) {
-		this.balance = Double.parseDouble(Auth.getAuth(token, "balance"));
+		balance = Double.parseDouble(Auth.getAuth(token, "balance"));
 		// Double.parseDouble(Auth.getAuth(token, "balance")); // Dòng này không cần thiết
 	}
 
 
-	public double grandTotal() {
+	public static double grandTotal() {
 		System.out.println("-------");
 		System.out.println("getPagePrice: "+ getPagePrice);
 		System.out.println("discount: "+ discount);
@@ -314,7 +320,7 @@ public class Calculator {
 		System.out.println("balance: "+ balance);
 		BigDecimal bd = new BigDecimal(getPagePrice - discount + extraTotal - balance);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
-		this.grandTotal = roundedValue.doubleValue();
+		grandTotal = roundedValue.doubleValue();
 		if (youPay <= 0) {
 			return youPay = 0.00;
 		} else {
@@ -323,6 +329,6 @@ public class Calculator {
 	}
 
 	public void writerFee() {
-		writerFee = roundToTwoDecimalPlaces(this.youPay * writerRate / 100);
+		writerFee = roundToTwoDecimalPlaces(youPay * writerRate / 100);
 	}
 }

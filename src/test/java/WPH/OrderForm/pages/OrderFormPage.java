@@ -30,7 +30,6 @@ public class OrderFormPage extends Init {
 	public String discipline;
 	public String paperFormat;
 	DetailsPage detailsPage;
-
 	public void Step1Data(String orderType, String document, int acalevelNumb, String discipline, String paperFormat, List<String> academicLevels) {
 		this.orderType = orderType;
 		this.document = document;
@@ -374,6 +373,8 @@ public class OrderFormPage extends Init {
 	public void clickViewOrderBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
 		driver.findElement(ViewOrderBTN).click();
+//		OrderFormPage orderFormPage = new OrderFormPage(driver);
+//		detailsPage.setValuesFromOrderForm();
 	}
 
 	public void verifyTotal(String expectedPrice) {

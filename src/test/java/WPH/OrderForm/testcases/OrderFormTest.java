@@ -86,6 +86,7 @@ public class OrderFormTest extends Init {
 //	}
 	String order_ID;
 	DetailsPage detailsPage;
+
 	@Test(enabled = false)
 	public void checkoutSuccess() throws IOException, AWTException {
 		OrderFormPage orderForm = new OrderFormPage(driver);
@@ -102,7 +103,7 @@ public class OrderFormTest extends Init {
 
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
 		orderForm.Step2Data("test", "test");
-		orderForm.Step3Data(1, 3, 3, 2,  "Single", orderForm.deadLineLevel);
+		orderForm.Step3Data(1, 3, 3, 2, "Single", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, false, true, orderForm.writerLevel);
 		orderForm.Step5Data("paper15", 1);
 
@@ -126,8 +127,8 @@ public class OrderFormTest extends Init {
 	}
 
 
-//	@Test(enabled = true,groups = {"verifyPrice"}, priority = 1, description = "Order form price display correct")
-	@Test(enabled = true,groups = {"verifyPrice"})
+	//	@Test(enabled = true,groups = {"verifyPrice"}, priority = 1, description = "Order form price display correct")
+	@Test(enabled = true, groups = {"verifyPrice"})
 	public void testVerifyPrice() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -138,11 +139,10 @@ public class OrderFormTest extends Init {
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
-		orderForm.Step4Data(1, false, true, orderForm.writerLevel);
+		orderForm.Step4Data(1, true, true, orderForm.writerLevel);
 		orderForm.Step5Data("paper15", 1);
 		Calculator calculator = new Calculator();
-//		signInPage.Login("abc","abc");
-//		driver.get(Routers.ORDER);
+
 		authenticate("WPH");
 		String tokenName = "token";
 		String email = Constants.EMAIL;
@@ -166,27 +166,20 @@ public class OrderFormTest extends Init {
 
 		calculator.setValuesFromOrderForm(orderForm);
 
-		orderForm.verifyTotal( "$" + calculator.getGetPagePrice());
+		orderForm.verifyTotal("$" + calculator.getGetPagePrice());
 
-		orderForm.verifyDiscount("$" + calculator.getDiscount());
+		orderForm.verifyDiscount("$" + Calculator.getDiscountRound());
 
 		System.out.println("writerLvlTxt : " + orderForm.writerLvlTxt);
-//		double writerPrice = calculator.writerLevelPrice(orderForm.writerLvlTxt);
-		String writerPriceTxt = "$" + calculator.getWriterLevelPriceRound();
-
-		String preWriterTxt = "$" + calculator.getPreWriterRound();
-
-
-		String absPriceTxt = "$" + formatPrice(calculator.getAbsPrice());
 
 		orderForm.verifyExtra("$" + calculator.getExtraTotalRound());
 
-		String totalPayTxt = "$" + calculator.getGrandTotal();
+		String totalPayTxt = "$" + Calculator.getGrandTotal();
 		orderForm.verifyYouPay(totalPayTxt);
-	
+
 		orderForm.clickCreditBTN();
 		orderForm.clickCheckOutBTN();
-	
+
 		detailsPage = creditCardPage.getCheckout();
 
 		sleep(5);
@@ -195,20 +188,15 @@ public class OrderFormTest extends Init {
 		sleep(3);
 		String orderID = orderForm.getID();
 		this.order_ID = orderID;
+		detailsPage.setValuesFromOrderForm(orderForm);
 		orderForm.clickViewOrderBTN();
 
 		// orderDetail
 
 		sleep(5);
 		waitForPageLoaded();
-//		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
 		detailsPage.verifyh1(orderID, "writing");
-		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
-		detailsPage.verifyWPrice(detailsPage.preWriterPrice, preWriterTxt);
-		detailsPage.verifyWPrice(detailsPage.abstractPrice, absPriceTxt);
-		detailsPage.verifyWPrice(detailsPage.DicountPrice, "$" + calculator.getDiscount());
-		detailsPage.verifyWPrice(detailsPage.PaidPrice, totalPayTxt);
-		detailsPage.verifyWPrice(detailsPage.YouSavedPrice, "$" + calculator.getDiscount());
+		detailsPage.verifyPriceDetails();
 		screenShot("Order detail");
 
 
@@ -421,7 +409,6 @@ public class OrderFormTest extends Init {
 		DetailsPage detailsPage = new DetailsPage(driver);
 
 
-
 		Calculator calculator = new Calculator();
 
 		authenticate("WPH");
@@ -483,7 +470,7 @@ public class OrderFormTest extends Init {
 		waitForPageLoaded();
 		signInWriter.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
 		waitForNavigatePage(Support.Writer.Routers.BaseURL);
-		String ID_ORDER =order_ID;
+		String ID_ORDER = order_ID;
 		String PRE_ORDER = "91172";
 		sleep(5);
 		orderDetailWriter.goToOD(ID_ORDER);

@@ -47,7 +47,7 @@ public class Init {
 		}
 	}
 
-//	@BeforeMethod(groups = {"verifyPrice"})
+	//	@BeforeMethod(groups = {"verifyPrice"})
 	@Test(alwaysRun = true)
 	@BeforeSuite
 	@Parameters({"browser"})
@@ -73,8 +73,7 @@ public class Init {
 	}
 
 
-
-	//	@AfterTest
+	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);
@@ -137,19 +136,17 @@ public class Init {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
 		String router = getBaseUrl(driver.getCurrentUrl());
 		if (Objects.equals(value, "NaN")) {
-			if (Objects.equals(router,Routers.BaseURL)) {
+			if (Objects.equals(router, Routers.BaseURL)) {
 				wait.until(ExpectedConditions.or(
 						ExpectedConditions.urlContains(Routers.AuthURL),
 						ExpectedConditions.urlContains(Routers.BaseURL)
 				));
-			}
-			else if (Objects.equals(router,Support.Writer.Routers.AuthURL)) {
+			} else if (Objects.equals(router, Support.Writer.Routers.AuthURL)) {
 				wait.until(ExpectedConditions.or(
 						ExpectedConditions.urlContains(Support.Writer.Routers.AuthURL),
 						ExpectedConditions.urlContains(Support.Writer.Routers.BaseURL)
 				));
-			}
-			else if (Objects.equals(router,Support.DashBoard.Routers.AuthURL)) {
+			} else if (Objects.equals(router, Support.DashBoard.Routers.AuthURL)) {
 				wait.until(ExpectedConditions.or(
 						ExpectedConditions.urlContains(Support.DashBoard.Routers.AuthURL),
 						ExpectedConditions.urlContains(Support.DashBoard.Routers.BaseURL)
@@ -276,7 +273,7 @@ public class Init {
 
 	}
 
-	protected static String formatPrice(double price) {
+	public static String formatPrice(double price) {
 		return String.format("%.2f", price);
 	}
 }

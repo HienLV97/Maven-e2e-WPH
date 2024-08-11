@@ -1,6 +1,8 @@
 package WPH.OrderDetails.Details.pages;
 
+import Calculator.Calculator;
 import Keywords.WebUI;
+import WPH.OrderForm.pages.OrderFormPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,9 +11,34 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
+import static Support.Initialization.Init.formatPrice;
+
 public class DetailsPage {
+	private String type;
+	private String urgent;
+	private String acalevelNumb;
+	private int pages;
+	private int slides;
+	private String spacing;
+	boolean isAbsPrice;
+	boolean isPreWriter;
+	private String disCode;
+	private String writerLvl;
+
 	private WebDriver driver;
 	private WebDriverWait wait;
+	public void setValuesFromOrderForm(OrderFormPage orderFormPage) {
+		this.type = orderFormPage.orderType;
+		this.urgent = orderFormPage.urgentTXT;
+		this.acalevelNumb = orderFormPage.acalevelTXT;
+		this.pages = orderFormPage.pages;
+		this.slides = orderFormPage.slides;
+		this.spacing = orderFormPage.spacing;
+		this.isAbsPrice = orderFormPage.isAbsPrice;
+		this.isPreWriter = orderFormPage.isPreWriter;
+		this.disCode = orderFormPage.disCode;
+		this.writerLvl = orderFormPage.writerLvlTxt;
+	}
 	public DetailsPage(WebDriver driver){
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -45,5 +72,20 @@ public class DetailsPage {
 		System.out.println(by);
 		WebUI.assertEquals(price,value,"Passed");
 	}
-    
+    public void verifyPriceDetails () {
+		verifyWPrice(writerPrice,  "$" + Calculator.getWriterLevelPriceRound());
+		if (isPreWriter){
+			verifyWPrice(preWriterPrice, "$" + Calculator.getPreWriterRound());
+		}
+		if (isAbsPrice){
+			verifyWPrice(abstractPrice, "$" + formatPrice(Calculator.getAbsPrice()));
+		}
+		if (disCode!=null){
+			verifyWPrice(DicountPrice, "$" + Calculator.getDiscountRound());
+			verifyWPrice(YouSavedPrice, "$" + Calculator.getDiscountRound());
+		}
+		verifyWPrice(PaidPrice,  "$" + Calculator.getGrandTotal());
+
+	}
+
 }
