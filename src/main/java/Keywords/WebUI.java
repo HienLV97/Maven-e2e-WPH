@@ -300,6 +300,7 @@ public class WebUI {
 	public static void scrollToElement(By element) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].scrollIntoView(true);", getWebElement(element));
+		System.out.println("Scroll to "+element);
 	}
 
 	public static void scrollToElement(WebElement element) {

@@ -172,7 +172,7 @@ public class OrderFormTest extends Init {
 
 		System.out.println("writerLvlTxt : " + orderForm.writerLvlTxt);
 //		double writerPrice = calculator.writerLevelPrice(orderForm.writerLvlTxt);
-		String writerPriceTxt = "$" + calculator.getWriterPrice();
+		String writerPriceTxt = "$" + calculator.getWriterLevelPriceRound();
 
 		String preWriterTxt = "$" + calculator.getPreWriterRound();
 
@@ -181,9 +181,12 @@ public class OrderFormTest extends Init {
 
 		orderForm.verifyExtra("$" + calculator.getExtraTotalRound());
 
-		String totalPayTxt = "$" + calculator.grandTotal();
+		String totalPayTxt = "$" + calculator.getGrandTotal();
 		orderForm.verifyYouPay(totalPayTxt);
-
+	
+		orderForm.clickCreditBTN();
+		orderForm.clickCheckOutBTN();
+	
 		detailsPage = creditCardPage.getCheckout();
 
 		sleep(5);

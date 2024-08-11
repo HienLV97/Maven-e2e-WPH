@@ -4,6 +4,7 @@ package WPH.OrderForm.pages;
 import API.GetAPI.CoreAPI.OrderForm.OrderForm;
 import Keywords.WebUI;
 import Support.Initialization.Init;
+import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -28,6 +29,7 @@ public class OrderFormPage extends Init {
 	public String acalevelTXT;
 	public String discipline;
 	public String paperFormat;
+	DetailsPage detailsPage;
 
 	public void Step1Data(String orderType, String document, int acalevelNumb, String discipline, String paperFormat, List<String> academicLevels) {
 		this.orderType = orderType;
@@ -191,6 +193,7 @@ public class OrderFormPage extends Init {
 
 	public void setDisciplineDRL(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DisciplineDRL));
+		WebUI.scrollToElement(DisciplineDRL);
 		clickDisciplineDRL();
 		driver.findElement(DisciplineDRL).sendKeys(value);
 	}
@@ -198,6 +201,7 @@ public class OrderFormPage extends Init {
 	public void clickPaperFormat(String value) {
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + value + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
+		WebUI.scrollToElement(option);
 		WebUI.clickElement(option);
 //		driver.findElement(option).click();
 	}
@@ -321,7 +325,7 @@ public class OrderFormPage extends Init {
 		WebUI.scrollToElement(PreWriterTB);
 		WebUI.clickElement(PreWriterTB);
 		sleep(3);
-		WebUI.scrollToElement(PreWriterTB);
+		WebUI.scrollToElement(NextBTN);
 		WebUI.clickElement(PreWriterTB);
 		WebUI.waitForElementClickable(firstValue);
 		WebUI.clickElement(firstValue);
@@ -365,7 +369,6 @@ public class OrderFormPage extends Init {
 
 	public void checkOutByStrip() {
 		new CreditCardPage(driver);
-//		CreditCardPage.getCheckout();
 	}
 
 	public void clickViewOrderBTN() {
@@ -398,7 +401,6 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(YouPayPrice));
 //		String expectedPrice = "$203.19";
 		String totalPriceText = WebUI.getElementText(YouPayPrice);
-		System.out.println("test: " + totalPriceText);
 		Assert.assertTrue(totalPriceText.contains(expectedPrice), "YouPayPrice is wrong: " + expectedPrice);
 	}
 

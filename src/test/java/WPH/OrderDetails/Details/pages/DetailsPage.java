@@ -45,4 +45,5 @@ public class DetailsPage {
 		System.out.println(by);
 		WebUI.assertEquals(price,value,"Passed");
 	}
+    
 }

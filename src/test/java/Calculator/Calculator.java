@@ -3,6 +3,7 @@ package Calculator;
 
 import API.GetAPI.DashboardGraphQL.Categories;
 import API.GetAPI.DashboardGraphQL.Price;
+import API.GetAPI.DashboardGraphQL.Discounts;
 import API.GetAPI.NextProxy.Auth.Auth;
 import WPH.OrderForm.pages.OrderFormPage;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
+import java.text.DecimalFormat;
 
 
 public class Calculator {
@@ -27,7 +29,7 @@ public class Calculator {
 	private double singlePagePrice;
 	private double slidePrice;
 	private double slideCost;
-	private double writerLevelPriceRound;
+	private String writerLevelPriceRound;
 	private double extraTotal;
 	private String type;
 	private String urgent;
@@ -55,22 +57,27 @@ public class Calculator {
 	}
 
 	public double getWriterPrice() {
+		writerLevelPrice();
 		return writerPrice;
 	}
 
 	public double getPreWriter() {
+		preWriter();
 		return preWriter;
 	}
 
 	public double getPreWriterRound() {
+		preWriter();
 		return preWriterRound;
 	}
 
 	public double getExtraTotalRound() {
+		extrasTotal();
 		return extraTotalRound;
 	}
 
 	public double getAbsPrice() {
+		abstractPrice();
 		return absPrice;
 	}
 
@@ -79,7 +86,8 @@ public class Calculator {
 	}
 
 	public double getDiscount() {
-		return discount;
+		discount();
+		return discountRound;
 	}
 
 	public double getDiscountRound() {
@@ -162,6 +170,7 @@ public class Calculator {
 	}
 
 	public double getGrandTotal() {
+		grandTotal();
 		return grandTotal;
 	}
 
@@ -234,27 +243,31 @@ public class Calculator {
 	}
 
 	void discount() {
-		BigDecimal bd = new BigDecimal(this.discount * this.getPagePrice / 100);
+		// int percent = Integer.parseInt(GetDiscount(getDisCode(), "percent"));
+		int percent = Discounts.GetDiscount(getDisCode());
+		BigDecimal bd = new BigDecimal(percent * getPagePrice / 100);
 		BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
-		BigDecimal roundedValue3 = bd.setScale(2, RoundingMode.HALF_UP);
-//		extraTotal.setScale(2, RoundingMode.HALF_UP).doubleValue();
 		this.discountRound = roundedValue2.doubleValue();
-		this.discount = roundedValue3.doubleValue();
+		this.discount = bd.doubleValue();
 	}
 
-	public double writerLevelPrice() {
-		System.out.println("getDisCode " +getDisCode());
+	public void writerLevelPrice() {
+		
 		int percent = Integer.parseInt(Categories.GetCategoryData(writerLvl, "percent"));
-		System.out.println("percent: " + percent);
-		System.out.println("pagePrice: " + getPagePrice);
 		BigDecimal bd = new BigDecimal(percent * getPagePrice / 100);
 		BigDecimal newBD = bd.setScale(4, RoundingMode.HALF_UP);
 		BigDecimal roundedValue = newBD.setScale(3, RoundingMode.HALF_UP);
 		BigDecimal roundedValue2 = newBD.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("roundedValue: " + roundedValue);
 		System.out.println("roundedValue2: " + roundedValue2);
-		this.writerLevelPriceRound = roundedValue2.doubleValue();
-		return this.writerPrice = roundedValue.doubleValue();
+		DecimalFormat df = new DecimalFormat("#.00");
+        String formattedNumber = df.format(roundedValue2);
+		this.writerLevelPriceRound = formattedNumber;
+		this.writerPrice = roundedValue.doubleValue();
+		System.out.println("roundedValue2.doubleValue(): " + roundedValue2.doubleValue());
+		System.out.println("bigde roundedValue2: " + roundedValue2);
+
+		// return this.writerPrice = roundedValue.doubleValue();
 	}
 
 	public void abstractPrice() {
@@ -276,10 +289,10 @@ public class Calculator {
 
 	public void extrasTotal() {
 
-		System.out.println("writerPrice: " + writerPrice);
-		System.out.println("absPrice: " + absPrice);
-		System.out.println("preWriter: " + preWriter);
-		BigDecimal bd = BigDecimal.valueOf(writerPrice + absPrice + preWriter);
+		System.out.println("writerPrice: " + getWriterPrice());
+		System.out.println("absPrice: " + getAbsPrice());
+		System.out.println("preWriter: " + getPreWriter());
+		BigDecimal bd = BigDecimal.valueOf(getWriterPrice() + getAbsPrice() + getPreWriter());
 		BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal roundedValue3 = bd.setScale(3, RoundingMode.HALF_UP);
 		this.extraTotalRound = roundedValue2.doubleValue();
@@ -294,6 +307,11 @@ public class Calculator {
 
 
 	public double grandTotal() {
+		System.out.println("-------");
+		System.out.println("getPagePrice: "+ getPagePrice);
+		System.out.println("discount: "+ discount);
+		System.out.println("extraTotal: "+ extraTotal);
+		System.out.println("balance: "+ balance);
 		BigDecimal bd = new BigDecimal(getPagePrice - discount + extraTotal - balance);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
 		this.grandTotal = roundedValue.doubleValue();

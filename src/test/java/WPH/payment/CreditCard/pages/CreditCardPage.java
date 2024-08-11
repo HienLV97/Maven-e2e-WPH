@@ -16,6 +16,7 @@ public class CreditCardPage {
 
 	private WebDriver driver;
 	private WebDriverWait wait;
+	DetailsPage detailsPage;
 	private By emailTB = By.xpath("//input[@id='email']");
 	private By cardInfoTB = By.xpath("//input[@id='cardNumber']");
 	private By cardExpiryTB = By.xpath("//input[@id='cardExpiry']");
