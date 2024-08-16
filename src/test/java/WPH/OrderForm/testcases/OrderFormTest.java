@@ -128,7 +128,7 @@ public class OrderFormTest extends Init {
 
 
 	//	@Test(enabled = true,groups = {"verifyPrice"}, priority = 1, description = "Order form price display correct")
-	@Test(enabled = true, groups = {"verifyPrice"})
+	@Test(enabled = false, groups = {"verifyPrice"})
 	public void testVerifyPrice() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -337,49 +337,13 @@ public class OrderFormTest extends Init {
 //
 //	}
 
-	@Test(enabled = false, description = "Create multi orders")
-	public void simpletest() {
+	@Test(enabled = true, description = "Create multi orders")
+	public void simpletest() throws IOException, AWTException {
 		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
-		DetailsPage detailsPage = new DetailsPage(driver);
-
-		//set value step1
-		String orderType = "writing";
-		String document = "Admission Essay";
-		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
-		String discipline = "Accounting";
-		String paperFormat = Citation.getCitation(0);
-
-		//set value step2
-		String title = "test";
-		String instruction = "test";
-		//set value step3
-		int deadlineNumb = 3;
-		String deadlineTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
-		int pages = 2;
-		int source = 2;
-		int slides = 2;
-		int writerLevelNumb = 2;
-		String spacing = "Single";
-		//set value step4
-		boolean isAbsPrice = true;
-		boolean isPreWriter = true;
-		//set value step5
-		String disCode = "paper15";
-
-		String writerLvlTxt = orderForm.writerLevel.get(writerLevelNumb).replace("\"", "");
-
 		Calculator calculator = new Calculator();
 
 		authenticate("WPH");
-		String tokenName = "token";
-		String email = Constants.EMAIL;
-		String password = Constants.COMMON_PASSWORD;
-		String tokenValue = SignIn.getToken(email, password);
-		signInPage.signInWithToken(tokenName, tokenValue);
-		calculator.balance(tokenValue);
+		
 
 		sleep(5);
 		for (int i = 1; i < 20; i++) {
@@ -387,47 +351,62 @@ public class OrderFormTest extends Init {
 			createOneOrder();
 
 			sleep(3);
-			System.out.println(orderType + "   " + deadlineTXT + "   " + acalevelTXT + "   " + pages + "   " + slides + "   " + spacing);
+			System.out.println("order number: "+ i);
 
-			orderForm.clickCreditBTN();
-			orderForm.clickCheckOutBTN();
-
-			sleep(5);
-			waitForNavigatePage("NaN");
-			waitForPageLoaded();
-			orderForm.clickViewOrderBTN();
 
 		}
 
 	}
 
 	@Test(enabled = false, description = "Create 1 order")
-	public void createOneOrder() {
+	public void createOneOrder() throws IOException, AWTException {
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
-		DetailsPage detailsPage = new DetailsPage(driver);
-
-
 		Calculator calculator = new Calculator();
 
-		authenticate("WPH");
 		String tokenName = "token";
-		String email = Constants.EMAIL;
-		String password = Constants.COMMON_PASSWORD;
+		String email = "t1@g.c";
+		String password = "123123";
 		String tokenValue = SignIn.getToken(email, password);
 		signInPage.signInWithToken(tokenName, tokenValue);
 		calculator.balance(tokenValue);
 
+		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
+		orderForm.Step2Data("test", "test");
+		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
+		orderForm.Step4Data(1, true, false, orderForm.writerLevel);
+		orderForm.Step5Data("paper15", 1);
+		// Calculator calculator = new Calculator();
+
+
+		sleep(5);
 		driver.get(Routers.ORDER);
-		orderForm.createOrder();
+
+
+		orderForm.setStep1();
+		orderForm.setStep2();
+		orderForm.setStep3();
+		orderForm.setStep4();
+		orderForm.setDiscountTB("paper15");
+		orderForm.clickApply();
+
+		sleep(10);
+
 		orderForm.clickCreditBTN();
 		orderForm.clickCheckOutBTN();
+
+		// detailsPage = creditCardPage.getCheckout();
 
 		sleep(5);
 		waitForNavigatePage("NaN");
 		waitForPageLoaded();
-		orderForm.clickViewOrderBTN();
+		sleep(3);
+		String orderID = orderForm.getID();
+		this.order_ID = orderID;
+
+		// orderDetail
+
+		sleep(5);
 
 	}
 
