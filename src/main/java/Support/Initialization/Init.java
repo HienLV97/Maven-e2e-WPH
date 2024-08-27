@@ -48,32 +48,108 @@ public class Init {
 	}
 
 	//	@BeforeMethod(groups = {"verifyPrice"})
-	@Test(alwaysRun = true)
-	@BeforeSuite
+//	@Test(alwaysRun = true)
+//	@BeforeSuite
+//	@Parameters({"browser"})
+//	public void Setup(@Optional("chrome") String browserName) {
+//		System.setProperty("webdriver.http.factory", "jdk-http-client");
+//		switch (browserName.trim().toLowerCase()) {
+//			case "chrome" -> driver = new ChromeDriver();
+//			case "edge" -> driver = new EdgeDriver();
+//			case "firefox" -> driver = new FirefoxDriver();
+//		}
+//		Properties properties = new Properties();
+//		try {
+//			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+//			properties.load(configFile);
+//			screenName = properties.getProperty("ScreenName");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		browserPosition(screenName);
+//		driver.manage().timeouts().pageLoadTimeout(160, TimeUnit.SECONDS);
+//		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//	}
+
+//	@BeforeSuite
+	@BeforeMethod
 	@Parameters({"browser"})
-	public void Setup(@Optional("chrome") String browserName) {
+	public void createDriver(@Optional("chrome") String browser) {
 		System.setProperty("webdriver.http.factory", "jdk-http-client");
-		switch (browserName) {
-			case "chrome" -> driver = new ChromeDriver();
-			case "edge" -> driver = new EdgeDriver();
-			case "firefox" -> driver = new FirefoxDriver();
+		setupDriver(browser);
+	}
+
+	public WebDriver setupDriver(String browserName) {
+		switch (browserName.trim().toLowerCase()) {
+			case "chrome":
+				driver = initChromeDriver();
+				break;
+			case "firefox":
+				driver = initFirefoxDriver();
+				break;
+			case "edge":
+				driver = initEdgeDriver();
+				break;
+			default:
+				System.out.println("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
+				driver = initChromeDriver();
 		}
+		return driver;
+	}
+
+	private WebDriver initChromeDriver() {
+		System.out.println("Launching Chrome browser...");
+		driver = new ChromeDriver();
+		System.out.println("driver: "+driver);
+		Properties properties = new Properties();
+		try {
+			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+			properties.load(configFile);
+			screenName = properties.getProperty("ScreenName");
+			System.out.println("ScreenName: "+ screenName);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		browserPosition(screenName);
+		return driver;
+	}
+
+	private WebDriver initEdgeDriver() {
+		System.out.println("Launching Edge browser...");
+		driver = new EdgeDriver();
 		Properties properties = new Properties();
 		try {
 			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
 			properties.load(configFile);
 			screenName = properties.getProperty("ScreenName");
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 		browserPosition(screenName);
-		driver.manage().timeouts().pageLoadTimeout(160, TimeUnit.SECONDS);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		return driver;
+	}
+
+	private WebDriver initFirefoxDriver() {
+		System.out.println("Launching Firefox browser...");
+		driver = new FirefoxDriver();
+		Properties properties = new Properties();
+		try {
+			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+			properties.load(configFile);
+			screenName = properties.getProperty("ScreenName");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		browserPosition(screenName);
+		return driver;
 	}
 
 
-	@AfterTest
+//	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);
