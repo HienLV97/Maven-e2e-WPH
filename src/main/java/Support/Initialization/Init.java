@@ -34,7 +34,6 @@ public class Init {
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	private String screenName;
 	public void authenticate(String env) {
-//		ChromeOptions chromeOptions = new ChromeOptions();
 		if (env.equals("WPH")) {
 			driver.get(Routers.AuthURL);
 		}
@@ -44,32 +43,10 @@ public class Init {
 		if (env.equals("Writer")) {
 			driver.get(Support.Writer.Routers.AuthURL);
 		}
+		if (env.equals("CMS")) {
+			driver.get(Support.CMS.Routers.AuthURL);
+		}
 	}
-
-	//	@BeforeMethod(groups = {"verifyPrice"})
-//	@Test(alwaysRun = true)
-//	@BeforeSuite
-//	@Parameters({"browser"})
-//	public void Setup(@Optional("chrome") String browserName) {
-//		System.setProperty("webdriver.http.factory", "jdk-http-client");
-//		switch (browserName.trim().toLowerCase()) {
-//			case "chrome" -> driver = new ChromeDriver();
-//			case "edge" -> driver = new EdgeDriver();
-//			case "firefox" -> driver = new FirefoxDriver();
-//		}
-//		Properties properties = new Properties();
-//		try {
-//			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
-//			properties.load(configFile);
-//			screenName = properties.getProperty("ScreenName");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		browserPosition(screenName);
-//		driver.manage().timeouts().pageLoadTimeout(160, TimeUnit.SECONDS);
-//		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-//	}
 	@BeforeMethod
 	@Parameters({"browser"})
 	public void createDriver(@Optional("chrome") String browser) {

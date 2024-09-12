@@ -1,6 +1,6 @@
-package WPH.SignIn.testcases;
+package CMS.SignIn.testcases;
 
-import WPH.SignIn.pages.SignInPage;
+import CMS.SignIn.pages.SignInPage;
 import Support.Initialization.Init;
 import helpers.Constants;
 import org.testng.annotations.Test;
@@ -12,7 +12,7 @@ public class SignInTest extends Init {
 	@Test(enabled = true)
 	public void test() throws NoSuchAlgorithmException, KeyManagementException {
 		SignInPage signInPage = new SignInPage(driver);
-		authenticate("WPH");
+		authenticate("CMS");
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		sleep(5);
 	}

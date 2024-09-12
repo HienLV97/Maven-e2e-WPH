@@ -112,6 +112,10 @@ public class WebUI {
 		getWebElement(by).sendKeys(text);
 		logConsole("Set text " + text + " on input " + by + " with timeout is " + second + " (second)");
 	}
+	public static void setText(WebElement webElement, String text) {
+		webElement.sendKeys(text);
+		logConsole("Set text " + text + " on input " + webElement);
+	}
 
 	public static String getElementText(By by) {
 		waitForElementVisible(by);
@@ -467,6 +471,11 @@ public class WebUI {
 		waitForElementClickable(by);
 		for (int i = 0; i < value; i++) {
 			clickElement(by);
+		}
+	}
+	public static void clickMultiElement(WebElement webElement , int value) {
+		for (int i = 0; i < value; i++) {
+			clickWEBElement(webElement);
 		}
 	}
 }
