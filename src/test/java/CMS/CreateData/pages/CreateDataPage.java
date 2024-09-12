@@ -10,7 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.time.Duration;
+import java.util.Objects;
 
 public class CreateDataPage extends Init {
 	private WebDriver driver;
@@ -26,37 +28,64 @@ public class CreateDataPage extends Init {
 	WebElement articleType;
 
 	@FindBy(xpath = "//input[@name='name']")
-	WebElement nameSec;
+	WebElement nameTB;
 
 	@FindBy(xpath = "//input[@name='url']")
-	WebElement urlSec;
+	WebElement urlTB;
 
 	@FindBy(xpath = "//input[@name='meta_title']")
-	WebElement metaTileSec;
+	WebElement metaTileTB;
 
 	@FindBy(xpath = "//*[@name='meta_description']")
-	WebElement metaDesSec;
+	WebElement metaDesTB;
 
 	@FindBy(xpath = "//input[@name='anchor']")
-	WebElement anchorSec;
+	WebElement anchorTB;
 
 	@FindBy(xpath = "(//input[@name='title']/following-sibling::input)[2]")
-	WebElement titleSec;
+	WebElement titleTB;
 
 	@FindBy(xpath = "(//input[@name='essay_note']/following-sibling::input)[1]")
-	WebElement essayNoteSec;
+	WebElement essayNoteTB;
 
 	@FindBy(xpath = "(//input[@name='essay_action']/following-sibling::input)[1]")
-	WebElement essayActSec;
+	WebElement essayActTB;
 
 	@FindBy(xpath = "(//input[@name='offer_action']/following-sibling::input)[1]")
-	WebElement offerActSec;
+	WebElement offerActTB;
 
 	@FindBy(xpath = "//a[@title='Save']")
 	WebElement saveBTN;
 
 	@FindBy(xpath = "//a[@title='Publish']")
 	WebElement publishBTN;
+
+	@FindBy(xpath = "//*[@name='intro']")
+	WebElement shortIntroTB;
+
+	@FindBy(xpath = "//*[@name='created_date']")
+	WebElement createdDateTB;
+
+	@FindBy(xpath = "//*[@name='academic_level']")
+	WebElement academicTB;
+
+	@FindBy(xpath = "//*[@name='paper_type']")
+	WebElement paperTypeTB;
+
+	@FindBy(xpath = "//*[@name='discipline']")
+	WebElement disciplineTB;
+
+	@FindBy(xpath = "//*[@name='citation']")
+	WebElement citationTB;
+
+	@FindBy(xpath = "//*[@name='pages']")
+	WebElement pagesTB;
+
+	@FindBy(xpath = "//*[@name='words']")
+	WebElement wordsTB;
+
+	@FindBy(xpath = "//input[@type='file']")
+	WebElement uploadFileBTN;
 
 	public CreateDataPage(WebDriver driver) {
 		this.driver = driver;
@@ -76,7 +105,7 @@ public class CreateDataPage extends Init {
 		sleep(3);
 	}
 
-	public void createNewPage() {
+	public void createArticles() {
 		driver.get(Routers.ARTICLES);
 		clickAddBTN();
 	}
@@ -86,55 +115,137 @@ public class CreateDataPage extends Init {
 		select.selectByVisibleText(tye);
 	}
 
-	public void setNameSec(String value) {
-		WebUI.setText(nameSec, value);
+	public void setNameTB(String value) {
+		WebUI.setText(nameTB, value);
 	}
 
-	public void setUrlSec(String value) {
-		WebUI.setText(urlSec, value);
+	public void setUrlTB(String value) {
+		WebUI.setText(urlTB, value);
 	}
 
 	public void setMetaTitleSec(String value) {
-		WebUI.setText(metaTileSec, value);
+		WebUI.setText(metaTileTB, value);
 	}
-	public void setMetaDesSec(String value) {
-		WebUI.setText(metaDesSec, value);
+
+	public void setMetaDesTB(String value) {
+		WebUI.setText(metaDesTB, value);
 	}
-	public void setAnchorSec(String value) {
-		WebUI.setText(anchorSec, value);
+
+	public void setAnchorTB(String value) {
+		WebUI.setText(anchorTB, value);
 	}
-	public void setTitleSec(String value) {
-		WebUI.setText(titleSec, value);
+
+	public void setTitleTB(String value) {
+		WebUI.setText(titleTB, value);
 	}
-	public void setEssayNoteSec(String value) {
-		WebUI.setText(essayNoteSec, value);
+
+	public void setEssayNoteTB(String value) {
+		WebUI.setText(essayNoteTB, value);
 	}
-	public void setEssayActSec(String value) {
-		WebUI.setText(essayActSec, value);
+
+	public void setEssayActTB(String value) {
+		WebUI.setText(essayActTB, value);
 	}
-	public void setOfferActSec(String value) {
-		WebUI.setText(offerActSec, value);
+
+	public void setOfferActTB(String value) {
+		WebUI.setText(offerActTB, value);
 	}
+
 	public void clickSaveBTN() {
 		WebUI.clickWEBElement(saveBTN);
 	}
+
 	public void clickPublish() {
-		WebUI.clickMultiElement(publishBTN,2);
+		WebUI.clickMultiElement(publishBTN, 2);
 	}
-	public void createNewSamples(String name,String url,String metaTitle,String metaDes,String anchor,String title, String essayNote, String essayAct, String offer) {
-		createNewPage();
+
+	public void createSamples(String name, String url, String metaTitle, String metaDes, String anchor, String title, String essayNote, String essayAct, String offer) {
+		createArticles();
 		selectArticle("samples");
-		setNameSec(name);
-		setUrlSec(url);
+		setNameTB(name);
+		setUrlTB(url);
 		setMetaTitleSec(metaTitle);
-		setMetaDesSec(metaDes);
-		setAnchorSec(anchor);
-		setTitleSec(title);
-		setEssayNoteSec(essayNote);
-		setEssayActSec(essayAct);
-		setOfferActSec(offer);
+		setMetaDesTB(metaDes);
+		setAnchorTB(anchor);
+		setTitleTB(title);
+		setEssayNoteTB(essayNote);
+		setEssayActTB(essayAct);
+		setOfferActTB(offer);
 		clickSaveBTN();
 		sleep(2);
 		clickPublish();
+	}
+
+	public void createSample() {
+		driver.get(Routers.SAMPLES);
+		clickAddBTN();
+	}
+
+	public void setShortIntroTB(String value) {
+		WebUI.setText(shortIntroTB, value);
+	}
+
+	public void setCreatedDateTB(String value) {
+		WebUI.setText(createdDateTB, value);
+	}
+
+	public void setAcademicTB(String value) {
+		WebUI.setText(academicTB, value);
+	}
+
+	public void setPaperTypeTB(String value) {
+		WebUI.setText(paperTypeTB, value);
+	}
+
+	public void setDisciplineTB(String value) {
+		WebUI.setText(disciplineTB, value);
+	}
+
+	public void setCitationTB(String value) {
+		WebUI.setText(citationTB, value);
+	}
+
+	public void setPagesTB(String value) {
+		WebUI.setText(pagesTB, value);
+	}
+
+	public void setWordsTB(String value) {
+		WebUI.setText(wordsTB, value);
+	}
+	public void clickUploadFile(){
+		WebUI.clickWEBElement(uploadFileBTN);
+	}
+	public void setUploadPDF(String fileName, String paperType){
+//		uploadFileBTN.sendKeys("src/test/resources/filePDF/"+value+".pdf");
+		if (Objects.equals(paperType, "PowerPoint Presentation")){
+			File file = new File("src/test/resources/filePDF/samples"+fileName+".pptx");
+			String absolutePath = file.getAbsolutePath();
+			uploadFileBTN.sendKeys(absolutePath);
+		}else {
+			File file = new File("src/test/resources/filePDF/samples"+fileName+".pdf");
+			String absolutePath = file.getAbsolutePath();
+			uploadFileBTN.sendKeys(absolutePath);
+		}
+
+	}
+	public void createSampleDetail(String name, String url, String metaTitle, String metaDes, String intro, String date, String academic, String type,
+								   String discipline, String citation, String pages, String words, String filename) {
+		createSample();
+		setNameTB(name);
+		setUrlTB(url);
+		setMetaTitleSec(metaTitle);
+		setMetaDesTB(metaDes);
+		setShortIntroTB(intro);
+		setCreatedDateTB(date);
+		setAcademicTB(academic);
+		setPaperTypeTB(type);
+		setDisciplineTB(discipline);
+		setCitationTB(citation);
+		setPagesTB(pages);
+		setWordsTB(words);
+		setUploadPDF(filename,type);
+		sleep(5);
+		clickSaveBTN();
+		sleep(2);
 	}
 }
