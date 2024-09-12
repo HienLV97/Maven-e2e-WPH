@@ -1,8 +1,8 @@
 package API.GetAPI.ACAWriter;
 
 
-import Support.Constants;
-import Support.Writer.Routers;
+import helpers.Constants;
+//import Support.Writer.Routers;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -13,9 +13,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class SignIn {
-	static String filePath = "src/test/java/API/Data/Writer/tokenClient.json";
+//	static String filePath = "src/test/java/API/Data/Writer/tokenClient.json";
 	static String URLSignIn = "https://writersagency.dev/gateway" + "/auth/login";
-	String token;
 
 	public static void main(String[] args) {
 		String token = getToken(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
@@ -73,17 +72,17 @@ public class SignIn {
 		return null;
 	}
 
-	private static String handleData() {
-		String token = null;
-		try {
-			// Đọc tệp JSON
-			JSONParser parser = new JSONParser();
-			JSONObject jsonData = (JSONObject) parser.parse(new FileReader(filePath));
-
-			token = (String) jsonData.get("token");
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		return token;
-	}
+//	private static String handleData() {
+//		String token = null;
+//		try {
+//			// Đọc tệp JSON
+//			JSONParser parser = new JSONParser();
+//			JSONObject jsonData = (JSONObject) parser.parse(new FileReader(filePath));
+//
+//			token = (String) jsonData.get("token");
+//		} catch (IOException | ParseException e) {
+//			e.printStackTrace();
+//		}
+//		return token;
+//	}
 }

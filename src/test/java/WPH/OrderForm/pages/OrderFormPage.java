@@ -4,6 +4,7 @@ package WPH.OrderForm.pages;
 import API.GetAPI.CoreAPI.OrderForm.OrderForm;
 import Keywords.WebUI;
 import Support.Initialization.Init;
+import Support.WPH.Routers;
 import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
 import org.openqa.selenium.By;
@@ -407,6 +408,7 @@ public class OrderFormPage extends Init {
 
 	public String getID() {
 		String currentUrl = driver.getCurrentUrl();
+		sleep(3);
 		String[] parts = currentUrl.split("/");
 		String orderId = parts[4];
 		System.out.println(currentUrl);
@@ -483,6 +485,8 @@ public class OrderFormPage extends Init {
 	}
 
 	public void createOrder() {
+		driver.get(Routers.ORDER);
+		WebUI.waitForPageLoaded();
 		setStep1();
 		setStep2();
 		setStep3();

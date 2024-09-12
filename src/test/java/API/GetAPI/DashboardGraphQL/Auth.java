@@ -1,13 +1,13 @@
 package API.GetAPI.DashboardGraphQL;
 
-import Support.Constants;
+import helpers.Constants;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-//import static Support.Constants.DashBoardAccount;
+//import static helpers.Constants.DashBoardAccount;
 
 public class Auth {
 	public static String getToken() {

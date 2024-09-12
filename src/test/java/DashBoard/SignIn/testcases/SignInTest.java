@@ -1,7 +1,7 @@
 package DashBoard.SignIn.testcases;
 
 import DashBoard.SignIn.pages.SignInPage;
-import Support.Constants;
+import helpers.Constants;
 import Support.Initialization.Init;
 import org.testng.annotations.Test;
 

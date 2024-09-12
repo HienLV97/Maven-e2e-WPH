@@ -36,8 +36,9 @@ public class SignInPage extends Init {
 		driver.findElement(inputPassword).sendKeys(password);
 	}
 
-	public void Login(String email, String password){
+	public void Login(String email, String password) {
 		driver.get(Routers.SIGN_IN);
+		sleep(10);
 		setEmail(email);
 		setPassword(password);
 		clickLoginButton();

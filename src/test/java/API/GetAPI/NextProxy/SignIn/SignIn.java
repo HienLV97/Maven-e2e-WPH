@@ -1,6 +1,6 @@
 package API.GetAPI.NextProxy.SignIn;
 
-import Support.Constants;
+import helpers.Constants;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

@@ -1,6 +1,6 @@
 package API.GetAPI.DashboardGraphQL;
 
-import Support.Constants;
+import helpers.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

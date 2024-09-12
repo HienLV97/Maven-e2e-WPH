@@ -1,11 +1,11 @@
 package WPH.OrderForm.testcases;
 
-import API.GetAPI.DashboardGraphQL.Price;
+import API.GetAPI.DashboardGraphQL.Auth;
 import API.GetAPI.NextProxy.Citation.Citation;
 import API.GetAPI.NextProxy.SignIn.SignIn;
 import Calculator.Calculator;
-import DashBoard.OrderDetail.pages.OrderDetailPage;
-import Support.Constants;
+import Keywords.WebUI;
+import helpers.Constants;
 import Support.Initialization.Init;
 import Support.WPH.Routers;
 import WPH.OrderDetails.Details.pages.DetailsPage;
@@ -33,7 +33,7 @@ public class OrderFormTest extends Init {
 //
 //		//step1
 //		driver.get(Routers.ORDER);
-//		waitForPageLoaded();
+//		WebUI.waitForPageLoaded();
 //		orderForm.SetDocumentDRL("Admission Essay");
 //		sleep(2);
 //		orderForm.AcalevelOptBTN(2);
@@ -70,24 +70,24 @@ public class OrderFormTest extends Init {
 ////		//step5
 ////		orderForm.clickCreditBTN();
 ////		orderForm.clickCheckOutBTN();
-////		waitForPageLoaded();
+////		WebUI.waitForPageLoaded();
 ////
 ////		creditCardPage.getCheckout();
 ////
 ////		sleep(5);
 ////		waitForNavigatePage(null);
-////		waitForPageLoaded();
+////		WebUI.waitForPageLoaded();
 ////		String orderID = orderForm.getID();
 ////		orderForm.clickViewOrderBTN();
 ////
 ////		sleep(10);
-////		waitForPageLoaded();
+////		WebUI.waitForPageLoaded();
 ////		detailsPage.verifyh1(orderID, "writing");
 //	}
 	String order_ID;
 	DetailsPage detailsPage;
 
-	@Test(enabled = false)
+	@Test(groups = {"1"})
 	public void checkoutSuccess() throws IOException, AWTException {
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
@@ -110,13 +110,13 @@ public class OrderFormTest extends Init {
 
 		sleep(5);
 		waitForNavigatePage("NaN");
-		waitForPageLoaded();
+		WebUI.waitForPageLoaded();
 		String orderID = orderForm.getID();
 		orderForm.clickViewOrderBTN();
 
 		// orderDetail
 		sleep(2);
-		waitForPageLoaded();
+		WebUI.waitForPageLoaded();
 		detailsPage.verifyh1(orderID, "writing");
 		detailsPage.verifyWPrice(detailsPage.writerPrice, "$152.92");
 		detailsPage.verifyWPrice(detailsPage.preWriterPrice, "$21.85");
@@ -128,7 +128,7 @@ public class OrderFormTest extends Init {
 
 
 	//	@Test(enabled = true,groups = {"verifyPrice"}, priority = 1, description = "Order form price display correct")
-	@Test(enabled = false, groups = {"verifyPrice"})
+	@Test()
 	public void testVerifyPrice() throws IOException, AWTException {
 
 		SignInPage signInPage = new SignInPage(driver);
@@ -184,7 +184,7 @@ public class OrderFormTest extends Init {
 
 		sleep(5);
 		waitForNavigatePage("NaN");
-		waitForPageLoaded();
+		WebUI.waitForPageLoaded();
 		sleep(3);
 		String orderID = orderForm.getID();
 		this.order_ID = orderID;
@@ -194,7 +194,7 @@ public class OrderFormTest extends Init {
 		// orderDetail
 
 		sleep(5);
-		waitForPageLoaded();
+		WebUI.waitForPageLoaded();
 		detailsPage.verifyh1(orderID, "writing");
 		detailsPage.verifyPriceDetails();
 		screenShot("Order detail");
@@ -337,7 +337,7 @@ public class OrderFormTest extends Init {
 //
 //	}
 
-	@Test(enabled = true, description = "Create multi orders")
+	@Test(description = "Create multi orders")
 	public void simpletest() throws IOException, AWTException {
 		SignInPage signInPage = new SignInPage(driver);
 		Calculator calculator = new Calculator();
@@ -358,17 +358,16 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = false, description = "Create 1 order")
-	public void createOneOrder() throws IOException, AWTException {
+	@Test(description = "Create 1 order")
+	public void createOneOrder()  {
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		Calculator calculator = new Calculator();
 
-		String tokenName = "token";
-		String email = "t1@g.c";
-		String password = "123123";
-		String tokenValue = SignIn.getToken(email, password);
-		signInPage.signInWithToken(tokenName, tokenValue);
+		String tokenValue = SignIn.getToken(Constants.EMAIL, Constants.COMMON_PASSWORD);
+		authenticate("WPH");
+		driver.get(Routers.ORDER);
+		signInPage.signInWithToken("token", tokenValue);
 		calculator.balance(tokenValue);
 
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
@@ -399,7 +398,7 @@ public class OrderFormTest extends Init {
 
 		sleep(5);
 		waitForNavigatePage("NaN");
-		waitForPageLoaded();
+		WebUI.waitForPageLoaded();
 		sleep(3);
 		String orderID = orderForm.getID();
 		this.order_ID = orderID;
@@ -410,7 +409,7 @@ public class OrderFormTest extends Init {
 
 	}
 
-	@Test(enabled = false, priority = 3, description = "Writer site")
+	@Test(priority = 3, description = "Writer site")
 	public void testWriterSite() {
 		Writer.SignIn.pages.SignInPage signInWriter = new Writer.SignIn.pages.SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
@@ -446,7 +445,7 @@ public class OrderFormTest extends Init {
 				title, instruction, urgentTXT, source, pages, slides, spacing);
 
 		authenticate("Writer");
-		waitForPageLoaded();
+		WebUI.waitForPageLoaded();
 		signInWriter.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
 		waitForNavigatePage(Support.Writer.Routers.BaseURL);
 		String ID_ORDER = order_ID;
@@ -464,17 +463,19 @@ public class OrderFormTest extends Init {
 		orderDetailWriter.verifyIns();
 	}
 
-	@Test(enabled = false, description = "simple Test")
+	@Test(description = "simple Test",groups = {"2"})
 	public void simpleTest() {
 		SignInPage signInPage = new SignInPage(driver);
 		OrderFormPage orderForm = new OrderFormPage(driver);
 		CreditCardPage creditCardPage = new CreditCardPage(driver);
-
+		authenticate("WPH");
+		signInPage.Login("t1@g.c","123123");
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
-		orderForm.Step4Data(1, false, true, orderForm.writerLevel);
+		orderForm.Step4Data(1, false, false, orderForm.writerLevel);
 		orderForm.Step5Data("paper15", 1);
+
 		orderForm.createOrder();
 
 		detailsPage = creditCardPage.getCheckout();

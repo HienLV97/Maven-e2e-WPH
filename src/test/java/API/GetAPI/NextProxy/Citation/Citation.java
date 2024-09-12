@@ -1,6 +1,6 @@
 package API.GetAPI.NextProxy.Citation;
 
-import Support.Constants;
+import helpers.Constants;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

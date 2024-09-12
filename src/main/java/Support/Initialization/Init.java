@@ -30,12 +30,11 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Init {
-	public WebDriver driver;
+	public  WebDriver driver;
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	private String screenName;
-
 	public void authenticate(String env) {
-		ChromeOptions chromeOptions = new ChromeOptions();
+//		ChromeOptions chromeOptions = new ChromeOptions();
 		if (env.equals("WPH")) {
 			driver.get(Routers.AuthURL);
 		}
@@ -71,8 +70,6 @@ public class Init {
 //		driver.manage().timeouts().pageLoadTimeout(160, TimeUnit.SECONDS);
 //		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 //	}
-
-//	@BeforeSuite
 	@BeforeMethod
 	@Parameters({"browser"})
 	public void createDriver(@Optional("chrome") String browser) {
@@ -101,13 +98,13 @@ public class Init {
 	private WebDriver initChromeDriver() {
 		System.out.println("Launching Chrome browser...");
 		driver = new ChromeDriver();
-		System.out.println("driver: "+driver);
+		System.out.println("driver: " + driver);
 		Properties properties = new Properties();
 		try {
 			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
 			properties.load(configFile);
 			screenName = properties.getProperty("ScreenName");
-			System.out.println("ScreenName: "+ screenName);
+			System.out.println("ScreenName: " + screenName);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -149,7 +146,7 @@ public class Init {
 	}
 
 
-//	@AfterTest
+	//	@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);
@@ -178,36 +175,6 @@ public class Init {
 			return null;
 		}
 	}
-
-	public void waitForPageLoaded() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(5000));
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
-		//Wait for Javascript to load
-		ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
-			@Override
-			public Boolean apply(WebDriver driver) {
-				return js.executeScript("return document.readyState").toString().equals("complete");
-			}
-		};
-
-		//Check JS is Ready
-		boolean jsReady = js.executeScript("return document.readyState").toString().equals("complete");
-
-		//Wait Javascript until it is Ready!
-		if (!jsReady) {
-			System.out.println("Javascript is NOT Ready.");
-			//Wait for Javascript to load
-			try {
-				wait.until(jsLoad);
-			} catch (Throwable error) {
-				error.printStackTrace();
-				Assert.fail("FAILED. Timeout waiting for page load.");
-			}
-		}
-	}
-
-
 	public void waitForNavigatePage(String value) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
 		String router = getBaseUrl(driver.getCurrentUrl());
