@@ -123,7 +123,7 @@ public class Init {
 	}
 
 
-	//	@AfterTest
+//		@AfterTest
 	public void closeBrowser() {
 		try {
 			Thread.sleep(2000);

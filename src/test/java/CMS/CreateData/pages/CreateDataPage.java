@@ -3,6 +3,8 @@ package CMS.CreateData.pages;
 import Keywords.WebUI;
 import Support.CMS.Routers;
 import Support.Initialization.Init;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,8 +12,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.xml.xpath.XPath;
 import java.io.File;
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 
 public class CreateDataPage extends Init {
@@ -53,6 +57,13 @@ public class CreateDataPage extends Init {
 
 	@FindBy(xpath = "(//input[@name='offer_action']/following-sibling::input)[1]")
 	WebElement offerActTB;
+
+	@FindBy(xpath = "//select[contains(@class,'multiSelect_field multiSelect_field_samples')]/following-sibling::div[1]")
+	WebElement sampleDRL;
+
+	@FindBy(xpath = "//li[@data-value]") // Xác định danh sách các phần tử li
+	private List<WebElement> options;
+
 
 	@FindBy(xpath = "//a[@title='Save']")
 	WebElement saveBTN;
@@ -151,6 +162,31 @@ public class CreateDataPage extends Init {
 		WebUI.setText(offerActTB, value);
 	}
 
+	public void clickSampleDRL() {
+		WebUI.clickWEBElement(sampleDRL);
+	}
+	public void clickOnArticle(String value) {
+		// Tạo XPath động với giá trị được truyền vào
+		String xpath = "(//a[normalize-space(text())='" + value + "'])[1]";
+
+		// Tìm phần tử với XPath động và thực hiện thao tác click
+		WebElement article = driver.findElement(By.xpath(xpath));
+		WebUI.clickWEBElement(article);
+	}
+
+	public void setSampleDRL(String value) {
+		clickSampleDRL();
+
+		String[] parts = value.split(", ");
+
+		for (String part : parts) {
+			sleep(1);
+			clickOnArticle(part);
+			sleep(1);
+		}
+    }
+
+
 	public void clickSaveBTN() {
 		WebUI.clickWEBElement(saveBTN);
 	}
@@ -159,7 +195,10 @@ public class CreateDataPage extends Init {
 		WebUI.clickMultiElement(publishBTN, 2);
 	}
 
-	public void createSamples(String name, String url, String metaTitle, String metaDes, String anchor, String title, String essayNote, String essayAct, String offer) {
+
+	public void createSamplesList(String name, String url, String metaTitle,
+								  String metaDes, String anchor, String title,
+								  String essayNote, String essayAct, String offer, String sampleDetail) {
 		createArticles();
 		selectArticle("samples");
 		setNameTB(name);
@@ -171,6 +210,8 @@ public class CreateDataPage extends Init {
 		setEssayNoteTB(essayNote);
 		setEssayActTB(essayAct);
 		setOfferActTB(offer);
+		clickSampleDRL();
+		setSampleDRL(sampleDetail);
 		clickSaveBTN();
 		sleep(2);
 		clickPublish();
@@ -212,22 +253,25 @@ public class CreateDataPage extends Init {
 	public void setWordsTB(String value) {
 		WebUI.setText(wordsTB, value);
 	}
-	public void clickUploadFile(){
+
+	public void clickUploadFile() {
 		WebUI.clickWEBElement(uploadFileBTN);
 	}
-	public void setUploadPDF(String fileName, String paperType){
+
+	public void setUploadPDF(String fileName, String paperType) {
 //		uploadFileBTN.sendKeys("src/test/resources/filePDF/"+value+".pdf");
-		if (Objects.equals(paperType, "PowerPoint Presentation")){
-			File file = new File("src/test/resources/filePDF/samples"+fileName+".pptx");
+		if (Objects.equals(paperType, "PowerPoint Presentation")) {
+			File file = new File("src/test/resources/filePDF/samples" + fileName + ".pptx");
 			String absolutePath = file.getAbsolutePath();
 			uploadFileBTN.sendKeys(absolutePath);
-		}else {
-			File file = new File("src/test/resources/filePDF/samples"+fileName+".pdf");
+		} else {
+			File file = new File("src/test/resources/filePDF/samples" + fileName + ".pdf");
 			String absolutePath = file.getAbsolutePath();
 			uploadFileBTN.sendKeys(absolutePath);
 		}
 
 	}
+
 	public void createSampleDetail(String name, String url, String metaTitle, String metaDes, String intro, String date, String academic, String type,
 								   String discipline, String citation, String pages, String words, String filename) {
 		createSample();
@@ -243,9 +287,10 @@ public class CreateDataPage extends Init {
 		setCitationTB(citation);
 		setPagesTB(pages);
 		setWordsTB(words);
-		setUploadPDF(filename,type);
+		setUploadPDF(filename, type);
 		sleep(5);
 		clickSaveBTN();
 		sleep(2);
+		clickSaveBTN();
 	}
 }

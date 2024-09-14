@@ -92,7 +92,9 @@ public class WebUI {
 		logConsole("Click on element " + by);
 	}
 	public static void clickWEBElement(WebElement webElement) {
+		webElement.isDisplayed();
 		webElement.click();
+		sleep(1);
 		logConsole("Click on element " + webElement);
 	}
 	public static void clickElement(By by, int second) {
