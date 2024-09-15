@@ -105,7 +105,7 @@ public class OrderDetailPage extends Init {
 	private void verifySec(WebElement element, String value, boolean isEquals) {
 		String sectionText = WebUI.getWebElementText(element);
 		if (isEquals) {
-			WebUI.assertEquals(sectionText, value, "Not equals");
+			WebUI.assertEquals(sectionText, value);
 		} else {
 			WebUI.assertContains(sectionText, value, "Not contains");
 		}

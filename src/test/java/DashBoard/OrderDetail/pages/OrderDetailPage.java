@@ -113,8 +113,7 @@ public class OrderDetailPage extends Init {
 	//DETAIL
 	private void verifySec(WebElement element, String value) {
 		String sectionText = WebUI.getWebElementText(element);
-		String message = "error";
-		WebUI.assertEquals(sectionText, value, message);
+		WebUI.assertEquals(sectionText, value);
 	}
 
 	public void verifyTopic(String value) {

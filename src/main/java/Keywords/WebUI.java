@@ -1,7 +1,9 @@
 package Keywords;
 
 
+import logs.LogUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.devtools.v128.log.Log;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -449,10 +451,9 @@ public class WebUI {
 		return check;
 	}
 
-	public static void assertEquals(Object actual, Object expected, String message) {
-//		waitForPageLoaded();
-		System.out.println("Assert equals: " + actual + " and " + expected);
-		Assert.assertEquals(actual, expected, message);
+	public static void assertEquals(Object actual, Object expected) {
+		System.out.println("Assert equals: " + actual );
+		Assert.assertEquals(actual, expected,"not equals");
 	}
 
 	public static boolean verifyContains(String actual, String expected) {
@@ -480,4 +481,12 @@ public class WebUI {
 			clickWEBElement(webElement);
 		}
 	}
+	public static void doubleClickElement(WebElement webElement) {
+		// Tạo một instance của Actions class
+		Actions actions = new Actions(driver);
+
+		// Thực hiện thao tác double click
+		actions.doubleClick(webElement).perform();
+	}
+
 }

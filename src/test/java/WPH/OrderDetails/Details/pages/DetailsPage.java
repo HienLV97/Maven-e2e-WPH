@@ -70,7 +70,7 @@ public class DetailsPage {
 		WebUI.waitForElementVisible(by);
 		String price = WebUI.getElementText(by);
 		System.out.println(by);
-		WebUI.assertEquals(price,value,"Passed");
+		WebUI.assertEquals(price,value);
 	}
     public void verifyPriceDetails () {
 		verifyWPrice(writerPrice,  "$" + Calculator.getWriterLevelPriceRound());

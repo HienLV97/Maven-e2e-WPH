@@ -14,5 +14,6 @@ public class Routers {
 	public static final String ARTICLES = BaseURL + "/yeti/main/articles/all";
 	public static final String HOME = BaseURL + "/";
 	public static final String SAMPLES = BaseURL + "/yeti/main/samples/all";
+	public static final String EDIT_ARTICLES = BaseURL + "/yeti/main/articles/edit";
 	public static final String SIGN_IN = BaseURL + "/login";
 }

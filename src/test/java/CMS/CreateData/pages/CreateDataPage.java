@@ -3,25 +3,33 @@ package CMS.CreateData.pages;
 import Keywords.WebUI;
 import Support.CMS.Routers;
 import Support.Initialization.Init;
+import helpers.ExcelHelper;
+import logs.LogUtils;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.v128.log.Log;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.asserts.SoftAssert;
 
-import javax.xml.xpath.XPath;
 import java.io.File;
 import java.time.Duration;
-import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class CreateDataPage extends Init {
 	private WebDriver driver;
-//	private WebDriverWait wait;
-
+	//	private WebDriverWait wait;
+	ExcelHelper excelHelper = new ExcelHelper();
+	SoftAssert softassert = new SoftAssert();
+	private Workbook wb;
+	private Sheet sh;
 	@FindBy(xpath = "(//span[@class='project-name fbaloo'])[1]")
 	WebElement WPHBTN;
 
@@ -61,10 +69,6 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//select[contains(@class,'multiSelect_field multiSelect_field_samples')]/following-sibling::div[1]")
 	WebElement sampleDRL;
 
-	@FindBy(xpath = "//li[@data-value]") // Xác định danh sách các phần tử li
-	private List<WebElement> options;
-
-
 	@FindBy(xpath = "//a[@title='Save']")
 	WebElement saveBTN;
 
@@ -97,6 +101,22 @@ public class CreateDataPage extends Init {
 
 	@FindBy(xpath = "//input[@type='file']")
 	WebElement uploadFileBTN;
+
+	//Header
+	@FindBy(xpath = "//i[@class='fa fa-info fa-fw']")
+	WebElement editIntroBTN;
+
+	@FindBy(xpath = "//i[@class='fa fa-money fa-fw']")
+	WebElement editOfferBTN;
+
+	@FindBy(xpath = "//div[@role='textbox']")
+	WebElement noteTB;
+
+	@FindBy(xpath = "//i[@class='fa fa-trash fa-fw']")
+	WebElement trashBTN;
+
+	@FindBy(xpath = "//div[contains(text(),'Sorry, the page you are looking for could not be f')]")
+	WebElement pageNotFoundTXT;
 
 	public CreateDataPage(WebDriver driver) {
 		this.driver = driver;
@@ -162,12 +182,33 @@ public class CreateDataPage extends Init {
 		WebUI.setText(offerActTB, value);
 	}
 
+	public void setNoteTB(String value) {
+		clickAddBTN();
+		WebUI.setText(noteTB, value);
+		clickSaveBTN();
+		sleep(2);
+	}
+
+	public void setEditIntroData(String value) {
+		clickEditIntroBTN();
+		setNoteTB(value);
+	}
+
+	public void setEditOfferData(String value) {
+		clickEditOfferBTN();
+		setNoteTB(value);
+	}
+
 	public void clickSampleDRL() {
 		WebUI.clickWEBElement(sampleDRL);
 	}
+
 	public void clickOnArticle(String value) {
 		// Tạo XPath động với giá trị được truyền vào
-		String xpath = "(//a[normalize-space(text())='" + value + "'])[1]";
+		if (value.length() > 60) {
+			value = value.substring(0, 60);  // Cắt chuỗi nếu vượt quá 60 ký tự
+		}
+		String xpath = "(//a[contains(normalize-space(text()), '" + value + "')])[1]";
 
 		// Tìm phần tử với XPath động và thực hiện thao tác click
 		WebElement article = driver.findElement(By.xpath(xpath));
@@ -180,11 +221,10 @@ public class CreateDataPage extends Init {
 		String[] parts = value.split(", ");
 
 		for (String part : parts) {
-			sleep(1);
 			clickOnArticle(part);
 			sleep(1);
 		}
-    }
+	}
 
 
 	public void clickSaveBTN() {
@@ -192,29 +232,21 @@ public class CreateDataPage extends Init {
 	}
 
 	public void clickPublish() {
-		WebUI.clickMultiElement(publishBTN, 2);
+		WebUI.doubleClickElement(publishBTN);
+		sleep(2);
 	}
 
+	public void clickEditIntroBTN() {
+		WebUI.clickWEBElement(editIntroBTN);
+	}
 
-	public void createSamplesList(String name, String url, String metaTitle,
-								  String metaDes, String anchor, String title,
-								  String essayNote, String essayAct, String offer, String sampleDetail) {
-		createArticles();
-		selectArticle("samples");
-		setNameTB(name);
-		setUrlTB(url);
-		setMetaTitleSec(metaTitle);
-		setMetaDesTB(metaDes);
-		setAnchorTB(anchor);
-		setTitleTB(title);
-		setEssayNoteTB(essayNote);
-		setEssayActTB(essayAct);
-		setOfferActTB(offer);
-		clickSampleDRL();
-		setSampleDRL(sampleDetail);
-		clickSaveBTN();
-		sleep(2);
-		clickPublish();
+	public void clickEditOfferBTN() {
+		WebUI.clickWEBElement(editOfferBTN);
+	}
+
+	public void clickTrashBTN() {
+		WebUI.doubleClickElement(trashBTN);
+		sleep(5);
 	}
 
 	public void createSample() {
@@ -254,10 +286,6 @@ public class CreateDataPage extends Init {
 		WebUI.setText(wordsTB, value);
 	}
 
-	public void clickUploadFile() {
-		WebUI.clickWEBElement(uploadFileBTN);
-	}
-
 	public void setUploadPDF(String fileName, String paperType) {
 //		uploadFileBTN.sendKeys("src/test/resources/filePDF/"+value+".pdf");
 		if (Objects.equals(paperType, "PowerPoint Presentation")) {
@@ -272,25 +300,118 @@ public class CreateDataPage extends Init {
 
 	}
 
-	public void createSampleDetail(String name, String url, String metaTitle, String metaDes, String intro, String date, String academic, String type,
-								   String discipline, String citation, String pages, String words, String filename) {
-		createSample();
-		setNameTB(name);
-		setUrlTB(url);
-		setMetaTitleSec(metaTitle);
-		setMetaDesTB(metaDes);
-		setShortIntroTB(intro);
-		setCreatedDateTB(date);
-		setAcademicTB(academic);
-		setPaperTypeTB(type);
-		setDisciplineTB(discipline);
-		setCitationTB(citation);
-		setPagesTB(pages);
-		setWordsTB(words);
-		setUploadPDF(filename, type);
-		sleep(5);
-		clickSaveBTN();
-		sleep(2);
-		clickSaveBTN();
+	public void createSampleDetail(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+		for (int i = 1; i <= lastRow; i++) {
+			excelHelper.setExcelFile(fileName, sheetName);
+			String name = excelHelper.getCellData("name", i);
+			String url = excelHelper.getCellData("url", i);
+			String title = excelHelper.getCellData("meta_title", i);
+			String description = excelHelper.getCellData("meta_description", i);
+			String intro = excelHelper.getCellData("short_intro", i);
+			String date = excelHelper.getCellData("created_date", i);
+			String academic = excelHelper.getCellData("academic_level", i);
+			String paperType = excelHelper.getCellData("type_of_paper", i);
+			String discipline = excelHelper.getCellData("discipline", i);
+			String citation = excelHelper.getCellData("citation", i);
+			String pages = excelHelper.getCellData("pages", i);
+			String words = excelHelper.getCellData("total_words", i);
+			String fileNamePDF = excelHelper.getCellData("fileName", i);
+			createSample();
+			setNameTB(name);
+			setUrlTB(url);
+			setMetaTitleSec(title);
+			setMetaDesTB(description);
+			setShortIntroTB(intro);
+			setCreatedDateTB(date);
+			setAcademicTB(academic);
+			setPaperTypeTB(paperType);
+			setDisciplineTB(discipline);
+			setCitationTB(citation);
+			setPagesTB(pages);
+			setWordsTB(words);
+			setUploadPDF(fileNamePDF, paperType);
+			sleep(5);
+			clickSaveBTN();
+			sleep(2);
+			clickSaveBTN();
+			LogUtils.infoCustom(driver.getCurrentUrl());
+			LogUtils.infoCustom(url);
+		}
+
+	}
+	public void recordFile(String value, String column, int row) {
+		excelHelper.setExcelFile("src/test/resources/testdata/outputArticles.xlsx", "Sheet1");
+		excelHelper.setCellData(value,column,row);
+	}
+	public void createSamplesArticles(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+		for (int i = 1; i <= lastRow; i++) {
+			excelHelper.setExcelFile(fileName, sheetName);
+			String name = excelHelper.getCellData("name", i);
+			String url = excelHelper.getCellData("url", i);
+			String metaTitle = excelHelper.getCellData("meta_title", i);
+			String description = excelHelper.getCellData("meta_description", i);
+			String anchor = excelHelper.getCellData("anchor", i);
+			String title = excelHelper.getCellData("title", i);
+			String essayNote = excelHelper.getCellData("essay_note", i);
+			String essayAct = excelHelper.getCellData("essay_action", i);
+			String offer = excelHelper.getCellData("offer_action", i);
+			String samples = excelHelper.getCellData("samples", i);
+			String editIntro = excelHelper.getCellData("edit_intro", i);
+			String editOffer = excelHelper.getCellData("edit_offer", i);
+			createArticles();
+			selectArticle("samples");
+			setNameTB(name);
+			setUrlTB(url);
+			setMetaTitleSec(metaTitle);
+			setMetaDesTB(description);
+			setAnchorTB(anchor);
+			setTitleTB(title);
+			setEssayNoteTB(essayNote);
+			setEssayActTB(essayAct);
+			setOfferActTB(offer);
+			setSampleDRL(samples);
+			clickSaveBTN();
+			sleep(2);
+			clickPublish();
+			LogUtils.info(driver.getCurrentUrl());
+			LogUtils.info(url);
+			recordFile(driver.getCurrentUrl(), "id",i);
+			recordFile(url, "url",i);
+			setEditIntroData(editIntro);
+			setEditOfferData(editOffer);
+			System.out.println(TimeUnit.MINUTES);
+		}
+
+	}
+
+	public void deleteArticles(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+		// Kiểm tra độ dài của hai mảng
+		for (int i = 1; i <= lastRow; i++) {
+			String id = excelHelper.getCellData("id", i);
+			String url = excelHelper.getCellData("url", i);
+			driver.get(id);
+
+			try {
+				if (pageNotFoundTXT.isDisplayed()) {
+					LogUtils.info(url+" "+id);
+					LogUtils.info("Page not exit");
+				}
+			} catch (NoSuchElementException e) {
+				if (Objects.equals(url, urlTB.getAttribute("value"))) {
+					LogUtils.info(url+" "+id);
+					clickTrashBTN();
+					LogUtils.info("Đã xóa");
+				} else {
+					LogUtils.info(url+" "+id);
+					LogUtils.info("Không xóa");
+				}
+			}
+		}
 	}
 }

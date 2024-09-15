@@ -30,9 +30,10 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Init {
-	public  WebDriver driver;
+	public WebDriver driver;
 	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	private String screenName;
+
 	public void authenticate(String env) {
 		if (env.equals("WPH")) {
 			driver.get(Routers.AuthURL);
@@ -47,6 +48,7 @@ public class Init {
 			driver.get(Support.CMS.Routers.AuthURL);
 		}
 	}
+
 	@BeforeMethod
 	@Parameters({"browser"})
 	public void createDriver(@Optional("chrome") String browser) {
@@ -123,13 +125,15 @@ public class Init {
 	}
 
 
-//		@AfterTest
-	public void closeBrowser() {
+	@AfterTest
+	@Parameters({"sleepTime"})
+	public void closeBrowser(int sleepTime) {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+		sleep(sleepTime);
 		driver.quit();
 	}
 
@@ -152,6 +156,7 @@ public class Init {
 			return null;
 		}
 	}
+
 	public void waitForNavigatePage(String value) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Thời gian chờ 10 giây
 		String router = getBaseUrl(driver.getCurrentUrl());

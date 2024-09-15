@@ -58,7 +58,6 @@ public class SignIn {
 			}
 
 			JSONParser parser = new JSONParser();
-//			System.out.println("SignIn: " + response);
 			try {
 				JSONObject jsonObject = (JSONObject) parser.parse(response.toString());
 				return (String) jsonObject.get("token");

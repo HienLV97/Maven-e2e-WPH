@@ -1,13 +1,19 @@
 package helpers;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.sl.draw.geom.Context;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelHelper {
 
@@ -81,5 +87,88 @@ public class ExcelHelper {
 	public String getCellData(String columnName, int rowIndex) {
 		return getCellData(columns.get(columnName), rowIndex);
 	}
+	public void setCellData(String text, String columnName, int rowIndex) {
+		try {
+			row = sh.getRow(rowIndex);
+			if (row == null) {
+				row = sh.createRow(rowIndex);
+			}
+			cell = row.getCell(columns.get(columnName));
 
+			if (cell == null) {
+				cell = row.createCell(columns.get(columnName));
+			}
+			cell.setCellValue(text);
+
+			XSSFCellStyle style = (XSSFCellStyle) wb.createCellStyle();
+			style.setFillPattern(FillPatternType.NO_FILL);
+			style.setAlignment(HorizontalAlignment.CENTER);
+			style.setVerticalAlignment(VerticalAlignment.CENTER);
+
+			cell.setCellStyle(style);
+
+			fileOut = new FileOutputStream(excelFilePath);
+			wb.write(fileOut);
+			fileOut.flush();
+			fileOut.close();
+		} catch (Exception e) {
+			e.getMessage();
+		}
+	}
+	public int getRowCount(String sheetName,int RowNumber) {
+		Sheet sheet = wb.getSheet(sheetName);
+		return sheet.getRow(RowNumber).getLastCellNum();
+//		return sheet.getLastRowNum(); // Trả về số dòng cuối cùng có dữ liệu
+	}
+	public static int getLastRowWithData(String filePath, String sheetName) {
+		try {
+			// Mở file Excel
+			FileInputStream file = new FileInputStream(new File(filePath));
+
+			// Tạo Workbook từ file Excel
+			Workbook workbook = WorkbookFactory.create(file);
+
+			// Lấy sheet theo tên
+			Sheet sheet = workbook.getSheet(sheetName);
+
+			if (sheet == null) {
+				throw new IllegalArgumentException("Sheet " + sheetName + " không tồn tại trong file Excel.");
+			}
+
+			// Tìm số dòng có dữ liệu cuối cùng
+			int lastRowWithData = getLastRowWithData(sheet);
+
+			// Đóng workbook và file
+			workbook.close();
+			file.close();
+
+			return lastRowWithData;
+
+		} catch (IOException e) {
+			System.err.println("Đã xảy ra lỗi khi xử lý file: " + e.getMessage());
+			return -1;
+		}
+	}
+	public static int getLastRowWithData(Sheet sheet) {
+		int lastRowWithData = -1;
+
+		// Duyệt qua tất cả các hàng trong sheet
+		for (Row row : sheet) {
+			boolean hasData = false;
+			// Duyệt qua tất cả các ô trong hàng
+			for (Cell cell : row) {
+				if (cell.getCellType() != CellType.BLANK) {
+					hasData = true;
+					break;
+				}
+			}
+			// Nếu hàng có dữ liệu, cập nhật lastRowWithData
+			if (hasData) {
+				lastRowWithData = row.getRowNum();
+			}
+		}
+
+		// +1 để lấy số lượng dòng có dữ liệu thực tế (chỉ số hàng bắt đầu từ 0)
+		return lastRowWithData ;
+	}
 }
