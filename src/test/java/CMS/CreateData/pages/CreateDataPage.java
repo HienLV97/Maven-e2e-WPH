@@ -203,11 +203,23 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(sampleDRL);
 	}
 
+	public void setSampleDRL(String fileName, String sheetNameDetail) {
+		clickSampleDRL();
+		excelHelper.setExcelFile(fileName, sheetNameDetail);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "name");
+		for (int i = 1; i <= lastRow; i++) {
+			String nameDetail = excelHelper.getCellData("name", i);
+			String paperType = excelHelper.getCellData("type_of_paper", i);
+			clickOnArticle(nameDetail, paperType);
+			sleep(1);
+		}
+	}
+
 	public void clickOnArticle(String title, String type) {
 		// Tạo XPath động với giá trị được truyền vào
 		String value = type + " - " + title;
-		if (value.length() > 60) {
-			value = value.substring(0, 60);  // Cắt chuỗi nếu vượt quá 60 ký tự
+		if (value.length() > 55) {
+			value = value.substring(0, 55);  // Cắt chuỗi nếu vượt quá 60 ký tự
 		}
 		String xpath = "(//a[contains(normalize-space(text()), '" + value + "')])[1]";
 
@@ -215,18 +227,6 @@ public class CreateDataPage extends Init {
 		WebElement article = driver.findElement(By.xpath(xpath));
 		WebUI.clickWEBElement(article);
 	}
-
-	public void setSampleDRL(String value, String type) {
-		clickSampleDRL();
-
-		String[] parts = value.split(", ");
-
-		for (String part : parts) {
-			clickOnArticle(part, type);
-			sleep(1);
-		}
-	}
-
 
 	public void clickSaveBTN() {
 		WebUI.clickWEBElement(saveBTN);
@@ -301,65 +301,12 @@ public class CreateDataPage extends Init {
 
 	}
 
-	public void createSampleDetail(String fileName, String sheetName) {
+	public boolean checkResult(String fileName, String sheetName,int i){
 		excelHelper.setExcelFile(fileName, sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
-		for (int i = 1; i <= lastRow; i++) {
-			excelHelper.setExcelFile(fileName, sheetName);
-			String name = excelHelper.getCellData("name", i);
-			String url = excelHelper.getCellData("url", i);
-			String title = excelHelper.getCellData("meta_title", i);
-			String description = excelHelper.getCellData("meta_description", i);
-			String intro = excelHelper.getCellData("short_intro", i);
-			String date = excelHelper.getCellData("created_date", i);
-			String academic = excelHelper.getCellData("academic_level", i);
-			String paperType = excelHelper.getCellData("type_of_paper", i);
-			String discipline = excelHelper.getCellData("discipline", i);
-			String citation = excelHelper.getCellData("citation", i);
-			String pages = excelHelper.getCellData("pages", i);
-			String words = excelHelper.getCellData("total_words", i);
-			String fileNamePDF = excelHelper.getCellData("fileName", i);
-			createSample();
-			setNameTB(name);
-			setUrlTB(url);
-			setMetaTitleSec(title);
-			setMetaDesTB(description);
-			setShortIntroTB(intro);
-			setCreatedDateTB(date);
-			setAcademicTB(academic);
-			setPaperTypeTB(paperType);
-			setDisciplineTB(discipline);
-			setCitationTB(citation);
-			setPagesTB(pages);
-			setWordsTB(words);
-			setUploadPDF(fileNamePDF, paperType);
-
-			sleep(5);
-			clickSaveBTN();
-			sleep(2);
-			clickSaveBTN();
-			recordFile(driver.getCurrentUrl(), "id");
-			recordFile(url, "url");
-			LogUtils.infoCustom(driver.getCurrentUrl());
-			LogUtils.infoCustom(url);
-		}
-
+		return !Objects.equals("Passed", excelHelper.getCellData("result", i));
 	}
 
-	//	public void recordFile(String value, String column, int row) {
-//		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
-//		String sheetName = "sheet1";
-//		excelHelper.setExcelFile(fileName,sheetName);
-//		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
-//		int newRow = lastRow + row;
-//		excelHelper.setCellData(value,column,lastRow+row);
-//		String[] parts = column.split(", ");
-//
-//		for (int i = 0; i < parts.length; i++) {
-//			excelHelper.setCellData(value,parts[i], newRow);
-//		}
-//	}
-	public void recordFile(String value, String column) {
+	public void recordFile(String value, String column)  {
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
 		String sheetName = "sheet1";
 
@@ -382,88 +329,147 @@ public class CreateDataPage extends Init {
 		}
 	}
 
-	public void createSamplesArticles(String fileName, String sheetName) {
+	public void createSampleDetail(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
 		for (int i = 1; i <= lastRow; i++) {
-			excelHelper.setExcelFile(fileName, sheetName);
-			String name = excelHelper.getCellData("name", i);
-			String url = excelHelper.getCellData("url", i);
-			String metaTitle = excelHelper.getCellData("meta_title", i);
-			String description = excelHelper.getCellData("meta_description", i);
-			String anchor = excelHelper.getCellData("anchor", i);
-			String title = excelHelper.getCellData("title", i);
-			String essayNote = excelHelper.getCellData("essay_note", i);
-			String essayAct = excelHelper.getCellData("essay_action", i);
-			String offer = excelHelper.getCellData("offer_action", i);
-			String samples = excelHelper.getCellData("samples", i);
-			String editIntro = excelHelper.getCellData("edit_intro", i);
-			String editOffer = excelHelper.getCellData("edit_offer", i);
-			createArticles();
-			selectArticle("samples");
-			setNameTB(name);
-			setUrlTB(url);
-			setMetaTitleSec(metaTitle);
-			setMetaDesTB(description);
-			setAnchorTB(anchor);
-			setTitleTB(title);
-			setEssayNoteTB(essayNote);
-			setEssayActTB(essayAct);
-			setOfferActTB(offer);
-			setSampleDRL(samples, name);
-			clickSaveBTN();
-			sleep(2);
-			clickPublish();
-			LogUtils.info(driver.getCurrentUrl());
-			LogUtils.info(url);
-			recordFile(driver.getCurrentUrl(), "id");
-			recordFile(url, "url");
-			setEditIntroData(editIntro);
-			setEditOfferData(editOffer);
-		}
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String name = excelHelper.getCellData("name", i);
+				String url = excelHelper.getCellData("url", i);
+				String title = excelHelper.getCellData("meta_title", i);
+				String description = excelHelper.getCellData("meta_description", i);
+				String intro = excelHelper.getCellData("short_intro", i);
+				String date = excelHelper.getCellData("created_date", i);
+				String academic = excelHelper.getCellData("academic_level", i);
+				String paperType = excelHelper.getCellData("type_of_paper", i);
+				String discipline = excelHelper.getCellData("discipline", i);
+				String citation = excelHelper.getCellData("citation", i);
+				String pages = excelHelper.getCellData("pages", i);
+				String words = excelHelper.getCellData("total_words", i);
+				String fileNamePDF = excelHelper.getCellData("fileName", i);
+				createSample();
+				setNameTB(name);
+				setUrlTB(url);
+				setMetaTitleSec(title);
+				setMetaDesTB(description);
+				setShortIntroTB(intro);
+				setCreatedDateTB(date);
+				setAcademicTB(academic);
+				setPaperTypeTB(paperType);
+				setDisciplineTB(discipline);
+				setCitationTB(citation);
+				setPagesTB(pages);
+				setWordsTB(words);
+				setUploadPDF(fileNamePDF, paperType);
 
+				sleep(5);
+				clickSaveBTN();
+				sleep(2);
+				clickSaveBTN();
+				recordFile(driver.getCurrentUrl(), "id");
+				recordFile(url, "url");
+				LogUtils.infoCustom(driver.getCurrentUrl());
+				LogUtils.infoCustom(url);
+				excelHelper.setCellData("Passed","result",i);
+			}
+		}
 	}
 
-	public void createSamplesArticlesTest(String fileName, String sheetName) {
+	public void createSampleDetailTest(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
 		for (int i = 1; i <= lastRow; i++) {
-			excelHelper.setExcelFile(fileName, sheetName);
-			String name = excelHelper.getCellData("name", i);
-			String url = excelHelper.getCellData("url", i);
-			String metaTitle = excelHelper.getCellData("meta_title", i);
-			String description = excelHelper.getCellData("meta_description", i);
-			String anchor = excelHelper.getCellData("anchor", i);
-			String title = excelHelper.getCellData("title", i);
-			String essayNote = excelHelper.getCellData("essay_note", i);
-			String essayAct = excelHelper.getCellData("essay_action", i);
-			String offer = excelHelper.getCellData("offer_action", i);
-			String samples = excelHelper.getCellData("samples", i);
-			String editIntro = excelHelper.getCellData("edit_intro", i);
-			String editOffer = excelHelper.getCellData("edit_offer", i);
-			createArticles();
-			selectArticle("samples");
-			setNameTB(name);
-			setUrlTB(url);
-			setMetaTitleSec(metaTitle);
-			setMetaDesTB(description);
-			setAnchorTB(anchor);
-			setTitleTB(title);
-			setEssayNoteTB(essayNote);
-			setEssayActTB(essayAct);
-			setOfferActTB(offer);
-			setSampleDRL(samples, name);
-			clickSaveBTN();
-			sleep(2);
-			clickPublish();
-			LogUtils.info(driver.getCurrentUrl());
-			LogUtils.info(url);
-			recordFile(driver.getCurrentUrl(), "id");
-			recordFile(url, "url");
-			setEditIntroData(editIntro);
-			setEditOfferData(editOffer);
-		}
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String name = excelHelper.getCellData("name", i);
+				String url = excelHelper.getCellData("url", i);
+				String title = excelHelper.getCellData("meta_title", i);
+				String description = excelHelper.getCellData("meta_description", i);
+				String intro = excelHelper.getCellData("short_intro", i);
+				String date = excelHelper.getCellData("created_date", i);
+				String academic = excelHelper.getCellData("academic_level", i);
+				String paperType = excelHelper.getCellData("type_of_paper", i);
+				String discipline = excelHelper.getCellData("discipline", i);
+				String citation = excelHelper.getCellData("citation", i);
+				String pages = excelHelper.getCellData("pages", i);
+				String words = excelHelper.getCellData("total_words", i);
+				String fileNamePDF = excelHelper.getCellData("fileName", i);
+				createSample();
+				setNameTB(name);
+				setUrlTB(url);
+				setMetaTitleSec(title);
+				setMetaDesTB(description);
+				setShortIntroTB(intro);
+				setCreatedDateTB(date);
+				setAcademicTB(academic);
+				setPaperTypeTB(paperType);
+				setDisciplineTB(discipline);
+				setCitationTB(citation);
+				setPagesTB(pages);
+				setWordsTB(words);
+				setUploadPDF(fileNamePDF, paperType);
 
+//				sleep(5);
+//				clickSaveBTN();
+//				sleep(2);
+//				clickSaveBTN();
+//				recordFile(driver.getCurrentUrl(), "id");
+//				recordFile(url, "url");
+//				LogUtils.infoCustom(driver.getCurrentUrl());
+//				LogUtils.infoCustom("");
+				excelHelper.setCellData("Passed","result",i);
+				LogUtils.infoCustom(name +" "+ url);
+			}
+		}
+	}
+
+	public void createSamplesArticles(String fileName, String sheetName,String sheetNameDetail) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName,i)){
+				excelHelper.setExcelFile(fileName, sheetName);
+				String name = excelHelper.getCellData("name", i);
+				String url = excelHelper.getCellData("url", i);
+				String metaTitle = excelHelper.getCellData("meta_title", i);
+				String description = excelHelper.getCellData("meta_description", i);
+				String anchor = excelHelper.getCellData("anchor", i);
+				String title = excelHelper.getCellData("title", i);
+				String essayNote = excelHelper.getCellData("essay_note", i);
+				String essayAct = excelHelper.getCellData("essay_action", i);
+				String offer = excelHelper.getCellData("offer_action", i);
+				String editIntro = excelHelper.getCellData("edit_intro", i);
+				String editOffer = excelHelper.getCellData("edit_offer", i);
+
+				createArticles();
+				selectArticle("samples");
+				setNameTB(name);
+				setUrlTB(url);
+				setMetaTitleSec(metaTitle);
+				setMetaDesTB(description);
+				setAnchorTB(anchor);
+				setTitleTB(title);
+				setEssayNoteTB(essayNote);
+				setEssayActTB(essayAct);
+				setOfferActTB(offer);
+
+				ExcelHelper excelHelper2 = new ExcelHelper();
+				excelHelper2.setExcelFile(fileName,sheetNameDetail);
+				setSampleDRL(fileName, sheetNameDetail);
+
+				clickSaveBTN();
+				sleep(2);
+				clickPublish();
+				LogUtils.info(driver.getCurrentUrl());
+				LogUtils.info(url);
+				recordFile(driver.getCurrentUrl(), "id");
+				recordFile(url, "url");
+				setEditIntroData(editIntro);
+				setEditOfferData(editOffer);
+				excelHelper.setCellData("Passed","result",i);
+			}
+		}
 	}
 
 

@@ -1,7 +1,5 @@
 package logs;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.devtools.v126.v126Log;
 import org.openqa.selenium.logging.Logs;
 

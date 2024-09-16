@@ -33,10 +33,10 @@ public class CreateDataTest extends Init {
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickWPHBTN();
-		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleList";
-//		int rowNumb = 15;
-		createDataPage.createSamplesArticles(fileName, sheetName);
+		String sheetNameDetail = "sampleDetail";
+		createDataPage.createSamplesArticles(filePath, sheetName,sheetNameDetail);
 	}
 
 	@Test
@@ -77,9 +77,9 @@ public class CreateDataTest extends Init {
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "sampleList";
-//		int rowNumb = 15;
-		createDataPage.createSamplesArticlesTest(fileName, sheetName);
+		String sheetName = "sampleDetail";
+		LogUtils.info("hihi");
+		LogUtils.infoCustom("haha");
 	}
 
 	@Test
