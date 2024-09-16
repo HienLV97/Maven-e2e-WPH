@@ -19,6 +19,7 @@ allure-results/
 ExportData/
 ExtentReports/
 logs/
+!logs/LogUtils.java
 test-output/
 reports/
 src/Config
