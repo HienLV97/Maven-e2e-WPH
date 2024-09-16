@@ -6,7 +6,8 @@ import Support.Initialization.Init;
 import helpers.Constants;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-// import logs.LogUtils;
+import logs.LogUtils;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,15 +16,13 @@ import java.util.concurrent.TimeUnit;
 
 public class CreateDataTest extends Init {
 	@Test
-	public void gotoWPH(){
+	public void gotoWPH() {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		CreateDataPage createDataPage = new CreateDataPage(driver);
-		// LogUtils.infoCustom(driver.getCurrentUrl());
-		System.out.println(driver.getCurrentUrl());
-		// LogUtils.info(driver.getCurrentUrl());
-		System.out.println(driver.getCurrentUrl());
+		LogUtils.infoCustom(driver.getCurrentUrl());
+		LogUtils.info(driver.getCurrentUrl());
 		createDataPage.clickWPHBTN();
 	}
 
@@ -37,7 +36,7 @@ public class CreateDataTest extends Init {
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleList";
 //		int rowNumb = 15;
-		createDataPage.createSamplesArticles(fileName,sheetName);
+		createDataPage.createSamplesArticles(fileName, sheetName);
 	}
 
 	@Test
@@ -47,9 +46,9 @@ public class CreateDataTest extends Init {
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickWPHBTN();
-		String fileName ="src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName =  "sampleDetail";
-		createDataPage.createSampleDetail(fileName,sheetName);
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "sampleDetail";
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
 	@Test
@@ -61,16 +60,17 @@ public class CreateDataTest extends Init {
 	}
 
 	@Test
-	public void deleteArticles(){
+	public void deleteArticles() {
 		authenticate("CMS");
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		gotoWPH();
-		String fileName ="src/test/resources/testdata/outputArticles.xlsx";
-		String sheetName =  "Sheet1";
-		createDataPage.deleteArticles(fileName,sheetName);
+		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
+		String sheetName = "Sheet1";
+		createDataPage.deleteArticles(fileName, sheetName);
 	}
+
 	@Test
-	public void test2(){
+	public void test2() {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -79,7 +79,7 @@ public class CreateDataTest extends Init {
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleList";
 //		int rowNumb = 15;
-		createDataPage.createSamplesArticlesTest(fileName,sheetName);
+		createDataPage.createSamplesArticlesTest(fileName, sheetName);
 	}
 
 	@Test
@@ -89,9 +89,10 @@ public class CreateDataTest extends Init {
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickWPHBTN();
-		String fileName ="src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName =  "ibDetail";
-		createDataPage.createSampleDetail(fileName,sheetName);
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "ibDetail";
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
+
 
 }

@@ -4,7 +4,7 @@ import Keywords.WebUI;
 import Support.CMS.Routers;
 import Support.Initialization.Init;
 import helpers.ExcelHelper;
-//import logs.LogUtils;
+import logs.LogUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.openqa.selenium.By;
@@ -203,9 +203,9 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(sampleDRL);
 	}
 
-	public void clickOnArticle(String title,String type) {
+	public void clickOnArticle(String title, String type) {
 		// Tạo XPath động với giá trị được truyền vào
-		String value = type+" - "+title;
+		String value = type + " - " + title;
 		if (value.length() > 60) {
 			value = value.substring(0, 60);  // Cắt chuỗi nếu vượt quá 60 ký tự
 		}
@@ -222,7 +222,7 @@ public class CreateDataPage extends Init {
 		String[] parts = value.split(", ");
 
 		for (String part : parts) {
-			clickOnArticle(part,type);
+			clickOnArticle(part, type);
 			sleep(1);
 		}
 	}
@@ -340,8 +340,8 @@ public class CreateDataPage extends Init {
 			clickSaveBTN();
 			recordFile(driver.getCurrentUrl(), "id");
 			recordFile(url, "url");
-			// LogUtils.infoCustom(driver.getCurrentUrl());
-			// LogUtils.infoCustom(url);
+			LogUtils.infoCustom(driver.getCurrentUrl());
+			LogUtils.infoCustom(url);
 		}
 
 	}
@@ -410,12 +410,12 @@ public class CreateDataPage extends Init {
 			setEssayNoteTB(essayNote);
 			setEssayActTB(essayAct);
 			setOfferActTB(offer);
-			setSampleDRL(samples,name);
+			setSampleDRL(samples, name);
 			clickSaveBTN();
 			sleep(2);
 			clickPublish();
-			// LogUtils.info(driver.getCurrentUrl());
-			// LogUtils.info(url);
+			LogUtils.info(driver.getCurrentUrl());
+			LogUtils.info(url);
 			recordFile(driver.getCurrentUrl(), "id");
 			recordFile(url, "url");
 			setEditIntroData(editIntro);
@@ -452,14 +452,12 @@ public class CreateDataPage extends Init {
 			setEssayNoteTB(essayNote);
 			setEssayActTB(essayAct);
 			setOfferActTB(offer);
-			setSampleDRL(samples,name);
+			setSampleDRL(samples, name);
 			clickSaveBTN();
 			sleep(2);
 			clickPublish();
-			// LogUtils.info(driver.getCurrentUrl());
-			// LogUtils.info(url);
-			System.out.println(driver.getCurrentUrl());
-			System.out.println(url);
+			LogUtils.info(driver.getCurrentUrl());
+			LogUtils.info(url);
 			recordFile(driver.getCurrentUrl(), "id");
 			recordFile(url, "url");
 			setEditIntroData(editIntro);
@@ -480,19 +478,17 @@ public class CreateDataPage extends Init {
 
 			try {
 				if (pageNotFoundTXT.isDisplayed()) {
-					// LogUtils.info(url+" "+id);
-					// LogUtils.info("Page not exit");
-					System.out.println("Page not exit");
+					LogUtils.info(url + " " + id);
+					LogUtils.info("Page not exit");
 				}
 			} catch (NoSuchElementException e) {
 				if (Objects.equals(url, urlTB.getAttribute("value"))) {
-					// LogUtils.info(url+" "+id);
+					LogUtils.info(url + " " + id);
 					clickTrashBTN();
-					// LogUtils.info("Đã xóa");
-					System.out.println("Đã xóa");
+					LogUtils.info("Deleted");
 				} else {
-					// LogUtils.info(url+" "+id);
-					System.out.println("Không xóa");
+					LogUtils.info(url + " " + id);
+					LogUtils.info("Not delete");
 				}
 			}
 		}
