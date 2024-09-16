@@ -4,7 +4,7 @@ import Keywords.WebUI;
 import Support.CMS.Routers;
 import Support.Initialization.Init;
 import helpers.ExcelHelper;
-import logs.LogUtils;
+//import logs.LogUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.openqa.selenium.By;
@@ -332,6 +332,8 @@ public class CreateDataPage extends Init {
 			setPagesTB(pages);
 			setWordsTB(words);
 			setUploadPDF(fileNamePDF, paperType);
+			recordFile(driver.getCurrentUrl(), "id",i);
+			recordFile(url, "url",i-1);
 			sleep(5);
 			clickSaveBTN();
 			sleep(2);
@@ -342,8 +344,11 @@ public class CreateDataPage extends Init {
 
 	}
 	public void recordFile(String value, String column, int row) {
-		excelHelper.setExcelFile("src/test/resources/testdata/outputArticles.xlsx", "Sheet1");
-		excelHelper.setCellData(value,column,row);
+		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
+		String sheetName = "sheet1";
+		excelHelper.setExcelFile(fileName,sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+		excelHelper.setCellData(value,column,lastRow+row);
 	}
 	public void createSamplesArticles(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
@@ -380,10 +385,9 @@ public class CreateDataPage extends Init {
 			// LogUtils.info(driver.getCurrentUrl());
 			// LogUtils.info(url);
 			recordFile(driver.getCurrentUrl(), "id",i);
-			recordFile(url, "url",i);
+			recordFile(url, "url",i-1);
 			setEditIntroData(editIntro);
 			setEditOfferData(editOffer);
-			System.out.println(TimeUnit.MINUTES);
 		}
 
 	}
