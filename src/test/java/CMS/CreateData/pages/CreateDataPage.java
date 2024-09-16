@@ -84,7 +84,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//*[@name='academic_level']")
 	WebElement academicTB;
 
-	@FindBy(xpath = "//*[@name='paper_type']")
+	@FindBy(xpath = "//*[@name='type']")
 	WebElement paperTypeTB;
 
 	@FindBy(xpath = "//*[@name='discipline']")
@@ -203,8 +203,9 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(sampleDRL);
 	}
 
-	public void clickOnArticle(String value) {
+	public void clickOnArticle(String title,String type) {
 		// Tạo XPath động với giá trị được truyền vào
+		String value = type+" - "+title;
 		if (value.length() > 60) {
 			value = value.substring(0, 60);  // Cắt chuỗi nếu vượt quá 60 ký tự
 		}
@@ -215,13 +216,13 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(article);
 	}
 
-	public void setSampleDRL(String value) {
+	public void setSampleDRL(String value, String type) {
 		clickSampleDRL();
 
 		String[] parts = value.split(", ");
 
 		for (String part : parts) {
-			clickOnArticle(part);
+			clickOnArticle(part,type);
 			sleep(1);
 		}
 	}
@@ -302,7 +303,7 @@ public class CreateDataPage extends Init {
 
 	public void createSampleDetail(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
 		for (int i = 1; i <= lastRow; i++) {
 			excelHelper.setExcelFile(fileName, sheetName);
 			String name = excelHelper.getCellData("name", i);
@@ -332,27 +333,58 @@ public class CreateDataPage extends Init {
 			setPagesTB(pages);
 			setWordsTB(words);
 			setUploadPDF(fileNamePDF, paperType);
-			recordFile(driver.getCurrentUrl(), "id",i);
-			recordFile(url, "url",i-1);
+
 			sleep(5);
 			clickSaveBTN();
 			sleep(2);
 			clickSaveBTN();
+			recordFile(driver.getCurrentUrl(), "id");
+			recordFile(url, "url");
 			// LogUtils.infoCustom(driver.getCurrentUrl());
 			// LogUtils.infoCustom(url);
 		}
 
 	}
-	public void recordFile(String value, String column, int row) {
+
+	//	public void recordFile(String value, String column, int row) {
+//		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
+//		String sheetName = "sheet1";
+//		excelHelper.setExcelFile(fileName,sheetName);
+//		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+//		int newRow = lastRow + row;
+//		excelHelper.setCellData(value,column,lastRow+row);
+//		String[] parts = column.split(", ");
+//
+//		for (int i = 0; i < parts.length; i++) {
+//			excelHelper.setCellData(value,parts[i], newRow);
+//		}
+//	}
+	public void recordFile(String value, String column) {
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
 		String sheetName = "sheet1";
-		excelHelper.setExcelFile(fileName,sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
-		excelHelper.setCellData(value,column,lastRow+row);
+
+		// Thiết lập file Excel
+		excelHelper.setExcelFile(fileName, sheetName);
+
+		// Lấy dòng có dữ liệu cuối cùng
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, column);
+
+		// Nếu không có dòng nào có dữ liệu, bắt đầu từ dòng 1
+		if (lastRow == -1) {
+			lastRow = 0;
+		}
+
+		// Ghi dữ liệu vào file Excel
+		try {
+			excelHelper.setCellData(value, column, lastRow + 1);
+		} catch (Exception e) {
+			System.err.println("Lỗi khi ghi dữ liệu vào file: " + e.getMessage());
+		}
 	}
+
 	public void createSamplesArticles(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
 		for (int i = 1; i <= lastRow; i++) {
 			excelHelper.setExcelFile(fileName, sheetName);
 			String name = excelHelper.getCellData("name", i);
@@ -378,23 +410,68 @@ public class CreateDataPage extends Init {
 			setEssayNoteTB(essayNote);
 			setEssayActTB(essayAct);
 			setOfferActTB(offer);
-			setSampleDRL(samples);
+			setSampleDRL(samples,name);
 			clickSaveBTN();
 			sleep(2);
 			clickPublish();
 			// LogUtils.info(driver.getCurrentUrl());
 			// LogUtils.info(url);
-			recordFile(driver.getCurrentUrl(), "id",i);
-			recordFile(url, "url",i-1);
+			recordFile(driver.getCurrentUrl(), "id");
+			recordFile(url, "url");
 			setEditIntroData(editIntro);
 			setEditOfferData(editOffer);
 		}
 
 	}
 
+	public void createSamplesArticlesTest(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
+		for (int i = 1; i <= lastRow; i++) {
+			excelHelper.setExcelFile(fileName, sheetName);
+			String name = excelHelper.getCellData("name", i);
+			String url = excelHelper.getCellData("url", i);
+			String metaTitle = excelHelper.getCellData("meta_title", i);
+			String description = excelHelper.getCellData("meta_description", i);
+			String anchor = excelHelper.getCellData("anchor", i);
+			String title = excelHelper.getCellData("title", i);
+			String essayNote = excelHelper.getCellData("essay_note", i);
+			String essayAct = excelHelper.getCellData("essay_action", i);
+			String offer = excelHelper.getCellData("offer_action", i);
+			String samples = excelHelper.getCellData("samples", i);
+			String editIntro = excelHelper.getCellData("edit_intro", i);
+			String editOffer = excelHelper.getCellData("edit_offer", i);
+			createArticles();
+			selectArticle("samples");
+			setNameTB(name);
+			setUrlTB(url);
+			setMetaTitleSec(metaTitle);
+			setMetaDesTB(description);
+			setAnchorTB(anchor);
+			setTitleTB(title);
+			setEssayNoteTB(essayNote);
+			setEssayActTB(essayAct);
+			setOfferActTB(offer);
+			setSampleDRL(samples,name);
+			clickSaveBTN();
+			sleep(2);
+			clickPublish();
+			// LogUtils.info(driver.getCurrentUrl());
+			// LogUtils.info(url);
+			System.out.println(driver.getCurrentUrl());
+			System.out.println(url);
+			recordFile(driver.getCurrentUrl(), "id");
+			recordFile(url, "url");
+			setEditIntroData(editIntro);
+			setEditOfferData(editOffer);
+		}
+
+	}
+
+
 	public void deleteArticles(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "id");
 		// Kiểm tra độ dài của hai mảng
 		for (int i = 1; i <= lastRow; i++) {
 			String id = excelHelper.getCellData("id", i);

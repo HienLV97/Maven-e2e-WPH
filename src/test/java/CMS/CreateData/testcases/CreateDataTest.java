@@ -35,7 +35,7 @@ public class CreateDataTest extends Init {
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "sampleDetail";
+		String sheetName = "sampleList";
 //		int rowNumb = 15;
 		createDataPage.createSamplesArticles(fileName,sheetName);
 	}
@@ -48,7 +48,7 @@ public class CreateDataTest extends Init {
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickWPHBTN();
 		String fileName ="src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName =  "Sample";
+		String sheetName =  "sampleDetail";
 		createDataPage.createSampleDetail(fileName,sheetName);
 	}
 
@@ -69,4 +69,29 @@ public class CreateDataTest extends Init {
 		String sheetName =  "Sheet1";
 		createDataPage.deleteArticles(fileName,sheetName);
 	}
+	@Test
+	public void test2(){
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickWPHBTN();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "sampleList";
+//		int rowNumb = 15;
+		createDataPage.createSamplesArticlesTest(fileName,sheetName);
+	}
+
+	@Test
+	public void sampleIBDetail() {
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickWPHBTN();
+		String fileName ="src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName =  "ibDetail";
+		createDataPage.createSampleDetail(fileName,sheetName);
+	}
+
 }

@@ -294,8 +294,6 @@ public class Init {
 			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
 			driver.manage().window().setSize(windowSize);
 		}
-
-
 	}
 
 	public static String formatPrice(double price) {
