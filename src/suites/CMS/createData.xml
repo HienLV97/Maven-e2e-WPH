@@ -8,10 +8,10 @@
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
-<!--                    <include name="sampleCreateArticle"/>-->
+                   <include name="sampleCreateArticle"/>
 <!--                    <include name="sampleDetail"/>-->
 <!--                    <include name="test"/>-->
-                    <include name="test2"/>
+                    <!-- <include name="test2"/> -->
 <!--                        <include name="deleteArticles"/>-->
 <!---->
                 </methods>

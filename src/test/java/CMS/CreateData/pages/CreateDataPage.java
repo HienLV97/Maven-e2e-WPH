@@ -336,8 +336,8 @@ public class CreateDataPage extends Init {
 			clickSaveBTN();
 			sleep(2);
 			clickSaveBTN();
-			LogUtils.infoCustom(driver.getCurrentUrl());
-			LogUtils.infoCustom(url);
+			// LogUtils.infoCustom(driver.getCurrentUrl());
+			// LogUtils.infoCustom(url);
 		}
 
 	}
@@ -377,8 +377,8 @@ public class CreateDataPage extends Init {
 			clickSaveBTN();
 			sleep(2);
 			clickPublish();
-			LogUtils.info(driver.getCurrentUrl());
-			LogUtils.info(url);
+			// LogUtils.info(driver.getCurrentUrl());
+			// LogUtils.info(url);
 			recordFile(driver.getCurrentUrl(), "id",i);
 			recordFile(url, "url",i);
 			setEditIntroData(editIntro);
@@ -399,17 +399,19 @@ public class CreateDataPage extends Init {
 
 			try {
 				if (pageNotFoundTXT.isDisplayed()) {
-					LogUtils.info(url+" "+id);
-					LogUtils.info("Page not exit");
+					// LogUtils.info(url+" "+id);
+					// LogUtils.info("Page not exit");
+					System.out.println("Page not exit");
 				}
 			} catch (NoSuchElementException e) {
 				if (Objects.equals(url, urlTB.getAttribute("value"))) {
-					LogUtils.info(url+" "+id);
+					// LogUtils.info(url+" "+id);
 					clickTrashBTN();
-					LogUtils.info("Đã xóa");
+					// LogUtils.info("Đã xóa");
+					System.out.println("Đã xóa");
 				} else {
-					LogUtils.info(url+" "+id);
-					LogUtils.info("Không xóa");
+					// LogUtils.info(url+" "+id);
+					System.out.println("Không xóa");
 				}
 			}
 		}

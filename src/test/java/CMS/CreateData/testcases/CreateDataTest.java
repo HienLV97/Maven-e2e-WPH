@@ -6,7 +6,7 @@ import Support.Initialization.Init;
 import helpers.Constants;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import logs.LogUtils;
+// import logs.LogUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -20,8 +20,10 @@ public class CreateDataTest extends Init {
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		CreateDataPage createDataPage = new CreateDataPage(driver);
-		LogUtils.infoCustom(driver.getCurrentUrl());
-		LogUtils.info(driver.getCurrentUrl());
+		// LogUtils.infoCustom(driver.getCurrentUrl());
+		System.out.println(driver.getCurrentUrl());
+		// LogUtils.info(driver.getCurrentUrl());
+		System.out.println(driver.getCurrentUrl());
 		createDataPage.clickWPHBTN();
 	}
 
