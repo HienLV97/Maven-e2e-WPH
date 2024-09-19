@@ -11,9 +11,9 @@
 <!--                    <include name="sampleDetail"/>-->
 <!--                    <include name="sampleCreateArticle"/>-->
                     <!--                    <include name="test"/>-->
-                                         <include name="test2"/>
-                    <!--                        <include name="deleteArticles"/>-->
-                    <!--                        <include name="sampleIBDetail"/>-->
+<!--                                         <include name="test2"/>-->
+<!--                                            <include name="deleteArticles"/>-->
+                                            <include name="sampleIBDetail"/>
                     <!---->
                 </methods>
             </class>
