@@ -2,7 +2,7 @@ package SampleTest.DataProvider;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class DataProvider {
+public class LeanDataProvider {
 	@DataProvider(name = "data_provider_01")
 	public Object[][] dpMethod() {
 		return new Object[][]{{"First-Value"}, {"Second-Value"}};
