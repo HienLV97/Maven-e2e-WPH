@@ -346,7 +346,7 @@ public class OrderFormTest extends Init {
 		
 
 		sleep(5);
-		for (int i = 1; i < 20; i++) {
+		for (int i = 1; i < 40; i++) {
 			driver.get(Routers.ORDER);
 			createOneOrder();
 
@@ -370,7 +370,7 @@ public class OrderFormTest extends Init {
 		signInPage.signInWithToken("token", tokenValue);
 		calculator.balance(tokenValue);
 
-		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
+		orderForm.Step1Data("Writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, true, false, orderForm.writerLevel);

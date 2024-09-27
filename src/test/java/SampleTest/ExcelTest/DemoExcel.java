@@ -11,8 +11,8 @@ public class DemoExcel {
 		int rowNumb = 7;
 //		int columnNumb = 10;
 		for (int i = 1; i <= rowNumb; i++){
-			System.out.println(excelHelper.getCellData("name", i));
-			System.out.println(excelHelper.getCellData("url", i));
+//			System.out.println(excelHelper.getCellData("name", i));
+//			System.out.println(excelHelper.getCellData("url", i));
 		}
 
 

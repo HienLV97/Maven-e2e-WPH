@@ -102,9 +102,11 @@ public class OrderFormPage extends Init {
 	private By DocumentDRL = By.xpath("//input[@id='input-document']");
 	private By DisciplineDRL = By.xpath("//input[@id='input-discipline']");
 	private String Acalevel = "(//button[contains(@class,'button-tag')])";
-	@FindBy(xpath = "//span[normalize-space()='writing']")
+	@FindBy(xpath = "//button[contains(.,'writing')]")
+//	@FindBy( xpath = "//button[contains(@class,'button-tag active')])[1]")
 	WebElement writeBTN;
-	@FindBy(xpath = "//span[normalize-space()='editing']")
+//	@FindBy(xpath = "//span[normalize-space()='editing']")
+@FindBy( xpath = "//button[contains(.,'editing')]")
 	WebElement editBTN;
 
 

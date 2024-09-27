@@ -36,7 +36,7 @@ public class CreateDataTest extends Init {
 		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleList";
 		String sheetNameDetail = "sampleDetail";
-		createDataPage.createSamplesArticles(filePath, sheetName,sheetNameDetail);
+//		createDataPage.createSamplesArticles(filePath, sheetName,sheetNameDetail);
 	}
 
 	@Test
@@ -77,9 +77,8 @@ public class CreateDataTest extends Init {
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "sampleDetail";
-		LogUtils.info("hihi");
-		LogUtils.infoCustom("haha");
+		String sheetName = "test";
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
 	@Test

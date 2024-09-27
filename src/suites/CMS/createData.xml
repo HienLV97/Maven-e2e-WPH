@@ -2,18 +2,18 @@
 
 <suite name="Suite All" verbose="1">
 
-    <test name="Regression Test All1" >
+    <test name="Regression Test All1">
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="2"/>
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
-<!--                    <include name="sampleDetail"/>-->
-<!--                    <include name="sampleCreateArticle"/>-->
+                    <!--                    <include name="sampleDetail"/>-->
+                    <!--                    <include name="sampleCreateArticle"/>-->
                     <!--                    <include name="test"/>-->
-<!--                                         <include name="test2"/>-->
-<!--                                            <include name="deleteArticles"/>-->
-                                            <include name="sampleIBDetail"/>
+                    <include name="test2"/>
+                    <!--                                            <include name="deleteArticles"/>-->
+                    <!--                                            <include name="sampleIBDetail"/>-->
                     <!---->
                 </methods>
             </class>

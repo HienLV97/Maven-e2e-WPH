@@ -77,13 +77,10 @@ public class Init {
 	private WebDriver initChromeDriver() {
 		System.out.println("Launching Chrome browser...");
 		driver = new ChromeDriver();
-		System.out.println("driver: " + driver);
 		Properties properties = new Properties();
 		try {
 			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
 			properties.load(configFile);
-			screenName = properties.getProperty("ScreenName");
-			System.out.println("ScreenName: " + screenName);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
