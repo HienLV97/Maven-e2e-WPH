@@ -140,4 +140,19 @@ public class CreateDataTest extends Init {
 		String sheetName = "customerReview";
 		createDataPage.getDataCustomerReview(fileName, sheetName);
 	}
+
+	@Test(description = "Get data services page")
+	public void getDataService() throws IOException {
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickWPHBTN();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String urlExcelSheet = "urlServiceSheet";
+		String dataServiceSheet = "dataServicePage";
+		createDataPage.getDataServicePage(fileName, urlExcelSheet,dataServiceSheet);
+
+	}
+
 }

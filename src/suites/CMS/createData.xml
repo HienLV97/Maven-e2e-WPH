@@ -15,7 +15,8 @@
 <!--                    <include name="test4"/>-->
 <!--                    <include name="test3"/>-->
 <!--                    <include name="getDataWriterReview"/>-->
-                    <include name="getDataCustomerReview"/>
+<!--                    <include name="getDataCustomerReview"/>-->
+                    <include name="getDataService"/>
                     <!--                                            <include name="deleteArticles"/>-->
                     <!---->
                 </methods>

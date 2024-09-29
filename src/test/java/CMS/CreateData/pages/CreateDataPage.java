@@ -17,9 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.asserts.SoftAssert;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,7 +25,16 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Objects;
+
+import org.apache.poi.ss.usermodel.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 public class CreateDataPage extends Init {
 	private WebDriver driver;
@@ -36,6 +43,9 @@ public class CreateDataPage extends Init {
 	SoftAssert softassert = new SoftAssert();
 	private Workbook wb;
 	private Sheet sh;
+	private String fileName;
+	private String dataServicePage;
+
 	@FindBy(xpath = "(//span[@class='project-name fbaloo'])[1]")
 	WebElement WPHBTN;
 
@@ -128,8 +138,23 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//i[@class='fa fa-info fa-fw']")
 	WebElement editIntroBTN;
 
-	@FindBy(xpath = "//i[@class='fa fa-money fa-fw']")
+	@FindBy(xpath="//a[@title='Edit content']")
+	WebElement editContentBTN;
+
+	@FindBy(xpath="//a[@title='Edit Offer']")
 	WebElement editOfferBTN;
+
+	@FindBy(xpath="//a[@title='Edit FAQ Banner']")
+	WebElement editFAQBannerBTN;
+
+	@FindBy(xpath="//a[@title='Edit FAQ']")
+	WebElement editFAQBTN;
+
+	@FindBy(xpath="//a[@title='Edit Perk']")
+	WebElement editPerkBTN;
+
+	@FindBy(xpath="//a[@title='Setting']")
+	WebElement settingBTN;
 
 	@FindBy(xpath = "//div[@role='textbox']")
 	WebElement noteTB;
@@ -163,6 +188,10 @@ public class CreateDataPage extends Init {
 
 	@FindBy(xpath = "//input[@name='featurable']")
 	WebElement isFeaturable;
+
+	@FindBy(xpath = "//div[@class='note-editable']")
+	 WebElement noteEditableElement;
+
 
 	public CreateDataPage(WebDriver driver) {
 		this.driver = driver;
@@ -269,25 +298,25 @@ public class CreateDataPage extends Init {
 		return WebUI.getText(textTB);
 	}
 
-	public String getSourceTB(){
+	public String getSourceTB() {
 		return WebUI.getValue(SourceType);
 	}
 
-	public String getRatingTB(){
+	public String getRatingTB() {
 		return WebUI.getValue(ratingType);
 	}
 
-	public String getTypePaperTB(){
+	public String getTypePaperTB() {
 		return WebUI.getValue(typePaperTB);
 	}
 
-	public String getIsFeaturable(){
-		 String checked = WebUI.getValue(isFeaturable);
-		 if (Objects.equals(checked,"1")){
-			 return "yes";
-		 } else {
-			 return "no";
-		 }
+	public String getIsFeaturable() {
+		String checked = WebUI.getValue(isFeaturable);
+		if (Objects.equals(checked, "1")) {
+			return "yes";
+		} else {
+			return "no";
+		}
 	}
 
 	public void setNoteTB(String value) {
@@ -349,9 +378,26 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(editIntroBTN);
 	}
 
+	public void clickEditContentBTN(){
+		WebUI.clickWEBElement(editContentBTN);
+	}
+
+	public void clickEditFAQBannerBTN(){
+		WebUI.clickWEBElement(editFAQBannerBTN);
+	}
+
+	public void clickEditFAQBTN(){
+		WebUI.clickWEBElement(editFAQBTN);
+	}
+
 	public void clickEditOfferBTN() {
 		WebUI.clickWEBElement(editOfferBTN);
 	}
+
+	public void clickSettingBTN() {
+		WebUI.clickWEBElement(settingBTN);
+	}
+
 
 	public void clickTrashBTN() {
 		WebUI.doubleClickElement(trashBTN);
@@ -423,14 +469,29 @@ public class CreateDataPage extends Init {
 			// Kiểm tra xem element có hiện diện và hiển thị hay không
 			if (pageNotFoundMessage.isDisplayed()) {
 				LogUtils.info("Page not found");
-				return true;
+				return false;
 			}
 		} catch (Exception e) {
 			// Nếu không tìm thấy element, nghĩa là trang không bị lỗi 404
 			LogUtils.info("Page is valid");
 		}
-		return false;
+		return true;
 	}
+
+	public boolean checkNoteNotFound() {
+		try {
+			// Kiểm tra xem element có hiện diện và hiển thị hay không
+			if (noteEditableElement.isDisplayed()) {
+				LogUtils.info("not not found");
+				return false;
+			}
+		} catch (Exception e) {
+			// Nếu không tìm thấy element, nghĩa là trang không bị lỗi 404
+			LogUtils.info("Page is valid");
+		}
+		return true;
+	}
+
 
 	public void recordFile(String value, String column) {
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
@@ -671,10 +732,10 @@ public class CreateDataPage extends Init {
 			String imgUrl = imgElement.getAttribute("src");
 
 			// Lấy tên file từ URL
-			String fileName = Paths.get(new URL(imgUrl).getPath()).getFileName().toString()+".jpg";
+			String fileName = Paths.get(new URL(imgUrl).getPath()).getFileName().toString() + ".jpg";
 
 			// Đặt đường dẫn tới thư mục cần lưu
-			Path targetPath = new File("src/test/resources/Image/writerReview/"+fileName).toPath(); // Đường dẫn tới thư mục
+			Path targetPath = new File("src/test/resources/Image/writerReview/" + fileName).toPath(); // Đường dẫn tới thư mục
 
 			// Tải ảnh về và lưu
 			URL url = new URL(imgUrl);
@@ -694,7 +755,7 @@ public class CreateDataPage extends Init {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "URL");
 		for (int i = 1; i <= lastRow; i++) {
-			if (checkResult(fileName, sheetName, i) && !checkPageNotFound()) {
+			if (checkResult(fileName, sheetName, i) && checkPageNotFound()) {
 
 				driver.get(excelHelper.getCellData("URL", i));
 				excelHelper.setExcelFile(fileName, sheetName);
@@ -712,11 +773,12 @@ public class CreateDataPage extends Init {
 			}
 		}
 	}
+
 	public void getDataCustomerReview(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "URL");
 		for (int i = 1; i <= lastRow; i++) {
-			if (checkResult(fileName, sheetName, i) && !checkPageNotFound()) {
+			if (checkResult(fileName, sheetName, i) && checkPageNotFound()) {
 				driver.get(excelHelper.getCellData("URL", i));
 				excelHelper.setExcelFile(fileName, sheetName);
 
@@ -732,5 +794,569 @@ public class CreateDataPage extends Init {
 
 			}
 		}
+	}
+
+	//Testing
+	public void extractDataIntro(String serviceUrl) throws IOException {
+		// Lấy nội dung HTML của element
+		clickEditIntroBTN();
+		if (!noteEditableElement.isDisplayed()){
+			return;
+		}
+		String content = noteEditableElement.getAttribute("innerHTML");
+
+		// Sử dụng Jsoup để phân tích nội dung HTML
+		Document doc = Jsoup.parse(content);
+
+		// Mở file Excel hiện có thay vì tạo mới Workbook
+		FileInputStream fileInputStream = new FileInputStream(fileName);
+		Workbook workbook = WorkbookFactory.create(fileInputStream);
+		Sheet sheet = workbook.getSheet(dataServicePage);
+
+		if (sheet == null) {
+			// Nếu sheet không tồn tại, tạo mới sheet
+			sheet = workbook.createSheet(dataServicePage);
+		}
+
+		int rowNum = sheet.getLastRowNum() + 1; // Tiếp tục ghi từ dòng cuối cùng
+
+		// Lấy tất cả các thẻ từ trong div
+		Elements elements = doc.body().children();
+		int order = 1;
+		for (Element element : elements) {
+			Row row = sheet.createRow(rowNum++);
+			row.createCell(0).setCellValue(serviceUrl);  // Ghi URL
+			row.createCell(1).setCellValue("Edit Intro");  // Ghi NoteEditableElement index
+			row.createCell(2).setCellValue(order++);  // Ghi Order
+
+			Cell typeCell = row.createCell(3);
+			Cell contentCell = row.createCell(4);
+
+			// Kiểm tra loại thẻ và ghi vào Excel
+			switch (element.tagName()) {
+				case "h1":
+				case "h2":
+				case "h3":
+					typeCell.setCellValue("Header");
+					contentCell.setCellValue(element.text());
+					break;
+				case "p":
+					typeCell.setCellValue("Paragraph");
+					contentCell.setCellValue(element.text());
+					break;
+				case "ul":
+				case "ol":
+					typeCell.setCellValue("List");
+					// Xử lý các mục danh sách
+					Elements listItems = element.getElementsByTag("li");
+					for (Element li : listItems) {
+						row = sheet.createRow(rowNum++);
+						row.createCell(0).setCellValue(serviceUrl);
+						row.createCell(1).setCellValue("Edit Intro");
+						row.createCell(2).setCellValue(order++);
+						row.createCell(3).setCellValue("List Item");
+						row.createCell(4).setCellValue(li.text());
+					}
+					break;
+				case "br":
+					// Nếu gặp thẻ <br>, tạo một dòng trống trong file Excel
+					typeCell.setCellValue("Line Break");
+					contentCell.setCellValue("");  // Dòng trống
+					break;
+				default:
+					typeCell.setCellValue("Other");
+					contentCell.setCellValue(element.text());
+					break;
+			}
+		}
+
+		// Đóng fileInputStream trước khi ghi file
+		fileInputStream.close();
+
+		// Ghi file Excel đã sửa
+		try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
+			workbook.write(outputStream);
+		}
+
+		// Đóng workbook
+		workbook.close();
+
+		LogUtils.info("Data has been written to Excel file: " + fileName);
+	}
+
+	public void extractDataContent(String serviceUrl) throws IOException {
+		// Lấy nội dung HTML của element
+		clickEditContentBTN();
+		if (checkNoteNotFound()){
+			return;
+		}
+		String content = noteEditableElement.getAttribute("innerHTML");
+
+		// Sử dụng Jsoup để phân tích nội dung HTML
+		Document doc = Jsoup.parse(content);
+
+		// Mở file Excel hiện có thay vì tạo mới Workbook
+		FileInputStream fileInputStream = new FileInputStream(fileName);
+		Workbook workbook = WorkbookFactory.create(fileInputStream);
+		Sheet sheet = workbook.getSheet(dataServicePage);
+
+		if (sheet == null) {
+			// Nếu sheet không tồn tại, tạo mới sheet
+			sheet = workbook.createSheet(dataServicePage);
+		}
+
+		int rowNum = sheet.getLastRowNum() + 1; // Tiếp tục ghi từ dòng cuối cùng
+
+		// Lấy tất cả các thẻ từ trong div
+		Elements elements = doc.body().children();
+		int order = 1;
+		for (Element element : elements) {
+			Row row = sheet.createRow(rowNum++);
+			row.createCell(0).setCellValue(serviceUrl);  // Ghi URL
+			row.createCell(1).setCellValue("Content");  // Ghi NoteEditableElement index
+			row.createCell(2).setCellValue(order++);  // Ghi Order
+
+			Cell typeCell = row.createCell(3);
+			Cell contentCell = row.createCell(4);
+
+			// Kiểm tra loại thẻ và ghi vào Excel
+			switch (element.tagName()) {
+				case "h1":
+				case "h2":
+				case "h3":
+					typeCell.setCellValue("Header");
+					contentCell.setCellValue(element.text());
+					break;
+				case "p":
+					typeCell.setCellValue("Paragraph");
+					contentCell.setCellValue(element.text());
+					break;
+				case "ul":
+				case "ol":
+					typeCell.setCellValue("List");
+					// Xử lý các mục danh sách
+					Elements listItems = element.getElementsByTag("li");
+					for (Element li : listItems) {
+						row = sheet.createRow(rowNum++);
+						row.createCell(0).setCellValue(serviceUrl);
+						row.createCell(1).setCellValue("Edit Intro");
+						row.createCell(2).setCellValue(order++);
+						row.createCell(3).setCellValue("List Item");
+						row.createCell(4).setCellValue(li.text());
+					}
+					break;
+				case "br":
+					// Nếu gặp thẻ <br>, tạo một dòng trống trong file Excel
+					typeCell.setCellValue("Line Break");
+					contentCell.setCellValue("");  // Dòng trống
+					break;
+				default:
+					typeCell.setCellValue("Other");
+					contentCell.setCellValue(element.text());
+					break;
+			}
+		}
+
+		// Đóng fileInputStream trước khi ghi file
+		fileInputStream.close();
+
+		// Ghi file Excel đã sửa
+		try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
+			workbook.write(outputStream);
+		}
+
+		// Đóng workbook
+		workbook.close();
+
+		LogUtils.info("Data has been written to Excel file: " + fileName);
+	}
+
+	public void extractDataFAQBanner(String serviceUrl) throws IOException {
+		// Lấy nội dung HTML của element
+		clickEditFAQBannerBTN();
+		if (checkNoteNotFound()){
+			return;
+		}
+		String content = noteEditableElement.getAttribute("innerHTML");
+
+		// Sử dụng Jsoup để phân tích nội dung HTML
+		Document doc = Jsoup.parse(content);
+
+		// Mở file Excel hiện có thay vì tạo mới Workbook
+		FileInputStream fileInputStream = new FileInputStream(fileName);
+		Workbook workbook = WorkbookFactory.create(fileInputStream);
+		Sheet sheet = workbook.getSheet(dataServicePage);
+
+		if (sheet == null) {
+			// Nếu sheet không tồn tại, tạo mới sheet
+			sheet = workbook.createSheet(dataServicePage);
+		}
+
+		int rowNum = sheet.getLastRowNum() + 1; // Tiếp tục ghi từ dòng cuối cùng
+
+		// Lấy tất cả các thẻ từ trong div
+		Elements elements = doc.body().children();
+		int order = 1;
+		for (Element element : elements) {
+			Row row = sheet.createRow(rowNum++);
+			row.createCell(0).setCellValue(serviceUrl);  // Ghi URL
+			row.createCell(1).setCellValue("FAQ Banner");  // Ghi NoteEditableElement index
+			row.createCell(2).setCellValue(order++);  // Ghi Order
+
+			Cell typeCell = row.createCell(3);
+			Cell contentCell = row.createCell(4);
+
+			// Kiểm tra loại thẻ và ghi vào Excel
+			switch (element.tagName()) {
+				case "h1":
+				case "h2":
+				case "h3":
+					typeCell.setCellValue("Header");
+					contentCell.setCellValue(element.text());
+					break;
+				case "p":
+					typeCell.setCellValue("Paragraph");
+					contentCell.setCellValue(element.text());
+					break;
+				case "ul":
+				case "ol":
+					typeCell.setCellValue("List");
+					// Xử lý các mục danh sách
+					Elements listItems = element.getElementsByTag("li");
+					for (Element li : listItems) {
+						row = sheet.createRow(rowNum++);
+						row.createCell(0).setCellValue(serviceUrl);
+						row.createCell(1).setCellValue("Edit Intro");
+						row.createCell(2).setCellValue(order++);
+						row.createCell(3).setCellValue("List Item");
+						row.createCell(4).setCellValue(li.text());
+					}
+					break;
+				case "br":
+					// Nếu gặp thẻ <br>, tạo một dòng trống trong file Excel
+					typeCell.setCellValue("Line Break");
+					contentCell.setCellValue("");  // Dòng trống
+					break;
+				default:
+					typeCell.setCellValue("Other");
+					contentCell.setCellValue(element.text());
+					break;
+			}
+		}
+
+		// Đóng fileInputStream trước khi ghi file
+		fileInputStream.close();
+
+		// Ghi file Excel đã sửa
+		try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
+			workbook.write(outputStream);
+		}
+
+		// Đóng workbook
+		workbook.close();
+
+		LogUtils.info("Data has been written to Excel file: " + fileName);
+	}
+
+	public void extractDataFAQ(String serviceUrl) throws IOException {
+		// Lấy nội dung HTML của element
+		clickEditFAQBTN();
+		if (checkNoteNotFound()){
+			return;
+		}
+		String content = noteEditableElement.getAttribute("innerHTML");
+
+		// Sử dụng Jsoup để phân tích nội dung HTML
+		Document doc = Jsoup.parse(content);
+
+		// Mở file Excel hiện có thay vì tạo mới Workbook
+		FileInputStream fileInputStream = new FileInputStream(fileName);
+		Workbook workbook = WorkbookFactory.create(fileInputStream);
+		Sheet sheet = workbook.getSheet(dataServicePage);
+
+		if (sheet == null) {
+			// Nếu sheet không tồn tại, tạo mới sheet
+			sheet = workbook.createSheet(dataServicePage);
+		}
+
+		int rowNum = sheet.getLastRowNum() + 1; // Tiếp tục ghi từ dòng cuối cùng
+
+		// Lấy tất cả các thẻ từ trong div
+		Elements elements = doc.body().children();
+		int order = 1;
+		for (Element element : elements) {
+			Row row = sheet.createRow(rowNum++);
+			row.createCell(0).setCellValue(serviceUrl);  // Ghi URL
+			row.createCell(1).setCellValue("FAQ");  // Ghi NoteEditableElement index
+			row.createCell(2).setCellValue(order++);  // Ghi Order
+
+			Cell typeCell = row.createCell(3);
+			Cell contentCell = row.createCell(4);
+
+			// Kiểm tra loại thẻ và ghi vào Excel
+			switch (element.tagName()) {
+				case "h1":
+				case "h2":
+				case "h3":
+					typeCell.setCellValue("Header");
+					contentCell.setCellValue(element.text());
+					break;
+				case "p":
+					typeCell.setCellValue("Paragraph");
+					contentCell.setCellValue(element.text());
+					break;
+				case "ul":
+				case "ol":
+					typeCell.setCellValue("List");
+					// Xử lý các mục danh sách
+					Elements listItems = element.getElementsByTag("li");
+					for (Element li : listItems) {
+						row = sheet.createRow(rowNum++);
+						row.createCell(0).setCellValue(serviceUrl);
+						row.createCell(1).setCellValue("Edit Intro");
+						row.createCell(2).setCellValue(order++);
+						row.createCell(3).setCellValue("List Item");
+						row.createCell(4).setCellValue(li.text());
+					}
+					break;
+				case "br":
+					// Nếu gặp thẻ <br>, tạo một dòng trống trong file Excel
+					typeCell.setCellValue("Line Break");
+					contentCell.setCellValue("");  // Dòng trống
+					break;
+				default:
+					typeCell.setCellValue("Other");
+					contentCell.setCellValue(element.text());
+					break;
+			}
+		}
+
+		// Đóng fileInputStream trước khi ghi file
+		fileInputStream.close();
+
+		// Ghi file Excel đã sửa
+		try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
+			workbook.write(outputStream);
+		}
+
+		// Đóng workbook
+		workbook.close();
+
+		LogUtils.info("Data has been written to Excel file: " + fileName);
+	}
+
+	public void extractDataOffer(String serviceUrl) throws IOException {
+		// Lấy nội dung HTML của element
+		clickEditOfferBTN();
+		if (checkNoteNotFound()){
+			return;
+		}
+		String content = noteEditableElement.getAttribute("innerHTML");
+
+		// Sử dụng Jsoup để phân tích nội dung HTML
+		Document doc = Jsoup.parse(content);
+
+		// Mở file Excel hiện có thay vì tạo mới Workbook
+		FileInputStream fileInputStream = new FileInputStream(fileName);
+		Workbook workbook = WorkbookFactory.create(fileInputStream);
+		Sheet sheet = workbook.getSheet(dataServicePage);
+
+		if (sheet == null) {
+			// Nếu sheet không tồn tại, tạo mới sheet
+			sheet = workbook.createSheet(dataServicePage);
+		}
+
+		int rowNum = sheet.getLastRowNum() + 1; // Tiếp tục ghi từ dòng cuối cùng
+
+		// Lấy tất cả các thẻ từ trong div
+		Elements elements = doc.body().children();
+		int order = 1;
+		for (Element element : elements) {
+			Row row = sheet.createRow(rowNum++);
+			row.createCell(0).setCellValue(serviceUrl);  // Ghi URL
+			row.createCell(1).setCellValue("Offer");  // Ghi NoteEditableElement index
+			row.createCell(2).setCellValue(order++);  // Ghi Order
+
+			Cell typeCell = row.createCell(3);
+			Cell contentCell = row.createCell(4);
+
+			// Kiểm tra loại thẻ và ghi vào Excel
+			switch (element.tagName()) {
+				case "h1":
+				case "h2":
+				case "h3":
+					typeCell.setCellValue("Header");
+					contentCell.setCellValue(element.text());
+					break;
+				case "p":
+					typeCell.setCellValue("Paragraph");
+					contentCell.setCellValue(element.text());
+					break;
+				case "ul":
+				case "ol":
+					typeCell.setCellValue("List");
+					// Xử lý các mục danh sách
+					Elements listItems = element.getElementsByTag("li");
+					for (Element li : listItems) {
+						row = sheet.createRow(rowNum++);
+						row.createCell(0).setCellValue(serviceUrl);
+						row.createCell(1).setCellValue("Edit Intro");
+						row.createCell(2).setCellValue(order++);
+						row.createCell(3).setCellValue("List Item");
+						row.createCell(4).setCellValue(li.text());
+					}
+					break;
+				case "br":
+					// Nếu gặp thẻ <br>, tạo một dòng trống trong file Excel
+					typeCell.setCellValue("Line Break");
+					contentCell.setCellValue("");  // Dòng trống
+					break;
+				default:
+					typeCell.setCellValue("Other");
+					contentCell.setCellValue(element.text());
+					break;
+			}
+		}
+
+		// Đóng fileInputStream trước khi ghi file
+		fileInputStream.close();
+
+		// Ghi file Excel đã sửa
+		try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
+			workbook.write(outputStream);
+		}
+
+		// Đóng workbook
+		workbook.close();
+
+		LogUtils.info("Data has been written to Excel file: " + fileName);
+	}
+
+
+	//
+	public void extractMultipleServicesDataToExcel(String urlExcelPath, String urlSheetName, String dataExcelFilePath) throws IOException {
+		// Đọc URL từ file Excel
+		ExcelHelper excelHelper = new ExcelHelper();
+		excelHelper.setExcelFile(urlExcelPath, urlSheetName);
+		List<String> serviceUrls = excelHelper.getServiceUrls(); // Đọc danh sách URL
+		excelHelper.close();
+
+		// Khởi tạo Workbook và Sheet trong file Excel để ghi dữ liệu
+//		Workbook wb = new XSSFWorkbook();
+//		Sheet sh = workbook.createSheet("Service Data");
+
+		int rowNum = 0;
+//		extractDataToExcel(dataExcelFilePath,);
+		// Thêm tiêu đề cột để phân biệt rõ loại và nội dung
+		Row headerRow = sh.createRow(rowNum++);
+		headerRow.createCell(0).setCellValue("Service URL");
+		headerRow.createCell(1).setCellValue("NoteEditableElement");
+		headerRow.createCell(2).setCellValue("Order");
+		headerRow.createCell(3).setCellValue("Element Type");
+		headerRow.createCell(4).setCellValue("Content");
+
+		// Duyệt qua danh sách URL
+		for (String url : serviceUrls) {
+			driver.get(url);  // Mở trang dịch vụ
+
+			// Lấy dữ liệu từ các phần tử noteEditableElement
+//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 1", noteEditableElement1, rowNum);
+//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 2", noteEditableElement2, rowNum);
+//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 3", noteEditableElement3, rowNum);
+//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 4", noteEditableElement4, rowNum);
+//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 5", noteEditableElement5, rowNum);
+		}
+
+		// Ghi dữ liệu vào file Excel
+		try (FileOutputStream outputStream = new FileOutputStream(dataExcelFilePath)) {
+			wb.write(outputStream);
+		}
+
+		// Đóng workbook
+		wb.close();
+		System.out.println("Data has been written to Excel file: " + dataExcelFilePath);
+	}
+
+	// Hàm con để trích xuất dữ liệu từ một element noteEditable
+	private int extractNoteEditableElementDataToExcel(Sheet sheet, String serviceUrl, String element, WebElement noteEditableElement, int rowNum) throws IOException {
+		// Lấy nội dung HTML của element
+		String content = noteEditableElement.getAttribute("innerHTML");
+
+		// Sử dụng Jsoup để phân tích nội dung HTML
+		Document doc = Jsoup.parse(content);
+		Elements elements = doc.body().children();
+		int order = 1;
+
+		for (Element htmlElement : elements) {
+			Row row = sheet.createRow(rowNum++);
+			row.createCell(0).setCellValue(serviceUrl); // Ghi URL dịch vụ
+			row.createCell(1).setCellValue(element); // Ghi thông tin phần tử noteEditableElement
+			row.createCell(2).setCellValue(order++); // Ghi thứ tự
+
+			// Kiểm tra loại thẻ và ghi vào Excel
+			Cell typeCell = row.createCell(3);
+			Cell contentCell = row.createCell(4);
+
+			switch (htmlElement.tagName()) {
+				case "h1":
+				case "h2":
+				case "h3":
+					typeCell.setCellValue("Header");
+					contentCell.setCellValue(htmlElement.text());
+					break;
+				case "p":
+					typeCell.setCellValue("Paragraph");
+					contentCell.setCellValue(htmlElement.text());
+					break;
+				case "ul":
+				case "ol":
+					typeCell.setCellValue("List");
+					Elements listItems = htmlElement.getElementsByTag("li");
+					for (Element li : listItems) {
+						Row listRow = sheet.createRow(rowNum++);
+						listRow.createCell(0).setCellValue(serviceUrl);
+						listRow.createCell(1).setCellValue(element);
+						listRow.createCell(2).setCellValue(order++);
+						listRow.createCell(3).setCellValue("List Item");
+						listRow.createCell(4).setCellValue(li.text());
+					}
+					break;
+				case "br":
+					typeCell.setCellValue("Line Break");
+					contentCell.setCellValue("");
+					break;
+				default:
+					typeCell.setCellValue("Other");
+					contentCell.setCellValue(htmlElement.text());
+					break;
+			}
+		}
+		return rowNum;
+	}
+
+	//Final
+	public void getDataServicePage(String fileName, String urlExcelSheet, String dataServicePage) throws IOException {
+		excelHelper.setExcelFile(fileName, urlExcelSheet);
+		this.fileName = fileName;
+		this.dataServicePage = dataServicePage;
+
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, urlExcelSheet, "URL");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, urlExcelSheet, i) && checkPageNotFound()) {
+
+				String currentUrl = excelHelper.getCellData("URL", i);
+				driver.get(currentUrl);
+				excelHelper.setExcelFile(fileName, dataServicePage);
+				extractDataIntro(currentUrl);
+				extractDataContent(currentUrl);
+				extractDataFAQBanner(currentUrl);
+				extractDataFAQ(currentUrl);
+				extractDataOffer(currentUrl);
+
+				LogUtils.infoCustom(driver.getCurrentUrl());
+
+			}
+		}
+
 	}
 }

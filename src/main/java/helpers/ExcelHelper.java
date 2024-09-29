@@ -2,10 +2,7 @@ package helpers;
 
 import java.awt.Color;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -364,4 +361,25 @@ public class ExcelHelper {
 		return -1;  // Không tìm thấy giá trị
 	}
 
+	// Hàm để đọc danh sách URL từ Excel
+	public List<String> getServiceUrls() {
+		List<String> serviceUrls = new ArrayList<>();
+		for (Row row : sh) {
+			Cell cell = row.getCell(0);  // Giả định URL nằm ở cột đầu tiên
+			if (cell != null) {
+				serviceUrls.add(cell.getStringCellValue());  // Lấy URL từ ô đầu tiên
+			}
+		}
+		return serviceUrls;
+	}
+
+	// Đóng workbook sau khi hoàn thành
+	public void close() throws IOException {
+		if (wb != null) {
+			wb.close();
+		}
+		if (fis != null) {
+			fis.close();
+		}
+	}
 }
