@@ -34,6 +34,9 @@ public class LogUtils {
 	public static void error (String message) {
 		Log.error(message);
 	}
+	public static void errorCustom (String message) {
+		customLogger.error(message);
+	}
 	public static void error (Object object) {
 		Log.error(object);
 	}

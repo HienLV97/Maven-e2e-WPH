@@ -3,6 +3,7 @@ package CMS.CreateData.testcases;
 import CMS.CreateData.pages.CreateDataPage;
 import CMS.SignIn.pages.SignInPage;
 import Support.Initialization.Init;
+import dataProvider.DataProviderFactory;
 import helpers.Constants;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.Hashtable;
 
 public class CreateDataTest extends Init {
 	@Test
@@ -27,7 +28,7 @@ public class CreateDataTest extends Init {
 	}
 
 	@Test
-	public void sampleCreateArticle() {
+	public void sampleCreateArticle() throws Exception {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -36,11 +37,11 @@ public class CreateDataTest extends Init {
 		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleList";
 		String sheetNameDetail = "sampleDetail";
-		createDataPage.createSamplesArticles(filePath, sheetName,sheetNameDetail);
+		createDataPage.createSamplesArticles(filePath, sheetName, sheetNameDetail);
 	}
 
 	@Test
-	public void sampleDetail() {
+	public void sampleDetail() throws Exception {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -69,8 +70,20 @@ public class CreateDataTest extends Init {
 		createDataPage.deleteArticles(fileName, sheetName);
 	}
 
-	@Test
-	public void test2() {
+	@Test(dataProvider = "data_sampleDetail",dataProviderClass = DataProviderFactory.class)
+	public void test2(Hashtable<String, String> data) throws Exception {
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickWPHBTN();
+		createDataPage.createSampleDetailTest(data);
+		sleep(3);
+		driver.quit();
+	}
+
+	@Test(description = "test3")
+	public void test3 () throws Exception {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -78,12 +91,22 @@ public class CreateDataTest extends Init {
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleDetail";
-		LogUtils.info("hihi");
-		LogUtils.infoCustom("haha");
+		createDataPage.createSampleDetailNotSave(fileName, sheetName);
+	}
+	@Test(description = "test4 for")
+	public void test4 () throws Exception {
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickWPHBTN();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "test";
+		createDataPage.createSampleDetailNotSave(fileName, sheetName);
 	}
 
 	@Test
-	public void sampleIBDetail() {
+	public void sampleIBDetail() throws Exception {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -94,5 +117,27 @@ public class CreateDataTest extends Init {
 		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
+	@Test(description = "Get data writer review")
+	public void getDataWriterReview () {
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickWPHBTN();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.getDataWriterReview(fileName, sheetName);
+	}
 
+	@Test(description = "Get data customer review")
+	public void getDataCustomerReview() {
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickWPHBTN();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "customerReview";
+		createDataPage.getDataCustomerReview(fileName, sheetName);
+	}
 }

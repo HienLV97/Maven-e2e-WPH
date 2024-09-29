@@ -120,7 +120,12 @@ public class WebUI {
 		webElement.sendKeys(text);
 		logConsole("Set text " + text + " on input " + webElement);
 	}
-
+	public static String getText(WebElement webElement){
+		return webElement.getText();
+	}
+	public static String getValue(WebElement webElement){
+		return webElement.getAttribute("value");
+	}
 	public static String getElementText(By by) {
 		waitForElementVisible(by);
 		String text = driver.findElement(by).getText();
