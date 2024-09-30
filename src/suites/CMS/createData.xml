@@ -9,14 +9,11 @@
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
                     <!--                    <include name="sampleDetail"/>-->
-<!--                    <include name="createCustomerReview"/>-->
+                    <!--                    <include name="createCustomerReview"/>-->
                     <include name="createWriterReview"/>
                     <!--                    <include name="sampleCreateArticle"/>-->
-                    <!--                                        <include name="test"/>-->
-                    <!--                    <include name="test4"/>-->
-                    <!--                    <include name="test3"/>-->
                     <!--                    <include name="getDataWriterReview"/>-->
-                    <!--                    <include name="getDataCustomerReview"/>-->
+                    <!--                                        <include name="getDataCustomerReview"/>-->
                     <!--                    <include name="getDataService"/>-->
                     <!--                                            <include name="deleteArticles"/>-->
                     <!---->

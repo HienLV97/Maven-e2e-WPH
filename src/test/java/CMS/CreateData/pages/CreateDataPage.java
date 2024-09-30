@@ -329,7 +329,7 @@ public class CreateDataPage extends Init {
 	}
 
 	public String getComOrderTB() {
-		return WebUI.getValue(achievementTB);
+		return WebUI.getValue(completedTB);
 	}
 
 	public String getAchiTB() {
@@ -861,7 +861,6 @@ public class CreateDataPage extends Init {
 			}
 		}
 	}
-
 
 	public void deleteArticles(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
