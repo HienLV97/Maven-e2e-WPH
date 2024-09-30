@@ -12,6 +12,8 @@ public class Routers {
 
 	//        public static final String BaseURL = "https://ibhelper.com";
 	public static final String ARTICLES = BaseURL + "/yeti/main/articles/all";
+	public static final String CUSTOMER_REVIEW = BaseURL + "/yeti/main/reviews/all";
+	public static final String WRITER_REVIEW = BaseURL + "/yeti/main/writers/all";
 	public static final String HOME = BaseURL + "/";
 	public static final String SAMPLES = BaseURL + "/yeti/main/samples/all";
 	public static final String EDIT_ARTICLES = BaseURL + "/yeti/main/articles/edit";

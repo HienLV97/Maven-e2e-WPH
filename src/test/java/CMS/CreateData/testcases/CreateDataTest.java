@@ -16,15 +16,22 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 public class CreateDataTest extends Init {
-	@Test
-	public void gotoWPH() {
+	private CreateDataPage createDataPage;
+	public void signIn(){
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage = new CreateDataPage(driver);
 		LogUtils.infoCustom(driver.getCurrentUrl());
 		LogUtils.info(driver.getCurrentUrl());
+	}
+	public void gotoWPH() {
+		signIn();
 		createDataPage.clickWPHBTN();
+	}
+	public void gotoIBW() {
+		signIn();
+		createDataPage.clickIBWBTN();
 	}
 
 	@Test
@@ -162,10 +169,24 @@ public class CreateDataTest extends Init {
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		CreateDataPage createDataPage = new CreateDataPage(driver);
 		createDataPage.clickIBWBTN();
-		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "sampleDetail";
-		createDataPage.createSampleDetailNotSave(fileName, sheetName);
+
 	}
 
+	@Test(description = "Create customer review")
+	public void createCustomerReview () {
+		gotoIBW();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "customerReview";
+		createDataPage.createCustomerReview(fileName, sheetName);
+
+	}
+	@Test(description = "Create writer review")
+	public void createWriterReview () {
+		gotoIBW();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.createWriterReview(fileName, sheetName);
+
+	}
 
 }
