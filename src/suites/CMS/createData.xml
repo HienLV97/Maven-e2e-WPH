@@ -8,7 +8,7 @@
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
-                    <!--                    <include name="sampleDetail"/>-->
+                                        <include name="sampleDetail"/>
                     <!--                    <include name="sampleIBDetail"/>-->
                     <!--                    <include name="sampleCreateArticle"/>-->
                     <!--                                        <include name="test"/>-->
@@ -16,7 +16,7 @@
 <!--                    <include name="test3"/>-->
 <!--                    <include name="getDataWriterReview"/>-->
 <!--                    <include name="getDataCustomerReview"/>-->
-                    <include name="getDataService"/>
+<!--                    <include name="getDataService"/>-->
                     <!--                                            <include name="deleteArticles"/>-->
                     <!---->
                 </methods>

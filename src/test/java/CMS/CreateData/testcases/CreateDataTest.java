@@ -49,7 +49,7 @@ public class CreateDataTest extends Init {
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleDetail";
-		createDataPage.createSampleDetail(fileName, sheetName);
+		createDataPage.createSampleDetailNotSave(fileName, sheetName);
 	}
 
 	@Test
@@ -114,7 +114,7 @@ public class CreateDataTest extends Init {
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "ibDetail";
-		createDataPage.createSampleDetail(fileName, sheetName);
+		createDataPage.createSampleDetailNotSave(fileName, sheetName);
 	}
 
 	@Test(description = "Get data writer review")
@@ -154,5 +154,18 @@ public class CreateDataTest extends Init {
 		createDataPage.getDataServicePage(fileName, urlExcelSheet,dataServiceSheet);
 
 	}
+
+	@Test (description = "create data")
+	public void sampleDetailIB() throws Exception {
+		authenticate("CMS");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		CreateDataPage createDataPage = new CreateDataPage(driver);
+		createDataPage.clickIBWBTN();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "sampleDetail";
+		createDataPage.createSampleDetailNotSave(fileName, sheetName);
+	}
+
 
 }

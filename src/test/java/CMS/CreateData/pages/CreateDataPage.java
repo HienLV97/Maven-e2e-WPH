@@ -49,6 +49,9 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "(//span[@class='project-name fbaloo'])[1]")
 	WebElement WPHBTN;
 
+	@FindBy(xpath = "(//span[@class='project-name fbaloo'])[3]")
+	WebElement IBWBTN;
+
 	@FindBy(xpath = "//i[@class='fa fa-plus']")
 	WebElement addBTN;
 
@@ -119,7 +122,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//*[@name='type']")
 	WebElement paperTypeTB;
 
-	@FindBy(xpath = "//*[@name='disciplines']")
+	@FindBy(xpath = "//*[@name='discipline']")
 	WebElement disciplineTB;
 
 	@FindBy(xpath = "//*[@name='citation']")
@@ -192,7 +195,6 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//div[@class='note-editable']")
 	 WebElement noteEditableElement;
 
-
 	public CreateDataPage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -204,6 +206,10 @@ public class CreateDataPage extends Init {
 	public void clickWPHBTN() {
 		WebUI.clickWEBElement(WPHBTN);
 		sleep(3);
+	}
+
+	public void clickIBWBTN(){
+		WebUI.clickWEBElement(IBWBTN);
 	}
 
 	public void clickAddBTN() {
@@ -256,7 +262,6 @@ public class CreateDataPage extends Init {
 	public void setOfferActTB(String value) {
 		WebUI.setText(offerActTB, value);
 	}
-
 
 	public String getUrlTB() {
 		return WebUI.getValue(urlTB);
@@ -516,6 +521,8 @@ public class CreateDataPage extends Init {
 		}
 	}
 
+	//
+
 	public void createSampleDetail(String fileName, String sheetName) throws Exception {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
@@ -535,7 +542,9 @@ public class CreateDataPage extends Init {
 				String pages = excelHelper.getCellData("pages", i);
 				String words = excelHelper.getCellData("total_words", i);
 				String fileNamePDF = excelHelper.getCellData("fileName", i);
+
 				createSample();
+
 				setNameTB(name);
 				setUrlTB(url);
 				setMetaTitleSec(title);
@@ -597,19 +606,20 @@ public class CreateDataPage extends Init {
 				setWordsTB(words);
 				setUploadPDF(fileNamePDF, paperType);
 
-//				sleep(5);
-//				clickSaveBTN();
-//				sleep(2);
-//				clickSaveBTN();
-//				recordFile(driver.getCurrentUrl(), "id");
-//				recordFile(url, "url");
+				sleep(5);
+				clickSaveBTN();
+				sleep(2);
+				clickSaveBTN();
+				recordFile(driver.getCurrentUrl(), "id");
+				recordFile(url, "url");
 
+
+				recordFile(driver.getCurrentUrl(), "id");
+				recordFile(url, "url");
 				LogUtils.infoCustom(driver.getCurrentUrl());
 				LogUtils.infoCustom(url);
-				excelHelper.setCellData("Passed", "RESULT", i);
-				if (i == 3) {
-					WebUI.assertEquals(1, 2);
-				}
+				excelHelper.setCellData("Passed", "result", i);
+
 			}
 		}
 	}
@@ -639,6 +649,59 @@ public class CreateDataPage extends Init {
 			excelHelper.setCellData("Passed", "RESULT", rowIndex);
 //			sleep(5);
 			System.out.println("Done");
+		}
+	}
+
+	public void createCustomerReview(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String name = excelHelper.getCellData("NAME", i);
+				String url = excelHelper.getCellData("COLLEGE", i);
+				String title = excelHelper.getCellData("META_TITLE", i);
+				String description = excelHelper.getCellData("META_DESCRIPTION", i);
+				String intro = excelHelper.getCellData("SHORT_INTRO", i);
+				String date = excelHelper.getCellData("CREATE_DATA", i);
+				String academic = excelHelper.getCellData("ACADEMIC", i);
+				String paperType = excelHelper.getCellData("TYPE_OF_PAPER", i);
+				String discipline = excelHelper.getCellData("DISCIPLINE", i);
+				String citation = excelHelper.getCellData("CITATION", i);
+				String pages = excelHelper.getCellData("PAGES", i);
+				String words = excelHelper.getCellData("TOTAL_WORDS", i);
+				String fileNamePDF = excelHelper.getCellData("FILE_NAME", i);
+
+				createSample();
+				setNameTB(name);
+				setUrlTB(url);
+				setMetaTitleSec(title);
+				setMetaDesTB(description);
+				setShortIntroTB(intro);
+				setCreatedDateTB(date);
+				setAcademicTB(academic);
+				setPaperTypeTB(paperType);
+				setDisciplineTB(discipline);
+				setCitationTB(citation);
+				setPagesTB(pages);
+				setWordsTB(words);
+				setUploadPDF(fileNamePDF, paperType);
+
+				sleep(5);
+				clickSaveBTN();
+				sleep(2);
+				clickSaveBTN();
+				recordFile(driver.getCurrentUrl(), "id");
+				recordFile(url, "url");
+
+
+				recordFile(driver.getCurrentUrl(), "id");
+				recordFile(url, "url");
+				LogUtils.infoCustom(driver.getCurrentUrl());
+				LogUtils.infoCustom(url);
+				excelHelper.setCellData("Passed", "result", i);
+
+			}
 		}
 	}
 
