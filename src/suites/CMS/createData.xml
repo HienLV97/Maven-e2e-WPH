@@ -8,16 +8,20 @@
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
-<!--                    <include name="sampleDetailIB"/>-->
-<!--                    <include name="sampleDetail"/>-->
-<!--                    <include name="createCustomerReview"/>-->
-                    <include name="createWriterReview"/>
+                    <!--                    <include name="sampleDetailIB"/>-->
+                    <!--                    <include name="sampleDetail"/>-->
                     <!--                    <include name="sampleCreateArticle"/>-->
-<!--                                        <include name="getDataWriterReview"/>-->
+                    <!--                                        <include name="getDataWriterReview"/>-->
                     <!--                                        <include name="getDataCustomerReview"/>-->
                     <!--                    <include name="getDataService"/>-->
                     <!--                                            <include name="deleteArticles"/>-->
-                    <!---->
+                    <!--                 IBW -->
+<!--                    <include name="ibSampleDetailIBW"/>-->
+                    <include name="createSampleArticleIBW"/>
+<!--                    <include name="createCustomerReviewIBW"/>-->
+<!--                    <include name="createWriterReviewIBW"/>-->
+<!--                    <include name="createConstantsIBW"/>-->
+
                 </methods>
             </class>
         </classes>

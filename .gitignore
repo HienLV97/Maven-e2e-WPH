@@ -23,7 +23,6 @@ test-output/
 reports/
 src/Config
 *.png
-*.jpg
 *.mp4
 *.avi
 *.zip

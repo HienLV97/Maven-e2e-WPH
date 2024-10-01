@@ -61,6 +61,9 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@name='name']")
 	WebElement nameTB;
 
+	@FindBy(xpath = "//input[@name='value']")
+	WebElement valueTB;
+
 	@FindBy(xpath = "//input[@name='url']")
 	WebElement urlTB;
 
@@ -97,7 +100,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@name='disciplines']")
 	WebElement disciplinesTB;
 
-	@FindBy(xpath = "(//input[@name='title']/following-sibling::input)[2]")
+	@FindBy(xpath = "(//input[@name='title']/following-sibling::input)[1] | (//input[@name='title']/following-sibling::input)[2]")
 	WebElement titleTB;
 
 	@FindBy(xpath = "(//input[@name='essay_note']/following-sibling::input)[1]")
@@ -106,7 +109,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "(//input[@name='essay_action']/following-sibling::input)[1]")
 	WebElement essayActTB;
 
-	@FindBy(xpath = "(//input[@name='offer_action']/following-sibling::input)[1]")
+	@FindBy(xpath = "(//input[@name='offer_action']/following-sibling::input)[1] | (//input[@name='offer_action']/following-sibling::input)[2]")
 	WebElement offerActTB;
 
 	@FindBy(xpath = "//select[contains(@class,'multiSelect_field multiSelect_field_samples')]/following-sibling::div[1]")
@@ -126,9 +129,6 @@ public class CreateDataPage extends Init {
 
 	@FindBy(xpath = "//*[@name='academic_level']")
 	WebElement academicTB;
-
-	@FindBy(xpath = "//*[@name='type']")
-	WebElement paperTypeTB;
 
 	@FindBy(xpath = "//*[@name='discipline']")
 	WebElement disciplineTB;
@@ -188,7 +188,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//select[@name='rating']")
 	WebElement ratingType;
 
-	@FindBy(xpath = "//input[@name='paper_type']")
+	@FindBy(xpath = "//input[@name='paper_type' or @name='type']")
 	WebElement typeOfPaperTB;
 
 	@FindBy(xpath = "//input[@name='featurable']")
@@ -240,8 +240,13 @@ public class CreateDataPage extends Init {
 		Select select = new Select(ratingType);
 		select.selectByVisibleText(type);
 	}
+
 	public void setNameTB(String value) {
 		WebUI.setText(nameTB, value);
+	}
+
+	public void setValueTB(String value){
+		WebUI.setText(valueTB,value);
 	}
 
 	public void setUrlTB(String value) {
@@ -397,10 +402,10 @@ public class CreateDataPage extends Init {
 	public void setSampleDRL(String fileName, String sheetNameDetail) {
 		clickSampleDRL();
 		excelHelper.setExcelFile(fileName, sheetNameDetail);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "name");
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
-			String nameDetail = excelHelper.getCellData("name", i);
-			String paperType = excelHelper.getCellData("type_of_paper", i);
+			String nameDetail = excelHelper.getCellData("NAME", i);
+			String paperType = excelHelper.getCellData("TYPE_OF_PAPER", i);
 			clickOnArticle(nameDetail, paperType);
 			sleep(1);
 		}
@@ -468,7 +473,6 @@ public class CreateDataPage extends Init {
 		driver.get(Routers.SAMPLES);
 		clickAddBTN();
 	}
-
 	public void addCustomerReview() {
 		driver.get(Routers.CUSTOMER_REVIEW);
 		clickAddBTN();
@@ -476,6 +480,11 @@ public class CreateDataPage extends Init {
 
 	public void addWriterReview() {
 		driver.get(Routers.WRITER_REVIEW);
+		clickAddBTN();
+	}
+
+	public void addConstants(){
+		driver.get(Routers.CONSTANTS);
 		clickAddBTN();
 	}
 
@@ -494,11 +503,6 @@ public class CreateDataPage extends Init {
 	public void setTypeOfPaperTB(String value) {
 		WebUI.setText(typeOfPaperTB, value);
 	}
-
-	public void setPaperTypeTB(String value) {
-		WebUI.setText(paperTypeTB, value);
-	}
-
 
 	public void setDisciplineTB(String value) {
 		WebUI.setText(disciplineTB, value);
@@ -649,7 +653,7 @@ public class CreateDataPage extends Init {
 				setShortIntroTB(intro);
 				setCreatedDateTB(date);
 				setAcademicTB(academic);
-				setPaperTypeTB(paperType);
+				setTypeOfPaperTB(paperType);
 				setDisciplineTB(discipline);
 				setCitationTB(citation);
 				setPagesTB(pages);
@@ -684,7 +688,7 @@ public class CreateDataPage extends Init {
 			setShortIntroTB(data.get("SHORT_INTRO"));
 			setCreatedDateTB(data.get("CREATE_DATA"));
 			setAcademicTB(data.get("ACADEMIC"));
-			setPaperTypeTB(data.get("TYPE_OF_PAPER"));
+			setTypeOfPaperTB(data.get("TYPE_OF_PAPER"));
 			setDisciplineTB(data.get("DISCIPLINE"));
 			setCitationTB(data.get("CITATION"));
 			setPagesTB(data.get("PAGES"));
@@ -704,35 +708,33 @@ public class CreateDataPage extends Init {
 
 	public void createSamplesArticles(String fileName, String sheetName, String sheetNameDetail) throws Exception {
 		excelHelper.setExcelFile(fileName, sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i)) {
 				excelHelper.setExcelFile(fileName, sheetName);
-				String name = excelHelper.getCellData("name", i);
-				String url = excelHelper.getCellData("url", i);
-				String metaTitle = excelHelper.getCellData("meta_title", i);
-				String description = excelHelper.getCellData("meta_description", i);
-				String anchor = excelHelper.getCellData("anchor", i);
-				String title = excelHelper.getCellData("title", i);
-				String essayNote = excelHelper.getCellData("essay_note", i);
-				String essayAct = excelHelper.getCellData("essay_action", i);
-				String offer = excelHelper.getCellData("offer_action", i);
-				String editIntro = excelHelper.getCellData("edit_intro", i);
-				String editOffer = excelHelper.getCellData("edit_offer", i);
+				String NAME = excelHelper.getCellData("NAME", i);
+				String URL = excelHelper.getCellData("URL", i);
+				String META_TITLE = excelHelper.getCellData("META_TITLE", i);
+				String META_DESCRIPTION = excelHelper.getCellData("META_DESCRIPTION", i);
+				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
+				String TITLE = excelHelper.getCellData("TITLE", i);
+				String ESSAY_NOTE = excelHelper.getCellData("ESSAY_NOTE", i);
+				String ESSAY_ACTION = excelHelper.getCellData("ESSAY_ACTION", i);
+				String OFFER_ACTION = excelHelper.getCellData("OFFER_ACTION", i);
+				String EDIT_INTRO = excelHelper.getCellData("EDIT_INTRO", i);
+				String EDIT_OFFER = excelHelper.getCellData("EDIT_OFFER", i);
 
 				createArticles();
 				selectArticle("samples");
-				setNameTB(name);
-				setUrlTB(url);
-				setMetaTitleSec(metaTitle);
-				setMetaDesTB(description);
-				setAnchorTB(anchor);
-				setTitleTB(title);
-				setEssayNoteTB(essayNote);
-				setEssayActTB(essayAct);
-				setOfferActTB(offer);
-
-				driver.get("https://yeti-cms.dev/yeti/main/articles/edit/166");
+				setNameTB(NAME);
+				setUrlTB(URL);
+				setMetaTitleSec(META_TITLE);
+				setMetaDesTB(META_DESCRIPTION);
+				setAnchorTB(ANCHOR);
+				setTitleTB(TITLE);
+				setEssayNoteTB(ESSAY_NOTE);
+				setEssayActTB(ESSAY_ACTION);
+//				setOfferActTB(OFFER_ACTION);
 
 				ExcelHelper excelHelper2 = new ExcelHelper();
 				excelHelper2.setExcelFile(fileName, sheetNameDetail);
@@ -742,11 +744,11 @@ public class CreateDataPage extends Init {
 				sleep(2);
 				clickPublish();
 				LogUtils.info(driver.getCurrentUrl());
-				LogUtils.info(url);
+				LogUtils.info(URL);
 				recordFile(driver.getCurrentUrl(), "ID");
-				recordFile(url, "URL");
-				setEditIntroData(editIntro);
-				setEditOfferData(editOffer);
+				recordFile(URL, "URL");
+				setEditIntroData(EDIT_INTRO);
+				setEditOfferData(EDIT_OFFER);
 				excelHelper.setCellData("Passed", "RESULT", i);
 			}
 		}
@@ -764,6 +766,7 @@ public class CreateDataPage extends Init {
 				String SOURCE_LINKED = excelHelper.getCellData("SOURCE_LINKED", i);
 				String RATING = excelHelper.getCellData("RATING", i);
 				String TYPE_OF_PAPER = excelHelper.getCellData("TYPE_OF_PAPER", i);
+				String IS_FEATURABLE = excelHelper.getCellData("IS_FEATURABLE", i);
 
 				addCustomerReview();
 				setNameTB(NAME);
@@ -771,7 +774,8 @@ public class CreateDataPage extends Init {
 				setTextTB(TEXT);
 				setSourceDRL(SOURCE_LINKED);
 				setRatingDRL(RATING);
-				setPaperTypeTB(TYPE_OF_PAPER);
+				setTypeOfPaperTB(TYPE_OF_PAPER);
+				clickIsFeaturable(IS_FEATURABLE);
 
 				clickSaveBTN();
 				sleep(2);
@@ -815,6 +819,31 @@ public class CreateDataPage extends Init {
 				sleep(2);
 				clickSaveBTN();
 				excelHelper.setCellData(driver.getCurrentUrl(), "URL",i);
+				excelHelper.setCellData("Passed", "RESULT", i);
+				recordFile(driver.getCurrentUrl(), "ID");
+				LogUtils.infoCustom(driver.getCurrentUrl());
+				sleep(1);
+			}
+		}
+	}
+
+	public void createConstants(String fileName,String sheetName){
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String NAME = excelHelper.getCellData("NAME", i);
+				String VALUE = excelHelper.getCellData("VALUE", i);
+
+				addConstants();
+				setNameTB(NAME);
+				setValueTB(VALUE);
+
+				sleep(1);
+				clickSaveBTN();
+				sleep(2);
+				clickSaveBTN();
 				excelHelper.setCellData("Passed", "RESULT", i);
 				recordFile(driver.getCurrentUrl(), "ID");
 				LogUtils.infoCustom(driver.getCurrentUrl());
@@ -1365,7 +1394,6 @@ public class CreateDataPage extends Init {
 
 		LogUtils.info("Data has been written to Excel file: " + fileName);
 	}
-
 
 	//
 	public void extractMultipleServicesDataToExcel(String urlExcelPath, String urlSheetName, String dataExcelFilePath) throws IOException {

@@ -39,11 +39,7 @@ public class CreateDataTest extends Init {
 
 	@Test
 	public void sampleCreateArticle() throws Exception {
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(driver);
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(driver);
-		createDataPage.clickWPHBTN();
+		gotoWPH();
 		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleList";
 		String sheetNameDetail = "sampleDetail";
@@ -52,11 +48,7 @@ public class CreateDataTest extends Init {
 
 	@Test
 	public void sampleDetail() throws Exception {
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(driver);
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(driver);
-		createDataPage.clickWPHBTN();
+		gotoWPH();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleDetail";
 		createDataPage.createSampleDetail(fileName, sheetName);
@@ -118,15 +110,12 @@ public class CreateDataTest extends Init {
 
 	@Test
 	public void sampleIBDetail() throws Exception {
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(driver);
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(driver);
-		createDataPage.clickWPHBTN();
+		gotoWPH();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "ibDetail";
 		createDataPage.createSampleDetail(fileName, sheetName);
 	}
+
 
 	@Test(description = "Get data writer review")
 	public void getDataWriterReview() {
@@ -138,11 +127,7 @@ public class CreateDataTest extends Init {
 
 	@Test(description = "Get data customer review")
 	public void getDataCustomerReview() {
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(driver);
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(driver);
-		createDataPage.clickWPHBTN();
+		gotoWPH();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "customerReview";
 		createDataPage.getDataCustomerReview(fileName, sheetName);
@@ -162,16 +147,28 @@ public class CreateDataTest extends Init {
 
 	}
 
-	@Test(description = "create data")
-	public void sampleDetailIB() throws Exception {
+	// Create for IB writing
+	@Test(description = "create ib sample detail")
+	public void ibSampleDetailIBW() throws Exception {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "sampleDetail";
+		String sheetName = "ibDetail";
 		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
+
+	@Test(description = "createSampleArticleIBW")
+	public void createSampleArticleIBW() throws Exception {
+		gotoIBW();
+		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "sampleList";
+		String sheetNameDetail = "ibDetail";
+		createDataPage.createSamplesArticles(filePath, sheetName, sheetNameDetail);
+	}
+
+
 	@Test(description = "Create customer review")
-	public void createCustomerReview() {
+	public void createCustomerReviewIBW() {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "customerReview";
@@ -180,7 +177,7 @@ public class CreateDataTest extends Init {
 	}
 
 	@Test(description = "Create writer review")
-	public void createWriterReview() {
+	public void createWriterReviewIBW() {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "writerReview";
@@ -188,4 +185,11 @@ public class CreateDataTest extends Init {
 
 	}
 
+	@Test(description = "Create constants")
+	public void createConstantsIBW() {
+		gotoIBW();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "constants";
+		createDataPage.createConstants(fileName, sheetName);
+	}
 }
