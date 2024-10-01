@@ -340,6 +340,10 @@ public class CreateDataPage extends Init {
 		return WebUI.getValue(disciplineTB);
 	}
 
+	public String getDisciplines(){
+		return WebUI.getValue(disciplinesTB);
+	}
+
 	public String getCollegeTB() {
 		return WebUI.getValue(collegeTB);
 	}
@@ -487,9 +491,14 @@ public class CreateDataPage extends Init {
 		WebUI.setText(academicTB, value);
 	}
 
-	public void setPaperTypeTB(String value) {
+	public void setTypeOfPaperTB(String value) {
 		WebUI.setText(typeOfPaperTB, value);
 	}
+
+	public void setPaperTypeTB(String value) {
+		WebUI.setText(paperTypeTB, value);
+	}
+
 
 	public void setDisciplineTB(String value) {
 		WebUI.setText(disciplineTB, value);
@@ -614,55 +623,6 @@ public class CreateDataPage extends Init {
 	// create data
 	public void createSampleDetail(String fileName, String sheetName) throws Exception {
 		excelHelper.setExcelFile(fileName, sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "name");
-		for (int i = 1; i <= lastRow; i++) {
-			if (checkResult(fileName, sheetName, i)) {
-				excelHelper.setExcelFile(fileName, sheetName);
-				String name = excelHelper.getCellData("name", i);
-				String url = excelHelper.getCellData("url", i);
-				String title = excelHelper.getCellData("meta_title", i);
-				String description = excelHelper.getCellData("meta_description", i);
-				String intro = excelHelper.getCellData("short_intro", i);
-				String date = excelHelper.getCellData("created_date", i);
-				String academic = excelHelper.getCellData("academic_level", i);
-				String paperType = excelHelper.getCellData("type_of_paper", i);
-				String discipline = excelHelper.getCellData("discipline", i);
-				String citation = excelHelper.getCellData("citation", i);
-				String pages = excelHelper.getCellData("pages", i);
-				String words = excelHelper.getCellData("total_words", i);
-				String fileNamePDF = excelHelper.getCellData("fileName", i);
-
-				addSample();
-
-				setNameTB(name);
-				setUrlTB(url);
-				setMetaTitleSec(title);
-				setMetaDesTB(description);
-				setShortIntroTB(intro);
-				setCreatedDateTB(date);
-				setAcademicTB(academic);
-				setPaperTypeTB(paperType);
-				setDisciplineTB(discipline);
-				setCitationTB(citation);
-				setPagesTB(pages);
-				setWordsTB(words);
-				setUploadPDF(fileNamePDF, paperType);
-
-				sleep(5);
-				clickSaveBTN();
-				sleep(2);
-				clickSaveBTN();
-				recordFile(driver.getCurrentUrl(), "ID");
-				recordFile(url, "URL");
-				LogUtils.infoCustom(driver.getCurrentUrl());
-				LogUtils.infoCustom(url);
-				excelHelper.setCellData("Passed", "RESULT", i);
-			}
-		}
-	}
-
-	public void createSampleDetailNotSave(String fileName, String sheetName) throws Exception {
-		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i)) {
@@ -680,6 +640,7 @@ public class CreateDataPage extends Init {
 				String pages = excelHelper.getCellData("PAGES", i);
 				String words = excelHelper.getCellData("TOTAL_WORDS", i);
 				String fileNamePDF = excelHelper.getCellData("FILE_NAME", i);
+
 				addSample();
 				setNameTB(name);
 				setUrlTB(url);
@@ -913,7 +874,7 @@ public class CreateDataPage extends Init {
 				excelHelper.setCellData(getBioTB(), "BIO", i);
 				excelHelper.setCellData(getComOrderTB(), "COMPLETED_ORDER", i);
 				excelHelper.setCellData(getAchiTB(), "ACHIEVEMENT", i);
-				excelHelper.setCellData(getDiscipline(), "DISCIPLINES", i);
+				excelHelper.setCellData(getDisciplines(), "DISCIPLINES", i);
 
 				LogUtils.infoCustom(driver.getCurrentUrl());
 
@@ -944,13 +905,7 @@ public class CreateDataPage extends Init {
 	}
 
 	//Testing
-	public void extractDataIntro(String serviceUrl) throws IOException {
-		// Lấy nội dung HTML của element
-		clickEditIntroBTN();
-		if (!noteEditableElement.isDisplayed()){
-			return;
-		}
-		String content = noteEditableElement.getAttribute("innerHTML");
+	public void checkContentNoteEdit(String content, String serviceUrl,String type) throws IOException {
 
 		// Sử dụng Jsoup để phân tích nội dung HTML
 		Document doc = Jsoup.parse(content);
@@ -967,13 +922,12 @@ public class CreateDataPage extends Init {
 
 		int rowNum = sheet.getLastRowNum() + 1; // Tiếp tục ghi từ dòng cuối cùng
 
-		// Lấy tất cả các thẻ từ trong div
 		Elements elements = doc.body().children();
 		int order = 1;
 		for (Element element : elements) {
 			Row row = sheet.createRow(rowNum++);
 			row.createCell(0).setCellValue(serviceUrl);  // Ghi URL
-			row.createCell(1).setCellValue("Edit Intro");  // Ghi NoteEditableElement index
+			row.createCell(1).setCellValue("Edit intro");  // Ghi NoteEditableElement index
 			row.createCell(2).setCellValue(order++);  // Ghi Order
 
 			Cell typeCell = row.createCell(3);
@@ -982,13 +936,27 @@ public class CreateDataPage extends Init {
 			// Kiểm tra loại thẻ và ghi vào Excel
 			switch (element.tagName()) {
 				case "h1":
+					typeCell.setCellValue("h1");
+					contentCell.setCellValue(element.text());
+					break;
 				case "h2":
+					typeCell.setCellValue("h2");
+					contentCell.setCellValue(element.text());
+					break;
 				case "h3":
-					typeCell.setCellValue("Header");
+					typeCell.setCellValue("h3");
+					contentCell.setCellValue(element.text());
+					break;
+				case "h4":
+					typeCell.setCellValue("h4");
+					contentCell.setCellValue(element.text());
+					break;
+				case "h5":
+					typeCell.setCellValue("h5");
 					contentCell.setCellValue(element.text());
 					break;
 				case "p":
-					typeCell.setCellValue("Paragraph");
+					typeCell.setCellValue("p");
 					contentCell.setCellValue(element.text());
 					break;
 				case "ul":
@@ -1010,13 +978,20 @@ public class CreateDataPage extends Init {
 					typeCell.setCellValue("Line Break");
 					contentCell.setCellValue("");  // Dòng trống
 					break;
+				case "blockquote":
+					typeCell.setCellValue("blockquote");
+					contentCell.setCellValue(element.text());
+					break;
+				case "pre":
+					typeCell.setCellValue("pre");
+					contentCell.setCellValue(element.text());
+					break;
 				default:
 					typeCell.setCellValue("Other");
 					contentCell.setCellValue(element.text());
 					break;
 			}
 		}
-
 		// Đóng fileInputStream trước khi ghi file
 		fileInputStream.close();
 
@@ -1027,6 +1002,18 @@ public class CreateDataPage extends Init {
 
 		// Đóng workbook
 		workbook.close();
+
+	}
+	public void extractDataIntro(String serviceUrl) throws IOException {
+		// Lấy nội dung HTML của element
+		clickEditIntroBTN();
+		if (!noteEditableElement.isDisplayed()){
+			return;
+		}
+		String content = noteEditableElement.getAttribute("innerHTML");
+
+		// Lấy tất cả các thẻ từ trong div
+		checkContentNoteEdit(content,serviceUrl,"Edit intro");
 
 		LogUtils.info("Data has been written to Excel file: " + fileName);
 	}
@@ -1483,6 +1470,32 @@ public class CreateDataPage extends Init {
 
 	//Final
 	public void getDataServicePage(String fileName, String urlExcelSheet, String dataServicePage) throws IOException {
+		excelHelper.setExcelFile(fileName, urlExcelSheet);
+		this.fileName = fileName;
+		this.dataServicePage = dataServicePage;
+
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, urlExcelSheet, "URL");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, urlExcelSheet, i) && checkPageNotFound()) {
+
+				String currentUrl = excelHelper.getCellData("URL", i);
+				driver.get(currentUrl);
+				excelHelper.setExcelFile(fileName, dataServicePage);
+				extractDataIntro(currentUrl);
+				extractDataContent(currentUrl);
+				extractDataFAQBanner(currentUrl);
+				extractDataFAQ(currentUrl);
+				extractDataOffer(currentUrl);
+
+				LogUtils.infoCustom(driver.getCurrentUrl());
+
+			}
+		}
+
+	}
+
+	//Test service
+	public void testGetDataServicePage(String fileName, String urlExcelSheet, String dataServicePage) throws IOException {
 		excelHelper.setExcelFile(fileName, urlExcelSheet);
 		this.fileName = fileName;
 		this.dataServicePage = dataServicePage;

@@ -17,7 +17,8 @@ import java.util.Hashtable;
 
 public class CreateDataTest extends Init {
 	private CreateDataPage createDataPage;
-	public void signIn(){
+
+	public void signIn() {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -25,10 +26,12 @@ public class CreateDataTest extends Init {
 		LogUtils.infoCustom(driver.getCurrentUrl());
 		LogUtils.info(driver.getCurrentUrl());
 	}
+
 	public void gotoWPH() {
 		signIn();
 		createDataPage.clickWPHBTN();
 	}
+
 	public void gotoIBW() {
 		signIn();
 		createDataPage.clickIBWBTN();
@@ -56,7 +59,7 @@ public class CreateDataTest extends Init {
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleDetail";
-		createDataPage.createSampleDetailNotSave(fileName, sheetName);
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
 	@Test
@@ -77,7 +80,7 @@ public class CreateDataTest extends Init {
 		createDataPage.deleteArticles(fileName, sheetName);
 	}
 
-	@Test(dataProvider = "data_sampleDetail",dataProviderClass = DataProviderFactory.class)
+	@Test(dataProvider = "data_sampleDetail", dataProviderClass = DataProviderFactory.class)
 	public void test2(Hashtable<String, String> data) throws Exception {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
@@ -90,7 +93,7 @@ public class CreateDataTest extends Init {
 	}
 
 	@Test(description = "test3")
-	public void test3 () throws Exception {
+	public void test3() throws Exception {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -98,10 +101,11 @@ public class CreateDataTest extends Init {
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleDetail";
-		createDataPage.createSampleDetailNotSave(fileName, sheetName);
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
+
 	@Test(description = "test4 for")
-	public void test4 () throws Exception {
+	public void test4() throws Exception {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
@@ -109,7 +113,7 @@ public class CreateDataTest extends Init {
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "test";
-		createDataPage.createSampleDetailNotSave(fileName, sheetName);
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
 	@Test
@@ -121,16 +125,12 @@ public class CreateDataTest extends Init {
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "ibDetail";
-		createDataPage.createSampleDetailNotSave(fileName, sheetName);
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
 	@Test(description = "Get data writer review")
-	public void getDataWriterReview () {
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(driver);
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(driver);
-		createDataPage.clickWPHBTN();
+	public void getDataWriterReview() {
+		gotoWPH();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "writerReview";
 		createDataPage.getDataWriterReview(fileName, sheetName);
@@ -158,30 +158,29 @@ public class CreateDataTest extends Init {
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String urlExcelSheet = "urlServiceSheet";
 		String dataServiceSheet = "dataServicePage";
-		createDataPage.getDataServicePage(fileName, urlExcelSheet,dataServiceSheet);
+		createDataPage.getDataServicePage(fileName, urlExcelSheet, dataServiceSheet);
 
 	}
 
-	@Test (description = "create data")
+	@Test(description = "create data")
 	public void sampleDetailIB() throws Exception {
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(driver);
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(driver);
-		createDataPage.clickIBWBTN();
-
+		gotoIBW();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "sampleDetail";
+		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
 	@Test(description = "Create customer review")
-	public void createCustomerReview () {
+	public void createCustomerReview() {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "customerReview";
 		createDataPage.createCustomerReview(fileName, sheetName);
 
 	}
+
 	@Test(description = "Create writer review")
-	public void createWriterReview () {
+	public void createWriterReview() {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "writerReview";
