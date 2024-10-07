@@ -1,15 +1,9 @@
-import Support.Initialization.Init;
+import AcaWriting.Support.Initialization.Init;
 import helpers.ExcelHelper;
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.Test;
 
 //import static Support.Initialization.Init.driver;
-import org.openqa.selenium.By;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
 
 public class demo extends Init {
 

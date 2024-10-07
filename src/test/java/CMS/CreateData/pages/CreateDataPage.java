@@ -1,18 +1,17 @@
 package CMS.CreateData.pages;
 
-import Keywords.WebUI;
-import Support.CMS.Routers;
-import Support.Initialization.Init;
+import AcaWriting.Keywords.WebUI;
+import AcaWriting.Support.CMS.Routers;
+import AcaWriting.Support.Initialization.Init;
+import AcaWriting.drivers.DriverManager;
 import helpers.ExcelHelper;
 import logs.LogUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.asserts.SoftAssert;
@@ -37,8 +36,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class CreateDataPage extends Init {
-	private WebDriver driver;
-	//	private WebDriverWait wait;
+	//	private WebDriver driver;
+	private WebDriverWait wait;
 	ExcelHelper excelHelper = new ExcelHelper();
 	SoftAssert softassert = new SoftAssert();
 	private Workbook wb;
@@ -149,22 +148,22 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//i[@class='fa fa-info fa-fw']")
 	WebElement editIntroBTN;
 
-	@FindBy(xpath="//a[@title='Edit content']")
+	@FindBy(xpath = "//a[@title='Edit content']")
 	WebElement editContentBTN;
 
-	@FindBy(xpath="//a[@title='Edit Offer']")
+	@FindBy(xpath = "//a[@title='Edit Offer']")
 	WebElement editOfferBTN;
 
-	@FindBy(xpath="//a[@title='Edit FAQ Banner']")
+	@FindBy(xpath = "//a[@title='Edit FAQ Banner']")
 	WebElement editFAQBannerBTN;
 
-	@FindBy(xpath="//a[@title='Edit FAQ']")
+	@FindBy(xpath = "//a[@title='Edit FAQ']")
 	WebElement editFAQBTN;
 
-	@FindBy(xpath="//a[@title='Edit Perk']")
+	@FindBy(xpath = "//a[@title='Edit Perk']")
 	WebElement editPerkBTN;
 
-	@FindBy(xpath="//a[@title='Setting']")
+	@FindBy(xpath = "//a[@title='Setting']")
 	WebElement settingBTN;
 
 	@FindBy(xpath = "//div[@role='textbox']")
@@ -182,6 +181,9 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//div[contains(text(),'Sorry, the page you are looking for could not be found')]")
 	WebElement pageNotFoundMessage;
 
+	@FindBy(xpath = "//div[@class='exception-illustration hidden-xs-down']")
+	WebElement exceptionMessage;
+
 	@FindBy(xpath = "//select[@name='source']")
 	WebElement sourceType;
 
@@ -191,28 +193,24 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@name='paper_type' or @name='type']")
 	WebElement typeOfPaperTB;
 
-	@FindBy(xpath = "//input[@name='featurable']")
+	@FindBy(xpath = "//i[@data-behavior='checkbox']")
 	WebElement isFeaturable;
 
 	@FindBy(xpath = "//div[@class='note-editable']")
-	 WebElement noteEditableElement;
-
-
+	WebElement noteEditableElement;
 
 	public CreateDataPage(WebDriver driver) {
-		this.driver = driver;
+//		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-		new WebUI(driver); //Bắt buộc
 		PageFactory.initElements(driver, this);
 	}
-
 
 	public void clickWPHBTN() {
 		WebUI.clickWEBElement(WPHBTN);
 		sleep(3);
 	}
 
-	public void clickIBWBTN(){
+	public void clickIBWBTN() {
 		WebUI.clickWEBElement(IBWBTN);
 	}
 
@@ -222,7 +220,7 @@ public class CreateDataPage extends Init {
 	}
 
 	public void createArticles() {
-		driver.get(Routers.ARTICLES);
+		DriverManager.getDriver().get(Routers.ARTICLES);
 		clickAddBTN();
 	}
 
@@ -231,12 +229,12 @@ public class CreateDataPage extends Init {
 		select.selectByVisibleText(type);
 	}
 
-	public void setSourceDRL(String type){
+	public void setSourceDRL(String type) {
 		Select select = new Select(sourceType);
 		select.selectByVisibleText(type);
 	}
 
-	public void setRatingDRL(String type){
+	public void setRatingDRL(String type) {
 		Select select = new Select(ratingType);
 		select.selectByVisibleText(type);
 	}
@@ -245,8 +243,8 @@ public class CreateDataPage extends Init {
 		WebUI.setText(nameTB, value);
 	}
 
-	public void setValueTB(String value){
-		WebUI.setText(valueTB,value);
+	public void setValueTB(String value) {
+		WebUI.setText(valueTB, value);
 	}
 
 	public void setUrlTB(String value) {
@@ -281,36 +279,36 @@ public class CreateDataPage extends Init {
 		WebUI.setText(offerActTB, value);
 	}
 
-	public void setCollegeTB(String value){
-		WebUI.setText(collegeTB,value);
+	public void setCollegeTB(String value) {
+		WebUI.setText(collegeTB, value);
 	}
 
-	public void setDegreeTB(String value){
-		WebUI.setText(degreeTB,value);
+	public void setDegreeTB(String value) {
+		WebUI.setText(degreeTB, value);
 	}
 
-	public void setCityTB(String value){
-		WebUI.setText(cityTB,value);
+	public void setCityTB(String value) {
+		WebUI.setText(cityTB, value);
 	}
 
-	public void setBioTB(String value){
-		WebUI.setText(bioTB,value);
+	public void setBioTB(String value) {
+		WebUI.setText(bioTB, value);
 	}
 
-	public void setCompletedTB(String value){
-		WebUI.setText(completedTB,value);
+	public void setCompletedTB(String value) {
+		WebUI.setText(completedTB, value);
 	}
 
-	public void setAchievementTB(String value){
-		WebUI.setText(achievementTB,value);
+	public void setAchievementTB(String value) {
+		WebUI.setText(achievementTB, value);
 	}
 
-	public void setDisciplinesTB(String value){
-		WebUI.setText(disciplinesTB,value);
+	public void setDisciplinesTB(String value) {
+		WebUI.setText(disciplinesTB, value);
 	}
 
-	public void setTextTB(String value){
-		WebUI.setText(textTB,value);
+	public void setTextTB(String value) {
+		WebUI.setText(textTB, value);
 	}
 
 	public String getUrlTB() {
@@ -345,7 +343,7 @@ public class CreateDataPage extends Init {
 		return WebUI.getValue(disciplineTB);
 	}
 
-	public String getDisciplines(){
+	public String getDisciplines() {
 		return WebUI.getValue(disciplinesTB);
 	}
 
@@ -388,6 +386,8 @@ public class CreateDataPage extends Init {
 	public void setEditIntroData(String value) {
 		clickEditIntroBTN();
 		setNoteTB(value);
+		sleep(1);
+		clickSaveBTN();
 	}
 
 	public void setEditOfferData(String value) {
@@ -411,8 +411,8 @@ public class CreateDataPage extends Init {
 		}
 	}
 
-	public void clickIsFeaturable(String value){
-		if (Objects.equals(value,"yes")){
+	public void clickIsFeaturable(String value) {
+		if (Objects.equals(value, "yes")) {
 			WebUI.clickWEBElement(isFeaturable);
 		}
 	}
@@ -426,7 +426,7 @@ public class CreateDataPage extends Init {
 		String xpath = "(//a[contains(normalize-space(text()), '" + value + "')])[1]";
 
 		// Tìm phần tử với XPath động và thực hiện thao tác click
-		WebElement article = driver.findElement(By.xpath(xpath));
+		WebElement article = DriverManager.getDriver().findElement(By.xpath(xpath));
 		WebUI.clickWEBElement(article);
 	}
 
@@ -443,15 +443,15 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(editIntroBTN);
 	}
 
-	public void clickEditContentBTN(){
+	public void clickEditContentBTN() {
 		WebUI.clickWEBElement(editContentBTN);
 	}
 
-	public void clickEditFAQBannerBTN(){
+	public void clickEditFAQBannerBTN() {
 		WebUI.clickWEBElement(editFAQBannerBTN);
 	}
 
-	public void clickEditFAQBTN(){
+	public void clickEditFAQBTN() {
 		WebUI.clickWEBElement(editFAQBTN);
 	}
 
@@ -470,21 +470,22 @@ public class CreateDataPage extends Init {
 	}
 
 	public void addSample() {
-		driver.get(Routers.SAMPLES);
+		DriverManager.getDriver().get(Routers.SAMPLES);
 		clickAddBTN();
 	}
+
 	public void addCustomerReview() {
-		driver.get(Routers.CUSTOMER_REVIEW);
+		DriverManager.getDriver().get(Routers.CUSTOMER_REVIEW);
 		clickAddBTN();
 	}
 
 	public void addWriterReview() {
-		driver.get(Routers.WRITER_REVIEW);
+		DriverManager.getDriver().get(Routers.WRITER_REVIEW);
 		clickAddBTN();
 	}
 
-	public void addConstants(){
-		driver.get(Routers.CONSTANTS);
+	public void addConstants() {
+		DriverManager.getDriver().get(Routers.CONSTANTS);
 		clickAddBTN();
 	}
 
@@ -533,9 +534,9 @@ public class CreateDataPage extends Init {
 	}
 
 	public void setUploadIMG(String fileName) {
-			File file = new File("src/test/resources/Image/writerReview/" + fileName);
-			String absolutePath = file.getAbsolutePath();
-			uploadFileBTN.sendKeys(absolutePath);
+		File file = new File("src/test/resources/Image/writerReview/" + fileName);
+		String absolutePath = file.getAbsolutePath();
+		uploadFileBTN.sendKeys(absolutePath);
 	}
 
 	public boolean checkResult(String fileName, String sheetName, int i) {
@@ -551,7 +552,21 @@ public class CreateDataPage extends Init {
 		try {
 			// Kiểm tra xem element có hiện diện và hiển thị hay không
 			if (pageNotFoundMessage.isDisplayed()) {
-				LogUtils.info("Page not found");
+				LogUtils.info("Page is valid");
+				return true;
+			}
+		} catch (Exception e) {
+			// Nếu không tìm thấy element, nghĩa là trang không bị lỗi 404
+			LogUtils.info("Page not found");
+		}
+		return false;
+	}
+
+	public boolean isNoteNotFound() {
+		try {
+			// Kiểm tra xem element có hiện diện và hiển thị hay không
+			if (noteEditableElement.isDisplayed()) {
+				LogUtils.info("Note not found");
 				return false;
 			}
 		} catch (Exception e) {
@@ -561,19 +576,22 @@ public class CreateDataPage extends Init {
 		return true;
 	}
 
-	public boolean checkNoteNotFound() {
+	public boolean isPageReady() {
 		try {
-			// Kiểm tra xem element có hiện diện và hiển thị hay không
-			if (noteEditableElement.isDisplayed()) {
-				LogUtils.info("not not found");
-				return false;
+			// Kiểm tra xem trashBTN có hiện diện và hiển thị hay không
+			if (trashBTN.isDisplayed()) {
+				LogUtils.info("Trash button is displayed. Page is ready.");
+				return true;
+			} else {
+				LogUtils.info("Trash button is not displayed.");
 			}
-		} catch (Exception e) {
-			// Nếu không tìm thấy element, nghĩa là trang không bị lỗi 404
-			LogUtils.info("Page is valid");
+		} catch (NoSuchElementException e) {
+			// Nếu không tìm thấy element, nghĩa là trang có thể bị lỗi 404
+			LogUtils.info("Trash button not found. Page may be invalid.");
 		}
-		return true;
+		return false;
 	}
+
 
 	public String DownloadImage() {
 		try {
@@ -664,16 +682,13 @@ public class CreateDataPage extends Init {
 				clickSaveBTN();
 				sleep(2);
 				clickSaveBTN();
-				recordFile(driver.getCurrentUrl(), "ID");
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(url, "URL");
 
-
-				recordFile(driver.getCurrentUrl(), "ID");
-				recordFile(url, "URL");
-				LogUtils.infoCustom(driver.getCurrentUrl());
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.infoCustom(url);
 				excelHelper.setCellData("Passed", "RESULT", i);
-
+				sleep(2);
 			}
 		}
 	}
@@ -701,12 +716,11 @@ public class CreateDataPage extends Init {
 			int rowIndex = excelHelper.findCellIndex("NAME", data.get("NAME"));
 			System.out.println("rowIndex: " + rowIndex);
 			excelHelper.setCellData("Passed", "RESULT", rowIndex);
-//			sleep(5);
-			System.out.println("Done");
+			sleep(2);
 		}
 	}
 
-	public void createSamplesArticles(String fileName, String sheetName, String sheetNameDetail) throws Exception {
+	public void createSamplesArticlesWPH(String fileName, String sheetName, String sheetNameDetail) {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
@@ -743,13 +757,60 @@ public class CreateDataPage extends Init {
 				clickSaveBTN();
 				sleep(2);
 				clickPublish();
-				LogUtils.info(driver.getCurrentUrl());
+				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.info(URL);
-				recordFile(driver.getCurrentUrl(), "ID");
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(URL, "URL");
 				setEditIntroData(EDIT_INTRO);
 				setEditOfferData(EDIT_OFFER);
 				excelHelper.setCellData("Passed", "RESULT", i);
+				sleep(2);
+			}
+		}
+	}
+
+	public void createSamplesArticlesIBW(String fileName, String sheetName, String sheetNameDetail) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String NAME = excelHelper.getCellData("NAME", i);
+				String URL = excelHelper.getCellData("URL", i);
+				String META_TITLE = excelHelper.getCellData("META_TITLE", i);
+				String META_DESCRIPTION = excelHelper.getCellData("META_DESCRIPTION", i);
+				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
+				String TITLE = excelHelper.getCellData("TITLE", i);
+				String ESSAY_NOTE = excelHelper.getCellData("ESSAY_NOTE", i);
+				String ESSAY_ACTION = excelHelper.getCellData("ESSAY_ACTION", i);
+				String EDIT_INTRO = excelHelper.getCellData("EDIT_INTRO", i);
+
+				createArticles();
+				selectArticle("samples");
+				setNameTB(NAME);
+				setUrlTB(URL);
+				setMetaTitleSec(META_TITLE);
+				setMetaDesTB(META_DESCRIPTION);
+				setAnchorTB(ANCHOR);
+				setTitleTB(TITLE);
+				setEssayNoteTB(ESSAY_NOTE);
+				setEssayActTB(ESSAY_ACTION);
+
+				ExcelHelper excelHelper2 = new ExcelHelper();
+				excelHelper2.setExcelFile(fileName, sheetNameDetail);
+				setSampleDRL(fileName, sheetNameDetail);
+
+				clickSaveBTN();
+				sleep(2);
+				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
+				LogUtils.info(URL);
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				recordFile(URL, "URL");
+
+				setEditIntroData(EDIT_INTRO);
+				clickPublish();
+				excelHelper.setCellData("Passed", "RESULT", i);
+				sleep(2);
 			}
 		}
 	}
@@ -780,16 +841,17 @@ public class CreateDataPage extends Init {
 				clickSaveBTN();
 				sleep(2);
 				clickSaveBTN();
-				excelHelper.setCellData(driver.getCurrentUrl(), "URL",i);
-				recordFile(driver.getCurrentUrl(), "ID");
-				LogUtils.infoCustom(driver.getCurrentUrl());
+				excelHelper.setCellData(DriverManager.getDriver().getCurrentUrl(), "URL", i);
 				excelHelper.setCellData("Passed", "RESULT", i);
-				sleep(1);
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+				excelHelper.setCellData("Passed", "RESULT", i);
+				sleep(2);
 			}
 		}
 	}
 
-	public void createWriterReview(String fileName,String sheetName){
+	public void createWriterReview(String fileName, String sheetName) throws IOException {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
@@ -814,20 +876,22 @@ public class CreateDataPage extends Init {
 				setAchievementTB(ACHIEVEMENT);
 				setDisciplinesTB(DISCIPLINES);
 
-				sleep(5);
-				clickSaveBTN();
 				sleep(2);
 				clickSaveBTN();
-				excelHelper.setCellData(driver.getCurrentUrl(), "URL",i);
+				excelHelper.setCellData(DriverManager.getDriver().getCurrentUrl(), "URL", i);
 				excelHelper.setCellData("Passed", "RESULT", i);
-				recordFile(driver.getCurrentUrl(), "ID");
-				LogUtils.infoCustom(driver.getCurrentUrl());
-				sleep(1);
+				wb.close();
+				sleep(2);
+				clickSaveBTN();
+
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+				sleep(2);
 			}
 		}
 	}
 
-	public void createConstants(String fileName,String sheetName){
+	public void createConstants(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
@@ -840,14 +904,14 @@ public class CreateDataPage extends Init {
 				setNameTB(NAME);
 				setValueTB(VALUE);
 
-				sleep(1);
-				clickSaveBTN();
 				sleep(2);
 				clickSaveBTN();
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				excelHelper.setCellData("Passed", "RESULT", i);
-				recordFile(driver.getCurrentUrl(), "ID");
-				LogUtils.infoCustom(driver.getCurrentUrl());
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 				sleep(1);
+
 			}
 		}
 	}
@@ -855,34 +919,92 @@ public class CreateDataPage extends Init {
 	public void deleteArticles(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "ID");
+
 		// Kiểm tra độ dài của hai mảng
 		for (int i = 1; i <= lastRow; i++) {
-			String id = excelHelper.getCellData("id", i);
-			String url = excelHelper.getCellData("url", i);
-			driver.get(id);
+			if (checkResult(fileName, sheetName, i)) {
+				String id = excelHelper.getCellData("ID", i);
+				String url = excelHelper.getCellData("URL", i);
+				DriverManager.getDriver().get(id);
+				if (isPageReady()) {
+					boolean urlTBFetched = false;
+					String urlTBValue = null;
 
-			try {
-				if (pageNotFoundTXT.isDisplayed()) {
-					LogUtils.info(url + " " + id);
-					LogUtils.info("Page not exit");
-				}
-			} catch (NoSuchElementException e) {
-				if (Objects.equals(url, urlTB.getAttribute("value"))) {
-					LogUtils.info(url + " " + id);
-					clickTrashBTN();
-					LogUtils.info("Deleted");
-				} else {
-					LogUtils.info(url + " " + id);
-					LogUtils.info("Not delete");
+					try {
+						// Sử dụng WebDriverWait để chờ element 'urlTB' nếu nó tồn tại
+						WebElement urlTBElement = wait.until(ExpectedConditions.visibilityOf(urlTB));
+						urlTBValue = urlTBElement.getAttribute("value");
+						urlTBFetched = true; // Đánh dấu rằng đã lấy được giá trị của urlTB
+					} catch (NoSuchElementException | TimeoutException e) {
+						LogUtils.warn("urlTB element not found, proceeding with null url");
+					}
+
+					// Kiểm tra điều kiện dựa trên giá trị của url hoặc nếu không tìm thấy urlTB
+					if (Objects.equals(url, urlTBValue) || !urlTBFetched) {
+						LogUtils.info(url + " " + id);
+						clickTrashBTN();
+						LogUtils.info("Deleted");
+						excelHelper.setCellData("Passed", "RESULT", i);
+						LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+						sleep(1);
+					} else {
+						LogUtils.info(url + " " + id);
+						LogUtils.info("Not delete");
+					}
 				}
 			}
 		}
 	}
 
+
+//			if(isPageReady()){
+//				System.out.println("vao` day");
+//
+//				boolean urlTBFetched = false;
+//				String urlTBValue = null;
+//
+//				try {
+//					// Sử dụng WebDriverWait để chờ element 'urlTB' nếu nó tồn tại
+//					WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+//					WebElement urlTBElement = wait.until(ExpectedConditions.visibilityOf(urlTB));
+//					urlTBValue = urlTBElement.getAttribute("value");
+//					urlTBFetched = true; // Đánh dấu rằng đã lấy được giá trị của urlTB
+//				} catch (NoSuchElementException e) {
+//					LogUtils.warn("urlTB element not found, proceeding with null url");
+//				}
+//
+//				if (Objects.equals(url, urlTB.getAttribute("value")) || Objects.isNull(url)) {
+//					LogUtils.info(url + " " + id);
+//					clickTrashBTN();
+//					LogUtils.info("Deleted");
+//				} else {
+//					LogUtils.info(url + " " + id);
+//					LogUtils.info("Not delete");
+//				}
+//			}
+//
+//			try {
+//				if (isPageReady()) {
+//					LogUtils.info(url + " " + id);
+//					LogUtils.info("Page not exit");
+//				}
+//			} catch (NoSuchElementException e) {
+//				System.out.println("vao day");
+//				if (Objects.equals(url, urlTB.getAttribute("value"))) {
+//					LogUtils.info(url + " " + id);
+//					clickTrashBTN();
+//					LogUtils.info("Deleted");
+//				} else {
+//					LogUtils.info(url + " " + id);
+//					LogUtils.info("Not delete");
+//				}
+//			}
+
+
 	// get and extract data
 
 	public void getDataSampleDetail(String fileName, String sheetName) {
-		driver.get("https://yeti-cms.dev/yeti/main/samples/edit/173");
+		DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/samples/edit/173");
 		System.out.println(getNameTB());
 		excelHelper.setExcelFile(fileName, sheetName);
 		excelHelper.setCellData(getNameTB(), "NAME", 1);
@@ -894,7 +1016,7 @@ public class CreateDataPage extends Init {
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i) && checkPageNotFound()) {
 
-				driver.get(excelHelper.getCellData("URL", i));
+				DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
 				excelHelper.setExcelFile(fileName, sheetName);
 				excelHelper.setCellData(getNameTB(), "NAME", i);
 				excelHelper.setCellData(DownloadImage(), "FILE_NAME", i);
@@ -905,7 +1027,7 @@ public class CreateDataPage extends Init {
 				excelHelper.setCellData(getAchiTB(), "ACHIEVEMENT", i);
 				excelHelper.setCellData(getDisciplines(), "DISCIPLINES", i);
 
-				LogUtils.infoCustom(driver.getCurrentUrl());
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 
 			}
 		}
@@ -916,7 +1038,7 @@ public class CreateDataPage extends Init {
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "URL");
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i) && checkPageNotFound()) {
-				driver.get(excelHelper.getCellData("URL", i));
+				DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
 				excelHelper.setExcelFile(fileName, sheetName);
 
 				excelHelper.setCellData(getNameTB(), "NAME", i);
@@ -927,14 +1049,14 @@ public class CreateDataPage extends Init {
 				excelHelper.setCellData(getTypeOfPaperTB(), "TYPE_OF_PAPER", i);
 				excelHelper.setCellData(getIsFeaturable(), "IS_FEATURABLE", i);
 
-				LogUtils.infoCustom(driver.getCurrentUrl());
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 
 			}
 		}
 	}
 
 	//Testing
-	public void checkContentNoteEdit(String content, String serviceUrl,String type) throws IOException {
+	public void checkContentNoteEdit(String content, String serviceUrl, String type) throws IOException {
 
 		// Sử dụng Jsoup để phân tích nội dung HTML
 		Document doc = Jsoup.parse(content);
@@ -1033,16 +1155,17 @@ public class CreateDataPage extends Init {
 		workbook.close();
 
 	}
+
 	public void extractDataIntro(String serviceUrl) throws IOException {
 		// Lấy nội dung HTML của element
 		clickEditIntroBTN();
-		if (!noteEditableElement.isDisplayed()){
+		if (!noteEditableElement.isDisplayed()) {
 			return;
 		}
 		String content = noteEditableElement.getAttribute("innerHTML");
 
 		// Lấy tất cả các thẻ từ trong div
-		checkContentNoteEdit(content,serviceUrl,"Edit intro");
+		checkContentNoteEdit(content, serviceUrl, "Edit intro");
 
 		LogUtils.info("Data has been written to Excel file: " + fileName);
 	}
@@ -1050,7 +1173,7 @@ public class CreateDataPage extends Init {
 	public void extractDataContent(String serviceUrl) throws IOException {
 		// Lấy nội dung HTML của element
 		clickEditContentBTN();
-		if (checkNoteNotFound()){
+		if (isNoteNotFound()) {
 			return;
 		}
 		String content = noteEditableElement.getAttribute("innerHTML");
@@ -1137,7 +1260,7 @@ public class CreateDataPage extends Init {
 	public void extractDataFAQBanner(String serviceUrl) throws IOException {
 		// Lấy nội dung HTML của element
 		clickEditFAQBannerBTN();
-		if (checkNoteNotFound()){
+		if (isNoteNotFound()) {
 			return;
 		}
 		String content = noteEditableElement.getAttribute("innerHTML");
@@ -1224,7 +1347,7 @@ public class CreateDataPage extends Init {
 	public void extractDataFAQ(String serviceUrl) throws IOException {
 		// Lấy nội dung HTML của element
 		clickEditFAQBTN();
-		if (checkNoteNotFound()){
+		if (isNoteNotFound()) {
 			return;
 		}
 		String content = noteEditableElement.getAttribute("innerHTML");
@@ -1311,7 +1434,7 @@ public class CreateDataPage extends Init {
 	public void extractDataOffer(String serviceUrl) throws IOException {
 		// Lấy nội dung HTML của element
 		clickEditOfferBTN();
-		if (checkNoteNotFound()){
+		if (isNoteNotFound()) {
 			return;
 		}
 		String content = noteEditableElement.getAttribute("innerHTML");
@@ -1419,7 +1542,7 @@ public class CreateDataPage extends Init {
 
 		// Duyệt qua danh sách URL
 		for (String url : serviceUrls) {
-			driver.get(url);  // Mở trang dịch vụ
+			DriverManager.getDriver().get(url);  // Mở trang dịch vụ
 
 			// Lấy dữ liệu từ các phần tử noteEditableElement
 //			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 1", noteEditableElement1, rowNum);
@@ -1507,7 +1630,7 @@ public class CreateDataPage extends Init {
 			if (checkResult(fileName, urlExcelSheet, i) && checkPageNotFound()) {
 
 				String currentUrl = excelHelper.getCellData("URL", i);
-				driver.get(currentUrl);
+				DriverManager.getDriver().get(currentUrl);
 				excelHelper.setExcelFile(fileName, dataServicePage);
 				extractDataIntro(currentUrl);
 				extractDataContent(currentUrl);
@@ -1515,7 +1638,7 @@ public class CreateDataPage extends Init {
 				extractDataFAQ(currentUrl);
 				extractDataOffer(currentUrl);
 
-				LogUtils.infoCustom(driver.getCurrentUrl());
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 
 			}
 		}
@@ -1533,7 +1656,7 @@ public class CreateDataPage extends Init {
 			if (checkResult(fileName, urlExcelSheet, i) && checkPageNotFound()) {
 
 				String currentUrl = excelHelper.getCellData("URL", i);
-				driver.get(currentUrl);
+				DriverManager.getDriver().get(currentUrl);
 				excelHelper.setExcelFile(fileName, dataServicePage);
 				extractDataIntro(currentUrl);
 				extractDataContent(currentUrl);
@@ -1541,7 +1664,7 @@ public class CreateDataPage extends Init {
 				extractDataFAQ(currentUrl);
 				extractDataOffer(currentUrl);
 
-				LogUtils.infoCustom(driver.getCurrentUrl());
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 
 			}
 		}

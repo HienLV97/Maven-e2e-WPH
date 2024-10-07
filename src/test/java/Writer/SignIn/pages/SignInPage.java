@@ -1,8 +1,8 @@
 package Writer.SignIn.pages;
 
-import Keywords.WebUI;
-import Support.Initialization.Init;
-import Support.Writer.Routers;
+import AcaWriting.Keywords.WebUI;
+import AcaWriting.Support.Initialization.Init;
+import AcaWriting.Support.Writer.Routers;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

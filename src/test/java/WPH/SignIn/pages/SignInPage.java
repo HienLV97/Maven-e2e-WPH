@@ -1,20 +1,15 @@
 package WPH.SignIn.pages;
 
-import Keywords.WebUI;
-import Support.Initialization.Init;
-import Support.WPH.Routers;
-import org.openqa.selenium.By;
+import AcaWriting.Keywords.WebUI;
+import AcaWriting.Support.Initialization.Init;
+import AcaWriting.Support.WPH.Routers;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 
 public class SignInPage extends Init {

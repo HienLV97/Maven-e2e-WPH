@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.*;
 import java.util.*;
 
+import logs.LogUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -116,7 +117,15 @@ public class ExcelHelper {
 	}
 
 	public static int getLastRowWithData(String filePath, String sheetName, String columnName) {
-		try (FileInputStream file = new FileInputStream(new File(filePath));
+		File excelFile = new File(filePath);
+
+		// Kiểm tra tệp rỗng
+		if (excelFile.length() == 0) {
+			LogUtils.info("Tệp rỗng: " + filePath);
+			return -1;
+		}
+
+		try (FileInputStream file = new FileInputStream(excelFile);
 			 Workbook workbook = WorkbookFactory.create(file)) {
 
 			// Lấy sheet theo tên
@@ -130,10 +139,11 @@ public class ExcelHelper {
 			return getLastRowWithData(sheet, columnName);
 
 		} catch (IOException e) {
-			System.err.println("Đã xảy ra lỗi khi xử lý file: " + e.getMessage());
+			LogUtils.info("Đã xảy ra lỗi khi xử lý file: " + e.getMessage());
 			return -1;
 		}
 	}
+
 
 	public static int getLastRowWithData(Sheet sheet, String columnName) {
 		int lastRowWithData = -1;

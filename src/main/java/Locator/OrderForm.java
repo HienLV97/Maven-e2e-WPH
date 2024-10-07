@@ -1,6 +1,6 @@
 package Locator;
 
-import Support.Initialization.Init;
+//import AcaWriting.Support.Initialization.Init;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -8,16 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.Assert;
-import org.testng.annotations.*;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.util.List;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.time.Duration;
 import java.time.Duration;
 
 public class OrderForm  {

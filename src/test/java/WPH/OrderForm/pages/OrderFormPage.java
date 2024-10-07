@@ -2,9 +2,9 @@ package WPH.OrderForm.pages;
 
 
 import API.GetAPI.CoreAPI.OrderForm.OrderForm;
-import Keywords.WebUI;
-import Support.Initialization.Init;
-import Support.WPH.Routers;
+import AcaWriting.Keywords.WebUI;
+import AcaWriting.Support.Initialization.Init;
+import AcaWriting.Support.WPH.Routers;
 import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
 import org.openqa.selenium.By;
@@ -31,6 +31,11 @@ public class OrderFormPage extends Init {
 	public String discipline;
 	public String paperFormat;
 	DetailsPage detailsPage;
+
+	public OrderFormPage(WebDriver driver) {
+		super();
+	}
+
 	public void Step1Data(String orderType, String document, int acalevelNumb, String discipline, String paperFormat, List<String> academicLevels) {
 		this.orderType = orderType;
 		this.document = document;
@@ -86,13 +91,6 @@ public class OrderFormPage extends Init {
 		this.payment = payment;
 	}
 
-
-	public OrderFormPage(WebDriver driver) {
-		this.driver = driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-		new WebUI(driver); //Bắt buộc
-		PageFactory.initElements(driver, this);
-	}
 
 	//	JavascriptExecutor js;
 	JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -181,7 +179,7 @@ public class OrderFormPage extends Init {
 	public void clickAcaLevel(Integer value) {
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + academicLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
-		new WebUI(driver);
+//		new WebUI(driver);
 		WebUI.scrollToElement(option);
 		driver.findElement(option).click();
 	}

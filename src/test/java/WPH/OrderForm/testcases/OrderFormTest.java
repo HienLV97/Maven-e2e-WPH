@@ -1,13 +1,13 @@
 package WPH.OrderForm.testcases;
 
-import API.GetAPI.DashboardGraphQL.Auth;
 import API.GetAPI.NextProxy.Citation.Citation;
 import API.GetAPI.NextProxy.SignIn.SignIn;
+import AcaWriting.Support.Writer.Routers;
+import AcaWriting.drivers.DriverManager;
 import Calculator.Calculator;
-import Keywords.WebUI;
+import AcaWriting.Keywords.WebUI;
 import helpers.Constants;
-import Support.Initialization.Init;
-import Support.WPH.Routers;
+import AcaWriting.Support.Initialization.Init;
 import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.OrderForm.pages.OrderFormPage;
 import WPH.SignIn.pages.SignInPage;
@@ -89,17 +89,17 @@ public class OrderFormTest extends Init {
 
 	@Test(groups = {"1"})
 	public void checkoutSuccess() throws IOException, AWTException {
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
-		SignInPage signInPage = new SignInPage(driver);
-		DetailsPage detailsPage = new DetailsPage(driver);
+		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
+		CreditCardPage creditCardPage = new CreditCardPage(DriverManager.getDriver());
+		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
+		DetailsPage detailsPage = new DetailsPage(DriverManager.getDriver());
 
 		authenticate("WPH");
 		signInPage.Login(Constants.EMAIL, Constants.COMMON_PASSWORD);
 		screenShot("TestScreen3");
 
-		driver.get(Routers.ORDER);
-		waitForNavigatePage(Routers.ORDER);
+		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
+		waitForNavigatePage(AcaWriting.Support.WPH.Routers.ORDER);
 
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
 		orderForm.Step2Data("test", "test");
@@ -131,9 +131,9 @@ public class OrderFormTest extends Init {
 	@Test()
 	public void testVerifyPrice() throws IOException, AWTException {
 
-		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
+		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
+		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
+		CreditCardPage creditCardPage = new CreditCardPage(DriverManager.getDriver());
 
 
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
@@ -152,7 +152,7 @@ public class OrderFormTest extends Init {
 		calculator.balance(tokenValue);
 
 		sleep(5);
-		driver.get(Routers.ORDER);
+		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
 
 
 		orderForm.setStep1();
@@ -205,10 +205,10 @@ public class OrderFormTest extends Init {
 //	@Test(enabled = true, priority = 2)
 //	public void test() throws IOException, AWTException {
 //
-//		SignInPage signInPage = new SignInPage(driver);
-//		OrderFormPage orderForm = new OrderFormPage(driver);
-//		CreditCardPage creditCardPage = new CreditCardPage(driver);
-//		DetailsPage detailsPage = new DetailsPage(driver);
+//		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
+//		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
+//		CreditCardPage creditCardPage = new CreditCardPage(DriverManager.getDriver());
+//		DetailsPage detailsPage = new DetailsPage(DriverManager.getDriver());
 //		//set value step1
 //		String orderType = "writing";
 //		String document = "Admission Essay";
@@ -276,7 +276,7 @@ public class OrderFormTest extends Init {
 ////	);
 //
 //
-//		driver.get("https://writersperhour.dev/order/" + orderID + "/details");
+//		DriverManager.getDriver().get("https://writersperhour.dev/order/" + orderID + "/details");
 //		detailsPage.verifyh1(orderID, "writing");
 //		detailsPage.verifyWPrice(detailsPage.writerPrice, writerPriceTxt);
 //		detailsPage.verifyWPrice(detailsPage.preWriterPrice, preWriterTxt);
@@ -287,13 +287,13 @@ public class OrderFormTest extends Init {
 //
 //
 //		//Check Dashboard
-//		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(driver);
-//		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(driver);
+//		DashBoard.SignIn.pages.SignInPage signInPageDB = new DashBoard.SignIn.pages.SignInPage(DriverManager.getDriver());
+//		DashBoard.OrderDetail.pages.OrderDetailPage orderDetailDB = new OrderDetailPage(DriverManager.getDriver());
 //		authenticate("DashBoard");
 //		signInPageDB.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 //		sleep(5);
 //		sleep(60);
-//		driver.get(Support.DashBoard.Routers.ORDERS_DETAILS + orderID);
+//		DriverManager.getDriver().get(Support.DashBoard.Routers.ORDERS_DETAILS + orderID);
 //		//DETAIL
 //		orderDetailDB.verifyTopic(title);
 //		orderDetailDB.verifyDis(discipline);
@@ -331,7 +331,7 @@ public class OrderFormTest extends Init {
 //		orderDetailDB.clickSaveBTN();
 //		sleep(20);
 //		//WRITER SITE
-////		Writer.SignIn.pages.SignInPage writerSignIn = new Writer.SignIn.pages.SignInPage(driver);
+////		Writer.SignIn.pages.SignInPage writerSignIn = new Writer.SignIn.pages.SignInPage(DriverManager.getDriver());
 ////		Authenticate("Writer");
 ////		writerSignIn.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
 //
@@ -339,7 +339,7 @@ public class OrderFormTest extends Init {
 
 	@Test(description = "Create multi orders")
 	public void simpletest() throws IOException, AWTException {
-		SignInPage signInPage = new SignInPage(driver);
+		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
 		Calculator calculator = new Calculator();
 
 		authenticate("WPH");
@@ -347,7 +347,7 @@ public class OrderFormTest extends Init {
 
 		sleep(5);
 		for (int i = 1; i < 20; i++) {
-			driver.get(Routers.ORDER);
+			DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
 			createOneOrder();
 
 			sleep(3);
@@ -360,13 +360,13 @@ public class OrderFormTest extends Init {
 
 	@Test(description = "Create 1 order")
 	public void createOneOrder()  {
-		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
+		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
+		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
 		Calculator calculator = new Calculator();
 
 		String tokenValue = SignIn.getToken(Constants.EMAIL, Constants.COMMON_PASSWORD);
 		authenticate("WPH");
-		driver.get(Routers.ORDER);
+		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
 		signInPage.signInWithToken("token", tokenValue);
 		calculator.balance(tokenValue);
 
@@ -379,7 +379,7 @@ public class OrderFormTest extends Init {
 
 
 		sleep(5);
-		driver.get(Routers.ORDER);
+		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
 
 
 		orderForm.setStep1();
@@ -411,8 +411,8 @@ public class OrderFormTest extends Init {
 
 	@Test(priority = 3, description = "Writer site")
 	public void testWriterSite() {
-		Writer.SignIn.pages.SignInPage signInWriter = new Writer.SignIn.pages.SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
+		Writer.SignIn.pages.SignInPage signInWriter = new Writer.SignIn.pages.SignInPage(DriverManager.getDriver());
+		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
 
 		//set value step1
 		String orderType = "writing";
@@ -441,13 +441,13 @@ public class OrderFormTest extends Init {
 		Calculator calculator = new Calculator();
 
 		Writer.OrderDetail.pages.OrderDetailPage orderDetailWriter = new Writer.OrderDetail.pages.OrderDetailPage(
-				driver, orderType, acalevelTXT, document, discipline, paperFormat,
+				DriverManager.getDriver(), orderType, acalevelTXT, document, discipline, paperFormat,
 				title, instruction, urgentTXT, source, pages, slides, spacing);
 
 		authenticate("Writer");
 		WebUI.waitForPageLoaded();
 		signInWriter.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
-		waitForNavigatePage(Support.Writer.Routers.BaseURL);
+		waitForNavigatePage(Routers.BaseURL);
 		String ID_ORDER = order_ID;
 		String PRE_ORDER = "91172";
 		sleep(5);
@@ -465,9 +465,9 @@ public class OrderFormTest extends Init {
 
 	@Test(description = "simple Test",groups = {"2"})
 	public void simpleTest() {
-		SignInPage signInPage = new SignInPage(driver);
-		OrderFormPage orderForm = new OrderFormPage(driver);
-		CreditCardPage creditCardPage = new CreditCardPage(driver);
+		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
+		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
+		CreditCardPage creditCardPage = new CreditCardPage(DriverManager.getDriver());
 		authenticate("WPH");
 		signInPage.Login("t1@g.c","123123");
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);

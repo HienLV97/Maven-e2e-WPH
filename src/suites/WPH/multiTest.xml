@@ -1,16 +1,17 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Suite" verbose="1" >
     <test name="group 1" parallel="methods">
-        <parameter name="browser" value="edge"/>
+        <parameter name="browser" value="chrome"/>
         <classes>
 <!--            <class name="WPH.OrderForm.testcases.OrderFormTest">-->
-            <class name="SampleTest.MultiTest.ParallelTest">
-<!--                <methods>-->
-<!--                    <include name="navigatePage1"/>-->
-<!--&lt;!&ndash;                    <include name="navigatePage2"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <include name="navigatePage3"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <include name="navigatePage4"/>&ndash;&gt;-->
-<!--                </methods>-->
+<!--            <class name="SampleTest.MultiTest.ParallelTest">-->
+            <class name="SampleTest.MultiTest.MultiTest">
+                <methods>
+                    <include name="navigatePage1"/>
+                    <include name="navigatePage2"/>
+                    <include name="navigatePage3"/>
+                    <include name="navigatePage4"/>
+                </methods>
             </class>
         </classes>
     </test>

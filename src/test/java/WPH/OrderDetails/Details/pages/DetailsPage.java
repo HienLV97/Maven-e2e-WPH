@@ -1,7 +1,7 @@
 package WPH.OrderDetails.Details.pages;
 
 import Calculator.Calculator;
-import Keywords.WebUI;
+import AcaWriting.Keywords.WebUI;
 import WPH.OrderForm.pages.OrderFormPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +11,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
-import static Support.Initialization.Init.formatPrice;
+import static AcaWriting.Support.Initialization.Init.formatPrice;
 
 public class DetailsPage {
 	private String type;
@@ -27,6 +27,10 @@ public class DetailsPage {
 
 	private WebDriver driver;
 	private WebDriverWait wait;
+
+	public DetailsPage(WebDriver driver) {
+	}
+
 	public void setValuesFromOrderForm(OrderFormPage orderFormPage) {
 		this.type = orderFormPage.orderType;
 		this.urgent = orderFormPage.urgentTXT;
@@ -39,11 +43,7 @@ public class DetailsPage {
 		this.disCode = orderFormPage.disCode;
 		this.writerLvl = orderFormPage.writerLvlTxt;
 	}
-	public DetailsPage(WebDriver driver){
-		this.driver = driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-		new WebUI(driver); //Bắt buộc
-	}
+
 	public By h1Element= By.xpath("//div[@class='order-id']");
 	public By writerPrice = By.xpath("//*[normalize-space()='Writer Category']//following-sibling::*");
 	public By preWriterPrice = By.xpath("//*[normalize-space()='Previous Writer']//following-sibling::*");

@@ -1,29 +1,50 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Suite All" verbose="1">
-
-    <test name="Regression Test All1">
+    <test name="CMS WPH" enabled="false" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
+
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
-                    <!--                    <include name="sampleDetailIB"/>-->
-                    <!--                    <include name="sampleDetail"/>-->
-                    <!--                    <include name="sampleCreateArticle"/>-->
-                    <!--                                        <include name="getDataWriterReview"/>-->
-                    <!--                                        <include name="getDataCustomerReview"/>-->
-                    <!--                    <include name="getDataService"/>-->
-                    <!--                                            <include name="deleteArticles"/>-->
-                    <!--                 IBW -->
-<!--                    <include name="ibSampleDetailIBW"/>-->
-                    <include name="createSampleArticleIBW"/>
-<!--                    <include name="createCustomerReviewIBW"/>-->
-<!--                    <include name="createWriterReviewIBW"/>-->
-<!--                    <include name="createConstantsIBW"/>-->
-
+                    <include name="sampleDetail"/>
+                    <include name="sampleCreateArticle"/>
+                    <include name="getDataWriterReview"/>
+                    <include name="getDataCustomerReview"/>
+                    <include name="getDataService"/>
+                    <include name="deleteArticles"/>
                 </methods>
             </class>
         </classes>
     </test>
+    <test name="CMS IBW" parallel="methods">
+        <parameter name="browser" value="edge"/>
+        <parameter name="sleepTime" value="10"/>
+        <classes >
+            <class name="CMS.CreateData.testcases.CreateDataTest" >
+                <methods>
+<!--                    <include name="deleteArticlesIBW"/>-->
+                    <include name="createCustomerReviewIBW" />
+                    <include name="createWriterReviewIBW"/>
+                    <include name="createConstantsIBW"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="CMS create article"  enabled="false" parallel="classes">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="sleepTime" value="10"/>
+        <classes>
+            <class name="CMS.CreateData.testcases.CreateDataTest">
+                <methods>
+                    <include name="ibSampleDetailIBW"/>
+                    <include name="createSampleArticleIBW"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
 </suite>
