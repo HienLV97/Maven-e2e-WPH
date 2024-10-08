@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.Properties;
 
 import AcaWriting.Support.WPH.Routers;
+import logs.LogUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -23,136 +24,42 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.util.Objects;
+
 import AcaWriting.drivers.DriverManager;
 
 
-
 public class Init {
-//	public WebDriver driver;
-//	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	public WebDriver driver;
+	//	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	private String screenName;
 
 	public void authenticate(String env) {
-		WebDriver driver;
-//		switch (env.trim().toLowerCase()){
-//			case "wph":
-//				driver.get(Routers.AuthURL);
-//			case "dashboard":
-//				driver.get(Support.DashBoard.Routers.AuthURL);
-//			case "writer":
-//				driver.get(Support.Writer.Routers.AuthURL);
-//			case "cms":
-//				driver.get(Support.CMS.Routers.AuthURL);
+		switch (env.trim().toLowerCase()) {
+			case "wph":
+				DriverManager.getDriver().get(Routers.AuthURL);
+			case "dashboard":
+				DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
+			case "writer":
+				DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
+			case "cms":
+				DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
+		}
+//		if (env.trim().equals("WPH")) {
+//			DriverManager.getDriver().get(Routers.AuthURL);
 //		}
-		if (env.trim().equals("WPH")) {
-			DriverManager.getDriver().get(Routers.AuthURL);
-		}
-		if (env.trim().equals("DashBoard")) {
-			DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
-		}
-		if (env.trim().equals("Writer")) {
-			DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
-		}
-		if (env.trim().equals("CMS")) {
-			DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
-		}
+//		if (env.trim().equals("DashBoard")) {
+//			DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
+//		}
+//		if (env.trim().equals("Writer")) {
+//			DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
+//		}
+//		if (env.trim().equals("CMS")) {
+//			DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
+//		}
 	}
 
-//	@BeforeMethod
-//	@Parameters({"browser"})
-////	public void createDriver(@Optional("chrome") String browserName) {
-//////		WebDriver driver = setupDriver(browserName);
-////		WebDriver driver = setupDriver("chrome");
-////		DriverManager.setDriver(driver); //Gán giá trị driver vào trong ThreadLocal
-////	}
-////
-////	public WebDriver setupDriver(@Optional("chrome") String browserName) {
-////		WebDriver driver;
-////		switch (browserName.trim().toLowerCase()) {
-////			case "chrome":
-////				System.out.println("Launching Chrome browser...");
-////				driver =  initChromeDriver();
-////				break;
-////			case "firefox":
-////				System.out.println("Launching Firefox browser...");
-////				driver =  initFirefoxDriver();
-////				break;
-////			case "edge":
-////				System.out.println("Launching Edge browser...");
-////				driver = initEdgeDriver();
-////				break;
-////			default:
-////				System.out.println("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
-////				driver =  initChromeDriver();
-////		}
-////
-//////		DriverManager.getDriver().manage().window().maximize();
-////		DriverManager.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
-////
-////		return driver;
-////	}
-////
-////	private WebDriver initChromeDriver() {
-////		WebDriver driver;
-////		System.out.println("Launching Chrome browser...");
-////		 driver = new ChromeDriver();
-////		System.out.println("driver: " + driver);
-////		Properties properties = new Properties();
-//////		try {
-//////			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
-//////			properties.load(configFile);
-//////			screenName = properties.getProperty("ScreenName");
-//////			System.out.println("ScreenName: " + screenName);
-//////		} catch (IOException e) {
-//////			throw new RuntimeException(e);
-//////		}
-//////
-//////		browserPosition(screenName);
-////		return driver;
-////	}
-////
-////	private WebDriver initEdgeDriver() {
-////		WebDriver driver;
-////		System.out.println("Launching Edge browser...");
-////		driver = new EdgeDriver();
-////		Properties properties = new Properties();
-////		try {
-////			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
-////			properties.load(configFile);
-////			screenName = properties.getProperty("ScreenName");
-////		} catch (IOException e) {
-////			throw new RuntimeException(e);
-////		}
-////
-////		browserPosition(screenName);
-////		return driver;
-////	}
-////
-////	private WebDriver initFirefoxDriver() {
-////		WebDriver driver;
-////		System.out.println("Launching Firefox browser...");
-////		driver = new FirefoxDriver();
-////		Properties properties = new Properties();
-////		try {
-////			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
-////			properties.load(configFile);
-////			screenName = properties.getProperty("ScreenName");
-////		} catch (IOException e) {
-////			throw new RuntimeException(e);
-////		}
-////
-////		browserPosition(screenName);
-////		return driver;
-////	}
-////
-//
-//
-//	// a
-//
-//	@BeforeMethod
-//	@Parameters({"browser"})
-@BeforeMethod
-@Parameters({"browser"})
+	@BeforeMethod
+	@Parameters({"browser"})
 	public void createDriver(@Optional("chrome") String browserName) {
 		WebDriver driver = setupDriver(browserName);
 		DriverManager.setDriver(driver);
@@ -181,9 +88,19 @@ public class Init {
 	// Viết các hàm khởi chạy cho từng Browser đó
 	private WebDriver initChromeDriver() {
 		WebDriver driver;
-		System.out.println("Launching Chrome browser...");
+		LogUtils.info("Launching Chrome browser...");
 		driver = new ChromeDriver();
-		driver.manage().window().maximize();
+		Properties properties = new Properties();
+		try {
+			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+			properties.load(configFile);
+			screenName = properties.getProperty("ScreenName");
+			LogUtils.info("ScreenName: " + screenName);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		browserPosition(screenName, driver);
 		return driver;
 	}
 
@@ -191,7 +108,17 @@ public class Init {
 		WebDriver driver;
 		System.out.println("Launching Edge browser...");
 		driver = new EdgeDriver();
-		driver.manage().window().maximize();
+		Properties properties = new Properties();
+		try {
+			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+			properties.load(configFile);
+			screenName = properties.getProperty("ScreenName");
+			LogUtils.info("ScreenName: " + screenName);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		browserPosition(screenName, driver);
 		return driver;
 	}
 
@@ -199,10 +126,19 @@ public class Init {
 		WebDriver driver;
 		System.out.println("Launching Firefox browser...");
 		driver = new FirefoxDriver();
-		driver.manage().window().maximize();
+		Properties properties = new Properties();
+		try {
+			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+			properties.load(configFile);
+			screenName = properties.getProperty("ScreenName");
+			LogUtils.info("ScreenName: " + screenName);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		browserPosition(screenName, driver);
 		return driver;
 	}
-
 
 
 	//a
@@ -329,10 +265,9 @@ public class Init {
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 	}
 
-	public void browserPosition(String value) {
-		WebDriver driver;
+	public void browserPosition(String value, WebDriver driver) {
 		if (value.equals("1")) {
-			DriverManager.getDriver().manage().window().maximize();
+			driver.manage().window().maximize();
 		}
 		if (value.equals("2")) {
 			int screenNumber = -1;
@@ -345,8 +280,8 @@ public class Init {
 			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
 
 			// Di chuyển cửa sổ và thiết lập kích thước
-			DriverManager.getDriver().manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			DriverManager.getDriver().manage().window().setSize(windowSize);
+			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
+			driver.manage().window().setSize(windowSize);
 		}
 		if (value.equals("3")) {
 			int screenWidth = 1920;
@@ -354,8 +289,8 @@ public class Init {
 			int windowX = 0;
 			int windowY = 1440; // Vị trí theo chiều cao không thay đổi
 			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
-			DriverManager.getDriver().manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			DriverManager.getDriver().manage().window().setSize(windowSize);
+			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
+			driver.manage().window().setSize(windowSize);
 		}
 		if (value.equals("MidRight")) {
 			int screenWidth = 1280;
@@ -363,8 +298,8 @@ public class Init {
 			int windowX = 1281;
 			int windowY = 0; // Vị trí theo chiều cao không thay đổi
 			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
-			DriverManager.getDriver().manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			DriverManager.getDriver().manage().window().setSize(windowSize);
+			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
+			driver.manage().window().setSize(windowSize);
 		}
 		if (value.equals("MidRightMac")) {
 			int screenWidth = 1280;
@@ -372,8 +307,8 @@ public class Init {
 			int windowX = 1440 + 1280;
 			int windowY = 0; // Vị trí theo chiều cao không thay đổi
 			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
-			DriverManager.getDriver().manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			DriverManager.getDriver().manage().window().setSize(windowSize);
+			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
+			driver.manage().window().setSize(windowSize);
 		}
 	}
 

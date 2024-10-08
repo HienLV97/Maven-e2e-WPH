@@ -100,55 +100,51 @@ public class CreateDataTest extends Init {
 
 	@Test(description = "test4 for")
 	public void test4() throws Exception {
+		gotoIBW();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "test";
+		createDataPage.simpleTest(fileName, sheetName);
+	}
+
+	@Test
+	public void sampleIBDetail() throws Exception {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "ibDetail";
+		createDataPage.createSampleDetail(fileName, sheetName);
+	}
+
+
+	@Test(description = "Get data writer review")
+	public void getDataWriterReview() {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.getDataWriterReview(fileName, sheetName);
+	}
+
+	@Test(description = "Get data customer review")
+	public void getDataCustomerReview() {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "customerReview";
+		createDataPage.getDataCustomerReview(fileName, sheetName);
+	}
+
+	@Test(description = "Get data services page")
+	public void getDataService() throws IOException {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
 		createDataPage.clickWPHBTN();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "test";
-		createDataPage.createSampleDetail(fileName, sheetName);
+		String urlExcelSheet = "urlServiceSheet";
+		String dataServiceSheet = "dataServicePage";
+		createDataPage.getDataServicePage(fileName, urlExcelSheet, dataServiceSheet);
+
 	}
-//
-//	@Test
-//	public void sampleIBDetail() throws Exception {
-//		gotoWPH();
-//		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-//		String sheetName = "ibDetail";
-//		createDataPage.createSampleDetail(fileName, sheetName);
-//	}
-//
-//
-//	@Test(description = "Get data writer review")
-//	public void getDataWriterReview() {
-//		gotoWPH();
-//		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-//		String sheetName = "writerReview";
-//		createDataPage.getDataWriterReview(fileName, sheetName);
-//	}
-//
-//	@Test(description = "Get data customer review")
-//	public void getDataCustomerReview() {
-//		gotoWPH();
-//		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-//		String sheetName = "customerReview";
-//		createDataPage.getDataCustomerReview(fileName, sheetName);
-//	}
-//
-//	@Test(description = "Get data services page")
-//	public void getDataService() throws IOException {
-//		authenticate("CMS");
-//		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
-//		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-//		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
-//		createDataPage.clickWPHBTN();
-//		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-//		String urlExcelSheet = "urlServiceSheet";
-//		String dataServiceSheet = "dataServicePage";
-//		createDataPage.getDataServicePage(fileName, urlExcelSheet, dataServiceSheet);
-//
-//	}
-//
+
 //	// Create for IB writing
 	@Test(description = "create ib sample detail")
 	public void ibSampleDetailIBW() throws Exception {
@@ -179,7 +175,7 @@ public class CreateDataTest extends Init {
 	}
 
 	@Test(description = "Create writer review")
-	public void createWriterReviewIBW() {
+	public void createWriterReviewIBW() throws IOException {
 //		gotoIBW();
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(DriverManager.getDriver());

@@ -144,6 +144,9 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@type='file']")
 	WebElement uploadFileBTN;
 
+	@FindBy(xpath = "//input[@name='file']/following-sibling::input[1]")
+	WebElement fileNameElement;
+
 	//Header
 	@FindBy(xpath = "//i[@class='fa fa-info fa-fw']")
 	WebElement editIntroBTN;
@@ -196,8 +199,30 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//i[@data-behavior='checkbox']")
 	WebElement isFeaturable;
 
+	// Note editable
 	@FindBy(xpath = "//div[@class='note-editable']")
 	WebElement noteEditableElement;
+
+	@FindBy(xpath = "//button[@aria-expanded='false']")
+	WebElement styleBTN;
+
+	@FindBy(xpath = "(//a[@data-value='h1'])[1]")
+	WebElement styleH1BTN;
+
+	@FindBy(xpath = "(//a[@data-value='h2'])[1]")
+	WebElement styleH2BTN;
+
+	@FindBy(xpath = "(//a[@data-value='h3'])[1]")
+	WebElement styleH3BTN;
+
+	@FindBy(xpath = "(//a[@data-value='h4'])[1]")
+	WebElement styleH4BTN;
+
+	@FindBy(xpath = "(//a[@data-value='h5'])[1]")
+	WebElement styleH5BTN;
+
+	@FindBy(xpath = "(//a[@data-value='h6'])[1]")
+	WebElement styleH6BTN;
 
 	public CreateDataPage(WebDriver driver) {
 //		this.driver = driver;
@@ -377,14 +402,21 @@ public class CreateDataPage extends Init {
 	}
 
 	public void setNoteTB(String value) {
-		clickAddBTN();
-		WebUI.setText(noteTB, value);
-		clickSaveBTN();
-		sleep(2);
+		// Sử dụng JavaScript để lấy nội dung HTML hiện tại
+		JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+		String currentHTML = (String) js.executeScript("return arguments[0].innerHTML;", noteEditableElement);
+
+		// Thêm dữ liệu mới vào cuối nội dung HTML hiện tại
+		String newHTML = currentHTML + value;
+
+		// Sử dụng JavaScript để set lại nội dung với dữ liệu mới
+		js.executeScript("arguments[0].innerHTML = arguments[1]; arguments[0].dispatchEvent(new Event('input'));", noteEditableElement, newHTML);
+		sleep(1);
 	}
 
 	public void setEditIntroData(String value) {
 		clickEditIntroBTN();
+		clickAddBTN();
 		setNoteTB(value);
 		sleep(1);
 		clickSaveBTN();
@@ -439,6 +471,7 @@ public class CreateDataPage extends Init {
 		sleep(2);
 	}
 
+
 	public void clickEditIntroBTN() {
 		WebUI.clickWEBElement(editIntroBTN);
 	}
@@ -463,6 +496,34 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(settingBTN);
 	}
 
+	public void clickH1BTN() {
+		WebUI.clickWEBElement(styleH1BTN);
+	}
+
+	public void clickH2BTN() {
+		WebUI.clickWEBElement(styleH2BTN);
+	}
+
+	public void clickH3BTN() {
+		WebUI.clickWEBElement(styleH3BTN);
+	}
+
+	public void clickH4BTN() {
+		WebUI.clickWEBElement(styleH4BTN);
+	}
+
+	public void clickH5BTN() {
+		WebUI.clickWEBElement(styleH5BTN);
+	}
+
+	public void clickH6BTN() {
+		WebUI.clickWEBElement(styleH6BTN);
+	}
+
+
+	public void clickStyleBTN() {
+		WebUI.clickWEBElement(styleBTN);
+	}
 
 	public void clickTrashBTN() {
 		WebUI.doubleClickElement(trashBTN);
@@ -642,8 +703,27 @@ public class CreateDataPage extends Init {
 		}
 	}
 
+	public void waitForFileNameToHaveValue(String expectedValue, int timeoutInSeconds) {
+		WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeoutInSeconds));
+
+		try {
+			wait.until(driver -> {
+				// Lấy element 'file_name'
+				WebElement fileNameElement = driver.findElement(By.name("file_name"));
+				String value = fileNameElement.getAttribute("value");
+				System.out.println("Current value of file_name: " + value); // In giá trị hiện tại ra console
+				return expectedValue.equals(value) || (value != null && !value.isEmpty()) ? value : null;
+			});
+
+			System.out.println("File name input has the expected value or is not empty: " + expectedValue);
+		} catch (TimeoutException e) {
+			System.err.println("Timeout waiting for the file_name input to have the expected value: " + expectedValue);
+		} catch (Exception e) {
+			System.err.println("Error while waiting for file_name input: " + e.getMessage());
+		}
+	}
 	// create data
-	public void createSampleDetail(String fileName, String sheetName) throws Exception {
+	public void createSampleDetail(String fileName, String sheetName){
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
@@ -662,6 +742,7 @@ public class CreateDataPage extends Init {
 				String pages = excelHelper.getCellData("PAGES", i);
 				String words = excelHelper.getCellData("TOTAL_WORDS", i);
 				String fileNamePDF = excelHelper.getCellData("FILE_NAME", i);
+				String fileNameOnly = excelHelper.getCellData("ONLY_NAME", i);
 
 				addSample();
 				setNameTB(name);
@@ -677,17 +758,19 @@ public class CreateDataPage extends Init {
 				setPagesTB(pages);
 				setWordsTB(words);
 				setUploadPDF(fileNamePDF, paperType);
+				waitForFileNameToHaveValue(fileNameOnly, 240);
 
-				sleep(5);
+//				sleep(240);
 				clickSaveBTN();
 				sleep(2);
 				clickSaveBTN();
+				excelHelper.setCellData("Passed", "RESULT", i);
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(url, "URL");
 
 				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.infoCustom(url);
-				excelHelper.setCellData("Passed", "RESULT", i);
+
 				sleep(2);
 			}
 		}
@@ -802,6 +885,7 @@ public class CreateDataPage extends Init {
 
 				clickSaveBTN();
 				sleep(2);
+				excelHelper.setCellData("Passed", "RESULT", i);
 				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.info(URL);
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
@@ -809,7 +893,7 @@ public class CreateDataPage extends Init {
 
 				setEditIntroData(EDIT_INTRO);
 				clickPublish();
-				excelHelper.setCellData("Passed", "RESULT", i);
+
 				sleep(2);
 			}
 		}
@@ -880,7 +964,6 @@ public class CreateDataPage extends Init {
 				clickSaveBTN();
 				excelHelper.setCellData(DriverManager.getDriver().getCurrentUrl(), "URL", i);
 				excelHelper.setCellData("Passed", "RESULT", i);
-				wb.close();
 				sleep(2);
 				clickSaveBTN();
 
@@ -940,9 +1023,10 @@ public class CreateDataPage extends Init {
 					}
 
 					// Kiểm tra điều kiện dựa trên giá trị của url hoặc nếu không tìm thấy urlTB
-					if (Objects.equals(url, urlTBValue) || !urlTBFetched) {
+					if (Objects.equals(url, urlTBValue) || urlTBFetched) {
 						LogUtils.info(url + " " + id);
 						clickTrashBTN();
+						sleep(3);
 						LogUtils.info("Deleted");
 						excelHelper.setCellData("Passed", "RESULT", i);
 						LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
@@ -1669,5 +1753,15 @@ public class CreateDataPage extends Init {
 			}
 		}
 
+	}
+
+
+	// Simple test
+	public void simpleTest(String fileName, String sheetName) {
+		DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/articles/edit/175");
+		String text = "<h3>Here is how to use our writing service</h3><p>Our ordering process is easy, and you can buy an internal assessment within a few minutes. However, there are some insights we would like to share with you before getting started. As an IB writing service provider with experience working with students from around the world, including Qatar, Turkey, India, the United Kingdom, and other countries, we’ve noticed that some prefer to simply share the rubric, while others pay more attention to details. That’s why we’ve designed a professional online order form to meet the expectations of all our clients.</p><h4>1. Complete the order form</h4><p>The most important step is providing us with the initial information. Be clear, choose the right data, and give us insights and detailed instructions.</p><p><b>Level of writing</b>: For <b>SL</b>, we recommend choosing the '<u>high school</u>' level. For <b>HL</b>, it’s better to select the '<u>IB student</u>' level.</p><p><b>Choose a discipline</b>: There are multiple IB disciplines, ranging from the most complex to less challenging. We can work on most of them, including: Math, SEHS, Physics, Chemistry, Biology, ESS, Business, Computer Science, Economics, Global Politics, History, English, Digital Society, Psychology, World Studies, Design Technology. For the ToK essays, there are areas of knowledge (AoK) and ways of knowledge (WoK) we can work on them all.</p><p><b>Write instructions</b>: The instructions section is designed to establish communication with your IB writer and provide them with a starting point. You can specify whether you want them to write an extended essay from scratch or edit an existing one based on your tutor’s feedback. Share general recommendations, suggest a research topic of interest, and include your own suggestions. You can also share your personal reading list beyond the classroom syllabus to help the writer better connect with your ideas and personality.</p><p><b>Deadline selection</b>: When you want to buy an IB IA, you can choose your preferred deadline when ordering online. Our company offers the flexibility to select a deadline that suits you, ranging from urgent orders starting at 5 hours to longer deadlines up to 30 days.</p><p><b>Citation style</b>: To avoid any plagiarism issues and ensure your IB assessment is properly formatted, you can select the required citation style. Our IB writers are familiar with all major academic formats, including APA, MLA, In-text citation, Footnotes, Harvard, and others.</p><p><b>Number of words</b>: Each type of IB assessment (EE, IA, TOK) has its own set of criteria, so it’s crucial to review the rubrics provided by your teachers and ensure the required word count for each essay. When you want to buy <i>extended essay</i>, be sure to pay for 15 pages, which equals 4,000 words. </p><p>For an <i>internal assessment</i>, the minimum number of pages is 12, as it often requires additional components such as calculations, graphs, and images. Our IB writer will ensure the word count meets the required 2,200 words. </p><p>For the <i>TOK essay</i> writing service, we recommend paying for 6 pages, which is approximately 1,600 words.</p><h4>2. Make your payment</h4><p>The final step of the ordering process is the payment for your IB essay. You can choose the most convenient way to pay on our website. Our company accepts PayPal, all major credit cards, and Apple Pay. You can pay in full or in installments. To ensure a safe and legal IB writing services, we guarantee a full money-back refund in case of dissatisfaction or other issues, in accordance with our policy.</p><h4>3. We match you with an expert IB writer</h4><p>After completing your order and payment for your IB essay, our company will match you with a professional academic writer. This could be an IB alumnus, an IB tutor, or a freelance academic writer familiar with the IB curriculum who has written many high-scoring assessments in the past. We prioritize confidentiality and recommend not sharing your real name, email, WhatsApp, or other personal data. Our company ensures that the assigned writer is an expert in your specific discipline, ready to meet your deadline—even if it’s urgent—and available 24/7 to answer your questions, share drafts, or discuss research topics. We guarantee that your assessment will be written from scratch, entirely plagiarism-free, by an experienced expert.</p><h4>4. Receive final essay</h4><p>Once your assessment is ready, it will be emailed to you directly and available for download in your personal account on our website. If any corrections are needed based on your teacher’s feedback, you can request free revisions an unlimited number of times within 30 days after submission, right from your personal account. Be sure to follow our revision policy, which requires that you do not change the topic if it was initially approved or provide new information that wasn’t requested at the start. This is why filling out the order form carefully and maintaining clear communication with specific instructions is so important.</p></div>";
+		setEditIntroData(text);
+		clickSaveBTN();
+		sleep(5);
 	}
 }
