@@ -3,6 +3,7 @@ package WPH.SignIn.pages;
 import AcaWriting.Keywords.WebUI;
 import AcaWriting.Support.Initialization.Init;
 import AcaWriting.Support.WPH.Routers;
+import AcaWriting.drivers.DriverManager;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,7 +27,7 @@ public class SignInPage extends Init {
 	WebElement inputEmail;
 
 	public SignInPage(WebDriver driver) {
-		this.driver = driver;
+//		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		PageFactory.initElements(driver, this);
 	}
@@ -44,8 +45,7 @@ public class SignInPage extends Init {
 	}
 
 	public void Login(String email, String password) {
-		driver.get(Routers.SIGN_IN);
-		System.out.println("Vào đây 1");
+		DriverManager.getDriver().get(Routers.SIGN_IN);
 		sleep(8);
 		setEmail(email);
 		setPassword(password);
@@ -61,9 +61,9 @@ public class SignInPage extends Init {
 				.build();
 
 		// Thêm cookie vào trình duyệt
-		driver.manage().addCookie(tokenCookie);
+		DriverManager.getDriver().manage().addCookie(tokenCookie);
 
 		// Làm mới trang để cookie có hiệu lực
-		driver.navigate().refresh();
+		DriverManager.getDriver().navigate().refresh();
 	}
 }

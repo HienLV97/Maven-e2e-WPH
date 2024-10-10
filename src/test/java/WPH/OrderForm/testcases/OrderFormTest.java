@@ -12,6 +12,7 @@ import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.OrderForm.pages.OrderFormPage;
 import WPH.SignIn.pages.SignInPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -90,7 +91,6 @@ public class OrderFormTest extends Init {
 	@Test(groups = {"1"})
 	public void checkoutSuccess() throws IOException, AWTException {
 		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
-		CreditCardPage creditCardPage = new CreditCardPage(DriverManager.getDriver());
 		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
 		DetailsPage detailsPage = new DetailsPage(DriverManager.getDriver());
 
@@ -338,75 +338,52 @@ public class OrderFormTest extends Init {
 //	}
 
 	@Test(description = "Create multi orders")
-	public void simpletest() throws IOException, AWTException {
-		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
-		Calculator calculator = new Calculator();
-
-		authenticate("WPH");
-		
-
+	@Parameters({"orderQuantity","email","password"})
+	public void createMultiOrders(int orderQuantity,String email,String password) {
 		sleep(5);
-		for (int i = 1; i < 20; i++) {
+		authenticate("WPH");
+		for (int i = 1; i < orderQuantity; i++) {
 			DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
-			createOneOrder();
-
+			createOneOrder(email,password);
 			sleep(3);
 			System.out.println("order number: "+ i);
-
-
 		}
 
 	}
 
 	@Test(description = "Create 1 order")
-	public void createOneOrder()  {
+	@Parameters({"email","password"})
+	public void createOneOrder(String email,String password)  {
 		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
 		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
 		Calculator calculator = new Calculator();
 
 		String tokenValue = SignIn.getToken(Constants.EMAIL, Constants.COMMON_PASSWORD);
 		authenticate("WPH");
-		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
-		signInPage.signInWithToken("token", tokenValue);
-		calculator.balance(tokenValue);
 
+//		signInPage.signInWithToken("token", tokenValue);
+		signInPage.Login(email,password);
+//		calculator.balance(tokenValue);
+		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
 		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, true, false, orderForm.writerLevel);
 		orderForm.Step5Data("paper15", 1);
-		// Calculator calculator = new Calculator();
-
 
 		sleep(5);
-		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
+//		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
 
+		orderForm.createOrder();
+		sleep(3);
 
-		orderForm.setStep1();
-		orderForm.setStep2();
-		orderForm.setStep3();
-		orderForm.setStep4();
-		orderForm.setDiscountTB("paper15");
-		orderForm.clickApply();
-
-		sleep(10);
-
-		orderForm.clickCreditBTN();
-		orderForm.clickCheckOutBTN();
-
-		// detailsPage = creditCardPage.getCheckout();
+//		orderForm.clickCreditBTN();
+//		orderForm.clickCheckOutBTN();
 
 		sleep(5);
 		waitForNavigatePage("NaN");
 		WebUI.waitForPageLoaded();
 		sleep(3);
-		String orderID = orderForm.getID();
-		this.order_ID = orderID;
-
-		// orderDetail
-
-		sleep(5);
-
 	}
 
 	@Test(priority = 3, description = "Writer site")

@@ -5,6 +5,7 @@ import API.GetAPI.CoreAPI.OrderForm.OrderForm;
 import AcaWriting.Keywords.WebUI;
 import AcaWriting.Support.Initialization.Init;
 import AcaWriting.Support.WPH.Routers;
+import AcaWriting.drivers.DriverManager;
 import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
 import org.openqa.selenium.By;
@@ -22,7 +23,7 @@ import java.time.Duration;
 import java.util.Objects;
 
 public class OrderFormPage extends Init {
-	private WebDriver driver;
+//	private WebDriver driver;
 	private WebDriverWait wait;
 	public String orderType;
 	public String document;
@@ -33,7 +34,8 @@ public class OrderFormPage extends Init {
 	DetailsPage detailsPage;
 
 	public OrderFormPage(WebDriver driver) {
-		super();
+		wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(5));
+		PageFactory.initElements(driver, this);
 	}
 
 	public void Step1Data(String orderType, String document, int acalevelNumb, String discipline, String paperFormat, List<String> academicLevels) {
@@ -167,13 +169,13 @@ public class OrderFormPage extends Init {
 	//step1
 	public void clickDocumentDRL() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DocumentDRL));
-		driver.findElement(DocumentDRL).click();
+		DriverManager.getDriver().findElement(DocumentDRL).click();
 	}
 
 	public void setDocumentDRL(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DocumentDRL));
 		clickDocumentDRL();
-		driver.findElement(DocumentDRL).sendKeys("Admission Essay");
+		DriverManager.getDriver().findElement(DocumentDRL).sendKeys("Admission Essay");
 	}
 
 	public void clickAcaLevel(Integer value) {
@@ -181,19 +183,19 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 //		new WebUI(driver);
 		WebUI.scrollToElement(option);
-		driver.findElement(option).click();
+		DriverManager.getDriver().findElement(option).click();
 	}
 
 	public void clickDisciplineDRL() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DisciplineDRL));
-		driver.findElement(DisciplineDRL).click();
+		DriverManager.getDriver().findElement(DisciplineDRL).click();
 	}
 
 	public void setDisciplineDRL(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DisciplineDRL));
 		WebUI.scrollToElement(DisciplineDRL);
 		clickDisciplineDRL();
-		driver.findElement(DisciplineDRL).sendKeys(value);
+		DriverManager.getDriver().findElement(DisciplineDRL).sendKeys(value);
 	}
 
 	public void clickPaperFormat(String value) {
@@ -201,7 +203,7 @@ public class OrderFormPage extends Init {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		WebUI.scrollToElement(option);
 		WebUI.clickElement(option);
-//		driver.findElement(option).click();
+//	DriverManager.getDriver().findElement(option).click();
 	}
 
 	public void clickOrderType(WebElement webElement) {
@@ -211,30 +213,30 @@ public class OrderFormPage extends Init {
 	//step2
 	public void setTitleTXT(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(TitleTXT));
-		driver.findElement(TitleTXT).sendKeys(value);
+		DriverManager.getDriver().findElement(TitleTXT).sendKeys(value);
 	}
 
 	public void setInstructionTXT(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(InstructionTXT));
-		driver.findElement(InstructionTXT).sendKeys(value);
+		DriverManager.getDriver().findElement(InstructionTXT).sendKeys(value);
 	}
 
 	//step3
 	public void clickSourceIncBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceIncBTN));
-		driver.findElement(SourceIncBTN).click();
+		DriverManager.getDriver().findElement(SourceIncBTN).click();
 
 	}
 
 	public void clickSourceDecBTN(int value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SourceDecBTN));
-		driver.findElement(SourceDecBTN).click();
+		DriverManager.getDriver().findElement(SourceDecBTN).click();
 
 	}
 
 	public void clickWriterCB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(WriterCB));
-		driver.findElement(WriterCB).click();
+		DriverManager.getDriver().findElement(WriterCB).click();
 	}
 
 	public void verifyWriterCB() {
@@ -250,56 +252,56 @@ public class OrderFormPage extends Init {
 	public void clickDeadLine(int value) {
 		By option = By.xpath(DeadLine + "//span[contains(text(),'" + deadLineLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
-		driver.findElement(option).click();
+		DriverManager.getDriver().findElement(option).click();
 	}
 
 	public void clickPageInc() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PageIncBTN));
-		driver.findElement(PageIncBTN).click();
+		DriverManager.getDriver().findElement(PageIncBTN).click();
 	}
 
 	public void clickPageDec() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PageDecBTN));
-		driver.findElement(PageDecBTN).click();
+		DriverManager.getDriver().findElement(PageDecBTN).click();
 	}
 
 	public void clickSlideInc() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SlideIncBTN));
-		driver.findElement(SlideIncBTN).click();
+		DriverManager.getDriver().findElement(SlideIncBTN).click();
 	}
 
 	public void clickSlideDec() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SlideDecBTN));
-		driver.findElement(SlideDecBTN).click();
+		DriverManager.getDriver().findElement(SlideDecBTN).click();
 	}
 
 	public void clickSingleBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SingleBTN));
-		driver.findElement(SingleBTN).click();
+		DriverManager.getDriver().findElement(SingleBTN).click();
 	}
 
 	public void clickDoubleBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DoubleBTN));
-		driver.findElement(DoubleBTN).click();
+		DriverManager.getDriver().findElement(DoubleBTN).click();
 	}
 
 	//step4
 	public void clickWriterLevelBTN(int value) {
-		System.out.println("test: "+writerLevel.get(value).replace("\"", ""));
+		System.out.println("test: " + writerLevel.get(value).replace("\"", ""));
 		By option = By.xpath("*//p[contains(text(),'" + writerLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		WebUI.scrollToElement(option);
-		driver.findElement(option).click();
+		DriverManager.getDriver().findElement(option).click();
 	}
 
 	public void clickAbstractCB() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(SingleBTN));
-		driver.findElement(SingleBTN).click();
+		DriverManager.getDriver().findElement(SingleBTN).click();
 	}
 
 	public void clickAbstractBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(AbstractCB));
-		driver.findElement(AbstractCB).click();
+		DriverManager.getDriver().findElement(AbstractCB).click();
 	}
 
 	public void verifyAbstractCB() {
@@ -314,7 +316,7 @@ public class OrderFormPage extends Init {
 
 	public void clickPrevWriterBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PrevWriterCB));
-		driver.findElement(PrevWriterCB).click();
+		DriverManager.getDriver().findElement(PrevWriterCB).click();
 	}
 
 	public void setPrevWriterDRL() {
@@ -352,17 +354,17 @@ public class OrderFormPage extends Init {
 
 	public void clickCreditBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CreditBTN));
-		driver.findElement(CreditBTN).click();
+		DriverManager.getDriver().findElement(CreditBTN).click();
 	}
 
 	public void clickPayPalBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(PayPalBTN));
-		driver.findElement(PayPalBTN).click();
+		DriverManager.getDriver().findElement(PayPalBTN).click();
 	}
 
 	public void clickCheckOutBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(CheckOutBTN));
-		driver.findElement(CheckOutBTN).click();
+		DriverManager.getDriver().findElement(CheckOutBTN).click();
 	}
 
 	public void checkOutByStrip() {
@@ -371,7 +373,7 @@ public class OrderFormPage extends Init {
 
 	public void clickViewOrderBTN() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(ViewOrderBTN));
-		driver.findElement(ViewOrderBTN).click();
+		DriverManager.getDriver().findElement(ViewOrderBTN).click();
 //		OrderFormPage orderFormPage = new OrderFormPage(driver);
 //		detailsPage.setValuesFromOrderForm();
 	}
@@ -405,7 +407,7 @@ public class OrderFormPage extends Init {
 	}
 
 	public String getID() {
-		String currentUrl = driver.getCurrentUrl();
+		String currentUrl = DriverManager.getDriver().getCurrentUrl();
 		sleep(3);
 		String[] parts = currentUrl.split("/");
 		String orderId = parts[4];
@@ -483,7 +485,7 @@ public class OrderFormPage extends Init {
 	}
 
 	public void createOrder() {
-		driver.get(Routers.ORDER);
+		DriverManager.getDriver().get(Routers.ORDER);
 		WebUI.waitForPageLoaded();
 		setStep1();
 		setStep2();

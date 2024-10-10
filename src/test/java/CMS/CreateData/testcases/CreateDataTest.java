@@ -23,7 +23,7 @@ public class CreateDataTest extends Init {
 		authenticate("CMS");
 		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		 createDataPage = new CreateDataPage(DriverManager.getDriver());
+		createDataPage = new CreateDataPage(DriverManager.getDriver());
 		LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 		LogUtils.info(DriverManager.getDriver().getCurrentUrl());
 	}
@@ -145,7 +145,7 @@ public class CreateDataTest extends Init {
 
 	}
 
-//	// Create for IB writing
+	//	// Create for IB writing
 	@Test(description = "create ib sample detail")
 	public void ibSampleDetailIBW() throws Exception {
 		gotoIBW();
@@ -193,13 +193,8 @@ public class CreateDataTest extends Init {
 
 	@Test(description = "Create constants")
 	public void createConstantsIBW() {
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
-		LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
-		LogUtils.info(DriverManager.getDriver().getCurrentUrl());
-		createDataPage.clickIBWBTN();
+		gotoIBW();
+//		createDataPage.clickIBWBTN();
 
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "constants";
