@@ -11,7 +11,6 @@ import java.net.URL;
 public class Categories {
 	public static void main(String[] args) {
 		String value = GetCategoryData("ENL (+35%)","percent");
-		System.out.println("value: "+ value);
 	}
 	public static String GetCategoryData(String id, String Output) {
 		String apiUrl = Constants.DASHBOARD_QL;
@@ -48,9 +47,7 @@ public class Categories {
 //			JSONObject urgencyObject = priceObject.getJSONObject("id");
 
 			String categoryID = priceObject.getString("title");
-			// Kiểm tra nếu cả hai tiêu đề đều khớp
-//			System.out.println("id :"+id);
-//			System.out.println("categoryID: " +categoryID);
+
 			if (id.equals(categoryID)) {
 
 				// Nếu khớp, lấy giá cả và in ra

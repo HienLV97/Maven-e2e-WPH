@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite All" verbose="1">
+    <test enabled="true" name="Verify order on client site" parallel="classes">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="sleepTime" value="10"/>
+        <classes>
+            <class name="WPH.OrderForm.testcases.OrderFormTest">
+                <methods>
+                    <include name="testVerifyPrice"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.FileWriter;
 
 import helpers.Constants;
+import logs.LogUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -58,7 +59,7 @@ public class GetAPIPage {
 
 				if (url.equals(desiredUrl)) {
 					// Tìm thấy URL mà bạn muốn
-					System.out.println("Tìm thấy URL: " + url);
+					LogUtils.info("Tìm thấy URL: " + url);
 					break; // Nếu bạn muốn dừng khi tìm thấy
 				}
 			}

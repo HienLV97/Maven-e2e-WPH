@@ -106,6 +106,7 @@ public class Calculator {
 	public double getSlidePrice() {
 		return slidePrice;
 	}
+
 	public double getSlideCost() {
 		return slideCost;
 	}
@@ -223,13 +224,12 @@ public class Calculator {
 	}
 
 	void pagePrice() {
-		singlePagePrice = Price.GetPrice(urgent, acalevelNumb);
 
-		if (Objects.equals(type, "writing")) {
-			System.out.println("singlePagePrice: " + singlePagePrice);
-		} else if (Objects.equals(type, "editing")) {
+		singlePagePrice = Price.GetPrice(urgent, acalevelNumb);
+		if (Objects.equals(type, "editing")) {
 			singlePagePrice /= 2;
 		}
+
 
 		double numberofPagePrice = singlePagePrice * pages;
 
@@ -240,11 +240,9 @@ public class Calculator {
 		double total = numberofPagePrice + slidePrice + spacingPrice;
 
 		getPagePrice = roundToTwoDecimalPlaces(total);
-		System.out.println("getPagePrice: "+getPagePrice);
 	}
 
 	static void discount() {
-		// int percent = Integer.parseInt(GetDiscount(getDisCode(), "percent"));
 		int percent = Discounts.GetDiscount(getDisCode());
 		BigDecimal bd = new BigDecimal(percent * getPagePrice / 100);
 		BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
@@ -254,19 +252,15 @@ public class Calculator {
 	}
 
 	public void writerLevelPrice() {
-		
+
 		int percent = Integer.parseInt(Categories.GetCategoryData(writerLvl, "percent"));
 		BigDecimal bd = new BigDecimal(percent * getPagePrice / 100);
 		BigDecimal newBD = bd.setScale(4, RoundingMode.HALF_UP);
 		BigDecimal roundedValue = newBD.setScale(3, RoundingMode.HALF_UP);
 		BigDecimal roundedValue2 = newBD.setScale(2, RoundingMode.HALF_UP);
-		System.out.println("roundedValue: " + roundedValue);
-		System.out.println("roundedValue2: " + roundedValue2);
 		DecimalFormat df = new DecimalFormat("#.00");
 		writerLevelPriceRound = df.format(roundedValue2);
 		writerPrice = roundedValue.doubleValue();
-		System.out.println("roundedValue2.doubleValue(): " + roundedValue2.doubleValue());
-		System.out.println("bigde roundedValue2: " + roundedValue2);
 
 		// return this.writerPrice = roundedValue.doubleValue();
 	}
@@ -283,41 +277,26 @@ public class Calculator {
 			BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
 			BigDecimal roundedValue3 = bd.setScale(3, RoundingMode.HALF_UP);
 			DecimalFormat df = new DecimalFormat("#.00");
-			String formattedNumber = df.format(roundedValue2);
-			System.out.println("formattedNumber: "+formattedNumber);
-			preWriterRound = formattedNumber;
+			preWriterRound = df.format(roundedValue2);
 			preWriter = roundedValue3.doubleValue();
 		}
 	}
 
 	public void extrasTotal() {
-
-		System.out.println("writerPrice: " + getWriterPrice());
-		System.out.println("absPrice: " + getAbsPrice());
-		System.out.println("preWriter: " + getPreWriter());
 		BigDecimal bd = BigDecimal.valueOf(getWriterPrice() + getAbsPrice() + getPreWriter());
 		BigDecimal roundedValue2 = bd.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal roundedValue3 = bd.setScale(3, RoundingMode.HALF_UP);
 		DecimalFormat df = new DecimalFormat("#.00");
-		String formattedNumber = df.format(roundedValue2);
-		System.out.println("formattedNumber: "+formattedNumber);
-		extraTotalRound =formattedNumber;
-		System.out.println("extraTotalRound: " + extraTotalRound);
+		extraTotalRound = df.format(roundedValue2);
 		extraTotal = roundedValue3.doubleValue();
 	}
 
 	public void balance(String token) {
 		balance = Double.parseDouble(Auth.getAuth(token, "balance"));
-		// Double.parseDouble(Auth.getAuth(token, "balance")); // Dòng này không cần thiết
 	}
 
 
 	public static double grandTotal() {
-		System.out.println("-------");
-		System.out.println("getPagePrice: "+ getPagePrice);
-		System.out.println("discount: "+ discount);
-		System.out.println("extraTotal: "+ extraTotal);
-		System.out.println("balance: "+ balance);
 		BigDecimal bd = new BigDecimal(getPagePrice - discount + extraTotal - balance);
 		BigDecimal roundedValue = bd.setScale(2, RoundingMode.HALF_UP);
 		grandTotal = roundedValue.doubleValue();

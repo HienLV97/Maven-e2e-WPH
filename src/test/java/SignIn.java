@@ -2,6 +2,7 @@
 import helpers.Constants;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
+import logs.LogUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,7 +25,6 @@ public class SignIn {
 //		JSONObject jsonObject = new JSONObject(response);
 		String filePath = "src/test/java/API/Data/Dashboard/OrderForm.json";
 		String value1 = handleData(filePath).get(1);
-		System.out.println(value1);
 	}
 
 	public static String getAPI(String apiUrl, String bearerToken) {
@@ -58,7 +58,7 @@ public class SignIn {
 			connection.setRequestProperty("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36");
 			connection.setRequestProperty("x-requested-with", "XMLHttpRequest");
 			connection.setDoOutput(true);
-			System.out.println("a");
+
 
 			String jsonData1 = "{\"method\":\"all\",\"namespace\":\"Urgency\"}";
 			Map<String, String> formData = new HashMap<>();
@@ -93,7 +93,7 @@ public class SignIn {
 						response.append(line);
 					}
 				}
-				System.out.println("Response: " + response.toString());
+				LogUtils.info("Response: " + response.toString());
 			} else {
 				// If connection is not OK, read the error stream
 				try (BufferedReader reader = new BufferedReader(
@@ -139,18 +139,12 @@ public class SignIn {
 				titles.add("\"" + title + "\"");
 			}
 
-			// Ghi dữ liệu đã cập nhật trở lại tệp JSON
-//			String filePath1 = "src/test/java/API/Data/Dashboard/handle.json";
-//			FileWriter writer = new FileWriter(filePath1);
-//			writer.write(titles.toString());
-//			writer.close();
 
-			System.out.println("Successfully updated JSON file.");
+			LogUtils.info("Successfully updated JSON file.");
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 		return titles;
-//		return null;
 	}
 
 }

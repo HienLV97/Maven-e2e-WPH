@@ -3,6 +3,7 @@ package API.GetAPI.CoreAPI.OrderForm;
 import helpers.Constants;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
+import logs.LogUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,11 +33,11 @@ public class OrderForm {
 		String filePathAcademicLevel = filePath(academicLevel);
 		String value1 = handleData(filePathAcademicLevel).get(1);
 
-		System.out.println(value1);
+		LogUtils.info(value1);
 
 		getAPI(urgencyLevel);
 		String value2 = handleData(filePath(urgencyLevel)).get(1);
-		System.out.println(value2);
+		LogUtils.info(value2);
 
 
 	}
@@ -105,7 +106,7 @@ public class OrderForm {
 						response.append(line);
 					}
 				}
-//				System.out.println("Response: " + response.toString());
+//				LogUtils.info("Response: " + response.toString());
 			} else {
 				// If connection is not OK, read the error stream
 				try (BufferedReader reader = new BufferedReader(
@@ -162,7 +163,7 @@ public class OrderForm {
 				titles.add("\"" + title + "\"");
 			}
 
-			System.out.println("Successfully updated JSON file.");
+			LogUtils.info("Successfully updated JSON file.");
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}

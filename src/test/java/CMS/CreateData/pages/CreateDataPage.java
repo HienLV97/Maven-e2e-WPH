@@ -114,6 +114,12 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//select[contains(@class,'multiSelect_field multiSelect_field_samples')]/following-sibling::div[1]")
 	WebElement sampleDRL;
 
+	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_writers')]/following-sibling::div)[1]")
+	WebElement writersDRL;
+
+	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_reviews')]/following-sibling::div)[1]")
+	WebElement reviewsDRL;
+
 	@FindBy(xpath = "//a[@title='Save']")
 	WebElement saveBTN;
 
@@ -431,17 +437,65 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(sampleDRL);
 	}
 
+	public void clickWritersDRL() {
+		WebUI.clickWEBElement(writersDRL);
+	}
+
+	public void clickReivewsDRL() {
+		WebUI.clickWEBElement(reviewsDRL);
+	}
+
 	public void setSampleDRL(String fileName, String sheetNameDetail) {
 		clickSampleDRL();
 		excelHelper.setExcelFile(fileName, sheetNameDetail);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
-			String nameDetail = excelHelper.getCellData("NAME", i);
-			String paperType = excelHelper.getCellData("TYPE_OF_PAPER", i);
-			clickOnArticle(nameDetail, paperType);
+			String NAME = excelHelper.getCellData("NAME", i);
+			String TYPE_OF_PAPER = excelHelper.getCellData("TYPE_OF_PAPER", i);
+			clickOnDRLValue(TYPE_OF_PAPER, NAME);
 			sleep(1);
 		}
 	}
+
+	public void setWritersDRL(String fileName, String sheetNameDetail, String value) {
+		clickWritersDRL();
+		excelHelper.setExcelFile(fileName, sheetNameDetail);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			String NAME = excelHelper.getCellData("NAME", i);
+			String DEGREE = excelHelper.getCellData("DEGREE", i);
+			String CITY = excelHelper.getCellData("CITY", i);
+			String BIO = excelHelper.getCellData("BIO", i);
+			String ID = excelHelper.getCellData("ID", i);
+			String prefix = NAME + " - " + DEGREE + " - " + CITY;
+			System.out.println("prefix: " + prefix);
+			if (Objects.equals(value, ID)) {
+				clickOnDRLValue(prefix, BIO);
+				sleep(1);
+			}
+		}
+
+	}
+
+	public void setReviewsDRL(String fileName, String sheetNameDetail, String value) {
+		clickReivewsDRL();
+		excelHelper.setExcelFile(fileName, sheetNameDetail);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			String NAME = excelHelper.getCellData("NAME", i);
+			String COLLEGE = excelHelper.getCellData("COLLEGE", i);
+			String TEXT = excelHelper.getCellData("TEXT", i);
+			String ID = excelHelper.getCellData("ID", i);
+			String prefix = NAME + " - " + COLLEGE;
+			System.out.println("prefix: " + prefix);
+			if (Objects.equals(value, ID)) {
+				clickOnDRLValue(prefix, TEXT);
+				sleep(1);
+			}
+		}
+
+	}
+
 
 	public void clickIsFeaturable(String value) {
 		if (Objects.equals(value, "yes")) {
@@ -449,9 +503,10 @@ public class CreateDataPage extends Init {
 		}
 	}
 
-	public void clickOnArticle(String title, String type) {
+	// click on dropdownlist value
+	public void clickOnDRLValue(String value1, String value2) {
 		// Tạo XPath động với giá trị được truyền vào
-		String value = type + " - " + title;
+		String value = value1 + " - " + value2;
 		if (value.length() > 55) {
 			value = value.substring(0, 55);  // Cắt chuỗi nếu vượt quá 60 ký tự
 		}
@@ -470,7 +525,6 @@ public class CreateDataPage extends Init {
 		WebUI.doubleClickElement(publishBTN);
 		sleep(2);
 	}
-
 
 	public void clickEditIntroBTN() {
 		WebUI.clickWEBElement(editIntroBTN);
@@ -671,14 +725,13 @@ public class CreateDataPage extends Init {
 			Files.copy(in, targetPath, StandardCopyOption.REPLACE_EXISTING);
 			in.close();
 
-			System.out.println("Ảnh đã được tải về và lưu với tên: " + fileName);
+			LogUtils.info("Ảnh đã được tải về và lưu với tên: " + fileName);
 			return fileName;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-
 
 	public void recordFile(String value, String column) {
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
@@ -711,19 +764,20 @@ public class CreateDataPage extends Init {
 				// Lấy element 'file_name'
 				WebElement fileNameElement = driver.findElement(By.name("file_name"));
 				String value = fileNameElement.getAttribute("value");
-				System.out.println("Current value of file_name: " + value); // In giá trị hiện tại ra console
+				LogUtils.info("Current value of file_name: " + value); // In giá trị hiện tại ra console
 				return expectedValue.equals(value) || (value != null && !value.isEmpty()) ? value : null;
 			});
 
-			System.out.println("File name input has the expected value or is not empty: " + expectedValue);
+			LogUtils.info("File name input has the expected value or is not empty: " + expectedValue);
 		} catch (TimeoutException e) {
 			System.err.println("Timeout waiting for the file_name input to have the expected value: " + expectedValue);
 		} catch (Exception e) {
 			System.err.println("Error while waiting for file_name input: " + e.getMessage());
 		}
 	}
+
 	// create data
-	public void createSampleDetail(String fileName, String sheetName){
+	public void createSampleDetail(String fileName, String sheetName) {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
@@ -797,7 +851,7 @@ public class CreateDataPage extends Init {
 
 			LogUtils.infoCustom("Processing index for RESULT");
 			int rowIndex = excelHelper.findCellIndex("NAME", data.get("NAME"));
-			System.out.println("rowIndex: " + rowIndex);
+			LogUtils.info("rowIndex: " + rowIndex);
 			excelHelper.setCellData("Passed", "RESULT", rowIndex);
 			sleep(2);
 		}
@@ -831,7 +885,7 @@ public class CreateDataPage extends Init {
 				setTitleTB(TITLE);
 				setEssayNoteTB(ESSAY_NOTE);
 				setEssayActTB(ESSAY_ACTION);
-//				setOfferActTB(OFFER_ACTION);
+				setOfferActTB(OFFER_ACTION);
 
 				ExcelHelper excelHelper2 = new ExcelHelper();
 				excelHelper2.setExcelFile(fileName, sheetNameDetail);
@@ -1040,56 +1094,15 @@ public class CreateDataPage extends Init {
 		}
 	}
 
+	public void createServiceArticles(String fileName, String sheetName) {
 
-//			if(isPageReady()){
-//				System.out.println("vao` day");
-//
-//				boolean urlTBFetched = false;
-//				String urlTBValue = null;
-//
-//				try {
-//					// Sử dụng WebDriverWait để chờ element 'urlTB' nếu nó tồn tại
-//					WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
-//					WebElement urlTBElement = wait.until(ExpectedConditions.visibilityOf(urlTB));
-//					urlTBValue = urlTBElement.getAttribute("value");
-//					urlTBFetched = true; // Đánh dấu rằng đã lấy được giá trị của urlTB
-//				} catch (NoSuchElementException e) {
-//					LogUtils.warn("urlTB element not found, proceeding with null url");
-//				}
-//
-//				if (Objects.equals(url, urlTB.getAttribute("value")) || Objects.isNull(url)) {
-//					LogUtils.info(url + " " + id);
-//					clickTrashBTN();
-//					LogUtils.info("Deleted");
-//				} else {
-//					LogUtils.info(url + " " + id);
-//					LogUtils.info("Not delete");
-//				}
-//			}
-//
-//			try {
-//				if (isPageReady()) {
-//					LogUtils.info(url + " " + id);
-//					LogUtils.info("Page not exit");
-//				}
-//			} catch (NoSuchElementException e) {
-//				System.out.println("vao day");
-//				if (Objects.equals(url, urlTB.getAttribute("value"))) {
-//					LogUtils.info(url + " " + id);
-//					clickTrashBTN();
-//					LogUtils.info("Deleted");
-//				} else {
-//					LogUtils.info(url + " " + id);
-//					LogUtils.info("Not delete");
-//				}
-//			}
+	}
 
 
 	// get and extract data
 
 	public void getDataSampleDetail(String fileName, String sheetName) {
 		DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/samples/edit/173");
-		System.out.println(getNameTB());
 		excelHelper.setExcelFile(fileName, sheetName);
 		excelHelper.setCellData(getNameTB(), "NAME", 1);
 	}
@@ -1643,7 +1656,7 @@ public class CreateDataPage extends Init {
 
 		// Đóng workbook
 		wb.close();
-		System.out.println("Data has been written to Excel file: " + dataExcelFilePath);
+		LogUtils.info("Data has been written to Excel file: " + dataExcelFilePath);
 	}
 
 	// Hàm con để trích xuất dữ liệu từ một element noteEditable
@@ -1730,38 +1743,13 @@ public class CreateDataPage extends Init {
 	}
 
 	//Test service
-	public void testGetDataServicePage(String fileName, String urlExcelSheet, String dataServicePage) throws IOException {
-		excelHelper.setExcelFile(fileName, urlExcelSheet);
-		this.fileName = fileName;
-		this.dataServicePage = dataServicePage;
-
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, urlExcelSheet, "URL");
-		for (int i = 1; i <= lastRow; i++) {
-			if (checkResult(fileName, urlExcelSheet, i) && checkPageNotFound()) {
-
-				String currentUrl = excelHelper.getCellData("URL", i);
-				DriverManager.getDriver().get(currentUrl);
-				excelHelper.setExcelFile(fileName, dataServicePage);
-				extractDataIntro(currentUrl);
-				extractDataContent(currentUrl);
-				extractDataFAQBanner(currentUrl);
-				extractDataFAQ(currentUrl);
-				extractDataOffer(currentUrl);
-
-				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
-
-			}
-		}
-
-	}
-
 
 	// Simple test
 	public void simpleTest(String fileName, String sheetName) {
-		DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/articles/edit/175");
-		String text = "<h3>Here is how to use our writing service</h3><p>Our ordering process is easy, and you can buy an internal assessment within a few minutes. However, there are some insights we would like to share with you before getting started. As an IB writing service provider with experience working with students from around the world, including Qatar, Turkey, India, the United Kingdom, and other countries, we’ve noticed that some prefer to simply share the rubric, while others pay more attention to details. That’s why we’ve designed a professional online order form to meet the expectations of all our clients.</p><h4>1. Complete the order form</h4><p>The most important step is providing us with the initial information. Be clear, choose the right data, and give us insights and detailed instructions.</p><p><b>Level of writing</b>: For <b>SL</b>, we recommend choosing the '<u>high school</u>' level. For <b>HL</b>, it’s better to select the '<u>IB student</u>' level.</p><p><b>Choose a discipline</b>: There are multiple IB disciplines, ranging from the most complex to less challenging. We can work on most of them, including: Math, SEHS, Physics, Chemistry, Biology, ESS, Business, Computer Science, Economics, Global Politics, History, English, Digital Society, Psychology, World Studies, Design Technology. For the ToK essays, there are areas of knowledge (AoK) and ways of knowledge (WoK) we can work on them all.</p><p><b>Write instructions</b>: The instructions section is designed to establish communication with your IB writer and provide them with a starting point. You can specify whether you want them to write an extended essay from scratch or edit an existing one based on your tutor’s feedback. Share general recommendations, suggest a research topic of interest, and include your own suggestions. You can also share your personal reading list beyond the classroom syllabus to help the writer better connect with your ideas and personality.</p><p><b>Deadline selection</b>: When you want to buy an IB IA, you can choose your preferred deadline when ordering online. Our company offers the flexibility to select a deadline that suits you, ranging from urgent orders starting at 5 hours to longer deadlines up to 30 days.</p><p><b>Citation style</b>: To avoid any plagiarism issues and ensure your IB assessment is properly formatted, you can select the required citation style. Our IB writers are familiar with all major academic formats, including APA, MLA, In-text citation, Footnotes, Harvard, and others.</p><p><b>Number of words</b>: Each type of IB assessment (EE, IA, TOK) has its own set of criteria, so it’s crucial to review the rubrics provided by your teachers and ensure the required word count for each essay. When you want to buy <i>extended essay</i>, be sure to pay for 15 pages, which equals 4,000 words. </p><p>For an <i>internal assessment</i>, the minimum number of pages is 12, as it often requires additional components such as calculations, graphs, and images. Our IB writer will ensure the word count meets the required 2,200 words. </p><p>For the <i>TOK essay</i> writing service, we recommend paying for 6 pages, which is approximately 1,600 words.</p><h4>2. Make your payment</h4><p>The final step of the ordering process is the payment for your IB essay. You can choose the most convenient way to pay on our website. Our company accepts PayPal, all major credit cards, and Apple Pay. You can pay in full or in installments. To ensure a safe and legal IB writing services, we guarantee a full money-back refund in case of dissatisfaction or other issues, in accordance with our policy.</p><h4>3. We match you with an expert IB writer</h4><p>After completing your order and payment for your IB essay, our company will match you with a professional academic writer. This could be an IB alumnus, an IB tutor, or a freelance academic writer familiar with the IB curriculum who has written many high-scoring assessments in the past. We prioritize confidentiality and recommend not sharing your real name, email, WhatsApp, or other personal data. Our company ensures that the assigned writer is an expert in your specific discipline, ready to meet your deadline—even if it’s urgent—and available 24/7 to answer your questions, share drafts, or discuss research topics. We guarantee that your assessment will be written from scratch, entirely plagiarism-free, by an experienced expert.</p><h4>4. Receive final essay</h4><p>Once your assessment is ready, it will be emailed to you directly and available for download in your personal account on our website. If any corrections are needed based on your teacher’s feedback, you can request free revisions an unlimited number of times within 30 days after submission, right from your personal account. Be sure to follow our revision policy, which requires that you do not change the topic if it was initially approved or provide new information that wasn’t requested at the start. This is why filling out the order form carefully and maintaining clear communication with specific instructions is so important.</p></div>";
-		setEditIntroData(text);
-		clickSaveBTN();
-		sleep(5);
+		DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/articles/edit/178");
+		String id = "exhibit-writing-service";
+		setWritersDRL(fileName, sheetName, id);
+//		clickSaveBTN();
+		sleep(15);
 	}
 }

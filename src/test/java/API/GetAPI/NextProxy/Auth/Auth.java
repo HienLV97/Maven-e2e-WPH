@@ -22,20 +22,6 @@ public class Auth {
 	static String filePath = "src/test/java/API/Data/Dashboard/authClient.json";
 	static String URLAuth = Constants.PROXY_DEV_URL + "/auth";
 
-	public static void main(String[] args) {
-		String token = SignIn.getToken(Constants.EMAIL, Constants.COMMON_PASSWORD);
-		System.out.println("token tryen` vao`: " + token);
-
-		String balance = getAuth(token, "balance");
-//		String name = getauth(token, "name");
-//		String gender = getauth(token, "gender");
-//		String test = getauth(token, "test");
-		System.out.println("balance :" + balance);
-//		System.out.println("name :" + name);
-//		System.out.println("gender :" + gender);
-//		System.out.println("test :" + test);
-	}
-
 	public static String getAuth(String token, String value) {
 		try {
 			URL url = new URL(URLAuth);

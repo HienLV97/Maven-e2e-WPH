@@ -160,7 +160,6 @@ public class OrderDetailPage extends Init {
 	}
 
 	public void verifySpacing() {
-//		spacing = spacing.toLowerCase();
 		verifySec(spacingSec, spacing.toUpperCase(), false);
 	}
 
@@ -201,13 +200,9 @@ public class OrderDetailPage extends Init {
 		}
 		WebElement parentElement = driver.findElement(By.cssSelector("div.overview-order-item__dd.d-flex"));
 
-// Lấy toàn bộ văn bản của phần tử cha
-		String combinedText = parentElement.getText().replace("\n","");
+		String combinedText = parentElement.getText().replace("\n", "");
 
-		System.out.println("combinedText: "+combinedText);
-		String sizeTxt = WebUI.getWebElementText(sizeSec).replace("\n","");
 		WebUI.assertContains(combinedText, pagesText + " / " + slidesText, "error");
-//		verifySec(	WebUI.getWebElementText(sizeSec), pagesText + "/" + slidesText, false);
 	}
 
 	public void verifyIns() {

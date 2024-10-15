@@ -2,6 +2,7 @@ package WPH.payment.CreditCard.pages;
 
 import helpers.Constants;
 import WPH.OrderDetails.Details.pages.DetailsPage;
+import logs.LogUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -72,6 +73,6 @@ public class CreditCardPage {
 	public void getID() {
 		String linkText = driver.getCurrentUrl();
 		int extractedValue = Integer.parseInt(linkText);
-		System.out.println("Giá trị trích xuất: " + extractedValue);
+		LogUtils.info("Giá trị trích xuất: " + extractedValue);
 	}
 }

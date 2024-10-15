@@ -9,10 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Discounts {
-	public static void main(String[] args) {
-		int value = GetDiscount("paper15");
-		System.out.println("value = "+value);
-	}
 	public static int GetDiscount(String discountCode) {
 		String apiUrl = Constants.DASHBOARD_QL;
 		String token = Auth.getToken();
@@ -43,7 +39,6 @@ public class Discounts {
 			e.printStackTrace();
 		}
 		JSONArray DiscountArray = jsonObject.getJSONObject("data").getJSONObject("discounts").getJSONArray("data");
-//		System.out.println(DiscountArray);
 		int discount = 0;
 		for (int i = 0; i < DiscountArray.length(); i++) {
 			JSONObject priceObject = DiscountArray.getJSONObject(i);

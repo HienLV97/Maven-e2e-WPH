@@ -18,7 +18,7 @@
             </class>
         </classes>
     </test>
-    <test enabled="true" name="CMS IBW" parallel="methods">
+    <test enabled="false" name="CMS IBW" parallel="methods">
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
         <classes >
@@ -44,7 +44,7 @@
             </class>
         </classes>
     </test>
-    <test enabled="false" name="Sample test" >
+    <test enabled="true" name="Sample test" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
         <classes>

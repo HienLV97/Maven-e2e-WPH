@@ -1,5 +1,6 @@
 import AcaWriting.Support.Initialization.Init;
 import helpers.ExcelHelper;
+import logs.LogUtils;
 
 //import static Support.Initialization.Init.driver;
 
@@ -12,11 +13,11 @@ public class demo extends Init {
 		excelHelper.setExcelFile("src/test/resources/testdata/DataCMS.xlsx", "sampleDetail");
 		// Tìm index của cell chứa giá trị "Value2"
 		int rowIndex = excelHelper.findCellIndex("URL", "/samples/epq-essay/essay");
-		System.out.println("rowIndex: "+ rowIndex);
+		LogUtils.info("rowIndex: "+ rowIndex);
 		if (rowIndex != -1) {
-			System.out.println("Found value at row: " + rowIndex);
+			LogUtils.info("Found value at row: " + rowIndex);
 		} else {
-			System.out.println("Value not found.");
+			LogUtils.info("Value not found.");
 		}
 	}
 }

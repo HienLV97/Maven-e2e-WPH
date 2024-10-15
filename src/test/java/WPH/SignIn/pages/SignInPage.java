@@ -52,8 +52,8 @@ public class SignInPage extends Init {
 		clickLoginButton();
 	}
 
-	public void signInWithToken(String tokenName, String tokenValue) {
-		Cookie tokenCookie = new Cookie.Builder(tokenName, tokenValue)
+	public void signInWithToken(String tokenValue) {
+		Cookie tokenCookie = new Cookie.Builder("token", tokenValue)
 				.domain(Routers.DomainDEV)
 				.path("/")
 				.isHttpOnly(true)

@@ -38,7 +38,6 @@ public class Auth {
 		String response = null;
 		try {
 			response = sendGraphQLRequest(apiUrl, requestPayload);
-//			System.out.println("GraphQL Response: " + response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,7 +45,6 @@ public class Auth {
 		JSONObject getToken = jsonObject.getJSONObject("data").getJSONObject("login");
 		String tokenValue = getToken.getString("token");
 
-//		System.out.println("test: " + tokenValue);
 		try {
 			// Tạo một đối tượng FileWriter để ghi dữ liệu vào tệp tin
 			FileWriter writer = new FileWriter(filePath);

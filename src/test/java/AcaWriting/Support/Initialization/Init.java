@@ -34,28 +34,30 @@ public class Init {
 	private String screenName;
 
 	public void authenticate(String env) {
-		switch (env.trim().toLowerCase()) {
-			case "wph":
-				DriverManager.getDriver().get(Routers.AuthURL);
-			case "dashboard":
-				DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
-			case "writer":
-				DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
-			case "cms":
-				DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
+//		switch (env.trim().toLowerCase()) {
+//			case "wph":
+//				DriverManager.getDriver().get(Routers.AuthURL);
+//			case "dashboard":
+//				DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
+//			case "writer":
+//				DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
+//			case "cms":
+//				DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
+//			default:
+//				DriverManager.getDriver().get(Routers.AuthURL);
+//		}
+		if (env.trim().equalsIgnoreCase("wph")) {
+			DriverManager.getDriver().get(Routers.AuthURL);
 		}
-//		if (env.trim().equals("WPH")) {
-//			DriverManager.getDriver().get(Routers.AuthURL);
-//		}
-//		if (env.trim().equals("DashBoard")) {
-//			DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
-//		}
-//		if (env.trim().equals("Writer")) {
-//			DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
-//		}
-//		if (env.trim().equals("CMS")) {
-//			DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
-//		}
+		if (env.trim().equalsIgnoreCase("dashboard")) {
+			DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
+		}
+		if (env.trim().equalsIgnoreCase("writer")) {
+			DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
+		}
+		if (env.trim().equalsIgnoreCase("cms")) {
+			DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
+		}
 	}
 
 	@BeforeMethod
@@ -79,7 +81,7 @@ public class Init {
 				driver = initEdgeDriver();
 				break;
 			default:
-				System.out.println("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
+				LogUtils.info("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
 				driver = initChromeDriver();
 		}
 		return driver;
@@ -106,7 +108,7 @@ public class Init {
 
 	private WebDriver initEdgeDriver() {
 		WebDriver driver;
-		System.out.println("Launching Edge browser...");
+		LogUtils.info("Launching Edge browser...");
 		driver = new EdgeDriver();
 		Properties properties = new Properties();
 		try {
@@ -124,7 +126,7 @@ public class Init {
 
 	private WebDriver initFirefoxDriver() {
 		WebDriver driver;
-		System.out.println("Launching Firefox browser...");
+		LogUtils.info("Launching Firefox browser...");
 		driver = new FirefoxDriver();
 		Properties properties = new Properties();
 		try {
@@ -194,7 +196,7 @@ public class Init {
 		} else {
 			wait.until(ExpectedConditions.urlContains(value));
 		}
-		System.out.println("Trang đã chuyển thành công!");
+		LogUtils.info("Trang đã chuyển thành công!");
 	}
 
 

@@ -2,6 +2,7 @@ package dataProvider;
 
 import helpers.ExcelHelper;
 import helpers.SystemHelper;
+import logs.LogUtils;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class DataProviderFactory {
 	public Object[][] dataLoginHRMFromExcel() {
 		ExcelHelper excelHelper = new ExcelHelper();
 		Object[][] data = excelHelper.getExcelData(SystemHelper.getCurrentDir()+ "src/test/resources/testdata/DataCMS.xlsx", "test");
-		System.out.println("Login Data from Excel: " + Arrays.deepToString(data));
+		LogUtils.info("Login Data from Excel: " + Arrays.deepToString(data));
 		return data;
 	}
 	@DataProvider(name = "data_sampleDetail")
@@ -34,7 +35,18 @@ public class DataProviderFactory {
 		String sheetName = "sampleDetail";
 		excelHelper.setExcelFile(filePath,sheetName);
 		Object[][] data = excelHelper.getDataHashTable(SystemHelper.getCurrentDir() +filePath , sheetName);
-		System.out.println("Login Data from Excel: " + Arrays.deepToString(data));
+		LogUtils.info("Login Data from Excel: " + Arrays.deepToString(data));
+		return data;
+	}
+
+	@DataProvider(name = "dataLogin",parallel = true)
+	public Object[][] dataLogin() throws Exception {
+		ExcelHelper excelHelper = new ExcelHelper();
+		String filePath = "src/test/resources/testdata/DataDashboard.xlsx";
+		String sheetName = "account";
+		excelHelper.setExcelFile(filePath,sheetName);
+		Object[][] data = excelHelper.getDataHashTable(SystemHelper.getCurrentDir() +filePath , sheetName);
+		LogUtils.info("Login Data from Excel: " + Arrays.deepToString(data));
 		return data;
 	}
 }

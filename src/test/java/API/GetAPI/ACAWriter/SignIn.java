@@ -3,6 +3,7 @@ package API.GetAPI.ACAWriter;
 
 import helpers.Constants;
 //import Support.Writer.Routers;
+import logs.LogUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,7 +19,7 @@ public class SignIn {
 
 	public static void main(String[] args) {
 		String token = getToken(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
-		System.out.println(token);
+		LogUtils.info(token);
 	}
 
 	public static String getToken(String email, String password) {

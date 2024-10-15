@@ -61,7 +61,7 @@ public class CreateDataTest extends Init {
 	public void test(int rowNumb) throws IOException {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-		System.out.println(now.format(formatter));
+		LogUtils.info(now.format(formatter));
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class CreateDataTest extends Init {
 	public void test4() throws Exception {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "test";
+		String sheetName = "writerSelection";
 		createDataPage.simpleTest(fileName, sheetName);
 	}
 
@@ -154,7 +154,6 @@ public class CreateDataTest extends Init {
 		createDataPage.createSampleDetail(fileName, sheetName);
 	}
 
-
 	@Test(description = "createSampleArticleIBW")
 	public void createSampleArticleIBW() throws Exception {
 		gotoIBW();
@@ -176,15 +175,7 @@ public class CreateDataTest extends Init {
 
 	@Test(description = "Create writer review")
 	public void createWriterReviewIBW() throws IOException {
-//		gotoIBW();
-		authenticate("CMS");
-		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
-		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
-		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
-		LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
-		LogUtils.info(DriverManager.getDriver().getCurrentUrl());
-		createDataPage.clickIBWBTN();
-
+		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "writerReview";
 		createDataPage.createWriterReview(fileName, sheetName);
@@ -194,8 +185,6 @@ public class CreateDataTest extends Init {
 	@Test(description = "Create constants")
 	public void createConstantsIBW() {
 		gotoIBW();
-//		createDataPage.clickIBWBTN();
-
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "constants";
 		createDataPage.createConstants(fileName, sheetName);
@@ -208,4 +197,14 @@ public class CreateDataTest extends Init {
 		String sheetName = "Sheet1";
 		createDataPage.deleteArticles(fileName, sheetName);
 	}
+
+	// Create Service page
+	@Test(description = "Create service page")
+	public void createServicesIBW() {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
+		String sheetName = "Sheet1";
+		createDataPage.deleteArticles(fileName, sheetName);
+	}
+
 }

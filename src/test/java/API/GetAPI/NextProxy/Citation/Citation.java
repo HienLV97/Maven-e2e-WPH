@@ -18,12 +18,6 @@ public class Citation {
 	static String filePath = "src/test/java/API/Data/Dashboard/Citation.json";
 	static String URLCitation = Constants.PROXY_DEV_URL + "/styles";
 
-	//				public static String getToken() {
-//	public static void main(String[] args) {
-//
-//		String text = getCitation(0);
-//		System.out.println("text: "+ text);
-//	}
 	public static String getCitation(int value) {
 		try {
 			// Tạo đối tượng kết nối và thiết lập phương thức HTTP và headers yêu cầu
@@ -53,9 +47,6 @@ public class Citation {
 
 			// Phân tích cú pháp phản hồi JSON
 			JSONObject jsonObject = new JSONObject(response.toString());
-
-//			System.out.println("test: "+jsonObject);
-
 			JSONArray pricesArray = jsonObject.getJSONArray("data");
 			JSONObject data = pricesArray.getJSONObject(value).getJSONObject("data");
 

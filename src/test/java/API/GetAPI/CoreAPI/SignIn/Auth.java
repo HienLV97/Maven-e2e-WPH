@@ -1,6 +1,7 @@
 package API.GetAPI.CoreAPI.SignIn;
 
 import helpers.Constants;
+import logs.LogUtils;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.json.simple.JSONObject;
@@ -22,7 +23,7 @@ public class Auth {
 
 	public static String getDataUser(String email, String pass, String value) {
 		getAuth(email, pass);
-		System.out.println("balance: "+handleData(value));
+		LogUtils.info("balance: "+handleData(value));
 		return handleData(value);
 	}
 

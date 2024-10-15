@@ -287,7 +287,6 @@ public class OrderFormPage extends Init {
 
 	//step4
 	public void clickWriterLevelBTN(int value) {
-		System.out.println("test: " + writerLevel.get(value).replace("\"", ""));
 		By option = By.xpath("*//p[contains(text(),'" + writerLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 		WebUI.scrollToElement(option);
@@ -410,10 +409,7 @@ public class OrderFormPage extends Init {
 		String currentUrl = DriverManager.getDriver().getCurrentUrl();
 		sleep(3);
 		String[] parts = currentUrl.split("/");
-		String orderId = parts[4];
-		System.out.println(currentUrl);
-		System.out.println("Order ID: " + orderId);
-		return orderId;
+		return parts[4];
 	}
 
 	public void setStep1() {
@@ -422,7 +418,6 @@ public class OrderFormPage extends Init {
 		} else if (Objects.equals(this.orderType.toLowerCase(), "editing")) {
 			clickOrderType(editBTN);
 		}
-		System.out.println("Check driver: " + driver);
 		clickAcaLevel(this.acalevelNumb);
 		setDocumentDRL(this.document);
 		sleep(2);

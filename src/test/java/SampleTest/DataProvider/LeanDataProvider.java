@@ -1,31 +1,38 @@
 package SampleTest.DataProvider;
 
 import helpers.ExcelHelper;
+import logs.LogUtils;
 import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 import dataProvider.DataProviderFactory;
 
 import java.util.Arrays;
+import java.util.Hashtable;
 
 public class LeanDataProvider {
 
 
 	@Test(enabled = false,dataProvider = "data_provider_01",dataProviderClass = DataProviderFactory.class)
 	public void testDataProvider1(String value) {
-		System.out.println("Passed Parameter is: " + value);
+		LogUtils.info("Passed Parameter is: " + value);
 	}
 
 	@Test(enabled = false,dataProvider = "data_provider_02",dataProviderClass = DataProviderFactory.class)
 	public void testDataProviderMultiParam(String username, int password, String role) {
-		System.out.println("Username is: " + username);
-		System.out.println("Password is: " + password);
-		System.out.println("Role is: " + role);
+		LogUtils.info("Username is: " + username);
+		LogUtils.info("Password is: " + password);
+		LogUtils.info("Role is: " + role);
 	}
-	@Test(enabled = true,dataProvider = "data_provider_login_excel",dataProviderClass = DataProviderFactory.class)
+	@Test(enabled = false,dataProvider = "data_provider_login_excel",dataProviderClass = DataProviderFactory.class)
 	public void testDataProviderMultiParam2(String short_intro, String type_of_paper, String academic_level) {
-		System.out.println("Username is: " + short_intro);
-		System.out.println("Password is: " + type_of_paper);
-		System.out.println("Role is: " + academic_level);
+		LogUtils.info("Username is: " + short_intro);
+		LogUtils.info("Password is: " + type_of_paper);
+		LogUtils.info("Role is: " + academic_level);
+	}
+	@Test(enabled = true,dataProvider = "dataLogin",dataProviderClass = DataProviderFactory.class)
+	public void testDataProviderMultiParam3(Hashtable<String, String> data) {
+		LogUtils.info("Username is: " + data.get("EMAIL"));
+		LogUtils.info("Password is: " + data.get("PASSWORD"));
 	}
 
 }

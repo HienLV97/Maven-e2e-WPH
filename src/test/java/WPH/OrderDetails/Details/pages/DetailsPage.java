@@ -56,20 +56,17 @@ public class DetailsPage {
 		driver.findElement(h1Element);
 		String h1Text = driver.findElement(h1Element).getText();
 
-		System.out.println("h1Text: "+ h1Text);
-
 		// Kiểm tra xem văn bản có chứa "00088984" và "writing"
 		boolean containsOrderId = h1Text.contains(id);
 		boolean containsWriting = h1Text.contains(orderType);
 
 		// Sử dụng assert để kiểm tra
-		Assert.assertTrue(containsOrderId,"Thẻ h1 phải chứa "+id);
-		Assert.assertTrue(containsWriting,"Thẻ h1 phải chứa "+orderType);
+		WebUI.assertContains(h1Text,id,"Thẻ h1 phải chứa "+id);
+		WebUI.assertContains(h1Text,orderType,"Thẻ h1 phải chứa "+orderType);
 	}
 	public void verifyWPrice(By by,String value){
 		WebUI.waitForElementVisible(by);
 		String price = WebUI.getElementText(by);
-		System.out.println(by);
 		WebUI.assertEquals(price,value);
 	}
     public void verifyPriceDetails () {

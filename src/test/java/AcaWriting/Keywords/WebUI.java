@@ -63,10 +63,10 @@ public class WebUI {
 		List<WebElement> listElement = getWebElements(by);
 
 		if (listElement.size() > 0) {
-			System.out.println("Element " + by + " existing.");
+			LogUtils.info("Element " + by + " existing.");
 			return true;
 		} else {
-			System.out.println("Element " + by + " NOT exist.");
+			LogUtils.info("Element " + by + " NOT exist.");
 			return false;
 		}
 	}
@@ -160,7 +160,7 @@ public class WebUI {
 
 		// Wait Javascript until it is Ready!
 		if (!jsReady) {
-			System.out.println("Javascript is NOT Ready.");
+			LogUtils.info("Javascript is NOT Ready.");
 			// Wait for Javascript to load
 			try {
 				wait.until(jsLoad);
@@ -181,7 +181,7 @@ public class WebUI {
 
 		//Get size screen browser
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		System.out.println(screenSize);
+		LogUtils.info(screenSize);
 		//Khởi tạo kích thước khung hình với kích cỡ trên
 		Rectangle screenRectangle = new Rectangle(screenSize);
 		//Tạo hình chụp với độ lớn khung đã tạo trên
@@ -297,19 +297,19 @@ public class WebUI {
 	public static void setKey(By by, Keys key) {
 		waitForPageLoaded();
 		getWebElement(by).sendKeys(key);
-		System.out.println("Set key: " + key.toString() + " on element " + by);
+		LogUtils.info("Set key: " + key.toString() + " on element " + by);
 	}
 
 	public static void setTextAndKey(By by, String value, Keys key) {
 		waitForPageLoaded();
 		getWebElement(by).sendKeys(value, key);
-		System.out.println("Set text: " + value + " on element " + by);
+		LogUtils.info("Set text: " + value + " on element " + by);
 	}
 
 	public static void scrollToElement(By element) {
 		JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
 		js.executeScript("arguments[0].scrollIntoView(true);", getWebElement(element));
-		System.out.println("Scroll to "+element);
+		LogUtils.info("Scroll to "+element);
 	}
 
 	public static void scrollToElement(WebElement element) {
@@ -447,26 +447,26 @@ public class WebUI {
 
 	public static boolean verifyEquals(Object actual, Object expected) {
 		waitForPageLoaded();
-		System.out.println("Verify equals: " + actual + " and " + expected);
+		LogUtils.info("Verify equals: " + actual + " and " + expected);
 		boolean check = actual.equals(expected);
 		return check;
 	}
 
 	public static void assertEquals(Object actual, Object expected) {
-		System.out.println("Assert equals: " + actual );
+		LogUtils.info("Assert equals: " + actual );
 		Assert.assertEquals(actual, expected,"not equals");
 	}
 
 	public static boolean verifyContains(String actual, String expected) {
 //		waitForPageLoaded();
-		System.out.println("Verify contains: " + actual + " and " + expected);
+		LogUtils.info("Verify contains: " + actual + " and " + expected);
 		boolean check = actual.contains(expected);
 		return check;
 	}
 
 	public static void assertContains(String actual, String expected, String message) {
 //		waitForPageLoaded();
-		System.out.println("Assert contains: " + actual + " and " + expected);
+		LogUtils.info("Assert contains: " + actual + " and " + expected);
 		boolean check = actual.contains(expected);
 		Assert.assertTrue(check, message);
 	}

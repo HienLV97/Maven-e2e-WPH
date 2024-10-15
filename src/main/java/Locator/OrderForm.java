@@ -1,6 +1,7 @@
 package Locator;
 
 //import AcaWriting.Support.Initialization.Init;
+import logs.LogUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -43,7 +44,7 @@ public class OrderForm  {
 
 		//Wait Javascript until it is Ready!
 		if (!jsReady) {
-			System.out.println("Javascript is NOT Ready.");
+			LogUtils.info("Javascript is NOT Ready.");
 			//Wait for Javascript to load
 			try {
 				wait.until(jsLoad);

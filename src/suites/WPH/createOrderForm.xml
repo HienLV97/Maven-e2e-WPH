@@ -1,12 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Suite All" verbose="1" parallel="tests">
-    <test enabled="true" name="multi 1"  >
+<suite name="Suite All" verbose="1">
+    <test enabled="true" name="multi 1" parallel="classes">
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
-        <parameter name="orderQuantity" value="10"/>
-        <parameter name="email" value="client-12344-fake@kamora.vn"/>
-        <parameter name="password" value="iamafriend"/>
         <classes>
             <class name="WPH.OrderForm.testcases.OrderFormTest">
                 <methods>
@@ -15,12 +12,9 @@
             </class>
         </classes>
     </test>
-    <test enabled="true" name="multi 2"  >
+    <test enabled="true" name="multi 1" parallel="classes">
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
-        <parameter name="orderQuantity" value="10"/>
-        <parameter name="email" value="client-29751-fake@kamora.vn"/>
-        <parameter name="password" value="iamafriend"/>
         <classes>
             <class name="WPH.OrderForm.testcases.OrderFormTest">
                 <methods>

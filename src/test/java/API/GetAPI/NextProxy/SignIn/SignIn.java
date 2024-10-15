@@ -1,6 +1,7 @@
 package API.GetAPI.NextProxy.SignIn;
 
 import helpers.Constants;
+import logs.LogUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -16,7 +17,7 @@ public class SignIn {
 
 	public static void main(String[] args) {
 		String token = SignIn.getToken(Constants.ACCOUNT_BALANCE, Constants.COMMON_PASSWORD);
-		System.out.println(token);
+		LogUtils.info(token);
 	}
 
 	public static String getToken(String email, String password) {
@@ -57,7 +58,7 @@ public class SignIn {
 
 
 			JSONParser parser = new JSONParser();
-			System.out.println("SignIn: " + response);
+			LogUtils.info("SignIn: " + response);
 			try {
 				JSONObject jsonObject = (JSONObject) parser.parse(response.toString());
 				String token = (String) jsonObject.get("token");
