@@ -153,6 +153,18 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@name='file']/following-sibling::input[1]")
 	WebElement fileNameElement;
 
+	@FindBy(xpath = "(//input[@name='writer_title']/following-sibling::input)[1]")
+	WebElement writerTitleTB;
+
+	@FindBy(xpath = "//input[@name='writer_description']/following-sibling::input[1]")
+	WebElement writerDesTB;
+
+	@FindBy(xpath = "(//input[@name='method_title']/following-sibling::input)[1]")
+	WebElement methodTitleTB;
+
+	@FindBy(xpath = "(//input[@name='review_title']/following-sibling::input)[1]")
+	WebElement reviewTitleTB;
+
 	//Header
 	@FindBy(xpath = "//i[@class='fa fa-info fa-fw']")
 	WebElement editIntroBTN;
@@ -294,6 +306,22 @@ public class CreateDataPage extends Init {
 		WebUI.setText(anchorTB, value);
 	}
 
+	public void setWriterTitleTB(String value) {
+		WebUI.setText(writerTitleTB, value);
+	}
+
+	public void setWriterDesTB(String value) {
+		WebUI.setText(writerDesTB, value);
+	}
+
+	public void setMethodTitleTB(String value) {
+		WebUI.setText(methodTitleTB, value);
+	}
+
+	public void setReviewTitleTB(String value) {
+		WebUI.setText(reviewTitleTB, value);
+	}
+
 	public void setTitleTB(String value) {
 		WebUI.setText(titleTB, value);
 	}
@@ -420,12 +448,28 @@ public class CreateDataPage extends Init {
 		sleep(1);
 	}
 
-	public void setEditIntroData(String value) {
-		clickEditIntroBTN();
-		clickAddBTN();
-		setNoteTB(value);
-		sleep(1);
-		clickSaveBTN();
+	public void setEditIntroData(String value, String sheetHeaderData) {
+		if (Objects.isNull(value)) {
+			return;
+		}
+		if (Objects.equals(value.toLowerCase(), "multi")) {
+			clickEditIntroBTN();
+			excelHelper.setExcelFile(fileName, sheetHeaderData);
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "NAME");
+			for (int i = 1; i <= lastRow; i++) {
+				clickAddBTN();
+				setNoteTB(value);
+				sleep(1);
+				clickSaveBTN();
+			}
+		}else {
+			clickEditIntroBTN();
+			clickAddBTN();
+			setNoteTB(value);
+			sleep(1);
+			clickSaveBTN();
+		}
+
 	}
 
 	public void setEditOfferData(String value) {
@@ -457,43 +501,53 @@ public class CreateDataPage extends Init {
 		}
 	}
 
-	public void setWritersDRL(String fileName, String sheetNameDetail, String value) {
-		clickWritersDRL();
-		excelHelper.setExcelFile(fileName, sheetNameDetail);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
-		for (int i = 1; i <= lastRow; i++) {
-			String NAME = excelHelper.getCellData("NAME", i);
-			String DEGREE = excelHelper.getCellData("DEGREE", i);
-			String CITY = excelHelper.getCellData("CITY", i);
-			String BIO = excelHelper.getCellData("BIO", i);
-			String ID = excelHelper.getCellData("ID", i);
-			String prefix = NAME + " - " + DEGREE + " - " + CITY;
-			System.out.println("prefix: " + prefix);
-			if (Objects.equals(value, ID)) {
-				clickOnDRLValue(prefix, BIO);
-				sleep(1);
-			}
+	public void setWritersDRL(String fileName, String sheetWriterSel, String value,String idValue) {
+		if (Objects.isNull(value)) {
+			return;
 		}
-
+		if (Objects.equals(value.toLowerCase(), "multi")) {
+			clickWritersDRL();
+			excelHelper.setExcelFile(fileName, sheetWriterSel);
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetWriterSel, "NAME");
+			for (int i = 1; i <= lastRow; i++) {
+				String NAME = excelHelper.getCellData("NAME", i);
+				String DEGREE = excelHelper.getCellData("DEGREE", i);
+				String CITY = excelHelper.getCellData("CITY", i);
+				String BIO = excelHelper.getCellData("BIO", i);
+				String ID = excelHelper.getCellData("ID", i);
+				String prefix = NAME + " - " + DEGREE + " - " + CITY;
+				System.out.println("prefix: " + prefix);
+				if (Objects.equals(idValue, ID)) {
+					clickOnDRLValue(prefix, BIO);
+					sleep(1);
+				}
+			}
+		}else {
+			LogUtils.info("Invalid value");
+		}
 	}
 
-	public void setReviewsDRL(String fileName, String sheetNameDetail, String value) {
-		clickReivewsDRL();
-		excelHelper.setExcelFile(fileName, sheetNameDetail);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
-		for (int i = 1; i <= lastRow; i++) {
-			String NAME = excelHelper.getCellData("NAME", i);
-			String COLLEGE = excelHelper.getCellData("COLLEGE", i);
-			String TEXT = excelHelper.getCellData("TEXT", i);
-			String ID = excelHelper.getCellData("ID", i);
-			String prefix = NAME + " - " + COLLEGE;
-			System.out.println("prefix: " + prefix);
-			if (Objects.equals(value, ID)) {
-				clickOnDRLValue(prefix, TEXT);
-				sleep(1);
+	public void setReviewsDRL(String fileName, String sheetNameDetail, String value,String idValue) {
+		if (Objects.isNull(value)) {
+			return;
+		}
+		if (Objects.equals(value.toLowerCase(), "multi")) {
+			clickReivewsDRL();
+			excelHelper.setExcelFile(fileName, sheetNameDetail);
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
+			for (int i = 1; i <= lastRow; i++) {
+				String NAME = excelHelper.getCellData("NAME", i);
+				String COLLEGE = excelHelper.getCellData("COLLEGE", i);
+				String TEXT = excelHelper.getCellData("TEXT", i);
+				String ID = excelHelper.getCellData("ID", i);
+				String prefix = NAME + " - " + COLLEGE;
+				System.out.println("prefix: " + prefix);
+				if (Objects.equals(idValue, ID)) {
+					clickOnDRLValue(prefix, TEXT);
+					sleep(1);
+				}
 			}
 		}
-
 	}
 
 
@@ -596,6 +650,11 @@ public class CreateDataPage extends Init {
 
 	public void addWriterReview() {
 		DriverManager.getDriver().get(Routers.WRITER_REVIEW);
+		clickAddBTN();
+	}
+
+	public void addArticle() {
+		DriverManager.getDriver().get(Routers.ARTICLES);
 		clickAddBTN();
 	}
 
@@ -1098,6 +1157,62 @@ public class CreateDataPage extends Init {
 
 	}
 
+	public void createQatarArticles(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String NAME = excelHelper.getCellData("NAME", i);
+				String URL = excelHelper.getCellData("URL", i);
+				String META_TITLE = excelHelper.getCellData("META_TITLE", i);
+				String META_DESCRIPTION = excelHelper.getCellData("META_DESCRIPTION", i);
+				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
+				String WRITER_TITLE = excelHelper.getCellData("WRITER_TITLE", i);
+				String WRITER_DESCRIPTION = excelHelper.getCellData("WRITER_DESCRIPTION", i);
+//				String WRITER_ACTION = excelHelper.getCellData("WRITER_ACTION", i);
+				String WRITERS = excelHelper.getCellData("WRITERS", i);
+				String METHOD_TITLE = excelHelper.getCellData("METHOD_TITLE", i);
+				String REVIEW_TITLE = excelHelper.getCellData("REVIEW_TITLE", i);
+				String CUSTOMER_REVIEWS = excelHelper.getCellData("CUSTOMER_REVIEWS", i);
+				String OFFER_ACTION = excelHelper.getCellData("OFFER_ACTION", i);
+
+				String EDIT_INTRO = excelHelper.getCellData("EDIT_INTRO", i);
+				String EDIT_CONTENT = excelHelper.getCellData("EDIT_CONTENT", i);
+				String EDIT_FAQ_BANNER = excelHelper.getCellData("EDIT_FAQ_BANNER", i);
+				String EDIT_OFFER = excelHelper.getCellData("EDIT_OFFER", i);
+				String SITEMAP = excelHelper.getCellData("SITEMAP", i);
+
+				addArticle();
+				setNameTB(NAME);
+				setUrlTB(URL);
+				setMetaTitleSec(META_TITLE);
+				setMetaDesTB(META_DESCRIPTION);
+
+				setAnchorTB(ANCHOR);
+				setWriterTitleTB(WRITER_TITLE);
+				setWriterDesTB(WRITER_DESCRIPTION);
+				setWritersDRL(fileName, "writerSelection", WRITERS,NAME);
+				setMethodTitleTB(METHOD_TITLE);
+				setEditIntroData(EDIT_INTRO);
+				setReviewTitleTB(REVIEW_TITLE);
+				setReviewsDRL(fileName,"customerSelection",CUSTOMER_REVIEWS,NAME);
+
+//				sleep(240);
+				clickSaveBTN();
+				sleep(2);
+				clickSaveBTN();
+				excelHelper.setCellData("Passed", "RESULT", i);
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				recordFile(URL, "URL");
+
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+				LogUtils.infoCustom(URL);
+
+				sleep(2);
+			}
+		}
+	}
 
 	// get and extract data
 
