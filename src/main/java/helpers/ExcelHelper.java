@@ -144,7 +144,23 @@ public class ExcelHelper {
 		}
 	}
 
+	public int[] getFirstAndLastRowByValue(String value) {
+		int firstRow = -1;
+		int lastRow = -1;
 
+		for (Row row : sh) {
+			for (Cell cell : row) {
+				if (cell.getCellType() == CellType.STRING && cell.getStringCellValue().equals(value)) {
+					int currentRowNum = row.getRowNum();
+					if (firstRow == -1) {
+						firstRow = currentRowNum; // Hàng đầu tiên
+					}
+					lastRow = currentRowNum; // Cập nhật hàng cuối cùng mỗi lần tìm thấy
+				}
+			}
+		}
+		return new int[]{firstRow, lastRow}; // Trả về chỉ số của hàng đầu tiên và hàng cuối cùng
+	}
 	public static int getLastRowWithData(Sheet sheet, String columnName) {
 		int lastRowWithData = -1;
 		int columnIndex = -1;

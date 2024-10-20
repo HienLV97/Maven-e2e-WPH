@@ -145,7 +145,7 @@ public class CreateDataTest extends Init {
 
 	}
 
-	//	// Create for IB writing
+	// Create for IB writing
 	@Test(description = "create ib sample detail")
 	public void ibSampleDetailIBW() throws Exception {
 		gotoIBW();
@@ -205,6 +205,16 @@ public class CreateDataTest extends Init {
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
 		String sheetName = "Sheet1";
 		createDataPage.deleteArticles(fileName, sheetName);
+	}
+
+	//Create Qatar site
+	@Test(description = "Create qatar page")
+	public void createQatarArticles() {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "home";
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createQatarArticles(fileName, sheetName, sheetHeaderData);
 	}
 
 }

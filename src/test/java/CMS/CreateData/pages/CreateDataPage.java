@@ -44,7 +44,9 @@ public class CreateDataPage extends Init {
 	private Sheet sh;
 	private String fileName;
 	private String dataServicePage;
-
+	private String sheetHeaderData;
+	//	private String fileWriterSel = "writerSelection";
+//	private String fileReviewSel = "customerReview";
 	@FindBy(xpath = "(//span[@class='project-name fbaloo'])[1]")
 	WebElement WPHBTN;
 
@@ -218,8 +220,18 @@ public class CreateDataPage extends Init {
 	WebElement isFeaturable;
 
 	// Note editable
-	@FindBy(xpath = "//div[@class='note-editable']")
-	WebElement noteEditableElement;
+	private String noteEditable = "(//div[@role='textbox'])";
+	private WebElement noteEditableElement(int index) {
+		By option = By.xpath(noteEditable + "[" + index + "]");
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(option));
+	}
+	private String tabIndex = "(//a[@data-toggle='tab'])";
+	private WebElement tabIndexElement(int index){
+		By option = By.xpath(tabIndex + "[" + index + "]");
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(option));
+	}
+//	@FindBy(xpath = "//div[@class='note-editable']")
+//	WebElement noteEditableElement;
 
 	@FindBy(xpath = "//button[@aria-expanded='false']")
 	WebElement styleBTN;
@@ -435,46 +447,168 @@ public class CreateDataPage extends Init {
 		}
 	}
 
-	public void setNoteTB(String value) {
+	public void setNoteTB(String value, int index) {
 		// Sử dụng JavaScript để lấy nội dung HTML hiện tại
 		JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
-		String currentHTML = (String) js.executeScript("return arguments[0].innerHTML;", noteEditableElement);
-
+		String currentHTML = (String) js.executeScript("return arguments[0].innerHTML;", noteEditableElement(index));
+		WebUI.clickWEBElement(tabIndexElement(index));
 		// Thêm dữ liệu mới vào cuối nội dung HTML hiện tại
 		String newHTML = currentHTML + value;
-
+		LogUtils.info("Set NoteTB" + newHTML);
 		// Sử dụng JavaScript để set lại nội dung với dữ liệu mới
-		js.executeScript("arguments[0].innerHTML = arguments[1]; arguments[0].dispatchEvent(new Event('input'));", noteEditableElement, newHTML);
+		js.executeScript("arguments[0].innerHTML = arguments[1]; arguments[0].dispatchEvent(new Event('input'));", noteEditableElement(index), newHTML);
 		sleep(1);
 	}
 
-	public void setEditIntroData(String value, String sheetHeaderData) {
+	public void setEditIntroData(String value, String NAME) {
 		if (Objects.isNull(value)) {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
 			clickEditIntroBTN();
 			excelHelper.setExcelFile(fileName, sheetHeaderData);
-			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "NAME");
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "ID");
+			int j = 1;
 			for (int i = 1; i <= lastRow; i++) {
-				clickAddBTN();
-				setNoteTB(value);
-				sleep(1);
-				clickSaveBTN();
+				String EDIT_INTRO = excelHelper.getCellData("EDIT_INTRO", i);
+				String ID = excelHelper.getCellData("ID", i);
+				if (Objects.equals(NAME, ID) && !Objects.equals(EDIT_INTRO, "")) {
+					clickAddBTN();
+					setNoteTB(EDIT_INTRO,j);
+					sleep(1);
+					clickSaveBTN();
+					j++;
+				}
 			}
-		}else {
+		} else {
 			clickEditIntroBTN();
 			clickAddBTN();
-			setNoteTB(value);
+			setNoteTB(value,1);
 			sleep(1);
 			clickSaveBTN();
 		}
-
 	}
 
-	public void setEditOfferData(String value) {
-		clickEditOfferBTN();
-		setNoteTB(value);
+	public void setEditOfferData(String value, String NAME) {
+		if (Objects.isNull(value)) {
+			return;
+		}
+		if (Objects.equals(value.toLowerCase(), "multi")) {
+			clickEditOfferBTN();
+			excelHelper.setExcelFile(fileName, sheetHeaderData);
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "ID");
+			int j = 1;
+			for (int i = 1; i <= lastRow; i++) {
+				String EDIT_OFFER = excelHelper.getCellData("EDIT_OFFER", i);
+				String ID = excelHelper.getCellData("ID", i);
+				if (Objects.equals(NAME, ID) && !Objects.equals(EDIT_OFFER, "")) {
+					clickAddBTN();
+					setNoteTB(EDIT_OFFER,j);
+					sleep(1);
+					clickSaveBTN();
+					j++;
+				}
+			}
+		} else {
+			clickEditOfferBTN();
+			clickAddBTN();
+			setNoteTB(value,1);
+			sleep(1);
+			clickSaveBTN();
+		}
+	}
+
+	public void setEditContentData(String value, String NAME) {
+		if (Objects.isNull(value)) {
+			return;
+		}
+		if (Objects.equals(value.toLowerCase(), "multi")) {
+			clickEditContentBTN();
+			excelHelper.setExcelFile(fileName, sheetHeaderData);
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "ID");
+			int j = 1;
+			for (int i = 1; i <= lastRow; i++) {
+				String EDIT_CONTENT = excelHelper.getCellData("EDIT_CONTENT", i);
+				String ID = excelHelper.getCellData("ID", i);
+				if (Objects.equals(NAME, ID) && !Objects.equals(EDIT_CONTENT, "")) {
+					clickAddBTN();
+					setNoteTB(EDIT_CONTENT,j);
+					sleep(1);
+					clickSaveBTN();
+					sleep(2);
+					j++;
+				}
+
+			}
+		} else {
+			clickEditContentBTN();
+			clickAddBTN();
+			setNoteTB(value,1);
+			sleep(1);
+			clickSaveBTN();
+		}
+	}
+
+	public void setEditFAQBannerData(String value,String NAME) {
+		if (Objects.isNull(value)) {
+			return;
+		}
+		if (Objects.equals(value.toLowerCase(), "multi")) {
+			clickEditFAQBannerBTN();
+			excelHelper.setExcelFile(fileName, sheetHeaderData);
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "ID");
+			int j = 1;
+			for (int i = 1; i <= lastRow; i++) {
+				String EDIT_FAQ_BANNER = excelHelper.getCellData("EDIT_FAQ_BANNER", i);
+				String ID = excelHelper.getCellData("ID", i);
+				System.out.println("EDIT_FAQ_BANNER: "+ EDIT_FAQ_BANNER);
+				if (Objects.equals(NAME, ID) && !Objects.equals(EDIT_FAQ_BANNER, "")) {
+					LogUtils.info("vao` day");
+					System.out.println("EDIT_FAQ_BANNER: "+ EDIT_FAQ_BANNER);
+					clickAddBTN();
+					setNoteTB(EDIT_FAQ_BANNER,j);
+					sleep(1);
+					clickSaveBTN();
+					j++;
+				}
+			}
+		} else {
+			clickEditFAQBannerBTN();
+			clickAddBTN();
+			setNoteTB(value,1);
+			sleep(1);
+			clickSaveBTN();
+		}
+	}
+
+	public void setEditFAQData(String value, String NAME) {
+		if (Objects.isNull(value)) {
+			LogUtils.info("FAQ haven't data");
+			return;
+		}
+		if (Objects.equals(value.toLowerCase(), "multi")) {
+			clickEditFAQBTN();
+			excelHelper.setExcelFile(fileName, sheetHeaderData);
+			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "ID");
+			int j = 1;
+			for (int i = 1; i <= lastRow; i++) {
+				String EDIT_FAQ = excelHelper.getCellData("EDIT_FAQ", i);
+				String ID = excelHelper.getCellData("ID", i);
+				if (Objects.equals(NAME, ID) && !Objects.equals(EDIT_FAQ, "")) {
+					clickAddBTN();
+					setNoteTB(EDIT_FAQ,j);
+					sleep(1);
+					clickSaveBTN();
+					j++;
+				}
+			}
+		} else {
+			clickEditFAQBTN();
+			clickAddBTN();
+			setNoteTB(value,2);
+			sleep(1);
+			clickSaveBTN();
+		}
 	}
 
 	public void clickSampleDRL() {
@@ -501,7 +635,7 @@ public class CreateDataPage extends Init {
 		}
 	}
 
-	public void setWritersDRL(String fileName, String sheetWriterSel, String value,String idValue) {
+	public void setWritersDRL(String fileName, String sheetWriterSel, String value, String idValue) {
 		if (Objects.isNull(value)) {
 			return;
 		}
@@ -522,12 +656,13 @@ public class CreateDataPage extends Init {
 					sleep(1);
 				}
 			}
-		}else {
+			clickWritersDRL();
+		} else {
 			LogUtils.info("Invalid value");
 		}
 	}
 
-	public void setReviewsDRL(String fileName, String sheetNameDetail, String value,String idValue) {
+	public void setReviewsDRL(String fileName, String sheetNameDetail, String value, String idValue) {
 		if (Objects.isNull(value)) {
 			return;
 		}
@@ -547,6 +682,7 @@ public class CreateDataPage extends Init {
 					sleep(1);
 				}
 			}
+			clickReivewsDRL();
 		}
 	}
 
@@ -739,7 +875,7 @@ public class CreateDataPage extends Init {
 	public boolean isNoteNotFound() {
 		try {
 			// Kiểm tra xem element có hiện diện và hiển thị hay không
-			if (noteEditableElement.isDisplayed()) {
+			if (noteEditableElement(1).isDisplayed()) {
 				LogUtils.info("Note not found");
 				return false;
 			}
@@ -957,8 +1093,8 @@ public class CreateDataPage extends Init {
 				LogUtils.info(URL);
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(URL, "URL");
-				setEditIntroData(EDIT_INTRO);
-				setEditOfferData(EDIT_OFFER);
+				setEditIntroData(EDIT_INTRO, NAME);
+				setEditOfferData(EDIT_OFFER, NAME);
 				excelHelper.setCellData("Passed", "RESULT", i);
 				sleep(2);
 			}
@@ -1004,7 +1140,7 @@ public class CreateDataPage extends Init {
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(URL, "URL");
 
-				setEditIntroData(EDIT_INTRO);
+				setEditIntroData(EDIT_INTRO, NAME);
 				clickPublish();
 
 				sleep(2);
@@ -1157,8 +1293,10 @@ public class CreateDataPage extends Init {
 
 	}
 
-	public void createQatarArticles(String fileName, String sheetName) {
+	public void createQatarArticles(String fileName, String sheetName, String sheetHeaderData) {
+		this.fileName = fileName;
 		excelHelper.setExcelFile(fileName, sheetName);
+		this.sheetHeaderData = sheetHeaderData;
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i)) {
@@ -1170,16 +1308,15 @@ public class CreateDataPage extends Init {
 				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
 				String WRITER_TITLE = excelHelper.getCellData("WRITER_TITLE", i);
 				String WRITER_DESCRIPTION = excelHelper.getCellData("WRITER_DESCRIPTION", i);
-//				String WRITER_ACTION = excelHelper.getCellData("WRITER_ACTION", i);
 				String WRITERS = excelHelper.getCellData("WRITERS", i);
 				String METHOD_TITLE = excelHelper.getCellData("METHOD_TITLE", i);
 				String REVIEW_TITLE = excelHelper.getCellData("REVIEW_TITLE", i);
 				String CUSTOMER_REVIEWS = excelHelper.getCellData("CUSTOMER_REVIEWS", i);
 				String OFFER_ACTION = excelHelper.getCellData("OFFER_ACTION", i);
 
-				String EDIT_INTRO = excelHelper.getCellData("EDIT_INTRO", i);
 				String EDIT_CONTENT = excelHelper.getCellData("EDIT_CONTENT", i);
 				String EDIT_FAQ_BANNER = excelHelper.getCellData("EDIT_FAQ_BANNER", i);
+				String EDIT_FAQ = excelHelper.getCellData("EDIT_FAQ", i);
 				String EDIT_OFFER = excelHelper.getCellData("EDIT_OFFER", i);
 				String SITEMAP = excelHelper.getCellData("SITEMAP", i);
 
@@ -1192,19 +1329,27 @@ public class CreateDataPage extends Init {
 				setAnchorTB(ANCHOR);
 				setWriterTitleTB(WRITER_TITLE);
 				setWriterDesTB(WRITER_DESCRIPTION);
-				setWritersDRL(fileName, "writerSelection", WRITERS,NAME);
+				setWritersDRL(fileName, "writerSelection", WRITERS, NAME);
 				setMethodTitleTB(METHOD_TITLE);
-				setEditIntroData(EDIT_INTRO);
 				setReviewTitleTB(REVIEW_TITLE);
-				setReviewsDRL(fileName,"customerSelection",CUSTOMER_REVIEWS,NAME);
+				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
+				setOfferActTB(OFFER_ACTION);
 
-//				sleep(240);
-				clickSaveBTN();
-				sleep(2);
 				clickSaveBTN();
 				excelHelper.setCellData("Passed", "RESULT", i);
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(URL, "URL");
+
+				sleep(2);
+				WebUI.waitForPageLoaded();
+
+				//set Header
+				setEditContentData(EDIT_CONTENT, NAME);
+				setEditFAQData(EDIT_FAQ,NAME);
+				setEditFAQBannerData(EDIT_FAQ_BANNER,NAME);
+				setEditOfferData(EDIT_OFFER,NAME);
+
+//				clickSaveBTN();
 
 				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.infoCustom(URL);
@@ -1371,10 +1516,10 @@ public class CreateDataPage extends Init {
 	public void extractDataIntro(String serviceUrl) throws IOException {
 		// Lấy nội dung HTML của element
 		clickEditIntroBTN();
-		if (!noteEditableElement.isDisplayed()) {
+		if (!noteEditableElement(1).isDisplayed()) {
 			return;
 		}
-		String content = noteEditableElement.getAttribute("innerHTML");
+		String content = noteEditableElement(1).getAttribute("innerHTML");
 
 		// Lấy tất cả các thẻ từ trong div
 		checkContentNoteEdit(content, serviceUrl, "Edit intro");
@@ -1388,7 +1533,7 @@ public class CreateDataPage extends Init {
 		if (isNoteNotFound()) {
 			return;
 		}
-		String content = noteEditableElement.getAttribute("innerHTML");
+		String content = noteEditableElement(1).getAttribute("innerHTML");
 
 		// Sử dụng Jsoup để phân tích nội dung HTML
 		Document doc = Jsoup.parse(content);
@@ -1475,7 +1620,7 @@ public class CreateDataPage extends Init {
 		if (isNoteNotFound()) {
 			return;
 		}
-		String content = noteEditableElement.getAttribute("innerHTML");
+		String content = noteEditableElement(1).getAttribute("innerHTML");
 
 		// Sử dụng Jsoup để phân tích nội dung HTML
 		Document doc = Jsoup.parse(content);
@@ -1562,7 +1707,7 @@ public class CreateDataPage extends Init {
 		if (isNoteNotFound()) {
 			return;
 		}
-		String content = noteEditableElement.getAttribute("innerHTML");
+		String content = noteEditableElement(1).getAttribute("innerHTML");
 
 		// Sử dụng Jsoup để phân tích nội dung HTML
 		Document doc = Jsoup.parse(content);
@@ -1649,7 +1794,7 @@ public class CreateDataPage extends Init {
 		if (isNoteNotFound()) {
 			return;
 		}
-		String content = noteEditableElement.getAttribute("innerHTML");
+		String content = noteEditableElement(1).getAttribute("innerHTML");
 
 		// Sử dụng Jsoup để phân tích nội dung HTML
 		Document doc = Jsoup.parse(content);
@@ -1777,7 +1922,7 @@ public class CreateDataPage extends Init {
 	// Hàm con để trích xuất dữ liệu từ một element noteEditable
 	private int extractNoteEditableElementDataToExcel(Sheet sheet, String serviceUrl, String element, WebElement noteEditableElement, int rowNum) throws IOException {
 		// Lấy nội dung HTML của element
-		String content = noteEditableElement.getAttribute("innerHTML");
+		String content = noteEditableElement(1).getAttribute("innerHTML");
 
 		// Sử dụng Jsoup để phân tích nội dung HTML
 		Document doc = Jsoup.parse(content);
@@ -1863,8 +2008,7 @@ public class CreateDataPage extends Init {
 	public void simpleTest(String fileName, String sheetName) {
 		DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/articles/edit/178");
 		String id = "exhibit-writing-service";
-		setWritersDRL(fileName, sheetName, id);
-//		clickSaveBTN();
+		clickSaveBTN();
 		sleep(15);
 	}
 }

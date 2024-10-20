@@ -44,7 +44,7 @@
             </class>
         </classes>
     </test>
-    <test enabled="true" name="Sample test" >
+    <test enabled="false" name="Sample test" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
         <classes>
@@ -55,7 +55,29 @@
             </class>
         </classes>
     </test>
+    <test enabled="true" name="Qatar site" >
+        <parameter name="browser" value="chrome"/>
+        <parameter name="sleepTime" value="10"/>
+        <classes>
+            <class name="CMS.CreateData.testcases.CreateDataTest">
+                <methods>
+                    <include name="createQatarArticles"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test enabled="false" name="delete Articles"  >
+        <parameter name="browser" value="chrome"/>
+        <parameter name="sleepTime" value="10"/>
 
+        <classes>
+            <class name="CMS.CreateData.testcases.CreateDataTest">
+                <methods>
+                    <include name="deleteArticles"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>
 

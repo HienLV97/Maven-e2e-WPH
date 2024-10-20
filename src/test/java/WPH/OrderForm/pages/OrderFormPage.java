@@ -175,13 +175,12 @@ public class OrderFormPage extends Init {
 	public void setDocumentDRL(String value) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(DocumentDRL));
 		clickDocumentDRL();
-		DriverManager.getDriver().findElement(DocumentDRL).sendKeys("Admission Essay");
+		DriverManager.getDriver().findElement(DocumentDRL).sendKeys(value);
 	}
 
 	public void clickAcaLevel(Integer value) {
 		By option = By.xpath(Acalevel + "//span[contains(text(),'" + academicLevel.get(value).replace("\"", "") + "')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(option));
-//		new WebUI(driver);
 		WebUI.scrollToElement(option);
 		DriverManager.getDriver().findElement(option).click();
 	}

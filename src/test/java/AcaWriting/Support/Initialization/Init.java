@@ -145,10 +145,28 @@ public class Init {
 
 	//a
 
-	@AfterMethod
+//	@AfterMethod
 	public void closeDriver() {
-		if (DriverManager.getDriver() != null) {
-			DriverManager.quit();
+		try {
+			// Giả sử đây là nơi bạn thực hiện các thao tác, ví dụ:
+			// driver.findElement(By.id("someElement"));
+
+		} catch (Exception e) {
+			LogUtils.info("Có lỗi xảy ra: " + e.getMessage());
+
+			// Chờ 10 giây trước khi đóng driver
+			try {
+				Thread.sleep(10000); // Chờ 10 giây
+			} catch (InterruptedException ie) {
+				ie.printStackTrace();
+			}
+
+		} finally {
+			// Đóng driver sau khi chờ 10 giây nếu có lỗi
+			if (DriverManager.getDriver() != null) {
+				DriverManager.quit();
+				LogUtils.info("Driver đã được đóng.");
+			}
 		}
 	}
 
@@ -198,7 +216,6 @@ public class Init {
 		}
 		LogUtils.info("Trang đã chuyển thành công!");
 	}
-
 
 	public void screenShot(String ImgName) throws AWTException, IOException {
 //		WebDriver driver;
