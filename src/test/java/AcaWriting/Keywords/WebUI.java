@@ -115,9 +115,11 @@ public class WebUI {
 		logConsole("Set text " + text + " on input " + webElement);
 	}
 	public static String getText(WebElement webElement){
+		logConsole(webElement+ ": "+webElement.getText());
 		return webElement.getText();
 	}
 	public static String getValue(WebElement webElement){
+		LogUtils.info(webElement+ ": "+webElement.getAttribute("value"));
 		return webElement.getAttribute("value");
 	}
 	public static String getElementText(By by) {

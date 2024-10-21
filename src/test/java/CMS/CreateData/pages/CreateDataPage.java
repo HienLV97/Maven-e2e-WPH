@@ -213,10 +213,13 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//select[@name='rating']")
 	WebElement ratingType;
 
+	@FindBy(xpath = "//select[@name='priority']")
+	WebElement priorityType;
+
 	@FindBy(xpath = "//input[@name='paper_type' or @name='type']")
 	WebElement typeOfPaperTB;
 
-	@FindBy(xpath = "//i[@data-behavior='checkbox']")
+	@FindBy(xpath = "//input[@id='featurable']")
 	WebElement isFeaturable;
 
 	// Note editable
@@ -292,6 +295,11 @@ public class CreateDataPage extends Init {
 	public void setRatingDRL(String type) {
 		Select select = new Select(ratingType);
 		select.selectByVisibleText(type);
+	}
+
+	public void setProrityType(String type){
+		Select select = new Select(priorityType);
+		select.selectByVisibleText(type.toLowerCase());
 	}
 
 	public void setNameTB(String value) {
@@ -441,8 +449,10 @@ public class CreateDataPage extends Init {
 	public String getIsFeaturable() {
 		String checked = WebUI.getValue(isFeaturable);
 		if (Objects.equals(checked, "1")) {
+			LogUtils.info("Checked: Yes");
 			return "yes";
 		} else {
+			LogUtils.info("Checked: No");
 			return "no";
 		}
 	}
@@ -867,12 +877,12 @@ public class CreateDataPage extends Init {
 		try {
 			// Kiểm tra xem element có hiện diện và hiển thị hay không
 			if (pageNotFoundMessage.isDisplayed()) {
-				LogUtils.info("Page is valid");
+				LogUtils.info("Page not found (404 error)");
 				return true;
 			}
-		} catch (Exception e) {
+		} catch (NoSuchElementException e) {
 			// Nếu không tìm thấy element, nghĩa là trang không bị lỗi 404
-			LogUtils.info("Page not found");
+			LogUtils.info("Page is valid");
 		}
 		return false;
 	}
@@ -1339,6 +1349,7 @@ public class CreateDataPage extends Init {
 				setReviewTitleTB(REVIEW_TITLE);
 //				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
 				setOfferActTB(OFFER_ACTION);
+				setProrityType(SITEMAP);
 
 				clickSaveBTN();
 				excelHelper.setCellData("Passed", "RESULT", i);
@@ -1353,8 +1364,6 @@ public class CreateDataPage extends Init {
 				setEditFAQData(EDIT_FAQ,NAME);
 				setEditFAQBannerData(EDIT_FAQ_BANNER,NAME);
 				setEditOfferData(EDIT_OFFER,NAME);
-
-//				clickSaveBTN();
 
 				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.infoCustom(URL);
@@ -1376,9 +1385,8 @@ public class CreateDataPage extends Init {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "URL");
 		for (int i = 1; i <= lastRow; i++) {
-			if (checkResult(fileName, sheetName, i) && checkPageNotFound()) {
-
-				DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
+			DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
+			if (checkResult(fileName, sheetName, i) && !checkPageNotFound()) {
 				excelHelper.setExcelFile(fileName, sheetName);
 				excelHelper.setCellData(getNameTB(), "NAME", i);
 				excelHelper.setCellData(DownloadImage(), "FILE_NAME", i);
@@ -1388,7 +1396,6 @@ public class CreateDataPage extends Init {
 				excelHelper.setCellData(getComOrderTB(), "COMPLETED_ORDER", i);
 				excelHelper.setCellData(getAchiTB(), "ACHIEVEMENT", i);
 				excelHelper.setCellData(getDisciplines(), "DISCIPLINES", i);
-
 				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 
 			}
@@ -1401,8 +1408,9 @@ public class CreateDataPage extends Init {
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i) && checkPageNotFound()) {
 				DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
+			DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
+			if (checkResult(fileName, sheetName, i) && !checkPageNotFound()) {
 				excelHelper.setExcelFile(fileName, sheetName);
-
 				excelHelper.setCellData(getNameTB(), "NAME", i);
 				excelHelper.setCellData(getCollegeTB(), "COLLEGE", i);
 				excelHelper.setCellData(getTextTB(), "TEXT", i);
