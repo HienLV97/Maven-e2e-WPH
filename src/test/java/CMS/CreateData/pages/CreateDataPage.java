@@ -450,14 +450,19 @@ public class CreateDataPage extends Init {
 	public void setNoteTB(String value, int index) {
 		// Sử dụng JavaScript để lấy nội dung HTML hiện tại
 		JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
-		String currentHTML = (String) js.executeScript("return arguments[0].innerHTML;", noteEditableElement(index));
+//		String currentText = (String) js.executeScript("return arguments[0].textContent;", noteEditableElement(index));
 		WebUI.clickWEBElement(tabIndexElement(index));
-		// Thêm dữ liệu mới vào cuối nội dung HTML hiện tại
-		String newHTML = currentHTML + value;
-		LogUtils.info("Set NoteTB" + newHTML);
-		// Sử dụng JavaScript để set lại nội dung với dữ liệu mới
-		js.executeScript("arguments[0].innerHTML = arguments[1]; arguments[0].dispatchEvent(new Event('input'));", noteEditableElement(index), newHTML);
+
+// Thêm dữ liệu mới vào nội dung hiện tại của thẻ h1
+//		String newText = currentText + value;
+		LogUtils.info("Set NoteTB: " + value);
+
+// Sử dụng JavaScript để set lại nội dung văn bản mới mà không dùng HTML
+//		js.executeScript("arguments[0].textContent = arguments[1];", noteEditableElement(index), newText);
+		js.executeScript("arguments[0].innerHTML = arguments[1]; arguments[0].dispatchEvent(new Event('input'));", noteEditableElement(index), value);
+
 		sleep(1);
+
 	}
 
 	public void setEditIntroData(String value, String NAME) {
@@ -1329,10 +1334,10 @@ public class CreateDataPage extends Init {
 				setAnchorTB(ANCHOR);
 				setWriterTitleTB(WRITER_TITLE);
 				setWriterDesTB(WRITER_DESCRIPTION);
-				setWritersDRL(fileName, "writerSelection", WRITERS, NAME);
+//				setWritersDRL(fileName, "writerSelection", WRITERS, NAME);
 				setMethodTitleTB(METHOD_TITLE);
 				setReviewTitleTB(REVIEW_TITLE);
-				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
+//				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
 				setOfferActTB(OFFER_ACTION);
 
 				clickSaveBTN();

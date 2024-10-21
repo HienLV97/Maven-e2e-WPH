@@ -69,7 +69,6 @@
     <test enabled="false" name="delete Articles"  >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
-
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
