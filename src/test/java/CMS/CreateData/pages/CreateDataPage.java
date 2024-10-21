@@ -476,7 +476,7 @@ public class CreateDataPage extends Init {
 	}
 
 	public void setEditIntroData(String value, String NAME) {
-		if (Objects.isNull(value)) {
+		if (Objects.equals(value,"")) {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
@@ -505,7 +505,7 @@ public class CreateDataPage extends Init {
 	}
 
 	public void setEditOfferData(String value, String NAME) {
-		if (Objects.isNull(value)) {
+		if (Objects.equals(value,"")) {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
@@ -534,7 +534,7 @@ public class CreateDataPage extends Init {
 	}
 
 	public void setEditContentData(String value, String NAME) {
-		if (Objects.isNull(value)) {
+		if (Objects.equals(value,"")) {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
@@ -565,7 +565,7 @@ public class CreateDataPage extends Init {
 	}
 
 	public void setEditFAQBannerData(String value,String NAME) {
-		if (Objects.isNull(value)) {
+		if (Objects.equals(value,"")) {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
@@ -597,7 +597,7 @@ public class CreateDataPage extends Init {
 	}
 
 	public void setEditFAQData(String value, String NAME) {
-		if (Objects.isNull(value)) {
+		if (Objects.equals(value,"")) {
 			LogUtils.info("FAQ haven't data");
 			return;
 		}
