@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Suite All" verbose="1">
-    <test enabled="true" name="CMS WPH"  >
+    <test enabled="false" name="CMS WPH"  >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
         <classes>
@@ -9,7 +9,7 @@
                 <methods>
 <!--                    <include name="sampleDetail"/>-->
 <!--                    <include name="sampleCreateArticle"/>-->
-<!--                    <include name="getDataWriterReview"/>-->
+                    <include name="getDataWriterReview"/>
                     <include name="getDataCustomerReview"/>
 <!--                    <include name="getDataService"/>-->
 <!--                    <include name="deleteArticles"/>-->
@@ -54,7 +54,7 @@
             </class>
         </classes>
     </test>
-    <test enabled="false" name="Qatar site" >
+    <test enabled="true" name="Qatar site" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="10"/>
         <classes>

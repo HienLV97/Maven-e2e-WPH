@@ -634,7 +634,7 @@ public class CreateDataPage extends Init {
 		WebUI.clickWEBElement(writersDRL);
 	}
 
-	public void clickReivewsDRL() {
+	public void clickReviewsDRL() {
 		WebUI.clickWEBElement(reviewsDRL);
 	}
 
@@ -682,7 +682,7 @@ public class CreateDataPage extends Init {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
-			clickReivewsDRL();
+			clickReviewsDRL();
 			excelHelper.setExcelFile(fileName, sheetNameDetail);
 			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
 			for (int i = 1; i <= lastRow; i++) {
@@ -697,7 +697,7 @@ public class CreateDataPage extends Init {
 					sleep(1);
 				}
 			}
-			clickReivewsDRL();
+			clickReviewsDRL();
 		}
 	}
 
@@ -715,7 +715,7 @@ public class CreateDataPage extends Init {
 		if (value.length() > 55) {
 			value = value.substring(0, 55);  // Cắt chuỗi nếu vượt quá 60 ký tự
 		}
-		String xpath = "(//a[contains(normalize-space(text()), '" + value + "')])[1]";
+		String xpath = "(//a[contains(normalize-space(text()), \"" + value + "\")])[1]";
 
 		// Tìm phần tử với XPath động và thực hiện thao tác click
 		WebElement article = DriverManager.getDriver().findElement(By.xpath(xpath));
@@ -1344,10 +1344,10 @@ public class CreateDataPage extends Init {
 				setAnchorTB(ANCHOR);
 				setWriterTitleTB(WRITER_TITLE);
 				setWriterDesTB(WRITER_DESCRIPTION);
-//				setWritersDRL(fileName, "writerSelection", WRITERS, NAME);
+				setWritersDRL(fileName, "writerSelection", WRITERS, NAME);
 				setMethodTitleTB(METHOD_TITLE);
 				setReviewTitleTB(REVIEW_TITLE);
-//				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
+				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
 				setOfferActTB(OFFER_ACTION);
 				setProrityType(SITEMAP);
 
