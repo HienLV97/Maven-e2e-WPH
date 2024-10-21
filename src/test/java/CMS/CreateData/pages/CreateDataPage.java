@@ -1406,8 +1406,6 @@ public class CreateDataPage extends Init {
 		excelHelper.setExcelFile(fileName, sheetName);
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "URL");
 		for (int i = 1; i <= lastRow; i++) {
-			if (checkResult(fileName, sheetName, i) && checkPageNotFound()) {
-				DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
 			DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
 			if (checkResult(fileName, sheetName, i) && !checkPageNotFound()) {
 				excelHelper.setExcelFile(fileName, sheetName);
