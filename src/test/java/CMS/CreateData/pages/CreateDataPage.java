@@ -620,7 +620,7 @@ public class CreateDataPage extends Init {
 		} else {
 			clickEditFAQBTN();
 			clickAddBTN();
-			setNoteTB(value,2);
+			setNoteTB(value,1);
 			sleep(1);
 			clickSaveBTN();
 		}
@@ -672,6 +672,8 @@ public class CreateDataPage extends Init {
 				}
 			}
 			clickWritersDRL();
+			sleep(0.5);
+			LogUtils.info("Done");
 		} else {
 			LogUtils.info("Invalid value");
 		}
@@ -698,6 +700,8 @@ public class CreateDataPage extends Init {
 				}
 			}
 			clickReviewsDRL();
+			sleep(0.5);
+			LogUtils.info("Done");
 		}
 	}
 
