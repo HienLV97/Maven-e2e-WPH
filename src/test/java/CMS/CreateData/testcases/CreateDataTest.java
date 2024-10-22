@@ -28,8 +28,22 @@ public class CreateDataTest extends Init {
 		LogUtils.info(DriverManager.getDriver().getCurrentUrl());
 	}
 
+	public void signInProd(){
+		DriverManager.getDriver().get("https://yeti-cloud.com/");
+		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
+		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
+		createDataPage = new CreateDataPage(DriverManager.getDriver());
+		LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+		LogUtils.info(DriverManager.getDriver().getCurrentUrl());
+	}
+
 	public void gotoWPH() {
 		signIn();
+		createDataPage.clickWPHBTN();
+	}
+
+	public void gotoWPHProd(){
+		signInProd();
 		createDataPage.clickWPHBTN();
 	}
 
@@ -210,7 +224,7 @@ public class CreateDataTest extends Init {
 	//Create Qatar site
 	@Test(description = "Create qatar page")
 	public void createQatarArticles() {
-		gotoWPH();
+		gotoWPHProd();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "home";
 		String sheetHeaderData = "dataHeader";
