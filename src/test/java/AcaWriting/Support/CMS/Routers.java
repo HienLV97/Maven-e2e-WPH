@@ -3,9 +3,10 @@ package AcaWriting.Support.CMS;
 public class Routers {
 	static final String BasicUserName = "kamora";
 	static final String BasicPassWord = "iamafriend";
-	public static final String DomainDEV = "yeti-cms.dev";
+	public static final String DomainDEV = "yeti-cloud.com";
 	public static final String BaseURL = "https://"+DomainDEV;
-	public static final String AuthURL = "https://"+BasicUserName+":"+BasicPassWord+"@"+DomainDEV;
+//	public static final String AuthURL = "https://"+BasicUserName+":"+BasicPassWord+"@"+DomainDEV;
+	public static final String AuthURL = "https://"+DomainDEV;
 	//    public static  String BaseURL = "https://writersperhour.com";
 	public static String BaseURLAuthor = "https://kamora:iamafriend@writersperhour.dev";
 //	public static final String BaseURL = "https://kamora:iamafriend@ibhelper.dev";
