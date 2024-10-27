@@ -1,6 +1,5 @@
 package API.GetAPI.NextProxy.Auth;
 
-import API.GetAPI.NextProxy.SignIn.SignIn;
 import helpers.Constants;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

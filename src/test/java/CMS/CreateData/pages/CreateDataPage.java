@@ -37,7 +37,7 @@ import java.io.IOException;
 
 public class CreateDataPage extends Init {
 	//	private WebDriver driver;
-	private WebDriverWait wait;
+	private final WebDriverWait wait;
 	ExcelHelper excelHelper = new ExcelHelper();
 	SoftAssert softassert = new SoftAssert();
 	private Workbook wb;
@@ -45,8 +45,7 @@ public class CreateDataPage extends Init {
 	private String fileName;
 	private String dataServicePage;
 	private String sheetHeaderData;
-	//	private String fileWriterSel = "writerSelection";
-//	private String fileReviewSel = "customerReview";
+
 	@FindBy(xpath = "(//span[@class='project-name fbaloo'])[1]")
 	WebElement WPHBTN;
 
@@ -233,8 +232,6 @@ public class CreateDataPage extends Init {
 		By option = By.xpath(tabIndex + "[" + index + "]");
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(option));
 	}
-//	@FindBy(xpath = "//div[@class='note-editable']")
-//	WebElement noteEditableElement;
 
 	@FindBy(xpath = "//button[@aria-expanded='false']")
 	WebElement styleBTN;
@@ -1898,12 +1895,8 @@ public class CreateDataPage extends Init {
 		List<String> serviceUrls = excelHelper.getServiceUrls(); // Đọc danh sách URL
 		excelHelper.close();
 
-		// Khởi tạo Workbook và Sheet trong file Excel để ghi dữ liệu
-//		Workbook wb = new XSSFWorkbook();
-//		Sheet sh = workbook.createSheet("Service Data");
-
 		int rowNum = 0;
-//		extractDataToExcel(dataExcelFilePath,);
+
 		// Thêm tiêu đề cột để phân biệt rõ loại và nội dung
 		Row headerRow = sh.createRow(rowNum++);
 		headerRow.createCell(0).setCellValue("Service URL");
@@ -1915,14 +1908,7 @@ public class CreateDataPage extends Init {
 		// Duyệt qua danh sách URL
 		for (String url : serviceUrls) {
 			DriverManager.getDriver().get(url);  // Mở trang dịch vụ
-
-			// Lấy dữ liệu từ các phần tử noteEditableElement
-//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 1", noteEditableElement1, rowNum);
-//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 2", noteEditableElement2, rowNum);
-//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 3", noteEditableElement3, rowNum);
-//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 4", noteEditableElement4, rowNum);
-//			rowNum = extractNoteEditableElementDataToExcel(sheet, url, "Element 5", noteEditableElement5, rowNum);
-		}
+	}
 
 		// Ghi dữ liệu vào file Excel
 		try (FileOutputStream outputStream = new FileOutputStream(dataExcelFilePath)) {

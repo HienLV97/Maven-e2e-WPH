@@ -1,15 +1,16 @@
 package AcaWriting.Support.Initialization;
 
 import java.io.*;
+import java.util.Map;
 import java.util.Properties;
 
 import AcaWriting.Support.WPH.Routers;
 import logs.LogUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
@@ -30,9 +31,7 @@ import AcaWriting.drivers.DriverManager;
 
 public class Init {
 	public WebDriver driver;
-	//	public WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	private String screenName;
-
 	public void authenticate(String env) {
 //		switch (env.trim().toLowerCase()) {
 //			case "wph":
@@ -67,7 +66,7 @@ public class Init {
 		DriverManager.setDriver(driver);
 	}
 
-	//Viết hàm trung gian để lựa chọn Browser cần chạy với giá trị tham số "browser" bên trên truyền vào
+	//Viết hàm trung gian để lựa chọn Browser cần chạy với giá trị tham số "browser" bên trên truyền vào\
 	public WebDriver setupDriver(String browserName) {
 		WebDriver driver;
 		switch (browserName.trim().toLowerCase()) {
@@ -142,10 +141,7 @@ public class Init {
 		return driver;
 	}
 
-
-	//a
-
-//	@AfterMethod
+	@AfterMethod
 	public void closeDriver() {
 		try {
 			// Giả sử đây là nơi bạn thực hiện các thao tác, ví dụ:
@@ -169,6 +165,7 @@ public class Init {
 			}
 		}
 	}
+
 
 	public void sleep(double second) {
 		try {
@@ -217,48 +214,12 @@ public class Init {
 		LogUtils.info("Trang đã chuyển thành công!");
 	}
 
-	public void screenShot(String ImgName) throws AWTException, IOException {
-//		WebDriver driver;
-		Actions action = new Actions(DriverManager.getDriver());
-		org.openqa.selenium.Point windowPosition = DriverManager.getDriver().manage().window().getPosition();
-		int XScreen2 = windowPosition.getX();
-		int YScreen2 = windowPosition.getY();
-
-		// Lấy kích thước hiện tại của cửa sổ trình duyệt
-		org.openqa.selenium.Dimension windowSize = DriverManager.getDriver().manage().window().getSize();
-		int screenWidth = windowSize.getWidth();
-		int screenHeight = windowSize.getHeight();
-		if (Objects.equals(screenName, "2")) {
-			XScreen2 = -1440;
-			YScreen2 = -338;
-			screenWidth = 1440;
-			screenHeight = 2560;
-		}
-		if (Objects.equals(screenName, "3")) {
-			XScreen2 = 0;
-			YScreen2 = 1440;
-			screenWidth = 1920;
-			screenHeight = 1080;
-		}
-		if (Objects.equals(screenName, "MidRight")) {
-			screenWidth = 1280;
-			screenHeight = 1440;
-			XScreen2 = 1281;
-			YScreen2 = 0;
-		}
-		if (Objects.equals(screenName, "MidRightMac")) {
-			screenWidth = 1280;
-			screenHeight = 1440;
-			XScreen2 = 1440 + 1280;
-			YScreen2 = 0;
-		}
+	public void screenShot(String imgName) throws AWTException, IOException {
+		Rectangle screenRect = browserPosition(screenName, DriverManager.getDriver());
 		sleep(5);
-		Robot robot = new Robot();
-		Rectangle screenRectangle = new Rectangle(XScreen2, YScreen2, screenWidth, screenHeight);
-		BufferedImage image = robot.createScreenCapture(screenRectangle);
-		File file = new File("src/test/resources/screenshots/" + ImgName + ".png");
-		ImageIO.write(image, "png", file);
-
+		BufferedImage image = new Robot().createScreenCapture(screenRect);
+		ImageIO.write(image, "png", new File("src/test/resources/screenshots/" + imgName + ".png"));
+		LogUtils.info("Screenshot success!");
 	}
 
 	public static void skipSSL() throws NoSuchAlgorithmException, KeyManagementException {
@@ -284,50 +245,31 @@ public class Init {
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 	}
 
-	public void browserPosition(String value, WebDriver driver) {
+	public static Rectangle browserPosition(String value, WebDriver driver) {
+		Map<String, org.openqa.selenium.Dimension> screenSizes = Map.of(
+				"2", new org.openqa.selenium.Dimension(1440, 2560),
+				"3", new org.openqa.selenium.Dimension(1920, 1080),
+				"MidRight", new org.openqa.selenium.Dimension(1280, 1440),
+				"MidRightMac", new org.openqa.selenium.Dimension(1280, 1440)
+		);
+		Map<String, org.openqa.selenium.Point> screenPositions = Map.of(
+				"2", new org.openqa.selenium.Point(-1440, -338),
+				"3", new org.openqa.selenium.Point(0, 1440),
+				"MidRight", new org.openqa.selenium.Point(1281, 0),
+				"MidRightMac", new org.openqa.selenium.Point(2720, 0)
+		);
+
 		if (value.equals("1")) {
 			driver.manage().window().maximize();
-		}
-		if (value.equals("2")) {
-			int screenNumber = -1;
-			int screenWidth = 1440;
-			int screenHeight = 2560;
-
-			// Xác định vị trí và kích thước của cửa sổ trình duyệt trên màn hình mong muốn
-			int windowX = screenNumber * screenWidth;
-			int windowY = -338; // Vị trí theo chiều cao không thay đổi
-			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
-
-			// Di chuyển cửa sổ và thiết lập kích thước
-			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			driver.manage().window().setSize(windowSize);
-		}
-		if (value.equals("3")) {
-			int screenWidth = 1920;
-			int screenHeight = 1080;
-			int windowX = 0;
-			int windowY = 1440; // Vị trí theo chiều cao không thay đổi
-			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
-			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			driver.manage().window().setSize(windowSize);
-		}
-		if (value.equals("MidRight")) {
-			int screenWidth = 1280;
-			int screenHeight = 1440;
-			int windowX = 1281;
-			int windowY = 0; // Vị trí theo chiều cao không thay đổi
-			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
-			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			driver.manage().window().setSize(windowSize);
-		}
-		if (value.equals("MidRightMac")) {
-			int screenWidth = 1280;
-			int screenHeight = 1440;
-			int windowX = 1440 + 1280;
-			int windowY = 0; // Vị trí theo chiều cao không thay đổi
-			org.openqa.selenium.Dimension windowSize = new org.openqa.selenium.Dimension(screenWidth, screenHeight);
-			driver.manage().window().setPosition(new org.openqa.selenium.Point(windowX, windowY));
-			driver.manage().window().setSize(windowSize);
+			return new Rectangle(driver.manage().window().getPosition().getX(),
+					driver.manage().window().getPosition().getY(),
+					driver.manage().window().getSize().getWidth(),
+					driver.manage().window().getSize().getHeight());
+		} else {
+			driver.manage().window().setPosition(screenPositions.get(value));
+			driver.manage().window().setSize(screenSizes.get(value));
+			return new Rectangle(screenPositions.get(value).getX(), screenPositions.get(value).getY(),
+					screenSizes.get(value).getWidth(), screenSizes.get(value).getHeight());
 		}
 	}
 

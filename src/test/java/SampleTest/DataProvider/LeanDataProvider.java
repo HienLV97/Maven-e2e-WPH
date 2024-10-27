@@ -1,12 +1,9 @@
 package SampleTest.DataProvider;
 
-import helpers.ExcelHelper;
 import logs.LogUtils;
 import org.testng.annotations.Test;
-import org.testng.annotations.DataProvider;
-import dataProvider.DataProviderFactory;
+import helpers.dataProvider.DataProviderFactory;
 
-import java.util.Arrays;
 import java.util.Hashtable;
 
 public class LeanDataProvider {

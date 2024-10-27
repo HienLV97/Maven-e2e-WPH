@@ -4,7 +4,7 @@ import AcaWriting.drivers.DriverManager;
 import CMS.CreateData.pages.CreateDataPage;
 import CMS.SignIn.pages.SignInPage;
 import AcaWriting.Support.Initialization.Init;
-import dataProvider.DataProviderFactory;
+import helpers.dataProvider.DataProviderFactory;
 import helpers.Constants;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

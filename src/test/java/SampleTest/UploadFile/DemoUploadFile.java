@@ -1,34 +1,31 @@
 package SampleTest.UploadFile;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import AcaWriting.Support.Initialization.Init;
+import AcaWriting.drivers.DriverManager;
+import helpers.CaptureHelper;
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.lang.reflect.Method;
 
-public class DemoUploadFile {
-	public static void main(String[] args) {
-		// Khởi tạo WebDriver
-		System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
-		WebDriver driver = new ChromeDriver();
 
-		try {
-			// Điều hướng tới trang web
-			driver.get("https://example.com/upload");
+import java.awt.*;
+import java.io.IOException;
 
-			// Tìm thẻ input có type="file"
-			WebElement uploadElement = driver.findElement(By.id("file-upload"));
-
-			// Đưa đường dẫn tuyệt đối của file cần upload
-			uploadElement.sendKeys("C:/path/to/file.txt");
-
-			// Tìm và click vào nút upload (nếu có)
-			WebElement uploadButton = driver.findElement(By.id("upload-button"));
-			uploadButton.click();
-
-			// Các bước tiếp theo sau khi upload thành công (nếu có)
-		} finally {
-			// Đóng trình duyệt
-			driver.quit();
-		}
+public class DemoUploadFile extends Init {
+	@Test
+	public void testHomePage1(Method method) throws IOException, AWTException {
+		CaptureHelper.startRecord("test2");
+		DriverManager.getDriver().get("https://anhtester.com");
+		screenShot("hihi");
+		Assert.assertEquals(DriverManager.getDriver().getTitle(), "Anh Tester Automation Testing");
+		sleep(10);
+		CaptureHelper.stopRecord();
 	}
+
+//	@Test
+	public void testHomePage2(Method method) {
+		DriverManager.getDriver().get("https://anhtester.com");
+		Assert.assertEquals(DriverManager.getDriver().getTitle(), "Anh Tester Automation Test");
+	}
+
 }

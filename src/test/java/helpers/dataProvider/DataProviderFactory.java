@@ -1,4 +1,4 @@
-package dataProvider;
+package helpers.dataProvider;
 
 import helpers.ExcelHelper;
 import helpers.SystemHelper;
