@@ -21,7 +21,7 @@ ExtentReports/
 fileLogs/
 test-output/
 reports/
-src/Config
+#src/Config
 *.png
 *.mp4
 *.avi
