@@ -14,7 +14,7 @@ public class PropertiesHelper {
 	private static String linkFile;
 	private static FileInputStream file;
 	private static FileOutputStream out;
-	private static String relPropertiesFilePathDefault = "src/test/resources/configs/config.properties";
+	private static String relPropertiesFilePathDefault = "src/Config/browserConfig.properties";
 
 	public static Properties loadAllFiles() {
 		LinkedList<String> files = new LinkedList<>();

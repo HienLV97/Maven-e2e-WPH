@@ -1,6 +1,7 @@
 package helpers;
 
 import AcaWriting.Support.Initialization.Init;
+import logs.LogUtils;
 import org.monte.media.Format;
 import org.monte.media.Registry;
 import org.monte.media.math.Rational;
@@ -15,7 +16,6 @@ import AcaWriting.drivers.DriverManager;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +35,7 @@ public class CaptureHelper extends ScreenRecorder {
 			 Properties properties = new Properties();
 			 FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
 			 properties.load(configFile);
-			 screenName = properties.getProperty("ScreenName");
+			 screenName = properties.getProperty("SCREENAME");
 	}
 
 	//Hàm xây dựng
@@ -88,21 +88,36 @@ public class CaptureHelper extends ScreenRecorder {
 
 	public static void captureScreenshot(String screenshotName) {
 		try {
-			// Tạo tham chiếu đối tượng của TakesScreenshot với dirver hiện tại
+			// Tạo tham chiếu đối tượng của TakesScreenshot với driver hiện tại
 			TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
 			// Gọi hàm getScreenshotAs để chuyển hóa hình ảnh về dạng FILE
 			File source = ts.getScreenshotAs(OutputType.FILE);
-			//Kiểm tra folder nếu không tồn tại thì tạo folder
-			File theDir = new File(SystemHelper.getCurrentDir() + PropertiesHelper.getValue("SCREENSHOT_PATH"));
+
+			// Xác định đường dẫn lưu ảnh dựa trên trạng thái
+			String folderPath;
+			if (screenshotName.toLowerCase().contains("fail")) {
+				folderPath = PropertiesHelper.getValue("SCREENSHOT_PATH_FAIL");
+			} else if (screenshotName.toLowerCase().contains("success")) {
+				folderPath = PropertiesHelper.getValue("SCREENSHOT_PATH_SUCCESS");
+			} else {
+				folderPath = PropertiesHelper.getValue("SCREENSHOT_PATH_GENERAL");
+			}
+
+			// Kiểm tra folder nếu không tồn tại thì tạo folder
+			File theDir = new File(SystemHelper.getCurrentDir() + folderPath);
 			if (!theDir.exists()) {
 				theDir.mkdirs();
 			}
-			// Chổ này đặt tên thì truyền biến "screenName" gán cho tên File chụp màn hình
-			FileHandler.copy(source, new File(SystemHelper.getCurrentDir() + PropertiesHelper.getValue("SCREENSHOT_PATH") + File.separator + screenshotName + "_" + dateFormat.format(new Date()) + ".png"));
-			System.out.println("Screenshot taken: " + screenshotName);
-			System.out.println("Screenshot taken current URL: " + DriverManager.getDriver().getCurrentUrl());
+
+			// Lưu ảnh chụp màn hình vào thư mục chỉ định
+			FileHandler.copy(source, new File(SystemHelper.getCurrentDir() + folderPath
+					+ File.separator + screenshotName + "_" + dateFormat.format(new Date()) + ".png"));
+
+			LogUtils.info("Screenshot taken: " + screenshotName);
+			LogUtils.info("Screenshot current URL: " + DriverManager.getDriver().getCurrentUrl());
 		} catch (Exception e) {
-			System.out.println("Exception while taking screenshot: " + e.getMessage());
+			LogUtils.error("Exception while taking screenshot: " + e.getMessage());
 		}
 	}
+
 }

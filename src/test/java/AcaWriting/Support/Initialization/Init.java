@@ -5,14 +5,15 @@ import java.util.Map;
 import java.util.Properties;
 
 import AcaWriting.Support.WPH.Routers;
+import helpers.CaptureHelper;
 import logs.LogUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import javax.imageio.ImageIO;
@@ -33,18 +34,6 @@ public class Init {
 	public WebDriver driver;
 	private String screenName;
 	public void authenticate(String env) {
-//		switch (env.trim().toLowerCase()) {
-//			case "wph":
-//				DriverManager.getDriver().get(Routers.AuthURL);
-//			case "dashboard":
-//				DriverManager.getDriver().get(AcaWriting.Support.DashBoard.Routers.AuthURL);
-//			case "writer":
-//				DriverManager.getDriver().get(AcaWriting.Support.Writer.Routers.AuthURL);
-//			case "cms":
-//				DriverManager.getDriver().get(AcaWriting.Support.CMS.Routers.AuthURL);
-//			default:
-//				DriverManager.getDriver().get(Routers.AuthURL);
-//		}
 		if (env.trim().equalsIgnoreCase("wph")) {
 			DriverManager.getDriver().get(Routers.AuthURL);
 		}
@@ -95,8 +84,8 @@ public class Init {
 		try {
 			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
 			properties.load(configFile);
-			screenName = properties.getProperty("ScreenName");
-			LogUtils.info("ScreenName: " + screenName);
+			screenName = properties.getProperty("SCREENNAME");
+			LogUtils.info("SCREENNAME: " + screenName);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -113,8 +102,8 @@ public class Init {
 		try {
 			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
 			properties.load(configFile);
-			screenName = properties.getProperty("ScreenName");
-			LogUtils.info("ScreenName: " + screenName);
+			screenName = properties.getProperty("SCREENNAME");
+			LogUtils.info("SCREENNAME: " + screenName);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -131,8 +120,8 @@ public class Init {
 		try {
 			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
 			properties.load(configFile);
-			screenName = properties.getProperty("ScreenName");
-			LogUtils.info("ScreenName: " + screenName);
+			screenName = properties.getProperty("SCREENNAME");
+			LogUtils.info("SCREENNAME: " + screenName);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -142,7 +131,13 @@ public class Init {
 	}
 
 	@AfterMethod
-	public void closeDriver() {
+	public void closeDriver(ITestResult iTestResult) {
+		if (iTestResult.getStatus() == ITestResult.FAILURE){
+			CaptureHelper.captureScreenshot("Fail_"+iTestResult.getName());
+		}
+		if (iTestResult.getStatus() == ITestResult.SUCCESS){
+			CaptureHelper.captureScreenshot("Success_"+iTestResult.getName());
+		}
 		try {
 			// Giả sử đây là nơi bạn thực hiện các thao tác, ví dụ:
 			// driver.findElement(By.id("someElement"));
