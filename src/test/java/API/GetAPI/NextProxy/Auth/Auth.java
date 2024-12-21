@@ -22,6 +22,9 @@ public class Auth {
 	static String filePath = "src/test/java/API/Data/Dashboard/authClient.json";
 	static String URLAuth = Constants.PROXY_DEV_URL + "/auth";
 
+	public static void main(String[] args) {
+		getAuth("t1@g.c","123123");
+	}
 	public static String getAuth(String token, String value) {
 		try {
 			URL url = new URL(URLAuth);
@@ -61,6 +64,7 @@ public class Auth {
 			// Phân tích cú pháp phản hồi JSON
 			JSONParser parser = new JSONParser();
 			JSONObject jsonData = (JSONObject) parser.parse(response.toString());
+			System.out.println(jsonData);
 			JSONObject data = (JSONObject) jsonData.get("user");
 			return (String) data.get(value);
 		} catch (IOException | ParseException e) {
