@@ -267,4 +267,25 @@ public class CreateDataTest extends Init {
 		createDataPage.createServiceArticles(fileName, sheetName,sheetHeaderData);
 	}
 
+
+	@Test(description = "Create customer review")
+	public void createCustomerReviewIBH() {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "customerReview";
+		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
+		createDataPage.createCustomerReview(fileName, sheetName);
+
+	}
+
+	@Test(description = "Create writer review")
+	public void createWriterReviewIBH() throws IOException {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.createWriterReview(fileName, sheetName);
+
+	}
+
+
 }

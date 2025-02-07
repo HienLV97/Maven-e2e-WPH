@@ -76,13 +76,26 @@
             </class>
         </classes>
     </test>
-    <test enabled="true" name="CMS create landing page" >
+    <test enabled="false" name="CMS create landing page" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="20"/>
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
                     <include name="createLandingPageWPH"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test enabled="true" name="IBH Create customer and writer review" >
+        <parameter name="browser" value="chrome"/>
+        <parameter name="sleepTime" value="20"/>
+        <classes>
+            <class name="CMS.CreateData.testcases.CreateDataTest">
+                <methods>
+                    <include name="createCustomerReviewIBH"/>
+                    <include name="createWriterReviewIBH"/>
                 </methods>
             </class>
         </classes>

@@ -109,6 +109,9 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "(//input[@name='title']/following-sibling::input)[1] | (//input[@name='Title']/following-sibling::input)[2]")
 	WebElement titleTB;
 
+	@FindBy(xpath = "(//input[@name='sub_title']/following-sibling::input)[1] | (//input[@name='sub_title']/following-sibling::input)[2]")
+	WebElement subTitleTB;
+
 	@FindBy(xpath = "(//input[@name='intro']/following-sibling::input)[1] | (//input[@name='Intro']/following-sibling::input)[2]")
 	WebElement introTB;
 
@@ -388,6 +391,10 @@ public class CreateDataPage extends Init {
 
 	public void setTitleTB(String value) {
 		WebUI.setText(titleTB, value);
+	}
+
+	public void setSubTitleTB(String value) {
+		WebUI.setText(subTitleTB, value);
 	}
 
 	public void setIntroTB(String value) {
@@ -1511,6 +1518,7 @@ public class CreateDataPage extends Init {
 				String META_DESCRIPTION = excelHelper.getCellData("META_DESCRIPTION", i);
 				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
 				String TITLE = excelHelper.getCellData("TITLE", i);
+				String SUB_TITLE = excelHelper.getCellData("SUB_TITLE", i);
 				String INTRO = excelHelper.getCellData("INTRO", i);
 				String FEATURE_TITLE = excelHelper.getCellData("FEATURE_TITLE", i);
 				String FEATURE_DESCRIPTION = excelHelper.getCellData("FEATURE_DESCRIPTION", i);
@@ -1530,6 +1538,7 @@ public class CreateDataPage extends Init {
 				setMetaDesTB(META_DESCRIPTION);
 				setAnchorTB(ANCHOR);
 				setTitleTB(TITLE);
+				setSubTitleTB(SUB_TITLE);
 				setIntroTB(INTRO);
 				setFeatureTitleTB(FEATURE_TITLE);
 				setFeatureDesTBTB(FEATURE_DESCRIPTION);
@@ -1544,8 +1553,10 @@ public class CreateDataPage extends Init {
 				excelHelper.setCellData("Passed", "RESULT", i);
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(URL, "URL");
+				sleep(5);
 
-				sleep(10);
+				clickPublish();
+
 				WebUI.waitForPageLoaded();
 
 				//set Header
