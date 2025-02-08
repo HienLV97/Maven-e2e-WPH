@@ -3,9 +3,9 @@ package WPH.OrderForm.pages;
 
 import API.GetAPI.CoreAPI.OrderForm.OrderForm;
 import AcaWriting.Keywords.WebUI;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import AcaWriting.Support.WPH.Routers;
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import WPH.OrderDetails.Details.pages.DetailsPage;
 import WPH.payment.CreditCard.pages.CreditCardPage;
 import org.openqa.selenium.By;

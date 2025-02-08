@@ -1,9 +1,9 @@
 package DashBoard.SignIn.testcases;
 
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import DashBoard.SignIn.pages.SignInPage;
 import helpers.Constants;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import org.testng.annotations.Test;
 
 import java.security.KeyManagementException;

@@ -26,7 +26,7 @@
 <!--                    <include name="deleteArticlesIBW"/>-->
 <!--                    <include name="createCustomerReviewIBW" />-->
 <!--                    <include name="createWriterReviewIBW"/>-->
-                    <include name="createConstantsIBW"/>
+<!--                    <include name="createConstantsIBW"/>-->
 <!--                    <include name="ibSampleDetailIBW"/>-->
                 </methods>
             </class>

@@ -1,9 +1,9 @@
 package CMS.CreateData.testcases;
 
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import CMS.CreateData.pages.CreateDataPage;
 import CMS.SignIn.pages.SignInPage;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import helpers.dataProvider.DataProviderFactory;
 import helpers.Constants;
 import org.testng.annotations.Parameters;

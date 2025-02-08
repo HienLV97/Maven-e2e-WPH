@@ -4,10 +4,10 @@
 <!--    <parameter name="browser" value="chrome"></parameter>-->
     <test name="FirstTest2">
         <classes>
-            <class name="WPH.OrderForm.testcases.OrderFormTest">
-            <methods>
-                <include name="testVerifyPrice" />
-            </methods>
+            <class name="SampleTest.MultiTest.MultiTest">
+<!--            <methods>-->
+<!--                <include name="testVerifyPrice" />-->
+<!--            </methods>-->
             </class>
 
         </classes>

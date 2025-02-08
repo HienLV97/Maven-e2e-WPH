@@ -1,29 +1,32 @@
 package SampleTest.MultiTest;
 
-import AcaWriting.Support.Initialization.Init;
 import AcaWriting.Support.WPH.Routers;
-import AcaWriting.drivers.DriverManager;
+import Initialization.Init;
+import helpers.drivers.DriverManager;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class MultiTest extends Init {
-
 	@Test
 	public void navigatePage1(){
 		authenticate("WPH");
 		sleep(3);
 		DriverManager.getDriver().get(Routers.TESTIMONIALS);
+		Assert.assertEquals(DriverManager.getDriver().getCurrentUrl(),"anv");
 	}
 	@Test
 	public void navigatePage2(){
 		authenticate("WPH");
 		sleep(3);
 		DriverManager.getDriver().get(Routers.IB_WRITERS);
-	}@Test
+	}
+	@Test
 	public void navigatePage3(){
 		authenticate("WPH");
 		sleep(3);
 		DriverManager.getDriver().get(Routers.ABOUT);
-	}@Test
+	}
+	@Test
 	public void navigatePage4(){
 		authenticate("WPH");
 		sleep(3);

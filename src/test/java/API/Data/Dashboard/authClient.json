@@ -1,1 +1,1 @@
-{"error":false,"user":{"id":12344,"provider_id":1,"email":"client-12344-fake@kamora.vn","name":"Client12344","avatar":"","gender":null,"authority":35,"country_id":null,"timezone_id":6,"token":"c02f5c80ccea186a588d3da5903b9d58","temporary_token":null,"balance":"0.00","exported":1,"password_reset_token":"69da197c02499a2fa25ada65d769439c","created_at":"2020-10-26 01:01:13","updated_at":"2024-10-13 07:43:24","deleted_at":null,"temporary_token_expired_at":null,"is_test":1,"orders_count":187,"is_password_set":true}}
+{"error":true,"message":"Access denied!"}

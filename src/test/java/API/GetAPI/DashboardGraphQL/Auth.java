@@ -1,5 +1,6 @@
 package API.GetAPI.DashboardGraphQL;
 
+//import helpers.Constants;
 import helpers.Constants;
 import org.json.JSONObject;
 
@@ -14,14 +15,8 @@ public class Auth {
 		String apiUrl = Constants.DASHBOARD_QL;
 		String username = Constants.COMMON_EMAIL;
 		String password = Constants.COMMON_PASSWORD;
-		String mutation = """
-				mutation($email: String!, $password: String!) {
-				    login(email: $email, password: $password) {
-				        token
+		String mutation = "mutation($email: String!, $password: String!) { login(email: $email, password: $password) { token } }";
 
-				    }
-				}
-				""";
 		JSONObject requestPayload = new JSONObject();
 		requestPayload.put("query", mutation); // Mutation bạn vừa tạo
 

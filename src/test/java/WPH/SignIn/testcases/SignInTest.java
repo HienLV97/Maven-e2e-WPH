@@ -1,8 +1,8 @@
 package WPH.SignIn.testcases;
 
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import WPH.SignIn.pages.SignInPage;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import helpers.Constants;
 import org.testng.annotations.Test;
 

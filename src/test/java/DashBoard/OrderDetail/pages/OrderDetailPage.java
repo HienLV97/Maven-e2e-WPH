@@ -3,7 +3,7 @@ package DashBoard.OrderDetail.pages;
 import API.GetAPI.DashboardGraphQL.Discounts;
 import Calculator.Calculator;
 import AcaWriting.Keywords.WebUI;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

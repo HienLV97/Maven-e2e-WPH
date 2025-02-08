@@ -1,6 +1,6 @@
 package onMac;
-import AcaWriting.Support.Initialization.Init;
-import AcaWriting.drivers.DriverManager;
+import Initialization.Init;
+import helpers.drivers.DriverManager;
 import org.testng.annotations.*;
 
 public class multiBrowser extends Init {

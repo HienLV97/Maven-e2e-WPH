@@ -1,7 +1,7 @@
 package Writer.OrderDetail.pages;
 
 import AcaWriting.Keywords.WebUI;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import AcaWriting.Support.Writer.Routers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

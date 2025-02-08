@@ -1,8 +1,8 @@
 package CMS.SignIn.testcases;
 
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import CMS.SignIn.pages.SignInPage;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import helpers.Constants;
 import org.testng.annotations.Test;
 

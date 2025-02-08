@@ -1,6 +1,7 @@
 package helpers;
 
-import AcaWriting.Support.Initialization.Init;
+//import helpers.Initialization.Init;
+
 import logs.LogUtils;
 import org.monte.media.Format;
 import org.monte.media.Registry;
@@ -8,10 +9,11 @@ import org.monte.media.math.Rational;
 import org.monte.screenrecorder.ScreenRecorder;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.io.FileHandler;
 
 
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 
 import java.awt.*;
 import java.io.File;
@@ -19,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.monte.media.FormatKeys.*;
@@ -57,12 +60,52 @@ public class CaptureHelper extends ScreenRecorder {
 		return new File(movieFolder, name + "-" + dateFormat.format(new Date()) + "." + Registry.getInstance().getExtension(fileFormat));
 	}
 
+	public static Rectangle browserPosition(String value, WebDriver driver) {
+		Map<String, org.openqa.selenium.Dimension> screenSizes = Map.of(
+				"2", new org.openqa.selenium.Dimension(1440, 2560),
+				"3", new org.openqa.selenium.Dimension(1920, 1080),
+				"4", new org.openqa.selenium.Dimension(1920, 1080),
+				"MidRight", new org.openqa.selenium.Dimension(1280, 1440),
+				"MidRightMac", new org.openqa.selenium.Dimension(1280, 1440)
+		);
+		Map<String, org.openqa.selenium.Point> screenPositions = Map.of(
+				"2", new org.openqa.selenium.Point(-1440, -338),
+				"3", new org.openqa.selenium.Point(0, 1440),
+				"4",new org.openqa.selenium.Point(2560,0),
+				"MidRight", new org.openqa.selenium.Point(1281, 0),
+				"MidRightMac", new org.openqa.selenium.Point(2720, 0)
+		);
+
+		if (value.equals("1")) {
+			driver.manage().window().maximize();
+			return new Rectangle(driver.manage().window().getPosition().getX(),
+					driver.manage().window().getPosition().getY(),
+					driver.manage().window().getSize().getWidth(),
+					driver.manage().window().getSize().getHeight());
+		} else {
+			driver.manage().window().setPosition(screenPositions.get(value));
+			driver.manage().window().setSize(screenSizes.get(value));
+			return new Rectangle(screenPositions.get(value).getX(), screenPositions.get(value).getY(),
+					screenSizes.get(value).getWidth(), screenSizes.get(value).getHeight());
+		}
+	}
+
 	// Start record video
 	public static void startRecord(String methodName) throws IOException {
 		//Tạo thư mục để lưu file video vào
 		File file = new File(SystemHelper.getCurrentDir() + PropertiesHelper.getValue("RECORDVIDEO_PATH"));
 		readFileConfig();
-		Rectangle captureSize = Init.browserPosition(screenName, DriverManager.getDriver());
+		Rectangle captureSize = browserPosition(screenName, DriverManager.getDriver());
+
+//		Properties properties = new Properties();
+//		try {
+//			FileInputStream configFile = new FileInputStream("src/Config/browserConfig.properties");
+//			properties.load(configFile);
+//			screenName = properties.getProperty("SCREENNAME");
+//			LogUtils.info("SCREENNAME: " + screenName);
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
 
 		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 		try {

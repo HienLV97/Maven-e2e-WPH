@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite All" verbose="1">
+<!--    <listeners>-->
+<!--        <listener class-name="logs.LogUtils"/>-->
+<!--    </listeners>-->
+    <test name="Regression Test All1" parallel="methods">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="onMac.ParallelTest" />
+        </classes>
+    </test>
+
+</suite>

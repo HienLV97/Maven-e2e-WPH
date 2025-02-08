@@ -1,7 +1,7 @@
 package SampleTest.UploadFile;
 
-import AcaWriting.Support.Initialization.Init;
-import AcaWriting.drivers.DriverManager;
+import Initialization.Init;
+import helpers.drivers.DriverManager;
 import helpers.CaptureHelper;
 import org.testng.annotations.Test;
 import org.testng.Assert;

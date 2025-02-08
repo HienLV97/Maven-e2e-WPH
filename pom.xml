@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     </properties>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.10.2</version>
+            <version>7.4.0</version>
         </dependency>
 
 
@@ -67,13 +67,13 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
-            <version>3.6.4</version>
+            <version>3.7.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.24.0</version>
+            <version>4.26.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.json/json -->
@@ -97,14 +97,7 @@
             <artifactId>httpclient5</artifactId>
             <version>5.3.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-<!--                <dependency>-->
-<!--                    <groupId>org.apache.poi</groupId>-->
-<!--                    <artifactId>poi-ooxml</artifactId>-->
-<!--                    <version>5.2.3</version>-->
-<!--                </dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -122,16 +115,21 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.3.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-remote-driver -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-remote-driver</artifactId>
-            <version>4.22.0</version>
+            <version>4.25.0</version>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-devtools-v119 -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-devtools-v119</artifactId>
-            <version>4.16.1</version>
+            <version>4.18.0</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -147,18 +145,98 @@
             <version>0.7.7.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.1.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.29.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-attachments -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-attachments</artifactId>
+            <version>2.29.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.22.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
+<!--    <build>-->
+<!--        <sourceDirectory>src/main/java</sourceDirectory>-->
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/config/java</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.java</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
+<!--        </resources>-->
+<!--    </build>-->
+
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
-                <directory>src/config/java</directory>
+                <directory>src/main/resources</directory>
                 <includes>
-                    <include>**/*.java</include>
+                    <include>**/*.js</include>
                 </includes>
             </resource>
         </resources>
-    </build>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.2</version>
+                    <configuration>
+                        <suiteXmlFiles>
+                            <!-- Call Suite name -->
+                            <suiteXmlFile>src/suites/SuiteDemo.xml</suiteXmlFile>
+                        </suiteXmlFiles>
+                        <argLine>
+                            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar"
+                        </argLine>
+                        <testFailureIgnore>true</testFailureIgnore>
+                        <systemPropertyVariables>
+                            <!--Đường dẫn xuất ra report-->
+                            <allure.results.directory>target/allure-results</allure.results.directory>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

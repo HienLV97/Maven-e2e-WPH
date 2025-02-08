@@ -1,11 +1,13 @@
-package AcaWriting.Support.Initialization;
+package Initialization;
 
 import java.io.*;
 import java.util.Map;
 import java.util.Properties;
 
 import AcaWriting.Support.WPH.Routers;
+import SampleTest.Listeners.TestListener;
 import helpers.CaptureHelper;
+//import junit.framework.TestListener;
 import logs.LogUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,9 +29,9 @@ import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.util.Objects;
 
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 
-
+@Listeners(TestListener.class)
 public class Init {
 	public WebDriver driver;
 	private String screenName;
@@ -244,12 +246,14 @@ public class Init {
 		Map<String, org.openqa.selenium.Dimension> screenSizes = Map.of(
 				"2", new org.openqa.selenium.Dimension(1440, 2560),
 				"3", new org.openqa.selenium.Dimension(1920, 1080),
+				"4", new org.openqa.selenium.Dimension(1920, 1080),
 				"MidRight", new org.openqa.selenium.Dimension(1280, 1440),
 				"MidRightMac", new org.openqa.selenium.Dimension(1280, 1440)
 		);
 		Map<String, org.openqa.selenium.Point> screenPositions = Map.of(
 				"2", new org.openqa.selenium.Point(-1440, -338),
 				"3", new org.openqa.selenium.Point(0, 1440),
+				"4",new org.openqa.selenium.Point(2560,0),
 				"MidRight", new org.openqa.selenium.Point(1281, 0),
 				"MidRightMac", new org.openqa.selenium.Point(2720, 0)
 		);

@@ -1,6 +1,6 @@
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import AcaWriting.Support.WPH.Routers;
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;

@@ -1,6 +1,6 @@
 package DashBoard.SignIn.pages;
 
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import AcaWriting.Support.DashBoard.Routers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;

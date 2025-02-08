@@ -1,9 +1,9 @@
 package WPH.SignIn.pages;
 
 import AcaWriting.Keywords.WebUI;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import AcaWriting.Support.WPH.Routers;
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

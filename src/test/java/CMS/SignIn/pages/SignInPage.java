@@ -1,9 +1,9 @@
 package CMS.SignIn.pages;
 
 import AcaWriting.Keywords.WebUI;
-import AcaWriting.Support.Initialization.Init;
+import Initialization.Init;
 import AcaWriting.Support.CMS.Routers;
-import AcaWriting.drivers.DriverManager;
+import helpers.drivers.DriverManager;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
