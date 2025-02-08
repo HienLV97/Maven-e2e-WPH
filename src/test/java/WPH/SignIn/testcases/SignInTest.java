@@ -10,7 +10,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 public class SignInTest extends Init {
-	@Test(enabled = true)
+	@Test
 	public void test() throws NoSuchAlgorithmException, KeyManagementException {
 		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
 		authenticate("WPH");

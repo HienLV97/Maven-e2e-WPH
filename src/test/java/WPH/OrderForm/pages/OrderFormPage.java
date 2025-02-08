@@ -23,7 +23,7 @@ import java.time.Duration;
 import java.util.Objects;
 
 public class OrderFormPage extends Init {
-//	private WebDriver driver;
+	//	private WebDriver driver;
 	private WebDriverWait wait;
 	public String orderType;
 	public String document;
@@ -38,11 +38,11 @@ public class OrderFormPage extends Init {
 		PageFactory.initElements(driver, this);
 	}
 
-	public void Step1Data(String orderType, String document, int acalevelNumb, String discipline, String paperFormat, List<String> academicLevels) {
+	public void Step1Data(String orderType, String document, int acalevelNumb, String discipline, String paperFormat) {
 		this.orderType = orderType;
 		this.document = document;
 		this.acalevelNumb = acalevelNumb;
-		this.acalevelTXT = academicLevels.get(acalevelNumb).replace("\"", "");
+		this.acalevelTXT = academicLevel.get(acalevelNumb).replace("\"", "");
 		this.discipline = discipline;
 		this.paperFormat = paperFormat;
 	}

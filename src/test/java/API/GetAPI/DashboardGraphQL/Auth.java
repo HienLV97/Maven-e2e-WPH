@@ -11,6 +11,9 @@ import java.net.URL;
 //import static helpers.Constants.DashBoardAccount;
 
 public class Auth {
+	public static void main(String[] args) {
+		System.out.println(getToken());
+	}
 	public static String getToken() {
 		String apiUrl = Constants.DASHBOARD_QL;
 		String username = Constants.COMMON_EMAIL;

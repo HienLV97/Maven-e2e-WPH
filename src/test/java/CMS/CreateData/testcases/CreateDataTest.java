@@ -53,13 +53,19 @@ public class CreateDataTest extends Init {
 		createDataPage.clickIBWBTN();
 	}
 
+	public void gotoIBH() {
+		signIn();
+		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
+		createDataPage.clickIBHBTN();
+	}
+
 	@Test
 	public void sampleCreateArticle() throws Exception {
 		gotoWPH();
 		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "sampleList";
-		String sheetNameDetail = "sampleDetail";
-		createDataPage.createSamplesArticlesWPH(filePath, sheetName, sheetNameDetail);
+		String sheetName = "tokPage";
+		String sheetNameDetail = "dataHeader";
+		createDataPage.createTokPageWPH(filePath, sheetName, sheetNameDetail);
 	}
 
 	@Test
@@ -156,7 +162,6 @@ public class CreateDataTest extends Init {
 		String urlExcelSheet = "urlServiceSheet";
 		String dataServiceSheet = "dataServicePage";
 		createDataPage.getDataServicePage(fileName, urlExcelSheet, dataServiceSheet);
-
 	}
 
 	// Create for IB writing
@@ -176,6 +181,8 @@ public class CreateDataTest extends Init {
 		String sheetNameDetail = "ibDetail";
 		createDataPage.createSamplesArticlesIBW(filePath, sheetName, sheetNameDetail);
 	}
+
+
 
 	@Test(description = "Create customer review")
 	public void createCustomerReviewIBW() {
@@ -201,7 +208,8 @@ public class CreateDataTest extends Init {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "constants";
-		createDataPage.createConstants(fileName, sheetName);
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createServiceArticles(fileName, sheetName,sheetHeaderData);
 	}
 
 	@Test
@@ -215,11 +223,29 @@ public class CreateDataTest extends Init {
 	// Create Service page
 	@Test(description = "Create service page")
 	public void createServicesIBW() {
-		gotoWPH();
+		gotoIBW();
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
 		String sheetName = "Sheet1";
 		createDataPage.deleteArticles(fileName, sheetName);
 	}
+
+	@Test(description = "Create service page")
+	public void createServicesWPH() {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "tokPage";
+		createDataPage.deleteArticles(fileName, sheetName);
+	}
+
+	@Test(description = "createLandingPageWPH")
+	public void createLandingPageWPH() {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "landingpage";
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createLandingPage(fileName, sheetName,sheetHeaderData);
+	}
+
 
 	//Create Qatar site
 	@Test(description = "Create qatar page")
@@ -229,6 +255,43 @@ public class CreateDataTest extends Init {
 		String sheetName = "home";
 		String sheetHeaderData = "dataHeader";
 		createDataPage.createQatarArticles(fileName, sheetName, sheetHeaderData);
+	}
+
+	//Create IBHelper
+	@Test(description = "Create service page IBH")
+	public void createServicesIBH() {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "servicesIBH";
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createServiceArticles(fileName, sheetName,sheetHeaderData);
+	}
+
+
+	@Test(description = "Create customer review")
+	public void createCustomerReviewIBH() {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "customerReview";
+		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
+		createDataPage.createCustomerReview(fileName, sheetName);
+
+	}
+
+	@Test(description = "Create writer review")
+	public void createWriterReviewIBH() throws IOException {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.createWriterReview(fileName, sheetName);
+	}
+	@Test(description = "Create qatar page")
+	public void createHomePageIBH() {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "homepageIBH";
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createHomePageIBHArticles(fileName, sheetName, sheetHeaderData);
 	}
 
 }

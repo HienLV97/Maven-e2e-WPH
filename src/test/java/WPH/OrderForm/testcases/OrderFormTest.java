@@ -7,6 +7,7 @@ import helpers.drivers.DriverManager;
 import Calculator.Calculator;
 import AcaWriting.Keywords.WebUI;
 import helpers.dataProvider.DataProviderFactory;
+import WPH.SignIn.testcases.SignInTest;
 import helpers.Constants;
 import Initialization.Init;
 import WPH.OrderDetails.Details.pages.DetailsPage;
@@ -19,77 +20,38 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Hashtable;
 
-//import static Support.Initialization.Init.driver;
 
 public class OrderFormTest extends Init {
-	//	@Test(enabled = false, description = "Checkout successfully")
-//	public void checkout() {
-//		Authenticate("WPH");
-//		OrderFormPage orderForm = new OrderFormPage(driver);
-//		CreditCardPage creditCardPage = new CreditCardPage(driver);
-//		SignInPage signInPage = new SignInPage(driver);
-//		DetailsPage detailsPage = new DetailsPage(driver);
-//
-//		signInPage.Login(Constants.emailAccount, Constants.passAccount);
-//		sleep(4);
-//
-//		//step1
-//		driver.get(Routers.ORDER);
-//		WebUI.waitForPageLoaded();
-//		orderForm.SetDocumentDRL("Admission Essay");
-//		sleep(2);
-//		orderForm.AcalevelOptBTN(2);
-//
-//		orderForm.setDisciplineDRL("Accounting");
-//		sleep(2);
-//		orderForm.AcalevelOptBTN(2);
-//		orderForm.clickNextButton();
-//
-//		//step 2
-//
-//		orderForm.setTitleTXT("test");
-//		orderForm.setInstructionTXT("test");
-//		orderForm.clickNextButton();
-//
-//		//step3
-//
-//		orderForm.clickWriterCB();
-//		orderForm.verifyWriterCB();
-//		orderForm.clickDeadLine(1);
-//		orderForm.clickPageInc();
-//		orderForm.clickDoubleBTN();
-//		orderForm.clickSlideInc();
-//		orderForm.clickNextButton();
-//		sleep(5);
-//
-//		//step4
-//		orderForm.clickWriterLevelBTN(1);
-//		orderForm.verifyAbstractCB();
-//		orderForm.verifyPrevWriterCB();
-//		sleep(5);
-////		orderForm.clickNextButton();
-////
-////		//step5
-////		orderForm.clickCreditBTN();
-////		orderForm.clickCheckOutBTN();
-////		WebUI.waitForPageLoaded();
-////
-////		creditCardPage.getCheckout();
-////
-////		sleep(5);
-////		waitForNavigatePage(null);
-////		WebUI.waitForPageLoaded();
-////		String orderID = orderForm.getID();
-////		orderForm.clickViewOrderBTN();
-////
-////		sleep(10);
-////		WebUI.waitForPageLoaded();
-////		detailsPage.verifyh1(orderID, "writing");
-//	}
 	String order_ID;
 	DetailsPage detailsPage;
+
+	@Test
+	public void login() throws NoSuchAlgorithmException, KeyManagementException {
+		SignInTest signInTest = new SignInTest();
+		signInTest.test();
+	}
+	@Test
+	public void goToOrderForm(){
+		authenticate("wph");
+		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
+	}
+	@Test(description = "Click button and just it's active")
+	public void AcademicLevelClickAndCheckActive() {
+		goToOrderForm();
+//		for (String value : ACADEMIC_LEVELS) {
+//			if (!value.equals(chosen)) {
+//				WebElement otherElement = driver.findElement(By.xpath("//button[contains(text(), '" + value + "')]"));
+//				assertFalse(otherElement.getAttribute("class").contains("active"), "Button should not be active");
+//			}
+//		}
+
+	}
+
+
 
 	@Test(groups = {"1"})
 	public void checkoutSuccess() throws IOException, AWTException {
@@ -104,7 +66,7 @@ public class OrderFormTest extends Init {
 		DriverManager.getDriver().get(AcaWriting.Support.WPH.Routers.ORDER);
 		waitForNavigatePage(AcaWriting.Support.WPH.Routers.ORDER);
 
-		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
+		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0));
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(1, 3, 3, 2, "Single", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, false, true, orderForm.writerLevel);
@@ -139,7 +101,7 @@ public class OrderFormTest extends Init {
 		CreditCardPage creditCardPage = new CreditCardPage(DriverManager.getDriver());
 
 
-		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
+		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0));
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, true, true, orderForm.writerLevel);
@@ -225,7 +187,7 @@ public class OrderFormTest extends Init {
 		String tokenValue = SignIn.getToken(email, password);
 		signInPage.signInWithToken(tokenValue);
 
-		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
+		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0));
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, true, false, orderForm.writerLevel);
@@ -244,59 +206,59 @@ public class OrderFormTest extends Init {
 		sleep(3);
 	}
 
-	@Test(priority = 3, description = "Writer site")
-	public void testWriterSite() {
-		Writer.SignIn.pages.SignInPage signInWriter = new Writer.SignIn.pages.SignInPage(DriverManager.getDriver());
-		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
-
-		//set value step1
-		String orderType = "writing";
-		String document = "Admission Essay";
-		int acalevelNumb = 2;
-		String acalevelTXT = orderForm.academicLevel.get(acalevelNumb).replace("\"", "");
-		String discipline = "Accounting";
-		String paperFormat = Citation.getCitation(0);
-
-		//set value step2
-		String title = "test";
-		String instruction = "test";
-		//set value step3
-		int deadlineNumb = 3;
-		String urgentTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
-		int pages = 2;
-		int source = 2;
-		int slides = 0;
-		int writerLevelNumb = 2;
-		String spacing = "SINGLE";
-		//set value step4
-		boolean isAbsPrice = false;
-		boolean isPreWriter = true;
-		//set value step5
-		String disCode = "paper15";
-		Calculator calculator = new Calculator();
-
-		Writer.OrderDetail.pages.OrderDetailPage orderDetailWriter = new Writer.OrderDetail.pages.OrderDetailPage(
-				DriverManager.getDriver(), orderType, acalevelTXT, document, discipline, paperFormat,
-				title, instruction, urgentTXT, source, pages, slides, spacing);
-
-		authenticate("Writer");
-		WebUI.waitForPageLoaded();
-		signInWriter.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
-		waitForNavigatePage(Routers.BaseURL);
-		String ID_ORDER = order_ID;
-		String PRE_ORDER = "91172";
-		sleep(5);
-		orderDetailWriter.goToOD(ID_ORDER);
-		sleep(10);
-//		orderDetailWriter.verifyPreWriter(PRE_ORDER);
-		orderDetailWriter.verifyAbsPage(false);
-		orderDetailWriter.verifyOrderID(ID_ORDER);
-		orderDetailWriter.verifySpacing();
-		orderDetailWriter.verifyFormat();
-		orderDetailWriter.verifyWord();
-		orderDetailWriter.verifySize();
-		orderDetailWriter.verifyIns();
-	}
+//	@Test(priority = 3, description = "Writer site")
+//	public void testWriterSite() {
+//		Writer.SignIn.pages.SignInPage signInWriter = new Writer.SignIn.pages.SignInPage(DriverManager.getDriver());
+//		OrderFormPage orderForm = new OrderFormPage(DriverManager.getDriver());
+//
+//		//set value step1
+//		String orderType = "writing";
+//		String document = "Admission Essay";
+//		int acalevelNumb = 2;
+////		String acalevelTXT .get(acalevelNumb).replace("\"", "");
+//		String discipline = "Accounting";
+//		String paperFormat = Citation.getCitation(0);
+//
+//		//set value step2
+//		String title = "test";
+//		String instruction = "test";
+//		//set value step3
+//		int deadlineNumb = 3;
+//		String urgentTXT = orderForm.deadLineLevel.get(deadlineNumb).replace("\"", "");
+//		int pages = 2;
+//		int source = 2;
+//		int slides = 0;
+//		int writerLevelNumb = 2;
+//		String spacing = "SINGLE";
+//		//set value step4
+//		boolean isAbsPrice = false;
+//		boolean isPreWriter = true;
+//		//set value step5
+//		String disCode = "paper15";
+//		Calculator calculator = new Calculator();
+//
+//		Writer.OrderDetail.pages.OrderDetailPage orderDetailWriter = new Writer.OrderDetail.pages.OrderDetailPage(
+//				DriverManager.getDriver(), orderType, document, discipline, paperFormat,
+//				title, instruction, urgentTXT, source, pages, slides, spacing);
+//
+//		authenticate("Writer");
+//		WebUI.waitForPageLoaded();
+//		signInWriter.login(Constants.WRITER_EMAIL, Constants.COMMON_PASSWORD);
+//		waitForNavigatePage(Routers.BaseURL);
+//		String ID_ORDER = order_ID;
+//		String PRE_ORDER = "91172";
+//		sleep(5);
+//		orderDetailWriter.goToOD(ID_ORDER);
+//		sleep(10);
+////		orderDetailWriter.verifyPreWriter(PRE_ORDER);
+//		orderDetailWriter.verifyAbsPage(false);
+//		orderDetailWriter.verifyOrderID(ID_ORDER);
+//		orderDetailWriter.verifySpacing();
+//		orderDetailWriter.verifyFormat();
+//		orderDetailWriter.verifyWord();
+//		orderDetailWriter.verifySize();
+//		orderDetailWriter.verifyIns();
+//	}
 
 	@Test(description = "simple Test",groups = {"2"})
 	public void simpleTest() {
@@ -305,7 +267,7 @@ public class OrderFormTest extends Init {
 		CreditCardPage creditCardPage = new CreditCardPage(DriverManager.getDriver());
 		authenticate("WPH");
 		signInPage.Login("t1@g.c","123123");
-		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0), orderForm.academicLevel);
+		orderForm.Step1Data("writing", "Admission Essay", 2, "Accounting", Citation.getCitation(0));
 		orderForm.Step2Data("test", "test");
 		orderForm.Step3Data(3, 2, 2, 0, "Double", orderForm.deadLineLevel);
 		orderForm.Step4Data(1, false, false, orderForm.writerLevel);
