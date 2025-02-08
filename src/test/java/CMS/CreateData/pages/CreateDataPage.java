@@ -154,10 +154,10 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//select[contains(@class,'multiSelect_field multiSelect_field_samples')]/following-sibling::div[1]")
 	WebElement sampleDRL;
 
-	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_writers')]/following-sibling::div)[1]")
+	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_writers')]/following-sibling::div)[1] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[1] ")
 	WebElement writersDRL;
 
-	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_reviews')]/following-sibling::div)[1]")
+	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_reviews')]/following-sibling::div)[1] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[4]/div[1]/div[1]")
 	WebElement reviewsDRL;
 
 	@FindBy(xpath = "//a[@title='Save']")
@@ -193,8 +193,17 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@name='file']/following-sibling::input[1]")
 	WebElement fileNameElement;
 
-	@FindBy(xpath = "(//input[@name='writer_title']/following-sibling::input)[1]")
+//	@FindBy(xpath = "(//label[normalize-space(text())='Writer Title']/following::input)[2]")
+//	@FindBy(xpath = "//input[@id='js-0zbjP03ZW")
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[1]/div[1]/input[2]")
 	WebElement writerTitleTB;
+
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[3]/div[1]/input[2]")
+	WebElement writerBannerTB;
+
+//	@FindBy(xpath = "//input[@name='offer_title']/following-sibling::input[@type='text']")
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[5]/div[1]/input[2]")
+	WebElement offerTitleTB;
 
 	@FindBy(xpath = "//input[@name='writer_description']/following-sibling::input[1]")
 	WebElement writerDesTB;
@@ -257,7 +266,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@name='paper_type' or @name='type']")
 	WebElement typeOfPaperTB;
 
-	@FindBy(xpath = "//input[@id='featurable']")
+	@FindBy(xpath = " //i[@data-behavior='checkbox'] ")
 	WebElement isFeaturable;
 
 	// Note editable
@@ -371,6 +380,13 @@ public class CreateDataPage extends Init {
 
 	public void setWriterTitleTB(String value) {
 		WebUI.setText(writerTitleTB, value);
+	}
+
+	public void setWriterBannerTB(String value) {
+		WebUI.setText(writerBannerTB, value);
+	}
+	public void setOfferTitleTB(String value) {
+		WebUI.setText(offerTitleTB, value);
 	}
 
 	public void setWriterDesTB(String value) {
@@ -1626,6 +1642,69 @@ public class CreateDataPage extends Init {
 				setEditFAQData(EDIT_FAQ, NAME);
 				setEditFAQBannerData(EDIT_FAQ_BANNER, NAME);
 				setEditOfferData(EDIT_OFFER, NAME);
+
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+				LogUtils.infoCustom(URL);
+
+				sleep(2);
+			}
+		}
+	}
+
+	public void createHomePageIBHArticles(String fileName, String sheetName, String sheetHeaderData) {
+		this.fileName = fileName;
+		excelHelper.setExcelFile(fileName, sheetName);
+		this.sheetHeaderData = sheetHeaderData;
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String NAME = excelHelper.getCellData("NAME", i);
+				String URL = excelHelper.getCellData("URL", i);
+				String META_TITLE = excelHelper.getCellData("META_TITLE", i);
+				String META_DESCRIPTION = excelHelper.getCellData("META_DESCRIPTION", i);
+				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
+				String WRITER_TITLE = excelHelper.getCellData("WRITER_TITLE", i);
+				String WRITERS = excelHelper.getCellData("WRITERS", i);
+				String WRITER_BANNER = excelHelper.getCellData("WRITER_BANNER", i);
+				String CUSTOMER_REVIEWS = excelHelper.getCellData("CUSTOMER_REVIEWS", i);
+				String OFFER_TITLE = excelHelper.getCellData("OFFER_TITLE", i);
+
+				String EDIT_CONTENT = excelHelper.getCellData("EDIT_CONTENT", i);
+				String EDIT_FAQ = excelHelper.getCellData("EDIT_FAQ", i);
+				String SITEMAP = excelHelper.getCellData("SITEMAP", i);
+
+				addArticle();
+				selectArticle("homepage");
+
+				setNameTB(NAME);
+				setUrlTB(URL);
+				setMetaTitleSec(META_TITLE);
+				setMetaDesTB(META_DESCRIPTION);
+
+				setAnchorTB(ANCHOR);
+				setWriterTitleTB(WRITER_TITLE);
+
+
+				setWriterBannerTB(WRITER_BANNER);
+				setOfferTitleTB(OFFER_TITLE);
+
+				setWritersDRL(fileName, "writerSelection", WRITERS, NAME);
+				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
+
+				setProrityType(SITEMAP);
+
+				clickSaveBTN();
+				excelHelper.setCellData("Passed", "RESULT", i);
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				recordFile(URL, "URL");
+
+				sleep(2);
+				WebUI.waitForPageLoaded();
+
+				//set Header
+				setEditContentData(EDIT_CONTENT, NAME);
+				setEditFAQData(EDIT_FAQ, NAME);
 
 				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.infoCustom(URL);

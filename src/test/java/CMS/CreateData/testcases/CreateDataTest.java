@@ -284,8 +284,14 @@ public class CreateDataTest extends Init {
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "writerReview";
 		createDataPage.createWriterReview(fileName, sheetName);
-
 	}
-
+	@Test(description = "Create qatar page")
+	public void createHomePageIBH() {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "homepageIBH";
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createHomePageIBHArticles(fileName, sheetName, sheetHeaderData);
+	}
 
 }

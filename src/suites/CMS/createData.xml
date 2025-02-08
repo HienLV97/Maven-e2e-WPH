@@ -87,7 +87,6 @@
             </class>
         </classes>
     </test>
-
     <test enabled="true" name="IBH Create customer and writer review" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="20"/>
@@ -96,6 +95,17 @@
                 <methods>
                     <include name="createCustomerReviewIBH"/>
                     <include name="createWriterReviewIBH"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test enabled="false" name="IBH create new home page" >
+        <parameter name="browser" value="chrome"/>
+        <parameter name="sleepTime" value="20"/>
+        <classes>
+            <class name="CMS.CreateData.testcases.CreateDataTest">
+                <methods>
+                    <include name="createHomePageIBH"/>
                 </methods>
             </class>
         </classes>
