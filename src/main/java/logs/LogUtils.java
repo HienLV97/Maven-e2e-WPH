@@ -1,7 +1,7 @@
 package logs;
 
 //import org.openqa.selenium.devtools.v126.v126Log;
-import org.openqa.selenium.devtools.v129.v129Log;
+import org.openqa.selenium.devtools.v130.v130Log;
 import org.openqa.selenium.logging.Logs;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class LogUtils {
 	//Initialize Log4j instance
-	private static final Logger Log =  LogManager.getLogger(v129Log.class);
+	private static final Logger Log =  LogManager.getLogger(v130Log.class);
 	private static final Logger customLogger = LogManager.getLogger("customLogger");     // logger riêng
 
 	//Info Level Logs

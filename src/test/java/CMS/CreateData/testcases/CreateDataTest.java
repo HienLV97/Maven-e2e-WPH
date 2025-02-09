@@ -285,13 +285,23 @@ public class CreateDataTest extends Init {
 		String sheetName = "writerReview";
 		createDataPage.createWriterReview(fileName, sheetName);
 	}
-	@Test(description = "Create qatar page")
+
+	@Test(description = "Create homepage IBH")
 	public void createHomePageIBH() {
 		gotoIBH();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "homepageIBH";
 		String sheetHeaderData = "dataHeader";
 		createDataPage.createHomePageIBHArticles(fileName, sheetName, sheetHeaderData);
+	}
+
+
+	@Test(description = "Get data writer review IBH")
+	public void getDataWriterReviewIBH() {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.getDataWriterReview(fileName, sheetName);
 	}
 
 }

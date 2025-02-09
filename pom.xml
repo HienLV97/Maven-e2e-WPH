@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.26.0</version>
+            <version>4.28.0</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.json/json -->
@@ -129,6 +129,14 @@
             <artifactId>selenium-devtools-v119</artifactId>
             <version>4.18.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-devtools-v130 -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-devtools-v130</artifactId>
+            <version>4.28.0</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
         <dependency>

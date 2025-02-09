@@ -154,10 +154,10 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//select[contains(@class,'multiSelect_field multiSelect_field_samples')]/following-sibling::div[1]")
 	WebElement sampleDRL;
 
-	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_writers')]/following-sibling::div)[1] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[1] ")
+	@FindBy(xpath = "(//label[text()='Writers']/following-sibling::div)[2] | (//select[contains(@class,'multiSelect_field multiSelect_field_writers')]/following-sibling::div)[2] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[1] ")
 	WebElement writersDRL;
 
-	@FindBy(xpath = "(//select[contains(@class,'multiSelect_field multiSelect_field_reviews')]/following-sibling::div)[1] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[4]/div[1]/div[1]")
+	@FindBy(xpath = "(//label[text()='Customer Reviews']/following-sibling::div)[2] | (//select[contains(@class,'multiSelect_field multiSelect_field_reviews')]/following-sibling::div)[2] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[4]/div[1]/div[1]")
 	WebElement reviewsDRL;
 
 	@FindBy(xpath = "//a[@title='Save']")
@@ -763,6 +763,7 @@ public class CreateDataPage extends Init {
 			excelHelper.setExcelFile(fileName, sheetWriterSel);
 			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetWriterSel, "NAME");
 			for (int i = 1; i <= lastRow; i++) {
+
 				String NAME = excelHelper.getCellData("NAME", i);
 				String DEGREE = excelHelper.getCellData("DEGREE", i);
 				String CITY = excelHelper.getCellData("CITY", i);
@@ -775,8 +776,8 @@ public class CreateDataPage extends Init {
 					sleep(1);
 				}
 			}
-			clickWritersDRL();
-			sleep(0.5);
+			WebUI.clickWEBElement(anchorTB);
+			sleep(1);
 			LogUtils.info("Done");
 		} else {
 			LogUtils.info("Invalid value");
@@ -792,6 +793,7 @@ public class CreateDataPage extends Init {
 			excelHelper.setExcelFile(fileName, sheetNameDetail);
 			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetNameDetail, "NAME");
 			for (int i = 1; i <= lastRow; i++) {
+
 				String NAME = excelHelper.getCellData("NAME", i);
 				String COLLEGE = excelHelper.getCellData("COLLEGE", i);
 				String TEXT = excelHelper.getCellData("TEXT", i);
@@ -803,7 +805,7 @@ public class CreateDataPage extends Init {
 					sleep(1);
 				}
 			}
-			clickReviewsDRL();
+			WebUI.clickWEBElement(anchorTB);
 			sleep(0.5);
 			LogUtils.info("Done");
 		}
@@ -823,7 +825,7 @@ public class CreateDataPage extends Init {
 		if (value.length() > 55) {
 			value = value.substring(0, 55);  // Cắt chuỗi nếu vượt quá 60 ký tự
 		}
-		String xpath = "(//a[contains(normalize-space(text()), \"" + value + "\")])[1]";
+		String xpath = "(//a[contains(normalize-space(text()), \"" + value + "\")])[2]";
 
 		// Tìm phần tử với XPath động và thực hiện thao tác click
 		WebElement article = DriverManager.getDriver().findElement(By.xpath(xpath));
