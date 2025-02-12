@@ -717,8 +717,9 @@ public class CreateDataPage extends Init {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
-			LogUtils.info("vao` day1");
 			clickEditFAQBannerBTN();
+			LogUtils.info("value: "+value);
+			LogUtils.info("NAME: "+NAME);
 			excelHelper.setExcelFile(fileName, sheetHeaderData);
 			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "ID");
 			int j = 1;
@@ -1830,6 +1831,8 @@ public class CreateDataPage extends Init {
 
 				clickSaveBTN();
 				excelHelper.setCellData("Passed", "RESULT", i);
+				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
+				LogUtils.info(URL);
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(URL, "URL");
 
@@ -1849,8 +1852,10 @@ public class CreateDataPage extends Init {
 		}
 	}
 
-	public void createSampleListIBH(String fileName, String sheetName) {
+	public void createSampleListIBH(String fileName, String sheetName,String sheetHeaderData) {
+		this.fileName = fileName;
 		excelHelper.setExcelFile(fileName, sheetName);
+		this.sheetHeaderData = sheetHeaderData;
 		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i)) {
@@ -1886,6 +1891,8 @@ public class CreateDataPage extends Init {
 				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
 				recordFile(URL, "URL");
 
+				sleep(2);
+				WebUI.waitForPageLoaded();
 
 				setEditFAQBannerData(EDIT_FAQ_BANNER, NAME);
 				setEditFAQData(EDIT_FAQ,NAME);

@@ -359,8 +359,8 @@ public class CreateDataTest extends Init {
 		gotoIBH();
 		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "sampleListIBH";
-
-		createDataPage.createSampleListIBH(filePath, sheetName);
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createSampleListIBH(filePath, sheetName,sheetHeaderData);
 	}
 
 
