@@ -43,7 +43,7 @@ public class SignInPage extends Init {
 	}
 
 	public void Login(String email, String password) {
-		DriverManager.getDriver().get(Routers.SIGN_IN);
+//		DriverManager.getDriver().get(Routers.SIGN_IN);
 		sleep(5);
 		setEmail(email);
 		setPassword(password);

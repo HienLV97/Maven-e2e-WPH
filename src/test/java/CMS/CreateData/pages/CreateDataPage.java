@@ -106,8 +106,13 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "(//input[@name='headline']/following-sibling::input)[1] | (//input[@name='Headline']/following-sibling::input)[2]")
 	WebElement headlineTB;
 
-	@FindBy(xpath = "(//input[@name='title']/following-sibling::input)[1] | (//input[@name='Title']/following-sibling::input)[2]")
+//	@FindBy(xpath = "(//input[@name='title']/following-sibling::input)[1] | (//input[@name='Title']/following-sibling::input)[2] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/input[2]")
+//	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/input[2]")
+	@FindBy(xpath = "//label[@class='control-label'][normalize-space()='Title']//following-sibling::div/child::input//following-sibling::input")
 	WebElement titleTB;
+
+	@FindBy(xpath = " /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[3]/div[1]/input[2] | //input[@name='trust_note']/following-sibling::input[1]")
+	WebElement trueNoteTB;
 
 	@FindBy(xpath = "(//input[@name='sub_title']/following-sibling::input)[1] | (//input[@name='sub_title']/following-sibling::input)[2]")
 	WebElement subTitleTB;
@@ -121,7 +126,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "(//input[@name='feature_description']/following-sibling::input)[1] | (//input[@name='feature_description']/following-sibling::input)[2]")
 	WebElement featureDesTB;
 
-	@FindBy(xpath = "(//input[@name='review_description']/following-sibling::input)[1] | (//input[@name='review_description']/following-sibling::input)[2]")
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[11]/div[1]/textarea[1] | (//input[@name='review_description']/following-sibling::input)[1] | (//input[@name='review_description']/following-sibling::input)[2]")
 	WebElement reviewDesTB;
 
 	@FindBy(xpath = "(//input[@name='download_title']/following-sibling::input)[1] | (//input[@name='download_title']/following-sibling::input)[2]")
@@ -148,16 +153,16 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "(//input[@name='essay_action']/following-sibling::input)[1]")
 	WebElement essayActTB;
 
-	@FindBy(xpath = "(//input[@name='offer_action']/following-sibling::input)[1] | (//input[@name='offer_action']/following-sibling::input)[2]")
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[14]/div[1]/input[2] | (//input[@name='offer_action']/following-sibling::input)[1] | (//input[@name='offer_action']/following-sibling::input)[2] ")
 	WebElement offerActTB;
 
 	@FindBy(xpath = "//select[contains(@class,'multiSelect_field multiSelect_field_samples')]/following-sibling::div[1]")
 	WebElement sampleDRL;
 
-	@FindBy(xpath = "(//label[text()='Writers']/following-sibling::div)[2] | (//select[contains(@class,'multiSelect_field multiSelect_field_writers')]/following-sibling::div)[2] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[1] ")
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[5]/div[1]/div[1] | (//label[text()='Writers']/following-sibling::div)[2] | (//select[contains(@class,'multiSelect_field multiSelect_field_writers')]/following-sibling::div)[2]")
 	WebElement writersDRL;
 
-	@FindBy(xpath = "(//label[text()='Customer Reviews']/following-sibling::div)[2] | (//select[contains(@class,'multiSelect_field multiSelect_field_reviews')]/following-sibling::div)[2] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[4]/div[1]/div[1]")
+	@FindBy(xpath = " /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[12]/div[1]/div[1] | (//label[text()='Customer Reviews']/following-sibling::div)[2] | (//select[contains(@class,'multiSelect_field multiSelect_field_reviews')]/following-sibling::div)[2]")
 	WebElement reviewsDRL;
 
 	@FindBy(xpath = "//a[@title='Save']")
@@ -193,16 +198,26 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//input[@name='file']/following-sibling::input[1]")
 	WebElement fileNameElement;
 
-//	@FindBy(xpath = "(//label[normalize-space(text())='Writer Title']/following::input)[2]")
+	//	@FindBy(xpath = "(//label[normalize-space(text())='Writer Title']/following::input)[2]")
 //	@FindBy(xpath = "//input[@id='js-0zbjP03ZW")
-	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[1]/div[1]/input[2]")
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[1]/div[1]/input[2] | /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[4]/div[1]/input[2]")
 	WebElement writerTitleTB;
 
-	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[3]/div[1]/input[2]")
+	@FindBy(xpath = "(//input[@name='writer_banner']/following-sibling::input)[1]")
 	WebElement writerBannerTB;
 
-//	@FindBy(xpath = "//input[@name='offer_title']/following-sibling::input[@type='text']")
-	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[5]/div[1]/input[2]")
+	@FindBy(xpath = " /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[7]/div[1]/input[2] | //input[@name='writer_action']/following-sibling::input[1] ")
+	WebElement writerActionTB;
+
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[8]/div[1]/input[2] | //input[@name='goal_title']/following-sibling::input[1] ")
+	WebElement goalTitleTB;
+
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[9]/div[1]/textarea[1] | (//label[normalize-space(text())='Goal Description']/following::textarea)[1] ")
+	WebElement goalDesTB;
+
+
+	//	@FindBy(xpath = "//input[@name='offer_title']/following-sibling::input[@type='text']")
+	@FindBy(xpath = "//label[@class='control-label'][normalize-space()='Offer title']//following-sibling::div/child::input//following-sibling::input")
 	WebElement offerTitleTB;
 
 	@FindBy(xpath = "//input[@name='writer_description']/following-sibling::input[1]")
@@ -211,7 +226,7 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "(//input[@name='method_title']/following-sibling::input)[1]")
 	WebElement methodTitleTB;
 
-	@FindBy(xpath = "(//input[@name='review_title']/following-sibling::input)[1] |(//input[@name='Review_title']/following-sibling::input)[1]")
+	@FindBy(xpath = "/html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[10]/div[1]/input[2] | (//input[@name='review_title']/following-sibling::input)[1] |(//input[@name='Review_title']/following-sibling::input)[1] ")
 	WebElement reviewTitleTB;
 
 	//Header
@@ -268,6 +283,9 @@ public class CreateDataPage extends Init {
 
 	@FindBy(xpath = " //i[@data-behavior='checkbox'] ")
 	WebElement isFeaturable;
+
+	@FindBy(xpath = " /html[1]/body[1]/section[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[1]/div[1]/i[1] | //input[@name='in_header']/following-sibling::i[1] ")
+	WebElement isShowHeader;
 
 	// Note editable
 	private String noteEditable = "(//div[@role='textbox'])";
@@ -385,6 +403,19 @@ public class CreateDataPage extends Init {
 	public void setWriterBannerTB(String value) {
 		WebUI.setText(writerBannerTB, value);
 	}
+
+	public void setWriterActionTB(String value) {
+		WebUI.setText(writerActionTB, value);
+	}
+
+	public void setGoalTitleTB(String value) {
+		WebUI.setText(goalTitleTB, value);
+	}
+
+	public void setGoalDesTB(String value) {
+		WebUI.setText(goalDesTB, value);
+	}
+
 	public void setOfferTitleTB(String value) {
 		WebUI.setText(offerTitleTB, value);
 	}
@@ -405,8 +436,18 @@ public class CreateDataPage extends Init {
 		WebUI.setText(headlineTB, value);
 	}
 
+	public void clickShowHeader(String value) {
+		if (Objects.equals(value, "yes")) {
+			WebUI.clickWEBElement(isShowHeader);
+		}
+	}
+
 	public void setTitleTB(String value) {
 		WebUI.setText(titleTB, value);
+	}
+
+	public void setTruteNote(String value) {
+		WebUI.setText(trueNoteTB, value);
 	}
 
 	public void setSubTitleTB(String value) {
@@ -424,12 +465,15 @@ public class CreateDataPage extends Init {
 	public void setFeatureDesTBTB(String value) {
 		WebUI.setText(featureDesTB, value);
 	}
+
 	public void setReviewDesTBTB(String value) {
 		WebUI.setText(reviewDesTB, value);
 	}
+
 	public void setDownloadDesTB(String value) {
 		WebUI.setText(downloadDesTB, value);
 	}
+
 	public void setDownloadTitleTB(String value) {
 		WebUI.setText(downloadTitleTB, value);
 	}
@@ -673,6 +717,7 @@ public class CreateDataPage extends Init {
 			return;
 		}
 		if (Objects.equals(value.toLowerCase(), "multi")) {
+			LogUtils.info("vao` day1");
 			clickEditFAQBannerBTN();
 			excelHelper.setExcelFile(fileName, sheetHeaderData);
 			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetHeaderData, "ID");
@@ -825,7 +870,7 @@ public class CreateDataPage extends Init {
 		if (value.length() > 55) {
 			value = value.substring(0, 55);  // Cắt chuỗi nếu vượt quá 60 ký tự
 		}
-		String xpath = "(//a[contains(normalize-space(text()), \"" + value + "\")])[2]";
+		String xpath = "(//a[contains(normalize-space(text()), \"" + value + "\")])[1]";
 
 		// Tìm phần tử với XPath động và thực hiện thao tác click
 		WebElement article = DriverManager.getDriver().findElement(By.xpath(xpath));
@@ -1116,9 +1161,12 @@ public class CreateDataPage extends Init {
 				String pages = excelHelper.getCellData("PAGES", i);
 				String words = excelHelper.getCellData("TOTAL_WORDS", i);
 				String fileNamePDF = excelHelper.getCellData("FILE_NAME", i);
-				String fileNameOnly = excelHelper.getCellData("ONLY_NAME", i);
+//				String fileNameOnly = excelHelper.getCellData("FILE_NAME", i);
 
 				addSample();
+
+				setUploadPDF(fileNamePDF, paperType);
+				sleep(10);
 				setNameTB(name);
 				setUrlTB(url);
 				setMetaTitleSec(title);
@@ -1131,8 +1179,7 @@ public class CreateDataPage extends Init {
 				setCitationTB(citation);
 				setPagesTB(pages);
 				setWordsTB(words);
-				setUploadPDF(fileNamePDF, paperType);
-				waitForFileNameToHaveValue(fileNameOnly, 240);
+				waitForFileNameToHaveValue(fileNamePDF, 240);
 
 //				sleep(240);
 				clickSaveBTN();
@@ -1373,6 +1420,7 @@ public class CreateDataPage extends Init {
 				String FILE_NAME = excelHelper.getCellData("FILE_NAME", i);
 
 				addWriterReview();
+//				DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/writers/all");
 				setUploadIMG(FILE_NAME);
 				setNameTB(NAME);
 				setDegreeTB(DEGREE);
@@ -1588,6 +1636,7 @@ public class CreateDataPage extends Init {
 			}
 		}
 	}
+
 	public void createQatarArticles(String fileName, String sheetName, String sheetHeaderData) {
 		this.fileName = fileName;
 		excelHelper.setExcelFile(fileName, sheetName);
@@ -1710,6 +1759,136 @@ public class CreateDataPage extends Init {
 
 				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.infoCustom(URL);
+
+				sleep(2);
+			}
+		}
+	}
+
+	public void createNewServiceArticlesIBH(String fileName, String sheetName, String sheetHeaderData) {
+		this.fileName = fileName;
+		excelHelper.setExcelFile(fileName, sheetName);
+		this.sheetHeaderData = sheetHeaderData;
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String NAME = excelHelper.getCellData("NAME", i);
+				String URL = excelHelper.getCellData("URL", i);
+				String META_TITLE = excelHelper.getCellData("META_TITLE", i);
+				String META_DESCRIPTION = excelHelper.getCellData("META_DESCRIPTION", i);
+				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
+
+				String SHOW_HEADER = excelHelper.getCellData("SHOW_HEADER", i);
+				String TITLE = excelHelper.getCellData("TITLE", i);
+				String TRUTE_NOTE = excelHelper.getCellData("TRUTE_NOTE", i);
+				String WRITER_TITLE = excelHelper.getCellData("WRITER_TITLE", i);
+				String WRITERS = excelHelper.getCellData("WRITERS", i);
+				String WRITERS_BANNER = excelHelper.getCellData("WRITERS_BANNER", i);
+				String WRITER_ACTION = excelHelper.getCellData("WRITER_ACTION", i);
+
+				String GOAL_TITLE = excelHelper.getCellData("GOAL_TITLE", i);
+				String GOAL_DES = excelHelper.getCellData("GOAL_TITLE", i);
+
+				String REVIEW_TITLE = excelHelper.getCellData("REVIEW_TITLE", i);
+				String REVIEW_DES = excelHelper.getCellData("REVIEW_DES", i);
+				String CUSTOMER_REVIEWS = excelHelper.getCellData("CUSTOMER_REVIEWS", i);
+				String OFFER_TITLE = excelHelper.getCellData("OFFER_TITLE", i);
+				String OFFER_ACTION = excelHelper.getCellData("OFFER_ACTION", i);
+
+				String EDIT_CONTENT = excelHelper.getCellData("EDIT_CONTENT", i);
+				String EDIT_FAQ_BANNER = excelHelper.getCellData("EDIT_FAQ_BANNER", i);
+				String EDIT_FAQ = excelHelper.getCellData("EDIT_FAQ", i);
+
+				createArticles();
+				selectArticle("new concept");
+
+				setNameTB(NAME);
+				setUrlTB(URL);
+				setMetaTitleSec(META_TITLE);
+				setMetaDesTB(META_DESCRIPTION);
+				setAnchorTB(ANCHOR);
+
+				clickShowHeader(SHOW_HEADER);
+				setTitleTB(TITLE);
+				setTruteNote(TRUTE_NOTE);
+				setWriterTitleTB(WRITER_TITLE);
+
+				setWritersDRL(fileName, "writerSelection", WRITERS, NAME);
+				setWriterBannerTB(WRITERS_BANNER);
+				setWriterActionTB(WRITER_ACTION);
+
+				setGoalTitleTB(GOAL_TITLE);
+				setGoalDesTB(GOAL_DES);
+
+				setReviewTitleTB(REVIEW_TITLE);
+				setReviewDesTBTB(REVIEW_DES);
+
+				setReviewsDRL(fileName, "customerSelection", CUSTOMER_REVIEWS, NAME);
+				setOfferTitleTB(OFFER_TITLE);
+				setOfferActTB(OFFER_ACTION);
+
+				clickSaveBTN();
+				excelHelper.setCellData("Passed", "RESULT", i);
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				recordFile(URL, "URL");
+
+				sleep(2);
+				WebUI.waitForPageLoaded();
+
+				//set Header
+				setEditContentData(EDIT_CONTENT, NAME);
+				setEditFAQBannerData(EDIT_FAQ_BANNER, NAME);
+				setEditFAQData(EDIT_FAQ,NAME);
+
+				LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+				LogUtils.infoCustom(URL);
+
+				sleep(2);
+			}
+		}
+	}
+
+	public void createSampleListIBH(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				excelHelper.setExcelFile(fileName, sheetName);
+				String NAME = excelHelper.getCellData("NAME", i);
+				String URL = excelHelper.getCellData("URL", i);
+				String META_TITLE = excelHelper.getCellData("META_TITLE", i);
+				String META_DESCRIPTION = excelHelper.getCellData("META_DESCRIPTION", i);
+				String ANCHOR = excelHelper.getCellData("ANCHOR", i);
+
+				String TITLE = excelHelper.getCellData("TITLE", i);
+				String INTRO = excelHelper.getCellData("INTRO", i);
+				String OFFER_TITLE = excelHelper.getCellData("OFFER_TITLE", i);
+				String EDIT_FAQ_BANNER = excelHelper.getCellData("EDIT_FAQ_BANNER", i);
+				String EDIT_FAQ = excelHelper.getCellData("EDIT_FAQ", i);
+
+				createArticles();
+				selectArticle("samples");
+				setNameTB(NAME);
+				setUrlTB(URL);
+				setMetaTitleSec(META_TITLE);
+				setMetaDesTB(META_DESCRIPTION);
+				setAnchorTB(ANCHOR);
+				setTitleTB(TITLE);
+				setIntroTB(INTRO);
+				setOfferTitleTB(OFFER_TITLE);
+
+				clickSaveBTN();
+				sleep(2);
+				excelHelper.setCellData("Passed", "RESULT", i);
+				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
+				LogUtils.info(URL);
+				recordFile(DriverManager.getDriver().getCurrentUrl(), "ID");
+				recordFile(URL, "URL");
+
+
+				setEditFAQBannerData(EDIT_FAQ_BANNER, NAME);
+				setEditFAQData(EDIT_FAQ,NAME);
 
 				sleep(2);
 			}

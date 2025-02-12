@@ -1,5 +1,6 @@
 package CMS.CreateData.testcases;
 
+import AcaWriting.Support.CMS.Routers;
 import helpers.drivers.DriverManager;
 import CMS.CreateData.pages.CreateDataPage;
 import CMS.SignIn.pages.SignInPage;
@@ -21,6 +22,7 @@ public class CreateDataTest extends Init {
 
 	public void signIn() {
 		authenticate("CMS");
+		DriverManager.getDriver().get(Routers.SIGN_IN);
 		SignInPage signInPage = new SignInPage(DriverManager.getDriver());
 		signInPage.Login(Constants.COMMON_EMAIL, Constants.COMMON_PASSWORD);
 		createDataPage = new CreateDataPage(DriverManager.getDriver());
@@ -46,6 +48,13 @@ public class CreateDataTest extends Init {
 		signInProd();
 		createDataPage.clickWPHBTN();
 	}
+
+
+	public void gotoIBHProd(){
+		signInProd();
+		createDataPage.clickIBHBTN();
+	}
+
 
 	public void gotoIBW() {
 		signIn();
@@ -183,7 +192,6 @@ public class CreateDataTest extends Init {
 	}
 
 
-
 	@Test(description = "Create customer review")
 	public void createCustomerReviewIBW() {
 		gotoIBW();
@@ -267,8 +275,7 @@ public class CreateDataTest extends Init {
 		createDataPage.createServiceArticles(fileName, sheetName,sheetHeaderData);
 	}
 
-
-	@Test(description = "Create customer review")
+	@Test(description = "Create customer review IBH")
 	public void createCustomerReviewIBH() {
 		gotoIBH();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
@@ -278,9 +285,36 @@ public class CreateDataTest extends Init {
 
 	}
 
-	@Test(description = "Create writer review")
+	@Test(description = "Create writer review IBH")
 	public void createWriterReviewIBH() throws IOException {
 		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.createWriterReview(fileName, sheetName);
+
+	}
+	@Test(description = "Create service page IBH")
+	public void createServicesIBHProd() {
+		gotoIBHProd();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "servicesIBH";
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createServiceArticles(fileName, sheetName,sheetHeaderData);
+	}
+
+	@Test(description = "Create customer review")
+	public void createCustomerReviewIBHProd() {
+		gotoIBHProd();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "customerReview";
+		CreateDataPage createDataPage = new CreateDataPage(DriverManager.getDriver());
+		createDataPage.createCustomerReview(fileName, sheetName);
+
+	}
+
+	@Test(description = "Create writer review")
+	public void createWriterReviewIBHProd() throws IOException {
+		gotoIBHProd();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "writerReview";
 		createDataPage.createWriterReview(fileName, sheetName);
@@ -295,13 +329,39 @@ public class CreateDataTest extends Init {
 		createDataPage.createHomePageIBHArticles(fileName, sheetName, sheetHeaderData);
 	}
 
-
-	@Test(description = "Get data writer review IBH")
-	public void getDataWriterReviewIBH() {
+	@Test(description = "Create new service page IBH")
+	public void createNewServicesIBH() {
 		gotoIBH();
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
-		String sheetName = "writerReview";
-		createDataPage.getDataWriterReview(fileName, sheetName);
+		String sheetName = "newServicesIBH";
+		String sheetHeaderData = "dataHeader";
+		createDataPage.createNewServiceArticlesIBH(fileName, sheetName,sheetHeaderData);
 	}
+
+	@Test
+	public void sampleCreateArticleIBH() throws Exception {
+		gotoIBH();
+		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "tokPage";
+		String sheetNameDetail = "dataHeader";
+		createDataPage.createTokPageWPH(filePath, sheetName, sheetNameDetail);
+	}
+
+	@Test(description = "Create sample detail IBH")
+	public void createSampleDetailIBH() throws Exception {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "sampleDetail";
+		createDataPage.createSampleDetail(fileName, sheetName);
+	}
+	@Test(description = "Create sample detail IBH")
+	public void createSampleListIBH() throws Exception {
+		gotoIBH();
+		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "sampleListIBH";
+
+		createDataPage.createSampleListIBH(filePath, sheetName);
+	}
+
 
 }
