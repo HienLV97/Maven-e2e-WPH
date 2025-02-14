@@ -161,7 +161,7 @@
             </class>
         </classes>
     </test>
-    <test enabled="true" name="IBH create new services IBH" >
+    <test enabled="false" name="IBH create new services IBH" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="20"/>
         <classes>
@@ -172,7 +172,7 @@
             </class>
         </classes>
     </test>
-    <test enabled="false" name="IBH create sample list IBH" >
+    <test enabled="true" name="IBH create sample list IBH" >
         <parameter name="browser" value="chrome"/>
         <parameter name="sleepTime" value="20"/>
         <classes>
