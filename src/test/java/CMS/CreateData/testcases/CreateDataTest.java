@@ -234,7 +234,7 @@ public class CreateDataTest extends Init {
 		gotoIBW();
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
 		String sheetName = "Sheet1";
-		createDataPage.deleteArticles(fileName, sheetName);
+//		createDataPage.deleteArticles(fileName, sheetName);
 	}
 
 	@Test(description = "Create service page")
@@ -354,6 +354,7 @@ public class CreateDataTest extends Init {
 		String sheetName = "sampleDetail";
 		createDataPage.createSampleDetail(fileName, sheetName);
 	}
+
 	@Test(description = "Create sample detail IBH")
 	public void createSampleListIBH() throws Exception {
 		gotoIBH();
@@ -362,6 +363,36 @@ public class CreateDataTest extends Init {
 		String sheetHeaderData = "dataHeader";
 		createDataPage.createSampleListIBH(filePath, sheetName,sheetHeaderData);
 	}
+	@Test(description = "Create Tok Page")
+	public void aboutIBH() throws Exception {
+		gotoIBH();
+		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "aboutIBH";
+		String sheetNameDetail = "dataHeader";
+		createDataPage.createAboutIBH(filePath, sheetName, sheetNameDetail);
+	}
 
-
+	@Test(description = "Create about IBH")
+	public void ToKPageIBH() throws Exception {
+		gotoIBH();
+		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "ToKPageIBH";
+		String sheetNameDetail = "dataHeader";
+		createDataPage.createToKPageIBH(filePath, sheetName, sheetNameDetail);
+	}
+	@Test(description = "Create contact IBH")
+	public void contactIBH() throws Exception {
+		gotoIBH();
+		String filePath = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "contactIBH";
+		String sheetNameDetail = "dataHeader";
+		createDataPage.createContactIBH(filePath, sheetName, sheetNameDetail);
+	}
+	@Test
+	public void deleteArticlesIBH() {
+		gotoIBH();
+		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
+		String sheetName = "Sheet1";
+		createDataPage.deleteArticles(fileName, sheetName);
+	}
 }

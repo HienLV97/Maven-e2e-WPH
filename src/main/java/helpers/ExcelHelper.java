@@ -398,7 +398,23 @@ public class ExcelHelper {
 		}
 		return serviceUrls;
 	}
+	public static void createExcelFile(String fileName, String sheetName) {
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet(sheetName);
 
+		try (FileOutputStream fos = new FileOutputStream(new File(fileName))) {
+			workbook.write(fos);
+			System.out.println("Tạo file Excel mới thành công: " + fileName);
+		} catch (IOException e) {
+			System.err.println("Lỗi khi tạo file Excel: " + e.getMessage());
+		} finally {
+			try {
+				workbook.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	// Đóng workbook sau khi hoàn thành
 	public void close() throws IOException {
 		if (wb != null) {
