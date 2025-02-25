@@ -1996,6 +1996,7 @@ public class CreateDataPage extends Init {
 
 				clickSaveBTN();
 				sleep(2);
+				clickPublish(PUBLIC);
 				excelHelper.setCellData("Passed", "RESULT", i);
 				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.info(URL);
@@ -2009,7 +2010,7 @@ public class CreateDataPage extends Init {
 				setEditContentData(EDIT_CONTENT, NAME);
 
 				clickSaveBTN();
-				clickPublish(PUBLIC);
+
 				sleep(2);
 			}
 		}
@@ -2053,6 +2054,7 @@ public class CreateDataPage extends Init {
 
 				clickSaveBTN();
 				sleep(2);
+				clickPublish(PUBLIC);
 				excelHelper.setCellData("Passed", "RESULT", i);
 				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.info(URL);
@@ -2064,7 +2066,7 @@ public class CreateDataPage extends Init {
 				setEditIntroData(EDIT_INTRO, NAME);
 
 				sleep(1);
-				clickPublish(PUBLIC);
+
 				sleep(2);
 			}
 		}
@@ -2089,6 +2091,7 @@ public class CreateDataPage extends Init {
 				String SUPPORT_DES = excelHelper.getCellData("SUPPORT_DES", i);
 				String SUPPORT_TIME = excelHelper.getCellData("SUPPORT_TIME", i);
 				String SITEMAP = excelHelper.getCellData("SITEMAP", i);
+				String PUBLIC = excelHelper.getCellData("PUBLIC", i);
 
 				createArticles();
 				selectArticle("contact");
@@ -2106,6 +2109,8 @@ public class CreateDataPage extends Init {
 
 				clickSaveBTN();
 				sleep(2);
+				clickSaveBTN();
+				clickPublish(PUBLIC);
 				excelHelper.setCellData("Passed", "RESULT", i);
 				LogUtils.info(DriverManager.getDriver().getCurrentUrl());
 				LogUtils.info(URL);
