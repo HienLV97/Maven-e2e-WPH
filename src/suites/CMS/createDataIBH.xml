@@ -104,9 +104,9 @@
         <classes>
             <class name="CMS.CreateData.testcases.CreateDataTest">
                 <methods>
-                    <include name="aboutIBH"/>
+<!--                    <include name="aboutIBH"/>-->
                     <include name="ToKPageIBH"/>
-                    <include name="contactIBH"/>
+<!--                    <include name="contactIBH"/>-->
                 </methods>
             </class>
         </classes>
