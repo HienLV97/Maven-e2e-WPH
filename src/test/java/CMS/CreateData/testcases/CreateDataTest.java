@@ -143,8 +143,16 @@ public class CreateDataTest extends Init {
 		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
 		String sheetName = "writerReview";
 		createDataPage.createWriterReview(fileName, sheetName);
-
 	}
+	@Test
+	public void deleteWriterWPH() {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
+		String sheetName = "Sheet1";
+		createDataPage.deleteReviews(fileName, sheetName);
+	}
+
+
 	@Test
 	public void sampleIBDetail() throws Exception {
 		gotoWPH();

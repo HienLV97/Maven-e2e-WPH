@@ -1580,6 +1580,31 @@ public class CreateDataPage extends Init {
 		}
 	}
 
+	public void deleteReviews(String fileName, String sheetName) {
+		excelHelper.setExcelFile(fileName, sheetName);
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "ID");
+
+		// Kiểm tra độ dài của hai mảng
+		for (int i = 1; i <= lastRow; i++) {
+			if (checkResult(fileName, sheetName, i)) {
+				String id = excelHelper.getCellData("ID", i);
+				String url = excelHelper.getCellData("URL", i);
+				DriverManager.getDriver().get(id);
+				if (isPageReady()) {
+					LogUtils.info(url + " " + id);
+					clickTrashBTN();
+					sleep(3);
+					LogUtils.info("Deleted");
+					excelHelper.setCellData("Passed", "RESULT", i);
+					LogUtils.infoCustom(DriverManager.getDriver().getCurrentUrl());
+					sleep(1);
+				}
+
+
+			}
+		}
+	}
+
 	public void createServiceArticles(String fileName, String sheetName, String sheetHeaderData) {
 		this.fileName = fileName;
 		excelHelper.setExcelFile(fileName, sheetName);
