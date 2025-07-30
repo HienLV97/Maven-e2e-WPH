@@ -61,8 +61,14 @@ public class CreateDataPage extends Init {
 	@FindBy(xpath = "//select[@id='js-article-type']")
 	WebElement articleType;
 
-	@FindBy(xpath = "//input[@name='name']")
-	WebElement nameTB;
+	@FindBy(xpath = "//input[@name='first_name']")
+	WebElement firstNameTB;
+
+	@FindBy(xpath = "//input[@name='second_name']")
+	WebElement secondNameTB;
+
+	@FindBy(xpath = "//input[@name='fallback_text']")
+	WebElement fallbackTB;
 
 	@FindBy(xpath = "//input[@name='value']")
 	WebElement valueTB;
@@ -385,8 +391,16 @@ public class CreateDataPage extends Init {
 		select.selectByVisibleText(type.toLowerCase());
 	}
 
-	public void setNameTB(String value) {
-		WebUI.setText(nameTB, value);
+	public void setFirstNameTB(String value) {
+		WebUI.setText(firstNameTB, value);
+	}
+
+	public void setSecondNameTB(String value) {
+		WebUI.setText(secondNameTB, value);
+	}
+
+	public void setFallbackTB(String value) {
+		WebUI.setText(fallbackTB, value);
 	}
 
 	public void setValueTB(String value) {
@@ -470,6 +484,7 @@ public class CreateDataPage extends Init {
 	public void setSupportDesTB(String value) {
 		WebUI.setText(supportDesTB, value);
 	}
+
 	public void setSupportTimeTB(String value) {
 		WebUI.setText(supportTimeTB, value);
 	}
@@ -571,8 +586,8 @@ public class CreateDataPage extends Init {
 		return WebUI.getValue(urlTB);
 	}
 
-	public String getNameTB() {
-		return WebUI.getValue(nameTB);
+	public String getFirstNameTB() {
+		return WebUI.getValue(firstNameTB);
 	}
 
 	public String getDegreeTB() {
@@ -1146,7 +1161,7 @@ public class CreateDataPage extends Init {
 
 	public void recordFile(String value, String column) {
 		String fileName = "src/test/resources/testdata/outputArticles.xlsx";
-		String sheetName = "sheet1";
+		String sheetName = "Sheet1";
 
 		try {
 			// Kiểm tra tệp có tồn tại không
@@ -1161,7 +1176,7 @@ public class CreateDataPage extends Init {
 
 			// Lấy dòng cuối cùng có dữ liệu
 			int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, column);
-			lastRow = (lastRow == -1) ? 0 : lastRow + 1; // Nếu không có dữ liệu, bắt đầu từ dòng 0
+			lastRow = (lastRow == -1) ? 1 : lastRow + 1; // Nếu không có dữ liệu, bắt đầu từ dòng 0
 
 			// Ghi dữ liệu vào Excel
 			excelHelper.setCellData(value, column, lastRow);
@@ -1220,7 +1235,7 @@ public class CreateDataPage extends Init {
 
 				setUploadPDF(fileNamePDF, paperType);
 				sleep(10);
-				setNameTB(name);
+				setFirstNameTB(name);
 				setUrlTB(url);
 				setMetaTitleSec(title);
 				setMetaDesTB(description);
@@ -1253,7 +1268,7 @@ public class CreateDataPage extends Init {
 	public void createSampleDetailTest(Hashtable<String, String> data) throws Exception {
 		if (checkResultTest(data.get("RESULT"))) {
 			addSample();
-			setNameTB(data.get("NAME"));
+			setFirstNameTB(data.get("NAME"));
 			setUrlTB(data.get("URL"));
 			setMetaTitleSec(data.get("META_TITLE"));
 			setMetaDesTB(data.get("META_DESCRIPTION"));
@@ -1298,7 +1313,7 @@ public class CreateDataPage extends Init {
 
 				createArticles();
 				selectArticle("samples");
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1350,7 +1365,7 @@ public class CreateDataPage extends Init {
 
 				createArticles();
 				selectArticle("tok page");
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1395,7 +1410,7 @@ public class CreateDataPage extends Init {
 
 				createArticles();
 				selectArticle("samples");
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1439,7 +1454,7 @@ public class CreateDataPage extends Init {
 				String IS_FEATURABLE = excelHelper.getCellData("IS_FEATURABLE", i);
 
 				addCustomerReview();
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setCollegeTB(COLLEGE);
 				setTextTB(TEXT);
 				setSourceDRL(SOURCE_LINKED);
@@ -1462,28 +1477,28 @@ public class CreateDataPage extends Init {
 
 	public void createWriterReview(String fileName, String sheetName) throws IOException {
 		excelHelper.setExcelFile(fileName, sheetName);
-		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "NAME");
+		int lastRow = ExcelHelper.getLastRowWithData(fileName, sheetName, "FIRST_NAME");
 		for (int i = 1; i <= lastRow; i++) {
 			if (checkResult(fileName, sheetName, i)) {
 				excelHelper.setExcelFile(fileName, sheetName);
-				String NAME = excelHelper.getCellData("NAME", i);
-				String DEGREE = excelHelper.getCellData("DEGREE", i);
-				String CITY = excelHelper.getCellData("CITY", i);
+				String FIRST_NAME = excelHelper.getCellData("FIRST_NAME", i);
+				String SECOND_NAME = excelHelper.getCellData("SECOND_NAME", i);
 				String BIO = excelHelper.getCellData("BIO", i);
 				String COMPLETED_ORDER = excelHelper.getCellData("COMPLETED_ORDER", i);
 				String ACHIEVEMENT = excelHelper.getCellData("ACHIEVEMENT", i);
 				String DISCIPLINES = excelHelper.getCellData("DISCIPLINES", i);
+				String FALLBACK = excelHelper.getCellData("FALLBACK", i);
 				String FILE_NAME = excelHelper.getCellData("FILE_NAME", i);
 
 				addWriterReview();
 				setUploadIMG(FILE_NAME);
-				setNameTB(NAME);
-				setDegreeTB(DEGREE);
-				setCityTB(CITY);
+				setFirstNameTB(FIRST_NAME);
+				setSecondNameTB(SECOND_NAME);
 				setBioTB(BIO);
 				setCompletedTB(COMPLETED_ORDER);
 				setAchievementTB(ACHIEVEMENT);
 				setDisciplinesTB(DISCIPLINES);
+				setFallbackTB(FALLBACK);
 
 				sleep(10);
 				clickSaveBTN();
@@ -1509,7 +1524,7 @@ public class CreateDataPage extends Init {
 				String VALUE = excelHelper.getCellData("VALUE", i);
 
 				addConstants();
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setValueTB(VALUE);
 
 				sleep(2);
@@ -1591,7 +1606,7 @@ public class CreateDataPage extends Init {
 				String EDIT_OFFER = excelHelper.getCellData("EDIT_OFFER", i);
 
 				createArticles();
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1654,7 +1669,7 @@ public class CreateDataPage extends Init {
 				String PUBLIC = excelHelper.getCellData("PUBLIC", i);
 
 				createArticles();
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1721,7 +1736,7 @@ public class CreateDataPage extends Init {
 				String SITEMAP = excelHelper.getCellData("SITEMAP", i);
 
 				addArticle();
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1784,7 +1799,7 @@ public class CreateDataPage extends Init {
 				addArticle();
 				selectArticle("homepage");
 
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1859,7 +1874,7 @@ public class CreateDataPage extends Init {
 				createArticles();
 				selectArticle("new concept");
 
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1929,7 +1944,7 @@ public class CreateDataPage extends Init {
 
 				createArticles();
 				selectArticle("samples");
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -1982,7 +1997,7 @@ public class CreateDataPage extends Init {
 
 				createArticles();
 				selectArticle("about");
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -2042,7 +2057,7 @@ public class CreateDataPage extends Init {
 
 				createArticles();
 				selectArticle("tok page");
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -2095,7 +2110,7 @@ public class CreateDataPage extends Init {
 
 				createArticles();
 				selectArticle("contact");
-				setNameTB(NAME);
+				setFirstNameTB(NAME);
 				setUrlTB(URL);
 				setMetaTitleSec(META_TITLE);
 				setMetaDesTB(META_DESCRIPTION);
@@ -2130,7 +2145,7 @@ public class CreateDataPage extends Init {
 	public void getDataSampleDetail(String fileName, String sheetName) {
 		DriverManager.getDriver().get("https://yeti-cms.dev/yeti/main/samples/edit/173");
 		excelHelper.setExcelFile(fileName, sheetName);
-		excelHelper.setCellData(getNameTB(), "NAME", 1);
+		excelHelper.setCellData(getFirstNameTB(), "NAME", 1);
 	}
 
 	public void getDataWriterReview(String fileName, String sheetName) {
@@ -2140,7 +2155,7 @@ public class CreateDataPage extends Init {
 			DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
 			if (checkResult(fileName, sheetName, i) && !checkPageNotFound()) {
 				excelHelper.setExcelFile(fileName, sheetName);
-				excelHelper.setCellData(getNameTB(), "NAME", i);
+				excelHelper.setCellData(getFirstNameTB(), "NAME", i);
 				excelHelper.setCellData(DownloadImage(), "FILE_NAME", i);
 				excelHelper.setCellData(getDegreeTB(), "DEGREE", i);
 				excelHelper.setCellData(getCityTB(), "CITY", i);
@@ -2161,7 +2176,7 @@ public class CreateDataPage extends Init {
 			DriverManager.getDriver().get(excelHelper.getCellData("URL", i));
 			if (checkResult(fileName, sheetName, i) && !checkPageNotFound()) {
 				excelHelper.setExcelFile(fileName, sheetName);
-				excelHelper.setCellData(getNameTB(), "NAME", i);
+				excelHelper.setCellData(getFirstNameTB(), "NAME", i);
 				excelHelper.setCellData(getCollegeTB(), "COLLEGE", i);
 				excelHelper.setCellData(getTextTB(), "TEXT", i);
 				excelHelper.setCellData(getSourceTB(), "SOURCE_LINKED", i);

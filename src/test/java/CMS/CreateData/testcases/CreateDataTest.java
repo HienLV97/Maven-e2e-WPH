@@ -135,6 +135,16 @@ public class CreateDataTest extends Init {
 		createDataPage.simpleTest(fileName, sheetName);
 	}
 
+
+	//WPH
+	@Test
+	public void createWriterReviewWPH() throws IOException {
+		gotoWPH();
+		String fileName = "src/test/resources/testdata/DataCMS.xlsx";
+		String sheetName = "writerReview";
+		createDataPage.createWriterReview(fileName, sheetName);
+
+	}
 	@Test
 	public void sampleIBDetail() throws Exception {
 		gotoWPH();
