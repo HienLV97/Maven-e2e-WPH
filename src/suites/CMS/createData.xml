@@ -10,10 +10,10 @@
 <!--                    <include name="sampleDetail"/>-->
 <!--                    <include name="sampleCreateArticle"/>-->
 <!--                    <include name="getDataWriterReview"/>-->
-<!--                    <include name="createWriterReviewWPH"/>-->
+                    <include name="createWriterReviewWPH"/>
 <!--                    <include name="getDataCustomerReview"/>-->
 <!--                    <include name="getDataService"/>-->
-                    <include name="deleteWriterWPH"/>
+<!--                    <include name="deleteWriterWPH"/>-->
                 </methods>
             </class>
         </classes>
